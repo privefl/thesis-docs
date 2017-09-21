@@ -1,0 +1,96 @@
+---
+title: "Suivi de thèse n°1"
+author: "Florian Privé"
+date: "September 28, 2017"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.align = "center", dev = "svg",
+                      fig.asp = 0.7, out.width = "80%", echo = FALSE)
+```
+
+## Outline 
+
+1. Main objective of the thesis
+
+2. Data analyzed
+
+3. R packages
+
+4. Future work
+
+---
+
+class: center, middle, inverse
+
+# Main objective
+
+---
+
+## Compute polygenic risk scores 
+### in order to differentiate a healthy person from a diseased person
+
+```{r}
+knitr::include_graphics("density-scores.jpeg")
+```
+
+---
+
+## Usefulness
+
+### Precision medecine
+
+```{r, out.width="100%"}
+knitr::include_graphics("https://www.ucdmc.ucdavis.edu/precision-medicine/images/pmSlide1.jpg")
+```
+
+.footnote[Source: https://www.ucdmc.ucdavis.edu/precision-medicine/]
+
+---
+
+## Data analyzed
+
+### case/control cohort for the celiac disease
+
+---
+
+## Celiac disease
+
+### Intolerance to gluten
+
+```{r, out.width="70%"}
+knitr::include_graphics("http://www.strettoweb.com/wp-content/uploads/2016/12/celiaci.jpg")
+```
+
+<center> is the only treatment.
+
+---
+
+## Celiac disease
+
+### Prevalence of 1% in western countries but..
+
+```{r, out.width="100%"}
+knitr::include_graphics("https://www.beyondceliac.org/SiteData/images/FastFacts2/413d26a2a7026920/FastFacts_2.png")
+```
+
+.footnote[Source: https://www.beyondceliac.org/celiac-disease/facts-and-figures/]
+
+---
+
+class: center, middle, inverse
+
+# Thanks!
+
+### Presentation available at
+### https://privefl.github.io/R-presentation/suivi-these.html
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]

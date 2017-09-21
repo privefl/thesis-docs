@@ -1,0 +1,82 @@
+---
+title: "Bibliographic report"
+author: "Florian Privé"
+date: "September 21, 2017"
+output: pdf_document
+bibliography: ../articles/library.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", dev = "pdf",
+                      fig.asp = 0.7, out.width = "80%", 
+                      echo = FALSE)
+```
+
+## Introduction
+
+The main objective of my thesis is to make Polygenic Risk Scores (PRS) that can differentiate an healthy person (control) from a diseased person (case) to be used for precision medecine. 
+These PRSs consists in a combination of information on DNA mutations at multiple loci of the genome, typically from hundreds of thousands to dozens of millions. 
+PRSs have been used for other goals such as finding a common genetic contribution between two diseases [@Purcell2009]. 
+Yet, only the prediction aspect will be treated in my thesis because I find this question more useful.
+
+There are three main concerns when constructing a PRS. The first one is that the scores have to be constructed while taking care of confounding effects. 
+The second one, which is partially related to the first one and which has been on particular interest recently, is that these PRS can be used on a global basis, i.e. not only for the population they were train on. 
+Finally, the third concern that need to be overcome is the size of the datasets. 
+They can require several gigabytes of memory or even terabytes for the largest datasets, e.g. the UK Biobank [@Bycroft2017].
+
+## State-of-the-art for Polygenic Risk Scores
+
+Since 2007, genome-wide association studies (GWAS) have multiplied. The goal of these studies is to find loci which variation is associated with a trait of interest, e.g. a status of disease.
+In a GWAS, each locus is tested independently. Then, researchers tried to find a way to combine all the GWAS results, i.e. the size and significance of the effects of all loci, in a predictive score.
+
+For computing PRSs for human diseases, what is widely used is the Pruning + Thresholding (P+T) model [@Chatterjee2013; @Dudbridge2013; @Golan2014]. 
+Under the P+T model, a coefficient of regression is learned independently for each locus along with a corresponding p-value (the GWAS part).  
+The loci are first clumped (P) so that there remains only loci that are weakly correlated with each other. 
+Thresholding (T) consists in removing loci that are under a certain level of significance (P-value threshold to be determined). 
+A polygenic risk score is defined as the sum of allele counts of the remaining SNPs weighted by the corresponding regression coefficients.
+As the weights are learned independently, this model can be applied to very large dataset, which is also why this is widely used.
+
+### All steps of the P+T model
+
+The steps required in the P+T model are described in figure \ref{fig:PTsteps}.
+
+```{r, include=FALSE}
+library(magrittr)
+tmpfile <- tempfile(fileext = ".pdf")
+list(
+  `P+T` = list(
+    GWAS = list(
+      PCA = list(
+        `Long-range\nLD regions` = list(),
+        Pruning = list()
+      )
+    ),
+    Pruning = list(),
+    Thresholding = list()
+  )
+) %>%
+  data.tree::FromListSimple() %>%
+  extract2("children") %>%
+  extract2(1) %>%
+  plot() %>%
+  DiagrammeRsvg::export_svg() %>%
+  charToRaw() %>%
+  rsvg::rsvg_pdf(file = tmpfile)
+```
+
+```{r PTsteps, fig.cap="All steps required in the P+T model."}
+knitr::include_graphics(tmpfile)
+```
+
+
+For animal and vegetal species, knowing a "breeding value" is often of interest, which is a continous trait.
+Moreover, in these studies, the number of samples usually don't exceed a few thousands, which are manageable datasets.
+The preferred model for predicting a "breeding value" is the genome Best Linear Unbiased Prediction (gBLUP).
+
+## State-of-the-art for GWAS
+
+For computing a GWAS, the PLINK software [@Chang2015; @Purcell2007] is often used because it is fast and memory-efficient. It also provides some tools for conversion and quality control.
+Yet, before 
+
+
+## References
