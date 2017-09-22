@@ -15,30 +15,30 @@ knitr::opts_chunk$set(fig.align = "center", dev = "pdf",
 ## Introduction
 
 The main objective of my thesis is to make Polygenic Risk Scores (PRS) that can differentiate an healthy person (control) from a diseased person (case) to be used for precision medecine. 
-These PRSs consists in a combination of information on DNA mutations at multiple loci of the genome, typically from hundreds of thousands to dozens of millions. 
-PRSs have been used for other goals such as finding a common genetic contribution between two diseases [@Purcell2009]. 
-Yet, only the prediction aspect will be treated in my thesis because I find this question more useful.
+These PRS consist in a combination of information on DNA mutations at multiple loci of the genome, typically from hundreds of thousands to dozens of millions. 
+PRS have been used for other goals such as finding a common genetic contribution between two diseases [@Purcell2009]. 
 
 There are three main concerns when constructing a PRS. The first one is that the scores have to be constructed while taking care of confounding effects. 
 The second one, which is partially related to the first one and which has been on particular interest recently, is that these PRS can be used on a global basis, i.e. not only for the population they were train on. 
 Finally, the third concern that need to be overcome is the size of the datasets. 
-They can require several gigabytes of memory or even terabytes for the largest datasets, e.g. the UK Biobank [@Bycroft2017].
+These datasets can require several gigabytes of memory or even terabytes for the largest datasets, e.g. the UK Biobank [@Bycroft2017].
 
-## State-of-the-art for Polygenic Risk Scores
+## Polygenic Risk Scores
 
 Since 2007, genome-wide association studies (GWAS) have multiplied. The goal of these studies is to find loci which variation is associated with a trait of interest, e.g. a status of disease.
 In a GWAS, each locus is tested independently. Then, researchers tried to find a way to combine all the GWAS results, i.e. the size and significance of the effects of all loci, in a predictive score.
 
-For computing PRSs for human diseases, what is widely used is the Pruning + Thresholding (P+T) model [@Chatterjee2013; @Dudbridge2013; @Golan2014]. 
+For computing PRS for human diseases, what is widely used is the Pruning + Thresholding (P+T) model [@Chatterjee2013; @Dudbridge2013; @Golan2014]. 
 Under the P+T model, a coefficient of regression is learned independently for each locus along with a corresponding p-value (the GWAS part).  
 The loci are first clumped (P) so that there remains only loci that are weakly correlated with each other. 
 Thresholding (T) consists in removing loci that are under a certain level of significance (P-value threshold to be determined). 
 A polygenic risk score is defined as the sum of allele counts of the remaining SNPs weighted by the corresponding regression coefficients.
 As the weights are learned independently, this model can be applied to very large dataset, which is also why this is widely used.
 
-### All steps of the P+T model
+Nowadays, people usually don't do the GWAS themselves but recover public results from published GWAS and use these summary statistics to train predictive models [@Vilhjalmsson2015].
+Few people have used some more complex models such as sparse machine learning models to train accurate, yet simple models [@Abraham2012].
 
-The steps required in the P+T model are described in figure \ref{fig:PTsteps}.
+### All steps of the P+T procedure
 
 ```{r, include=FALSE}
 library(magrittr)
@@ -64,19 +64,59 @@ list(
   rsvg::rsvg_pdf(file = tmpfile)
 ```
 
-```{r PTsteps, fig.cap="All steps required in the P+T model."}
+```{r PTsteps, fig.cap="All steps required in the P+T procedure.", out.width="60%"}
 knitr::include_graphics(tmpfile)
 ```
 
+The steps required in the P+T procedure are described in figure \ref{fig:PTsteps}.
+As described in the previous section, the P+T procedure has 3 required steps before computing the scores: the GWAS, the clumping and the thresholding.
+Yet, computing the GWAS is not straight-forward because it requires to compute the first Principal Components of the genotype matrix. 
+Indeed, Principal Components is used in genetics to assess the population structure of the dataset [@Patterson2006]. 
+Population structure is used as covariables in the models because it can be a major confounding effect to association with a trait [@Patterson2006].
+
+Moreover, computing PCs on the whole genotype matrix is not recommended. 
+Indeed, because of recombination events or other biological events such as inversions, there is Linkage Disequilibrium (LD -- correlation between nearby loci) in the data.
+To remove correlation alongside the genome, pruning is used and aims at better ascertaining population structure [@Abdellaoui2013].
+Pruning is an algorithm that sequentially scan the genome for nearby loci in LD, performing pairwise thinning based on a given threshold of correlation.
+Then, there are also long-range of LD regions that will affect the PCA even after pruning. This is region will have a larger effect in loadings of PCA which can lead to false discoveries [@Price2008a].
+So, even if the model is rather simple, because of population structure and patterns of LD, computing the model is not straight-forward. 
+
+### Software for the computation of the P+T procedure
+
+GWAS, pruning and thresholding can be done using the PLINK piece of software [@Chang2015; @Purcell2007]. PLINK is often used because it is fast and memory-efficient tool written in C++ and used from the command line. It also provides some tools for conversion and quality control, which are mandatory processing steps.
+
+PCA is commonly performed using EIGENSOFT, written in Java and executed from the command line or a Perl script [@Galinsky2016; @Patterson2006]. Yet, the first implementation is not fast enough for current sizes and the second one, based on random projections, is not accurate enough so that other implementations have been proposed [@Abraham2016a; @Prive2017].
+
+### Other species
 
 For animal and vegetal species, knowing a "breeding value" is often of interest, which is a continous trait.
 Moreover, in these studies, the number of samples usually don't exceed a few thousands, which are manageable datasets.
-The preferred model for predicting a "breeding value" is the genome Best Linear Unbiased Prediction (gBLUP).
+The preferred model for predicting a "breeding value" is the genome Best Linear Unbiased Prediction (gBLUP) [@Meuwissen2001]. 
+This is basically a linear mixed model. This type of algorithm is quadratic with the number of samples which makes it impractible for large human datasets. 
+Moreover, it is not directly suited for binary outcomes such as disease status.
 
-## State-of-the-art for GWAS
+## Genome-wide data analysis
 
-For computing a GWAS, the PLINK software [@Chang2015; @Purcell2007] is often used because it is fast and memory-efficient. It also provides some tools for conversion and quality control.
-Yet, before 
+More generally, genome-wide datasets produced for association studies have dramatically increased in size over the past years. A range of software and data formats have been developed to perform essential pre-processing steps and data analysis, often optimizing each of these steps within a dedicated implementation. This diverse and extremely rich software environment has been of tremendous benefit for the genetic community. However, it has two limitations: analysis pipelines are becoming very complex and researchers have limited access to diverse analysis tools due to growing data sizes.
+
+Consider first the basic tools necessary to perform a standard genome-wide analysis. Conversions between standard file formats has become a field by itself with several tools such as VCFtools, BCFtools and PLINK, available either independently or incorporated within large framework [@Danecek2011; @Li2011a; @Purcell2007]. Similarly, quality control software for genome-wide analysis have been developed such as PLINK and the Bioconductor package GWASTools [@Gogarten2012]. 
+There are also several software for the computation of principal components (PCs) of genotypes, commonly performed to account for population stratification in association studies, including EIGENSOFT (SmartPCA and FastPCA) and FlashPCA [@Abraham2014a; @Abraham2016a; @Galinsky2016; @Price2006]. 
+Then, implementation of GWAS analyses also depends on the data format and model analyzed. For example, the software ProbABEL [@Aulchenko2010] or SNPTEST [@Marchini2010] can handle dosage data (genotype likekihoods from imputation), while PLINK version 1 is limited to best guess genotypes because of its input file format.
+Finally, there exists a range of tools for Polygenic Risk Scores (PRS) such as LDpred [@Vilhjalmsson2015] and PRSice [@Euesden2015], which provide prediction for quantitative traits or disease risks based on multiple genetic variants. As a result, one has to make extensive bash/perl/R/python scripts to link these software together and convert between multiple file formats, involving many file manipulations and conversions. Overall, this might be a brake on data exploration.
+Overall, this means that researchers are usually restricted on how they can manipulate and analyse the data they have access to. 
+
+Secondly, increasing size of genetic datasets is the source of major computational challenges and many analytical tools would be restricted by the amount of memory (RAM) available on computers. This is particularly a burden for commonly used analysis languages such as R, Python and Perl. Solving the memory issues for these languages would give access to a broad range of tools for data analysis that have been already implemented. Hopefully, strategies have been developed to avoid loading large datasets in RAM. For storing and accessing matrices, memory-mapping is very attractive because it is seamless and usually much faster to use than direct read or write operations. Storing large matrices on disk and accessing them via memory-mapping has been available for several years in R through "big.matrix" objects implemented in the R package bigmemory [@Kane2013]. 
+We provide a similar format as filebacked "big.matrix" objects that we called "Filebacked Big Matrices (FBMs)".
+Thanks to this matrix-like format, algorithms in R/C++ can be developed or adapted for large genotype data. 
+
+We developed two R packages, bigstatsr and bigsnpr, that integrate the most efficient algorithms for the pre-processing and analysis of large-scale genomic data while using memory-mapping [@Prive2017]. Package bigstatsr implements many statistical tools for several types of FBMs (unsigned char, unsigned short, integer and double). This includes implementation of multivariate sparse linear models, Principal Component Analysis, matrix operations, and numerical summaries. The statistical tools developed in bigstatsr can be used for other types of data as long as they can be represented as matrices. Package bigsnpr depends on bigstatsr, using a special type of FBM object to store the genotypes, called "FBM.code256". Package bigsnpr implements algorithms which are specific to the analysis of SNP arrays, such as calls to external software for processing steps, I/O (Input/Output) operations from binary PLINK files, and data analysis operations on SNP data (thinning, testing, plotting). 
+We used both a real case-control genomic dataset for Celiac disease and large-scale simulated data to illustrate application of the two R packages, including association study and computation of Polygenic Risk Scores. We also compared results from the two R packages with those obtained when using PLINK and EIGENSOFT, showing that using our software is easier and can even be faster. We finally showed results from new methods that we easily developed thanks to our data format and combinations from functions of our packages.
+
+## Future work
+
+My second paper will be about comparing different methods for computing PRS and assess which methods give the best predictors depending on the genetic architecture of diseases, their heritability (i.e. the proportion of variance of the trait that is explained by the genotypes) and the population structure of the dataset analyzed. We expect that the methods we implemented in our packages, especially the regularized logistic regression based on efficient rules [@Tibshirani2012; @Zeng2017], should better account for Linkage Disequilibrium and thus give better predictions.
+
+Then, we will analyze the UK biobank dataset, which is the largest and most complete dataset available for genetic analyzes. First, we want to compare published estimations of heritability to our prediction estimates. Secondly, we want to see if adding environment variables can add some predictive value to the genotype variables in order to better predict risks of disease or other traits. Finally, we are also interested in how can we make PRS that can be used for the global population, not only the population they were trained in.
 
 
 ## References
