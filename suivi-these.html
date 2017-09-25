@@ -41,7 +41,7 @@ class: center, middle, inverse
 ## Compute polygenic risk scores 
 ### in order to differentiate a healthy person from a diseased person
 
-&lt;img src="density-scores.jpeg" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/density-scores.jpeg" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -55,7 +55,7 @@ class: center, middle, inverse
 
 ---
 
-## Data analyzed
+## Data analyzed for now
 
 ### case/control cohort for the celiac disease
 
@@ -65,9 +65,9 @@ class: center, middle, inverse
 
 ### Intolerance to gluten
 
-&lt;img src="http://www.strettoweb.com/wp-content/uploads/2016/12/celiaci.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="http://www.strettoweb.com/wp-content/uploads/2016/12/celiaci.jpg" width="60%" style="display: block; margin: auto;" /&gt;
 
-&lt;center&gt; is the only treatment.
+&lt;center&gt;is the only treatment.
 
 ---
 
@@ -78,6 +78,60 @@ class: center, middle, inverse
 &lt;img src="https://www.beyondceliac.org/SiteData/images/FastFacts2/413d26a2a7026920/FastFacts_2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 .footnote[Source: https://www.beyondceliac.org/celiac-disease/facts-and-figures/]
+
+---
+
+## Celiac disease
+
+### The dataset: SNP array with
+
+&lt;/br&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Population &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; UK &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Finland &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Netherlands &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Italy &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Total &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cases &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2586 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 647 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 803 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 497 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4533 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Controls &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 7532 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1829 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 846 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 543 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10750 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 10118 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2476 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1649 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1040 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15283 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;/br&gt;
+
+&lt;center&gt;over ~300K SNPs&lt;/center&gt;
+
+&lt;/br&gt;
+
+This data would take **32GB** if stored in RAM as a standard R matrix.
 
 ---
 

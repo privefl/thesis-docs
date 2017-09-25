@@ -39,7 +39,7 @@ class: center, middle, inverse
 ### in order to differentiate a healthy person from a diseased person
 
 ```{r}
-knitr::include_graphics("density-scores.jpeg")
+knitr::include_graphics("figures/density-scores.jpeg")
 ```
 
 ---
@@ -56,7 +56,7 @@ knitr::include_graphics("https://www.ucdmc.ucdavis.edu/precision-medicine/images
 
 ---
 
-## Data analyzed
+## Data analyzed for now
 
 ### case/control cohort for the celiac disease
 
@@ -66,11 +66,11 @@ knitr::include_graphics("https://www.ucdmc.ucdavis.edu/precision-medicine/images
 
 ### Intolerance to gluten
 
-```{r, out.width="70%"}
+```{r, out.width="60%"}
 knitr::include_graphics("http://www.strettoweb.com/wp-content/uploads/2016/12/celiaci.jpg")
 ```
 
-<center> is the only treatment.
+<center>is the only treatment.
 
 ---
 
@@ -83,6 +83,31 @@ knitr::include_graphics("https://www.beyondceliac.org/SiteData/images/FastFacts2
 ```
 
 .footnote[Source: https://www.beyondceliac.org/celiac-disease/facts-and-figures/]
+
+---
+
+## Celiac disease
+
+### The dataset: SNP array with
+
+</br>
+```{r}
+celiac.data <- tibble::tribble(
+  ~Population,   ~UK, ~Finland, ~Netherlands, ~Italy, ~Total,
+      "Cases",  2586,      647,          803,    497,   4533,
+   "Controls",  7532,     1829,          846,    543,  10750,
+      "Total", 10118,     2476,         1649,   1040,  15283
+)
+knitr::kable(celiac.data, format = "html", align = "lccccr")
+```
+
+</br>
+
+<center>over ~300K SNPs</center>
+
+</br>
+
+This data would take **32GB** if stored in RAM as a standard R matrix.
 
 ---
 
