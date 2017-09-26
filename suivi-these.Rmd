@@ -113,6 +113,103 @@ This data would take **32GB** if stored in RAM as a standard R matrix.
 
 class: center, middle, inverse
 
+# Polygenic Risk Scores
+
+---
+
+## Standard model used in the human litterature
+
+### P+T procedure, begins with a GWAS
+
+```{r}
+knitr::include_graphics("figures/celiac-gwas-cut.png")
+```
+
+<center>+ Pruning and Thresholding
+
+---
+
+### All steps required in the P+T procedure.
+
+```{r}
+knitr::include_graphics("figures/steps-PT.svg")
+```
+
+---
+
+### PCA in GWAS?
+
+<br><br>
+
+```{r, out.width="70%", fig.cap="Inflated Q-Q plot when not correcting for population structure."}
+knitr::include_graphics("figures/qqplot1.png")
+```
+
+---
+
+### PCA in GWAS?
+
+Principal Components to adjust for the condounding effect of population structure (Patterson,
+Price, and Reich 2006).
+
+```{r, out.width="70%", fig.cap="Less inflated Q-Q plot when correcting for population structure."}
+knitr::include_graphics("figures/qqplot2.png")
+```
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/PC-1-2.png")
+```
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/PC-3-4.png")
+```
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix **with pruning**
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/PC2-3-4.png")
+```
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix **with pruning**
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/PC3-3-4.png")
+```
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix **with pruning**
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/load3-3-4.png")
+```
+
+---
+
+class: center, middle, inverse
+
 # Thanks!
 
 ### Presentation available at

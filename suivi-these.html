@@ -137,6 +137,91 @@ This data would take **32GB** if stored in RAM as a standard R matrix.
 
 class: center, middle, inverse
 
+# Polygenic Risk Scores
+
+---
+
+## Standard model used in the human litterature
+
+### P+T procedure, begins with a GWAS
+
+&lt;img src="figures/celiac-gwas-cut.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+&lt;center&gt;+ Pruning and Thresholding
+
+---
+
+### All steps required in the P+T procedure.
+
+&lt;img src="figures/steps-PT.svg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### PCA in GWAS?
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/qqplot1.png" alt="Inflated Q-Q plot when not correcting for population structure." width="70%" /&gt;
+&lt;p class="caption"&gt;Inflated Q-Q plot when not correcting for population structure.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+### PCA in GWAS?
+
+Principal Components to adjust for the condounding effect of population structure (Patterson,
+Price, and Reich 2006).
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/qqplot2.png" alt="Less inflated Q-Q plot when correcting for population structure." width="70%" /&gt;
+&lt;p class="caption"&gt;Less inflated Q-Q plot when correcting for population structure.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix
+
+&lt;img src="figures/PC-1-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix
+
+&lt;img src="figures/PC-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix **with pruning**
+
+&lt;img src="figures/PC2-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix **with pruning**
+
+&lt;img src="figures/PC3-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## How to perform PCA for genetic data?
+
+### On the whole (scaled) matrix **with pruning**
+
+&lt;img src="figures/load3-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
 # Thanks!
 
 ### Presentation available at

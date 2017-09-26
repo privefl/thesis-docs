@@ -42,7 +42,7 @@ Few people have used some more complex models such as sparse machine learning mo
 
 ```{r, include=FALSE}
 library(magrittr)
-tmpfile <- tempfile(fileext = ".pdf")
+tmpfile <- tempfile(fileext = ".pdf") 
 list(
   `P+T` = list(
     GWAS = list(
@@ -61,6 +61,7 @@ list(
   plot() %>%
   DiagrammeRsvg::export_svg() %>%
   charToRaw() %>%
+  # rsvg::rsvg_svg(file = "figures/steps-PT.svg") %T>%
   rsvg::rsvg_pdf(file = tmpfile)
 ```
 
