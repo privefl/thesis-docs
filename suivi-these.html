@@ -6,6 +6,12 @@
     <meta name="author" content="Florian Privé" />
     <meta name="date" content="2017-09-28" />
     <link href="libs/remark-css/example.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script src="libs/datatables-binding/datatables.js"></script>
+    <link href="libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -145,7 +151,7 @@ class: center, middle, inverse
 
 ### P+T procedure, begins with a GWAS
 
-&lt;img src="figures/celiac-gwas-cut.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/celiac-gwas-cut.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 &lt;center&gt;+ Pruning and Thresholding
 
@@ -198,7 +204,7 @@ Price, and Reich 2006).
 
 ## How to perform PCA for genetic data?
 
-### On the whole (scaled) matrix **with pruning**
+### On the whole (scaled) matrix **with pruning** (Abdellaoui et al. 2013)
 
 &lt;img src="figures/PC2-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
 
@@ -214,9 +220,88 @@ Price, and Reich 2006).
 
 ## How to perform PCA for genetic data?
 
-### On the whole (scaled) matrix **with pruning**
+### Capture long-range LD regions of chromosomes 6 and 8
 
 &lt;img src="figures/load3-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Long-range LD regions for the human genome (Price et al. 2008)
+
+<div id="htmlwidget-c7b02e3ac5ddd28283ee" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7b02e3ac5ddd28283ee">{"x":{"filter":"none","data":[[1,2,2,2,3,3,3,5,5,5,5,6,6,6,7,8,8,8,10,11,11,12,12,20,23,23,23,23,23,23,23,23,23,23],[48060567,85941853,134382738,182882739,47500000,83500000,89000000,44500000,98000000,129000000,135500000,25500000,57000000,140000000,55193285,8000000,43000000,112000000,37000000,46000000,87500000,33000000,109521663,32000000,14150264,25650264,33150264,55133704,65133704,71633704,80080511,100580511,125602146,129102146],[52060567,100407914,137882738,189882739,50000000,87000000,97500000,50500000,100500000,132000000,138500000,33500000,64000000,142500000,66193285,12000000,50000000,115000000,43000000,57000000,90500000,40000000,112021663,34500000,16650264,28650264,35650264,60500000,67633704,77580511,86080511,103080511,128102146,131602146],["hild1","hild2","hild3","hild4","hild5","hild6","hild7","hild8","hild9","hild10","hild11","hild12","hild13","hild14","hild15","hild16","hild17","hild18","hild19","hild20","hild21","hild22","hild23","hild24","hild25","hild26","hild27","hild28","hild29","hild30","hild31","hild32","hild33","hild34"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Chr<\/th>\n      <th>Start<\/th>\n      <th>Stop<\/th>\n      <th>ID<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":7,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[7,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+
+.Footnote[Source: https://goo.gl/wTPY7n]
+
+---
+
+## How to perform PCA for genetic data?
+
+### When removing long-range LD regions and pruning
+
+&lt;img src="figures/PC4-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.Footnote[Source: https://goo.gl/wTPY7n]
+
+---
+
+## Not sure that people always do it correctly
+
+- Importance of PCA in genetic association studies: 
+
+&lt;img src="figures/price-cite.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+- Importance of pruning in computing PCA:
+
+&lt;img src="figures/pruning-cite.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+Maybe not make another paper about it, but certainly a vignette for the package.
+
+---
+
+class: center, middle, inverse
+
+# Polygenic Risk Scores
+
+## Another approach
+
+---
+
+## Recall of what we want to achieve
+
+### Predict a phenotype: pitfalls of the P+T model
+
+- Weigths learned independently
+
+- Correlation taken care of heuristically (with pruning)
+
+- Regularization taken care of heuristically (with thresholding)
+
+### A better solution?
+
+For example, for binary outcomes, why not using
+
+- logistic regression 
+
+- Support Vector Machine (SVM)
+
+on the whole matrix (+ PCs)?
+
+---
+
+class: center, middle, inverse
+
+# Big Data
+
+### Simpler solutions are easier to implement
+
+---
+
+## My first paper (as a preprint)
+
+&lt;img src="figures/mypaper.png" width="80%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -225,7 +310,7 @@ class: center, middle, inverse
 # Thanks!
 
 ### Presentation available at
-### https://privefl.github.io/R-presentation/suivi-these.html
+### https://privefl.github.io/thesis-docs/suivi-these.html
 
 .footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
     </textarea>

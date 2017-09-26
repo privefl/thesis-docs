@@ -121,7 +121,7 @@ class: center, middle, inverse
 
 ### P+T procedure, begins with a GWAS
 
-```{r}
+```{r, out.width="90%"}
 knitr::include_graphics("figures/celiac-gwas-cut.png")
 ```
 
@@ -180,7 +180,7 @@ knitr::include_graphics("figures/PC-3-4.png")
 
 ## How to perform PCA for genetic data?
 
-### On the whole (scaled) matrix **with pruning**
+### On the whole (scaled) matrix **with pruning** (Abdellaoui et al. 2013)
 
 ```{r, out.width="70%"}
 knitr::include_graphics("figures/PC2-3-4.png")
@@ -200,11 +200,100 @@ knitr::include_graphics("figures/PC3-3-4.png")
 
 ## How to perform PCA for genetic data?
 
-### On the whole (scaled) matrix **with pruning**
+### Capture long-range LD regions of chromosomes 6 and 8
 
 ```{r, out.width="70%"}
 knitr::include_graphics("figures/load3-3-4.png")
 ```
+
+---
+
+### Long-range LD regions for the human genome (Price et al. 2008)
+
+```{r}
+DT::datatable(bigsnpr::LD.wiki34, rownames = FALSE, 
+              options = list(pageLength = 7))
+```
+
+
+.Footnote[Source: https://goo.gl/wTPY7n]
+
+---
+
+## How to perform PCA for genetic data?
+
+### When removing long-range LD regions and pruning
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/PC4-3-4.png")
+```
+
+.Footnote[Source: https://goo.gl/wTPY7n]
+
+---
+
+## Not sure that people always do it correctly
+
+- Importance of PCA in genetic association studies: 
+
+```{r}
+knitr::include_graphics("figures/price-cite.png")
+```
+
+- Importance of pruning in computing PCA:
+
+```{r}
+knitr::include_graphics("figures/pruning-cite.png")
+```
+
+Maybe not make another paper about it, but certainly a vignette for the package.
+
+---
+
+class: center, middle, inverse
+
+# Polygenic Risk Scores
+
+## Another approach
+
+---
+
+## Recall of what we want to achieve
+
+### Predict a phenotype: pitfalls of the P+T model
+
+- Weigths learned independently
+
+- Correlation taken care of heuristically (with pruning)
+
+- Regularization taken care of heuristically (with thresholding)
+
+### A better solution?
+
+For example, for binary outcomes, why not using
+
+- logistic regression 
+
+- Support Vector Machine (SVM)
+
+on the whole matrix (+ PCs)?
+
+---
+
+class: center, middle, inverse
+
+# Big Data
+
+### Simpler solutions are easier to implement
+
+---
+
+## My first paper (as a preprint)
+
+```{r, fig.asp=0.9}
+knitr::include_graphics("figures/mypaper.png")
+```
+
 
 ---
 
@@ -213,6 +302,6 @@ class: center, middle, inverse
 # Thanks!
 
 ### Presentation available at
-### https://privefl.github.io/R-presentation/suivi-these.html
+### https://privefl.github.io/thesis-docs/suivi-these.html
 
 .footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]

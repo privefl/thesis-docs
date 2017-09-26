@@ -55,3 +55,12 @@ plot(svd2, type = "scores", scores = 3:4) +
 
 plot(svd2, type = "loadings", loadings = 1:6, coeff = 0.8)
 # ggsave("figures/load3-3-4.png", scale = 1/75, width = 900, height = 700)
+
+# When removing long-range LD regions
+ind.keep2 <- snp_clumping(G, CHR, exclude = snp_indLRLDR(CHR, POS), 
+                          ncores = NCORES)
+svd3 <- big_randomSVD(G, big_scale(), ind.col = ind.keep2, ncores = NCORES)
+plot(svd3, type = "scores", scores = 3:4) +
+  aes(color = pop.names[pop]) +
+  labs(color = "Population")
+# ggsave("figures/PC4-3-4.png", scale = 1/75, width = 670, height = 520)
