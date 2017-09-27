@@ -216,7 +216,7 @@ DT::datatable(bigsnpr::LD.wiki34, rownames = FALSE,
 ```
 
 
-.Footnote[Source: https://goo.gl/wTPY7n]
+.footnote[Source: https://goo.gl/wTPY7n]
 
 ---
 
@@ -228,7 +228,7 @@ DT::datatable(bigsnpr::LD.wiki34, rownames = FALSE,
 knitr::include_graphics("figures/PC4-3-4.png")
 ```
 
-.Footnote[Source: https://goo.gl/wTPY7n]
+.footnote[Source: https://goo.gl/wTPY7n]
 
 ---
 
@@ -288,12 +288,158 @@ class: center, middle, inverse
 
 ---
 
+## What I want to be able to do
+
+### Data analysis on large-scale genotype matrices!
+
+- Be fast to test many ideas quickly
+
+    - code should be fast
+    - I shouldn't have to make many conversions
+    - easily combine multiple functions
+    
+- Not be restricted in my analysis
+   
+    - Basically use all I already know in R
+    
+- Work on my computer
+
+    - I have 64 GB of RAM and 12 cores
+    - Working on a server is not as easy as on my computer
+
+<br><center>**Smooth and fast analysis!**
+
+---
+
+## Memory problem when working in R
+
+<br>
+
+```{r}
+knitr::include_graphics("figures/memory-problem.svg")
+```
+
+---
+
+## Memory solution when working in R
+
+<br>
+
+```{r}
+knitr::include_graphics("figures/memory-solution.svg")
+```
+
+.footnote[I don't use **bigmemory** anymore but still something very similar.]
+
+---
+
 ## My first paper (as a preprint)
 
 ```{r, fig.asp=0.9}
 knitr::include_graphics("figures/mypaper.png")
 ```
 
+---
+
+## Two R packages
+
+### bigstatsr and bigsnpr
+
+<br>
+
+- **bigstatsr** for many types of matrix, to be used by any field of research
+
+- **bigsnpr** for functions which are specific to the analysis of SNP arrays
+
+<br>
+
+```{r, out.width="50%"}
+knitr::include_graphics("figures/gad-abraham.png")
+```
+
+.footnote[Gad Abraham would propably be one of the reviewer of my paper.]
+
+---
+
+## Comparative performance
+
+### Computing partial SVD
+
+```{r}
+knitr::include_graphics("figures/benchmark-pca.png")
+```
+
+---
+
+class: center, middle, inverse
+
+# Next paper
+
+### Comparison of methods for computing PRS
+
+---
+
+## Assessing predictive performance
+
+AUC (Area Under the ROC Curve) is often used.
+
+```{r, out.width="40%"}
+knitr::include_graphics("https://i.stack.imgur.com/5x3Xj.png")
+```
+
+***
+
+> The AUC of a classifier is equivalent to the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative instance. (Fawcett, 2006)
+
+$$\text{AUC} = P(S_\text{case} > S_\text{control})$$
+
+---
+
+### PRS with P+T on Celiac 
+
+```{r, out.width="75%"}
+knitr::include_graphics("figures/AUC-PRS.png")
+```
+
+---
+
+### PRS with bigstatsr's regularized logistic regression on Celiac 
+
+#### `big_spLog`
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/AUC-spLog.png")
+```
+
+---
+
+## Choose the number of predictors
+
+### Cross-Model Selection and Averaging (`big_CMSA`)
+
+1. This function separates the training set in K folds (e.g. 10).
+
+2. In turn,
+
+    - each fold is considered as an inner validation set and the others (K - 1) folds form an inner training set,
+
+    - the model is trained on the inner training set and the corresponding predictions (scores) for the inner validation set are computed,
+
+    - the vector of scores which maximizes feval is determined,
+
+    - the vector of coefficients corresponding to the previous vector of scores is chosen.
+
+3. The K resulting vectors of coefficients are then combined into one vector.
+
+---
+
+## Using CMSA for `big_spLog`
+
+### works really well
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/AUC-spLog-CMSA.png")
+```
 
 ---
 

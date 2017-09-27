@@ -64,3 +64,75 @@ plot(svd3, type = "scores", scores = 3:4) +
   aes(color = pop.names[pop]) +
   labs(color = "Population")
 # ggsave("figures/PC4-3-4.png", scale = 1/75, width = 670, height = 520)
+
+#### PRS ####
+ind.train <- sort(sample(nrow(G), size = 12e3))
+ind.test <- setdiff(rows_along(G), ind.train)
+
+gwas.train <- big_univLogReg(G, y01.train = y[ind.train], 
+                             ind.train = ind.train,
+                             covar.train = svd$u[ind.train, ],
+                             ncores = NCORES)
+
+ind.keep <- snp_clumping(G, CHR, ind.row = ind.train, 
+                         S = abs(gwas.train$score),
+                         ncores = NCORES)
+summary(lpS.keep <- -predict(gwas.train)[ind.keep])
+thrs <- c(seq(0, 10, by = 0.5), seq(15, 200, by = 5), seq(220, 540, by = 20))
+nb.pred <- sapply(thrs, function(thr) sum(lpS.keep > thr))
+prs <- snp_PRS(G, betas.keep = gwas.train$estim[ind.keep],
+               ind.test = ind.test,
+               ind.keep = ind.keep,
+               lpS.keep = lpS.keep,
+               thr.list = thrs)
+
+aucs <- apply(prs, 2, AUC, target = y[ind.test])
+library(ggplot2)
+bigstatsr:::MY_THEME(qplot(nb.pred, aucs)) +
+  geom_line() +
+  scale_x_log10() +
+  labs(x = "Number of predictors", y = "AUC")
+# ggsave("figures/AUC-PRS.png", scale = 1/75, width = 600, height = 540)
+
+
+splog <- big_spLogReg(G, y01.train = y[ind.train], 
+                      ind.train = ind.train,
+                      covar.train = svd$u[ind.train, ],
+                      alpha = 0.5)
+nb.pred2 <- splog$p - splog$rejections
+preds <- predict(splog, G, ind.row = ind.test,
+                 covar.row = svd$u[ind.test, ])
+aucs2 <- apply(preds, 2, AUC, target = y[ind.test])
+bigstatsr:::MY_THEME(qplot(nb.pred2[-1], aucs2[-1])) +
+  # geom_line() +
+  scale_x_log10() + 
+  scale_y_continuous(breaks = seq(0.8, 0.9, by = 0.02)) +
+  labs(x = "Number of predictors", y = "AUC")
+# ggsave("figures/AUC-spLog.png", scale = 1/75, width = 800, height = 560)
+
+cmsa <- big_CMSA(big_spLogReg, AUC, G, 
+                 y.train = y[ind.train],
+                 ind.train = ind.train, 
+                 covar.train = svd$u[ind.train, ],
+                 K = 12, ncores = NCORES,
+                 alpha = 0.5)
+preds2 <- predict(cmsa, G, ind.row = ind.test,
+                  covar.row = svd$u[ind.test, ])
+last_plot() +
+  geom_hline(yintercept = AUC(preds2, y[ind.test]), col = "red")
+# ggsave("figures/AUC-spLog-CMSA.png", scale = 1/75, width = 800, height = 560)
+
+# library(dplyr)
+# data.frame(
+#   Population = pop.names[pop[ind.test]], 
+#   pred1 = prs[, which.max(aucs)],
+#   pred2 = preds2, 
+#   true = y[ind.test]
+# ) %>%
+#   group_by(Population) %>%
+#   summarise(
+#     AUC_PRS = AUC(pred1, true),
+#     AUC_CMSA = AUC(pred2, true)
+#   )
+  
+
