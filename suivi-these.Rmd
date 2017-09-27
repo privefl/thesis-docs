@@ -484,6 +484,20 @@ knitr::include_graphics("figures/UKB.png")
 
 ---
 
+## Bonus
+
+### When you earn 275 pts on Stack Overflow with your new package
+
+```{r, out.width="69%"}
+knitr::include_graphics("figures/screenshot.png")
+```
+
+```{r, out.width="22%"}
+knitr::include_graphics("http://weknowyourdreams.com/images/smile/smile-08.jpg")
+```
+
+---
+
 class: center, middle, inverse
 
 # Thanks!
