@@ -60,6 +60,8 @@ knitr::include_graphics("https://www.ucdmc.ucdavis.edu/precision-medicine/images
 
 ### case/control cohort for the celiac disease
 
+.footnote[(Dubois et al., 2010)]
+
 ---
 
 ## Celiac disease
@@ -333,7 +335,7 @@ knitr::include_graphics("figures/memory-solution.svg")
 
 ---
 
-## My first paper (as a preprint)
+## My first paper (as a [preprint](https://www.biorxiv.org/content/early/2017/09/19/190926))
 
 ```{r, fig.asp=0.9}
 knitr::include_graphics("figures/mypaper.png")
@@ -368,6 +370,17 @@ knitr::include_graphics("figures/gad-abraham.png")
 ```{r}
 knitr::include_graphics("figures/benchmark-pca.png")
 ```
+
+---
+
+## Ease the development of new methods
+
+### E.g. `snp_autoSVD`
+
+```{r, out.width="60%"}
+knitr::include_graphics("figures/svd.svg")
+```
+
 
 ---
 
@@ -440,6 +453,34 @@ knitr::include_graphics("figures/AUC-spLog.png")
 ```{r, out.width="80%"}
 knitr::include_graphics("figures/AUC-spLog-CMSA.png")
 ```
+
+---
+
+class: center, middle, inverse
+
+# Future work
+
+### UK Biobank
+
+---
+
+## UK Biobank
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/UKB.png")
+```
+
+---
+
+## UK Biobank
+
+### Some possible prospects
+
+- compare difference between heritability and our predictive performance
+
+- use SNPs AND environmental data to improve predictive performance
+
+- find how to predict well on external population 
 
 ---
 

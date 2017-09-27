@@ -65,6 +65,8 @@ class: center, middle, inverse
 
 ### case/control cohort for the celiac disease
 
+.footnote[(Dubois et al., 2010)]
+
 ---
 
 ## Celiac disease
@@ -228,8 +230,8 @@ Price, and Reich 2006).
 
 ### Long-range LD regions for the human genome (Price et al. 2008)
 
-<div id="htmlwidget-90c4b67d9cfda8256eab" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-90c4b67d9cfda8256eab">{"x":{"filter":"none","data":[[1,2,2,2,3,3,3,5,5,5,5,6,6,6,7,8,8,8,10,11,11,12,12,20,23,23,23,23,23,23,23,23,23,23],[48060567,85941853,134382738,182882739,47500000,83500000,89000000,44500000,98000000,129000000,135500000,25500000,57000000,140000000,55193285,8000000,43000000,112000000,37000000,46000000,87500000,33000000,109521663,32000000,14150264,25650264,33150264,55133704,65133704,71633704,80080511,100580511,125602146,129102146],[52060567,100407914,137882738,189882739,50000000,87000000,97500000,50500000,100500000,132000000,138500000,33500000,64000000,142500000,66193285,12000000,50000000,115000000,43000000,57000000,90500000,40000000,112021663,34500000,16650264,28650264,35650264,60500000,67633704,77580511,86080511,103080511,128102146,131602146],["hild1","hild2","hild3","hild4","hild5","hild6","hild7","hild8","hild9","hild10","hild11","hild12","hild13","hild14","hild15","hild16","hild17","hild18","hild19","hild20","hild21","hild22","hild23","hild24","hild25","hild26","hild27","hild28","hild29","hild30","hild31","hild32","hild33","hild34"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Chr<\/th>\n      <th>Start<\/th>\n      <th>Stop<\/th>\n      <th>ID<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":7,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[7,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d5629fabd83fd71dd17b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d5629fabd83fd71dd17b">{"x":{"filter":"none","data":[[1,2,2,2,3,3,3,5,5,5,5,6,6,6,7,8,8,8,10,11,11,12,12,20,23,23,23,23,23,23,23,23,23,23],[48060567,85941853,134382738,182882739,47500000,83500000,89000000,44500000,98000000,129000000,135500000,25500000,57000000,140000000,55193285,8000000,43000000,112000000,37000000,46000000,87500000,33000000,109521663,32000000,14150264,25650264,33150264,55133704,65133704,71633704,80080511,100580511,125602146,129102146],[52060567,100407914,137882738,189882739,50000000,87000000,97500000,50500000,100500000,132000000,138500000,33500000,64000000,142500000,66193285,12000000,50000000,115000000,43000000,57000000,90500000,40000000,112021663,34500000,16650264,28650264,35650264,60500000,67633704,77580511,86080511,103080511,128102146,131602146],["hild1","hild2","hild3","hild4","hild5","hild6","hild7","hild8","hild9","hild10","hild11","hild12","hild13","hild14","hild15","hild16","hild17","hild18","hild19","hild20","hild21","hild22","hild23","hild24","hild25","hild26","hild27","hild28","hild29","hild30","hild31","hild32","hild33","hild34"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Chr<\/th>\n      <th>Start<\/th>\n      <th>Stop<\/th>\n      <th>ID<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":7,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[7,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 
 .footnote[Source: https://goo.gl/wTPY7n]
@@ -339,7 +341,7 @@ class: center, middle, inverse
 
 ---
 
-## My first paper (as a preprint)
+## My first paper (as a [preprint](https://www.biorxiv.org/content/early/2017/09/19/190926))
 
 &lt;img src="figures/mypaper.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -368,6 +370,15 @@ class: center, middle, inverse
 ### Computing partial SVD
 
 &lt;img src="figures/benchmark-pca.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Ease the development of new methods
+
+### E.g. `snp_autoSVD`
+
+&lt;img src="figures/svd.svg" width="60%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -432,6 +443,32 @@ AUC (Area Under the ROC Curve) is often used.
 ### works really well
 
 &lt;img src="figures/AUC-spLog-CMSA.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# Future work
+
+### UK Biobank
+
+---
+
+## UK Biobank
+
+&lt;img src="figures/UKB.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## UK Biobank
+
+### Some possible prospects
+
+- compare difference between heritability and our predictive performance
+
+- use SNPs AND environmental data to improve predictive performance
+
+- find how to predict well on external population 
 
 ---
 
