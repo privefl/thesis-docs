@@ -1,6 +1,6 @@
 ---
-title: "Journées des doctorants"
-author: "Florian Privé"
+title: "Journée des doctorants"
+author: "Florian Privé<br><small>BCM team, Laboratoire TIMC-IMAG<br>supervised by Michael Blum (BCM) and Hugues Aschard (Institut Pasteur)</small>"
 date: "March 20, 2018"
 output:
   xaringan::moon_reader:
@@ -74,7 +74,7 @@ class: center, middle, inverse
 
     - code should be fast
     - I shouldn't have to make many conversions
-    - easily combine multiple functions
+    - it should be easily to combine multiple functions
     
 - Not be restricted in my analysis
    
