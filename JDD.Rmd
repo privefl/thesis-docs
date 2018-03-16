@@ -87,27 +87,27 @@ class: center, middle, inverse
 
 <br><center>**Smooth and fast analysis!**
 
----
+<!-- --- -->
 
-## Memory problem when working in R
+<!-- ## Memory problem when working in R -->
 
-<br>
+<!-- <br> -->
 
-```{r}
-knitr::include_graphics("figures/memory-problem.svg")
-```
+<!-- ```{r} -->
+<!-- knitr::include_graphics("figures/memory-problem.svg") -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
-## Memory solution when working in R
+<!-- ## Memory solution when working in R -->
 
-<br>
+<!-- <br> -->
 
-```{r}
-knitr::include_graphics("figures/memory-solution.svg")
-```
+<!-- ```{r} -->
+<!-- knitr::include_graphics("figures/memory-solution.svg") -->
+<!-- ``` -->
 
-.footnote[I don't use **bigmemory** anymore but still something very similar.]
+<!-- .footnote[I don't use **bigmemory** anymore but still something very similar.] -->
 
 ---
 
@@ -145,13 +145,15 @@ class: center, middle, inverse
 
 ### Comparison of methods for computing PRS
 
+#### (will be submitted by the end of April)
+
 ---
 
 ## Recall of what we want to achieve
 
 ### Predict a phenotype: pitfalls of the widely-used model
 
-- Weigths learned independently
+- Weights learned independently
 
 - Correlation is taken care of heuristically
 
@@ -185,9 +187,11 @@ It is an extremely large dataset with
 
 ## Prospects
 
-- training in one population to improve training and prediction in another population
+- [Paper 3, before the end of 2018] training in one population to improve training and prediction in another population
 
-- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+- [Paper 4, in 2019, while writing the thesis] assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+
+- find a job in Machine Learning in some company
 
 ---
 
