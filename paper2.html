@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Predicting complex diseases: performance and robustness</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Florian Privé" />
+    <meta name="date" content="2018-03-23" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Predicting complex diseases:<br>performance and robustness
+### Florian Privé
+### March 23, 2018
+
+---
+
+
+
+
+class: center, middle, inverse
+
+# Introduction
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+### Use them to identify high risk individuals
+
+&lt;img src="figures/PRS.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Predictive methods 
+
+### Methods already developed by other people
+
+&lt;br&gt;
+
+- **GWAS + Clumping + Thresholding** (C+T)
+
+- Linear Mixed Models (LMM)
+
+- Statistical Learning such as 
+
+    - Logistic Regression (LR)
+    
+    - Support Vector Machine (SVM)
+    
+    - Decision tree methods such as Random Forests (RF)
+
+---
+
+## Our two R packages: bigstatsr and bigsnpr
+
+### Statistical tools with big matrices stored on disk
+
+&lt;img src="figures/bigsnpr-submitted.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+- {bigstatsr} for many types of matrix, to be used by any field of research
+
+- {bigsnpr} for functions that are specific to the analysis of genetic data
+
+&lt;br&gt;
+
+Package {bigstatsr} provides a fast penalized logistic regression.
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Comparison of the methods --&gt;
+
+&lt;!-- ###  --&gt;
+
+---
+
+class: center, middle, inverse
+
+# Methods
+
+---
+
+## Data
+
+Use real data from a case-control study for the Celiac disease.
+
+&lt;img src="figures/PC1-4.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+Keep only **controls** from the **UK** and **not deviating from the robust Malahanobis distance**.
+
+---
+
+## Simulate new phenotypes
+
+### The liability-threshold model
+
+&lt;img src="figures/LTM.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Two models of liability
+
+#### A "simple" model
+
+`$$y_i = \underbrace{\sum_{j\in E_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental noise}$$` 
+
+- `\(w_j\)` are **weights** (generated with a Gaussian or a Laplace distribution)
+- `\(G_{i,j}\)` is the **allele count** of individual `\(i\)` for SNP `\(j\)`
+
+#### A "fancy" model
+
+`$$y_i = \underbrace{\sum_{j\in E_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in E_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|E_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$` 
+
+- `\(D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}\)`
+
+---
+
+## Comprehensive simulations
+
+### Varying many parameters
+
+&lt;br&gt;
+
+&lt;img src="figures/table-scenarios.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Methods compared
+
+### The C+T method, from GWAS results
+
+&lt;img src="figures/celiac-gwas-cut.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+- Weights learned independently
+
+- Correlation is taken care of heuristically
+
+- Regularization is taken care of heuristically
+
+---
+
+class: center, middle, inverse
+
+# Results
+
+---
+
+class: center, middle, inverse
+
+# Discussion
+
+---
+
+class: center, middle, inverse
+
+# Future work
+
+### UK Biobank
+
+---
+
+## UK Biobank
+
+It is an extremely large dataset with 
+
+ - genetic data
+ 
+ - clinical data
+ 
+ - environmental data
+
+## Prospects
+
+- [Paper 3] training in one population to improve training and prediction in another population
+
+- [Paper 4] assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+
+---
+
+class: center, middle, inverse
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at
+
+https://privefl.github.io/thesis-docs/JDD.html
+
+&lt;br&gt;
+
+<i class="fa  fa-twitter "></i> [privefl](https://twitter.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fa  fa-github "></i> [privefl](https://github.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fa  fa-stack-overflow "></i> [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
