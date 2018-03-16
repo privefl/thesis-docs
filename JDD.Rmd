@@ -38,8 +38,8 @@ class: center, middle, inverse
 ## Compute Polygenic Risk Scores (PRS) 
 ### in order to differentiate a healthy person from a diseased person
 
-```{r}
-knitr::include_graphics("figures/density-scores.svg")
+```{r, out.width="95%"}
+knitr::include_graphics("figures/PRS.png")
 ```
 
 ---
