@@ -36,7 +36,8 @@ class: center, middle, inverse
 ---
 
 ## Compute Polygenic Risk Scores (PRS) 
-### in order to differentiate a healthy person from a diseased person
+
+### in order to identify high risk individuals
 
 ```{r, out.width="95%"}
 knitr::include_graphics("figures/PRS.png")
