@@ -41,15 +41,15 @@ knitr::include_graphics("figures/PRS.png")
 
 - **GWAS + Clumping + Thresholding** (C+T)
 
-- Linear Mixed Models (LMM)
+- Linear Mixed Models
 
 - Statistical Learning such as 
 
-    - Logistic Regression (LR)
+    - **Logistic Regression**
     
-    - Support Vector Machine (SVM)
+    - Support Vector Machine
     
-    - Decision tree methods such as Random Forests (RF)
+    - Decision tree methods such as Random Forests
 
 ---
 
@@ -252,48 +252,56 @@ class: center, middle, inverse
 
 ### Results: two main methods
 
-```{r, out.width="70%"}
-knitr::include_graphics("../paper2-PRS/figures/main-AUC-logit.svg")
+<br>
+
+```{r}
+knitr::include_graphics("../paper2-PRS/figures/pres-AUC-logit.svg")
 ```
 
 ---
 
 ### Results: C+T method and threshold
 
-```{r, out.width="70%"}
-knitr::include_graphics("../paper2-PRS/figures/main-AUC-PRS.svg")
+<br>
+
+```{r}
+knitr::include_graphics("../paper2-PRS/figures/pres-AUC-PRS.svg")
 ```
 
 ---
 
 ### Results: T-Trees, quickly discarded
 
-```{r, out.width="95%"}
-knitr::include_graphics("../paper2-PRS/figures/supp-ttrees.svg")
+```{r, out.width="90%"}
+knitr::include_graphics("../paper2-PRS/figures/pres-ttrees.svg")
 ```
 
 ---
 
 ### Results: with feature engineering
 
-```{r, out.width="95%"}
-knitr::include_graphics("../paper2-PRS/figures/supp-triple.svg")
+```{r, out.width="90%"}
+knitr::include_graphics("../paper2-PRS/figures/pres-triple.svg")
 ```
 
 ---
 
 ### Results: varying sample size (300 in all)
 
-```{r, out.width="92%"}
-knitr::include_graphics("../paper2-PRS/figures/main-AUC-ntrain.svg")
+<br>
+
+```{r}
+knitr::include_graphics("../paper2-PRS/figures/pres-AUC-ntrain.svg")
 ```
 
 ---
 
 ### Results: only chromosome 6
 
-```{r, out.width="92%"}
-knitr::include_graphics("../paper2-PRS/figures/supp-AUC-chr6.svg")
+<br>
+
+```{r}
+knitr::include_graphics("../paper2-PRS/figures/pres-AUC-chr6.svg")
 ```
 
 <!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] -->
@@ -356,9 +364,9 @@ UK Biobank is an extremely large dataset with
 
 ## Prospects
 
-- [Paper 3] training in one population to improve training and prediction in another population
+- training in one population to improve training and prediction in another population
 
-- [Paper 4] assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
 
 ---
 
