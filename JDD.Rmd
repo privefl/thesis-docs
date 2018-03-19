@@ -21,7 +21,7 @@ knitr::opts_chunk$set(fig.align = "center", dev = "svg",
 
 ### 1. Main objective of the thesis
 
-### 2. R packages
+### 2. First paper: R packages
 
 ### 3. Ongoing paper
 
