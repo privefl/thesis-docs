@@ -23,6 +23,25 @@ class: center, middle, inverse
 
 ---
 
+## Common diseases
+
+<br>
+
+```{r, out.width="70%"}
+knitr::include_graphics("http://1.bp.blogspot.com/-7uC6lG9VrBo/ULeG7H8N8TI/AAAAAAAADUQ/0R9aKunBOqs/s1600/F2.medium.gif")
+```
+
+
+.footnote[Source: 10.1126/science.338.6110.1016] 
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+TODO
+
+---
+
 ## Polygenic Risk Scores (PRS)
 
 ### Use them to identify high risk individuals
@@ -109,11 +128,11 @@ knitr::include_graphics("figures/LTM.png")
 
 #### A "simple" model
 
-$$y_i = \underbrace{\sum_{j\in E_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$ 
+$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$ 
 
 #### A "fancy" model
 
-$$y_i = \underbrace{\sum_{j\in E_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in E_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|E_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$ 
+$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$ 
 
 ***
 
@@ -145,7 +164,7 @@ knitr::include_graphics("figures/celiac-gwas-cut.png")
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
 
-$$S_i(T, E_\text{clumping}) = \sum_{j \in E_\text{clumping}} \mathbf{1}\{p_j < T\} \cdot \beta_j \cdot G_{i,j}$$
+$$S_i(T, S_\text{clumping}) = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < T\} \cdot \beta_j \cdot G_{i,j}$$
 
 ---
 
@@ -206,15 +225,23 @@ $$\arg\!\min_{\beta_0, \beta}(x, y, \lambda, \alpha)\left\{\underbrace{\frac{1}{
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2017)
+- reimplemented in R package {bigstatsr} (Privé et al., 2017) with Cross-Model Selection and Averaging (CMSA):
 
-<mark>TODO: CMSA + early stop graph</mark>
+<br>
 
-<!-- To fit this penalized logistic regression, we use a very efficient algorithm \cite[]{friedman2010regularization,tibshirani2012strong,zeng2017efficient} from which we derived our own implementation in the R package bigstatsr \cite[]{prive2017efficient}.  -->
-<!-- This type of algorithm builds predictions for many values of $\lambda$ (typically a "regularization path" of 100 values). To obtain an algorithm free of the choice of this hyper-parameter $\lambda$, we developed a procedure that we called Cross-Model Selection and Averaging (CMSA). First, this procedure separates the training set in $K$ folds (e.g.\ 10 folds).  -->
-<!-- Secondly, in turn, each fold is considered as an inner validation set and the other ($K - 1$) folds form an inner training set, the model is trained on the inner training set and the corresponding predictions (scores) for the inner validation set are computed, the vector of scores which maximizes the likelihood on the inner validation set is determined and the vector of coefficients corresponding to the previous vector of scores is selected. Finally, the $K$ resulting vectors of coefficients are reported and can be combined into one vector (e.g.\ by using the geometric median) or resulting scores can be combined (e.g.\ by averaging the $K$ probabilities for each individual).  -->
-<!-- We also use this procedure to derive an early stopping criterion so that the algorithm does not need to evaluate the whole regularization paths, making this procedure much faster. -->
-<!-- Because of the L1-regularization, the resulting vectors of coefficients are typically very sparse and can be used to make a PRS based on a \textit{linear} combination of allele counts. We refer to this method as "logit-simple" in the results section. -->
+```{r, out.width="80%"}
+knitr::include_graphics("figures/CMSA.png")
+```
+
+---
+
+### CMSA: maximization of one model
+
+<br>
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/CMSA-one.svg")
+```
 
 ---
 
@@ -254,7 +281,7 @@ class: center, middle, inverse
 
 ---
 
-### Results: two main methods
+### Higher predictive performance with logit-simple
 
 <br>
 
@@ -264,7 +291,7 @@ knitr::include_graphics("figures/pres-AUC-logit.svg")
 
 ---
 
-### Results: C+T method and threshold
+### Predictive performance of C+T method varying with threshold
 
 <br>
 
@@ -274,7 +301,7 @@ knitr::include_graphics("figures/pres-AUC-PRS.svg")
 
 ---
 
-### Results: T-Trees, quickly discarded
+### T-Trees, not performant enough
 
 ```{r, out.width="90%"}
 knitr::include_graphics("figures/pres-ttrees.svg")
@@ -282,7 +309,7 @@ knitr::include_graphics("figures/pres-ttrees.svg")
 
 ---
 
-### Results: with feature engineering
+### Feature engineering improves prediction
 
 ```{r, out.width="90%"}
 knitr::include_graphics("figures/pres-triple.svg")
@@ -290,7 +317,7 @@ knitr::include_graphics("figures/pres-triple.svg")
 
 ---
 
-### Results: varying sample size (300 in all)
+### Logit-simple improving faster with increasing sample size
 
 <br>
 
@@ -300,7 +327,7 @@ knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 
 ---
 
-### Results: only chromosome 6
+### logit-simple still winning when using chromosome 6 only
 
 <br>
 

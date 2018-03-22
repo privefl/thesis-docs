@@ -28,6 +28,23 @@ class: center, middle, inverse
 
 ---
 
+## Common diseases
+
+&lt;br&gt;
+
+&lt;img src="http://1.bp.blogspot.com/-7uC6lG9VrBo/ULeG7H8N8TI/AAAAAAAADUQ/0R9aKunBOqs/s1600/F2.medium.gif" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+.footnote[Source: 10.1126/science.338.6110.1016] 
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+TODO
+
+---
+
 ## Polygenic Risk Scores (PRS)
 
 ### Use them to identify high risk individuals
@@ -197,15 +214,19 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2017)
+- reimplemented in R package {bigstatsr} (Privé et al., 2017) with Cross-Model Selection and Averaging (CMSA):
 
-&lt;mark&gt;TODO: CMSA + early stop graph&lt;/mark&gt;
+&lt;br&gt;
 
-&lt;!-- To fit this penalized logistic regression, we use a very efficient algorithm \cite[]{friedman2010regularization,tibshirani2012strong,zeng2017efficient} from which we derived our own implementation in the R package bigstatsr \cite[]{prive2017efficient}.  --&gt;
-&lt;!-- This type of algorithm builds predictions for many values of `\(\lambda\)` (typically a "regularization path" of 100 values). To obtain an algorithm free of the choice of this hyper-parameter `\(\lambda\)`, we developed a procedure that we called Cross-Model Selection and Averaging (CMSA). First, this procedure separates the training set in `\(K\)` folds (e.g.\ 10 folds).  --&gt;
-&lt;!-- Secondly, in turn, each fold is considered as an inner validation set and the other ($K - 1$) folds form an inner training set, the model is trained on the inner training set and the corresponding predictions (scores) for the inner validation set are computed, the vector of scores which maximizes the likelihood on the inner validation set is determined and the vector of coefficients corresponding to the previous vector of scores is selected. Finally, the `\(K\)` resulting vectors of coefficients are reported and can be combined into one vector (e.g.\ by using the geometric median) or resulting scores can be combined (e.g.\ by averaging the `\(K\)` probabilities for each individual).  --&gt;
-&lt;!-- We also use this procedure to derive an early stopping criterion so that the algorithm does not need to evaluate the whole regularization paths, making this procedure much faster. --&gt;
-&lt;!-- Because of the L1-regularization, the resulting vectors of coefficients are typically very sparse and can be used to make a PRS based on a \textit{linear} combination of allele counts. We refer to this method as "logit-simple" in the results section. --&gt;
+&lt;img src="figures/CMSA.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### CMSA: maximization of one model
+
+&lt;br&gt;
+
+&lt;img src="figures/CMSA-one.svg" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -241,7 +262,7 @@ class: center, middle, inverse
 
 ---
 
-### Results: two main methods
+### Higher predictive performance with logit-simple
 
 &lt;br&gt;
 
@@ -249,7 +270,7 @@ class: center, middle, inverse
 
 ---
 
-### Results: C+T method and threshold
+### Predictive performance of C+T method varying with threshold
 
 &lt;br&gt;
 
@@ -257,19 +278,19 @@ class: center, middle, inverse
 
 ---
 
-### Results: T-Trees, quickly discarded
+### T-Trees, not performant enough
 
 &lt;img src="figures/pres-ttrees.svg" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Results: with feature engineering
+### Feature engineering improves prediction
 
 &lt;img src="figures/pres-triple.svg" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Results: varying sample size (300 in all)
+### Logit-simple improving faster with increasing sample size
 
 &lt;br&gt;
 
@@ -277,7 +298,7 @@ class: center, middle, inverse
 
 ---
 
-### Results: only chromosome 6
+### logit-simple still winning when using chromosome 6 only
 
 &lt;br&gt;
 
