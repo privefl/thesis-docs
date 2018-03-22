@@ -259,7 +259,7 @@ class: center, middle, inverse
 <br>
 
 ```{r}
-knitr::include_graphics("../paper2-PRS/figures/pres-AUC-logit.svg")
+knitr::include_graphics("figures/pres-AUC-logit.svg")
 ```
 
 ---
@@ -269,7 +269,7 @@ knitr::include_graphics("../paper2-PRS/figures/pres-AUC-logit.svg")
 <br>
 
 ```{r}
-knitr::include_graphics("../paper2-PRS/figures/pres-AUC-PRS.svg")
+knitr::include_graphics("figures/pres-AUC-PRS.svg")
 ```
 
 ---
@@ -277,7 +277,7 @@ knitr::include_graphics("../paper2-PRS/figures/pres-AUC-PRS.svg")
 ### Results: T-Trees, quickly discarded
 
 ```{r, out.width="90%"}
-knitr::include_graphics("../paper2-PRS/figures/pres-ttrees.svg")
+knitr::include_graphics("figures/pres-ttrees.svg")
 ```
 
 ---
@@ -285,7 +285,7 @@ knitr::include_graphics("../paper2-PRS/figures/pres-ttrees.svg")
 ### Results: with feature engineering
 
 ```{r, out.width="90%"}
-knitr::include_graphics("../paper2-PRS/figures/pres-triple.svg")
+knitr::include_graphics("figures/pres-triple.svg")
 ```
 
 ---
@@ -295,7 +295,7 @@ knitr::include_graphics("../paper2-PRS/figures/pres-triple.svg")
 <br>
 
 ```{r}
-knitr::include_graphics("../paper2-PRS/figures/pres-AUC-ntrain.svg")
+knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 ```
 
 ---
@@ -305,7 +305,7 @@ knitr::include_graphics("../paper2-PRS/figures/pres-AUC-ntrain.svg")
 <br>
 
 ```{r}
-knitr::include_graphics("../paper2-PRS/figures/pres-AUC-chr6.svg")
+knitr::include_graphics("figures/pres-AUC-chr6.svg")
 ```
 
 <!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] -->
@@ -319,7 +319,7 @@ knitr::include_graphics("figures/results-celiac.png")
 ```
 
 ```{r, out.width="50%"}
-knitr::include_graphics("../paper2-PRS/figures/celiac-roc.svg")
+knitr::include_graphics("figures/celiac-roc.svg")
 ```
 
 ---
