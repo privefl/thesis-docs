@@ -23,7 +23,7 @@ class: center, middle, inverse
 
 ---
 
-## Common diseases
+## Disease architectures
 
 <br>
 
@@ -31,20 +31,25 @@ class: center, middle, inverse
 knitr::include_graphics("http://1.bp.blogspot.com/-7uC6lG9VrBo/ULeG7H8N8TI/AAAAAAAADUQ/0R9aKunBOqs/s1600/F2.medium.gif")
 ```
 
-
 .footnote[Source: 10.1126/science.338.6110.1016] 
 
 ---
 
 ## Polygenic Risk Scores (PRS)
 
-TODO
+### One application: to provide genetic evidence
+
+```{r, out.width="60%"}
+knitr::include_graphics("figures/purcell2009.png")
+```
+
+.footnote[Source: 10.1038/nature08185] 
 
 ---
 
 ## Polygenic Risk Scores (PRS)
 
-### Use them to identify high risk individuals
+### Another application: to identify high risk individuals
 
 ```{r, out.width="95%"}
 knitr::include_graphics("figures/PRS.png")
@@ -76,9 +81,7 @@ knitr::include_graphics("figures/PRS.png")
 
 ### Statistical tools with big matrices stored on disk
 
-```{r, out.width="95%"}
-knitr::include_graphics("figures/bigsnpr-submitted.png")
-```
+<br>
 
 - {bigstatsr} for many types of matrix, to be used by any field of research
 
@@ -86,7 +89,14 @@ knitr::include_graphics("figures/bigsnpr-submitted.png")
 
 <br>
 
-Package {bigstatsr} provides a fast penalized logistic regression.
+Package {bigstatsr} provides a **fast penalized logistic regression**.
+
+<br>
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/paper1-accepted.png")
+```
 
 <!-- --- -->
 
@@ -102,7 +112,7 @@ class: center, middle, inverse
 
 ---
 
-## Data
+## Real genotype data
 
 Use real data from a case-control study for the Celiac disease.
 
@@ -158,13 +168,14 @@ knitr::include_graphics("figures/table-scenarios.png")
 
 ### The C+T method, from GWAS results
 
-```{r, out.width="75%"}
-knitr::include_graphics("figures/celiac-gwas-cut.png")
-```
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
 
-$$S_i(T, S_\text{clumping}) = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < T\} \cdot \beta_j \cdot G_{i,j}$$
+$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/celiac-gwas-cut.png")
+```
 
 ---
 
@@ -176,7 +187,7 @@ $$S_i(T, S_\text{clumping}) = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < T
 
 - takes into account the correlation structure among the genetic markers implied by linkage disequilibrium in GWAS data 
 
-```{r, out.width="65%"}
+```{r, out.width="55%"}
 knitr::include_graphics("http://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0093379.t004")
 ```
 
@@ -188,7 +199,7 @@ knitr::include_graphics("http://journals.plos.org/plosone/article/figure/image?s
 
 <br>
 
-$$\arg\!\min_{\beta_0, \beta}(x, y, \lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$ 
+$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$ 
 
 <br>
 
@@ -202,20 +213,6 @@ $$\arg\!\min_{\beta_0, \beta}(x, y, \lambda, \alpha)\left\{\underbrace{\frac{1}{
 
 - $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
 
-<!-- --- -->
-
-<!-- ### Different regularizations -->
-
-<!-- Used to prevent overfitting, among other benefits:  -->
-
-<!-- - **the L2-regularization ("ridge") shrinks coefficients** and is ideal if there are many predictors drawn from a Gaussian distribution (corresponds to $\alpha = 0$ in the previous equation); -->
-
-<!-- - **the L1-regularization ("lasso")** forces some of the coefficients to be exactly zero/equal to zero and can be used **as a means of variable selection**, leading to sparse (and therefore more interpretable) models  (corresponds to $\alpha = 1$);  -->
-
-<!-- - **the L1- and L2-regularization ("elastic-net")** is a compromise between the two previous penalties and is **particularly useful in the $m \gg n$** situation ($m$: number of SNPs), or any situation involving many correlated predictors (corresponds to $0 < \alpha < 1$).  -->
-
-<!-- .footnote[In this study, we always use the elastic-net regularization with $\alpha = 0.5$, without trying to tune (e.g. by grid-search and cross-validation) the value of this hyper-parameter $\alpha$.] -->
-
 ---
 
 ### Efficient algorithm
@@ -225,7 +222,7 @@ $$\arg\!\min_{\beta_0, \beta}(x, y, \lambda, \alpha)\left\{\underbrace{\frac{1}{
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2017) with Cross-Model Selection and Averaging (CMSA):
+- reimplemented in R package {bigstatsr} (Privé et al., 2017) with *Cross-Model Selection and Averaging (CMSA)*:
 
 <br>
 
@@ -251,7 +248,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 
 <br>
 
-```{r, out.width="95%"}
+```{r, out.width="100%"}
 knitr::include_graphics("figures/triple.svg")
 ```
 
@@ -291,7 +288,7 @@ knitr::include_graphics("figures/pres-AUC-logit.svg")
 
 ---
 
-### Predictive performance of C+T method varying with threshold
+### Predictive performance of C+T method varies with threshold
 
 <br>
 
@@ -317,7 +314,7 @@ knitr::include_graphics("figures/pres-triple.svg")
 
 ---
 
-### Logit-simple improving faster with increasing sample size
+### Prediction with logit-simple is improving faster (1/2)
 
 <br>
 
@@ -327,7 +324,7 @@ knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 
 ---
 
-### logit-simple still winning when using chromosome 6 only
+### Prediction with logit-simple is improving faster (2/2)
 
 <br>
 
@@ -341,12 +338,12 @@ knitr::include_graphics("figures/pres-AUC-chr6.svg")
 
 ### Results: real Celiac phenotypes
 
-```{r, out.width="80%"}
-knitr::include_graphics("figures/results-celiac.png")
+```{r, out.width="55%"}
+knitr::include_graphics("figures/celiac-roc.svg")
 ```
 
-```{r, out.width="50%"}
-knitr::include_graphics("figures/celiac-roc.svg")
+```{r, out.width="80%"}
+knitr::include_graphics("figures/results-celiac.png")
 ```
 
 ---

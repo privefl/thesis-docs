@@ -28,12 +28,11 @@ class: center, middle, inverse
 
 ---
 
-## Common diseases
+## Disease architectures
 
 &lt;br&gt;
 
 &lt;img src="http://1.bp.blogspot.com/-7uC6lG9VrBo/ULeG7H8N8TI/AAAAAAAADUQ/0R9aKunBOqs/s1600/F2.medium.gif" width="70%" style="display: block; margin: auto;" /&gt;
-
 
 .footnote[Source: 10.1126/science.338.6110.1016] 
 
@@ -41,13 +40,17 @@ class: center, middle, inverse
 
 ## Polygenic Risk Scores (PRS)
 
-TODO
+### One application: to provide genetic evidence
+
+&lt;img src="figures/purcell2009.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Source: 10.1038/nature08185] 
 
 ---
 
 ## Polygenic Risk Scores (PRS)
 
-### Use them to identify high risk individuals
+### Another application: to identify high risk individuals
 
 &lt;img src="figures/PRS.png" width="95%" style="display: block; margin: auto;" /&gt;
 
@@ -77,7 +80,7 @@ TODO
 
 ### Statistical tools with big matrices stored on disk
 
-&lt;img src="figures/bigsnpr-submitted.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt;
 
 - {bigstatsr} for many types of matrix, to be used by any field of research
 
@@ -85,7 +88,12 @@ TODO
 
 &lt;br&gt;
 
-Package {bigstatsr} provides a fast penalized logistic regression.
+Package {bigstatsr} provides a **fast penalized logistic regression**.
+
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;img src="figures/paper1-accepted.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 &lt;!-- --- --&gt;
 
@@ -101,7 +109,7 @@ class: center, middle, inverse
 
 ---
 
-## Data
+## Real genotype data
 
 Use real data from a case-control study for the Celiac disease.
 
@@ -123,11 +131,11 @@ Keep only **controls** from the **UK** and **not deviating from the robust Malah
 
 #### A "simple" model
 
-`$$y_i = \underbrace{\sum_{j\in E_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$` 
+`$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$` 
 
 #### A "fancy" model
 
-`$$y_i = \underbrace{\sum_{j\in E_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in E_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|E_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$` 
+`$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$` 
 
 ***
 
@@ -151,11 +159,12 @@ Keep only **controls** from the **UK** and **not deviating from the robust Malah
 
 ### The C+T method, from GWAS results
 
-&lt;img src="figures/celiac-gwas-cut.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
 
-`$$S_i(T, E_\text{clumping}) = \sum_{j \in E_\text{clumping}} \mathbf{1}\{p_j &lt; T\} \cdot \beta_j \cdot G_{i,j}$$`
+`$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
+
+&lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -167,7 +176,7 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 - takes into account the correlation structure among the genetic markers implied by linkage disequilibrium in GWAS data 
 
-&lt;img src="http://journals.plos.org/plosone/article/figure/image?size=large&amp;id=10.1371/journal.pone.0093379.t004" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="http://journals.plos.org/plosone/article/figure/image?size=large&amp;id=10.1371/journal.pone.0093379.t004" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -177,7 +186,7 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 &lt;br&gt;
 
-`$$\arg\!\min_{\beta_0, \beta}(x, y, \lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$` 
+`$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$` 
 
 &lt;br&gt;
 
@@ -191,20 +200,6 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 - `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
 
-&lt;!-- --- --&gt;
-
-&lt;!-- ### Different regularizations --&gt;
-
-&lt;!-- Used to prevent overfitting, among other benefits:  --&gt;
-
-&lt;!-- - **the L2-regularization ("ridge") shrinks coefficients** and is ideal if there are many predictors drawn from a Gaussian distribution (corresponds to `\(\alpha = 0\)` in the previous equation); --&gt;
-
-&lt;!-- - **the L1-regularization ("lasso")** forces some of the coefficients to be exactly zero/equal to zero and can be used **as a means of variable selection**, leading to sparse (and therefore more interpretable) models  (corresponds to `\(\alpha = 1\)`);  --&gt;
-
-&lt;!-- - **the L1- and L2-regularization ("elastic-net")** is a compromise between the two previous penalties and is **particularly useful in the `\(m \gg n\)`** situation ($m$: number of SNPs), or any situation involving many correlated predictors (corresponds to `\(0 &lt; \alpha &lt; 1\)`).  --&gt;
-
-&lt;!-- .footnote[In this study, we always use the elastic-net regularization with `\(\alpha = 0.5\)`, without trying to tune (e.g. by grid-search and cross-validation) the value of this hyper-parameter `\(\alpha\)`.] --&gt;
-
 ---
 
 ### Efficient algorithm
@@ -214,7 +209,7 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2017) with Cross-Model Selection and Averaging (CMSA):
+- reimplemented in R package {bigstatsr} (Privé et al., 2017) with *Cross-Model Selection and Averaging (CMSA)*:
 
 &lt;br&gt;
 
@@ -236,7 +231,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 
 &lt;br&gt;
 
-&lt;img src="figures/triple.svg" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/triple.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
 &lt;!-- This results in a dataset with 3 times as many variables as the initial one, on which we can apply the penalized logistic regression with the CMSA procedure, as described previously. We call this method "logit-triple" in the results. --&gt;
 
@@ -270,7 +265,7 @@ class: center, middle, inverse
 
 ---
 
-### Predictive performance of C+T method varying with threshold
+### Predictive performance of C+T method varies with threshold
 
 &lt;br&gt;
 
@@ -290,7 +285,7 @@ class: center, middle, inverse
 
 ---
 
-### Logit-simple improving faster with increasing sample size
+### Prediction with logit-simple is improving faster (1/2)
 
 &lt;br&gt;
 
@@ -298,7 +293,7 @@ class: center, middle, inverse
 
 ---
 
-### logit-simple still winning when using chromosome 6 only
+### Prediction with logit-simple is improving faster (2/2)
 
 &lt;br&gt;
 
@@ -310,9 +305,9 @@ class: center, middle, inverse
 
 ### Results: real Celiac phenotypes
 
-&lt;img src="figures/results-celiac.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/celiac-roc.svg" width="55%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="figures/celiac-roc.svg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/results-celiac.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
