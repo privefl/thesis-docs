@@ -1,4 +1,4 @@
-basename <- "JDD"
+basename <- "paper2"
 decktape <- "../../useR-2017/decktape-1.0.0/"
 
 system(glue::glue(
