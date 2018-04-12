@@ -3,8 +3,7 @@
   <head>
     <title>Predicting complex diseases: performance and robustness</title>
     <meta charset="utf-8">
-    <meta name="author" content="Florian Privé" />
-    <meta name="date" content="2018-03-23" />
+    <meta name="author" content="Florian Privé, Hugues Aschard, Michael G.B. Blum" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,8 +13,8 @@
 class: center, middle, inverse, title-slide
 
 # Predicting complex diseases:<br>performance and robustness
-### Florian Privé
-### March 23, 2018
+### <strong>Florian Privé</strong>, Hugues Aschard, Michael G.B. Blum
+### RECOMB-Genetics 2018
 
 ---
 
@@ -38,41 +37,21 @@ class: center, middle, inverse
 
 ---
 
-## Polygenic Risk Scores (PRS)
-
-### One application: to provide genetic evidence
-
-&lt;img src="figures/purcell2009.png" width="60%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Source: 10.1038/nature08185] 
+## Interest in prediction: polygenic risk scores (PRS)
 
 ---
 
-## Polygenic Risk Scores (PRS)
-
-### Another application: to identify high risk individuals
-
-&lt;img src="figures/PRS.png" width="95%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Predictive methods 
-
-### Methods already developed by other people
+## Widely-used method to compute PRS
 
 &lt;br&gt;
 
-- **GWAS + Clumping + Thresholding** (C+T)
+&lt;mark&gt;GWAS + Clumping + Thresholding ("C+T" or just "PRS")&lt;/mark&gt; (Chatterjee et al. 2013; Dudbridge 2013; Wray et al. 2007)
 
-- Linear Mixed Models
+&lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-- Statistical Learning such as 
+&lt;br&gt;
 
-    - **Logistic Regression**
-    
-    - Support Vector Machine
-    
-    - Decision tree methods such as Random Forests
+`$$PRS_i = \sum_{j \in S} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
 
 ---
 
@@ -109,42 +88,6 @@ class: center, middle, inverse
 
 ---
 
-## Real genotype data
-
-Use real data from a case-control study for the Celiac disease.
-
-&lt;img src="figures/PC1-4.png" width="95%" style="display: block; margin: auto;" /&gt;
-
-Keep only **controls** from the **UK** and **not deviating from the robust Malahanobis distance**.
-
----
-
-## Simulate new phenotypes
-
-### The liability-threshold model
-
-&lt;img src="figures/LTM.png" width="65%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Two models of liability
-
-#### A "simple" model
-
-`$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$` 
-
-#### A "fancy" model
-
-`$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$` 
-
-***
-
-- `\(w_j\)` are **weights** (generated with a Gaussian or a Laplace distribution)
-- `\(G_{i,j}\)` is the **allele count** of individual `\(i\)` for SNP `\(j\)`
-- `\(D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}\)`
-
----
-
 ## Comprehensive simulations
 
 ### Varying many parameters
@@ -161,7 +104,7 @@ Keep only **controls** from the **UK** and **not deviating from the robust Malah
 
 `$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
 
-&lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/GWAS2PRS.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
 
@@ -368,15 +311,54 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-Presentation available at
+Presentation: https://privefl.github.io/thesis-docs/recomb18.html
 
-https://privefl.github.io/thesis-docs/paper2.html
+R package {bigstatsr}: https://github.com/privefl/bigstatsr
+
+R package {bigsnpr}: https://github.com/privefl/bigsnpr
 
 &lt;br&gt;
 
 <i class="fa  fa-twitter "></i> [privefl](https://twitter.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fa  fa-github "></i> [privefl](https://github.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fa  fa-stack-overflow "></i> [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
 
 .footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
+---
+
+
+## Real genotype data
+
+Use real data from a case-control study for the Celiac disease.
+
+&lt;img src="figures/PC1-4.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+Keep only **controls** from the **UK** and **not deviating from the robust Malahanobis distance**.
+
+---
+
+## Simulate new phenotypes
+
+### The liability-threshold model
+
+&lt;img src="figures/LTM.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Two models of liability
+
+#### A "simple" model
+
+`$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$` 
+
+#### A "fancy" model
+
+`$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$` 
+
+***
+
+- `\(w_j\)` are **weights** (generated with a Gaussian or a Laplace distribution)
+- `\(G_{i,j}\)` is the **allele count** of individual `\(i\)` for SNP `\(j\)`
+- `\(D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}\)`
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({

@@ -1,7 +1,7 @@
 ---
 title: "Predicting complex diseases:<br>performance and robustness"
-author: "Florian Privé"
-date: "March 23, 2018"
+author: "**Florian Privé**, Hugues Aschard, Michael G.B. Blum"
+date: "RECOMB-Genetics 2018"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -35,45 +35,23 @@ knitr::include_graphics("figures/disease-archi.gif")
 
 ---
 
-## Polygenic Risk Scores (PRS)
-
-### One application: to provide genetic evidence
-
-```{r, out.width="60%"}
-knitr::include_graphics("figures/purcell2009.png")
-```
-
-.footnote[Source: 10.1038/nature08185] 
+## Interest in prediction: polygenic risk scores (PRS)
 
 ---
 
-## Polygenic Risk Scores (PRS)
-
-### Another application: to identify high risk individuals
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/PRS.png")
-```
-
----
-
-## Predictive methods 
-
-### Methods already developed by other people
+## Widely-used method to compute PRS
 
 <br>
 
-- **GWAS + Clumping + Thresholding** (C+T)
+<mark>GWAS + Clumping + Thresholding ("C+T" or just "PRS")</mark> (Chatterjee et al. 2013; Dudbridge 2013; Wray et al. 2007)
 
-- Linear Mixed Models
+```{r, out.width="70%"}
+knitr::include_graphics("figures/celiac-gwas-cut.png")
+```
 
-- Statistical Learning such as 
+<br>
 
-    - **Logistic Regression**
-    
-    - Support Vector Machine
-    
-    - Decision tree methods such as Random Forests
+$$PRS_i = \sum_{j \in S} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$
 
 ---
 
@@ -112,46 +90,6 @@ class: center, middle, inverse
 
 ---
 
-## Real genotype data
-
-Use real data from a case-control study for the Celiac disease.
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/PC1-4.png")
-```
-
-Keep only **controls** from the **UK** and **not deviating from the robust Malahanobis distance**.
-
----
-
-## Simulate new phenotypes
-
-### The liability-threshold model
-
-```{r, out.width="65%"}
-knitr::include_graphics("figures/LTM.png")
-```
-
----
-
-### Two models of liability
-
-#### A "simple" model
-
-$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$ 
-
-#### A "fancy" model
-
-$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$ 
-
-***
-
-- $w_j$ are **weights** (generated with a Gaussian or a Laplace distribution)
-- $G_{i,j}$ is the **allele count** of individual $i$ for SNP $j$
-- $D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}$
-
----
-
 ## Comprehensive simulations
 
 ### Varying many parameters
@@ -171,7 +109,7 @@ knitr::include_graphics("figures/table-scenarios.png")
 $$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$
 
 ```{r, out.width="70%"}
-knitr::include_graphics("figures/celiac-gwas-cut.png")
+knitr::include_graphics("figures/GWAS2PRS.png")
 ```
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
@@ -405,12 +343,55 @@ class: center, middle, inverse
 
 <br>
 
-Presentation available at
+Presentation: https://privefl.github.io/thesis-docs/recomb18.html
 
-https://privefl.github.io/thesis-docs/paper2.html
+R package {bigstatsr}: https://github.com/privefl/bigstatsr
+
+R package {bigsnpr}: https://github.com/privefl/bigsnpr
 
 <br>
 
 `r icon::fa("twitter")` [privefl](https://twitter.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("github")` [privefl](https://github.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("stack-overflow")` [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
 
 .footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
+---
+
+
+## Real genotype data
+
+Use real data from a case-control study for the Celiac disease.
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/PC1-4.png")
+```
+
+Keep only **controls** from the **UK** and **not deviating from the robust Malahanobis distance**.
+
+---
+
+## Simulate new phenotypes
+
+### The liability-threshold model
+
+```{r, out.width="65%"}
+knitr::include_graphics("figures/LTM.png")
+```
+
+---
+
+### Two models of liability
+
+#### A "simple" model
+
+$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$ 
+
+#### A "fancy" model
+
+$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$ 
+
+***
+
+- $w_j$ are **weights** (generated with a Gaussian or a Laplace distribution)
+- $G_{i,j}$ is the **allele count** of individual $i$ for SNP $j$
+- $D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}$
