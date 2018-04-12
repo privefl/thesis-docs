@@ -1,0 +1,33 @@
+---
+output: pdf_document
+classoption: 
+  - landscape
+header-includes:
+  - \usepackage{multirow}
+---
+
+\begin{table}[htbp]
+\vspace*{0.5em}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+Numero of & \multirow{2}{*}{Dataset} & Size of & Causal SNPs & Distribution & \multirow{2}{*}{Heritability} & Simulation & \multirow{2}{*}{Methods} \\ 
+scenario & & training set & (number and location) & of effects & & model & \\
+\hline
+\hline
+\multirow{4}{*}{\textbf{1}} & \multirow{4}{*}{\textbf{All 22 chromosomes}} & \multirow{4}{*}{\textbf{6000}} & \textbf{30 in HLA} & \multirow{2.5}{*}{\textbf{Gaussian}} & \multirow{2.5}{*}{\textbf{0.8}} & \multirow{2.5}{*}{\textbf{simple}} & \textbf{PRS} \\
+& & & \textbf{30 in all} & & & & \textbf{logit-simple} \\
+& & & \textbf{300 in all} & \multirow{1.5}{*}{Laplace} & \multirow{1.5}{*}{0.5} & \multirow{1.5}{*}{fancy} & logit-triple \\
+& & & \textbf{3000 in all} & & & & (T-Trees) \\
+\hline
+\multirow{2}{*}{2} & \multirow{2}{*}{Chromosome 6 only} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{simple} & PRS \\ 
+& & & & & & & logit-simple\\
+\hline
+\multirow{5}{*}{\textbf{3}} & \multirow{5}{*}{\textbf{All 22 chromosomes}} & \textbf{1000} & \multirow{5}{*}{\textbf{300 in all}} & \multirow{5}{*}{-} & \multirow{5}{*}{-} & \multirow{5}{*}{-} & \multirow{5}{*}{-} \\ 
+& & \textbf{2000} & & & & & \\
+& & \textbf{3000} & & & & & \\
+& & \textbf{4000} & & & & & \\
+& & \textbf{5000} & & & & & \\
+\hline
+\end{tabular}
+\end{table}

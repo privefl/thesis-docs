@@ -9,6 +9,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current% / 22"
 ---
 
 ```{r setup, include=FALSE}
@@ -90,43 +91,17 @@ class: center, middle, inverse
 
 ---
 
-## Comprehensive simulations
-
-### Varying many parameters
-
-<br>
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/table-scenarios.png")
-```
-
----
-
 ## Methods compared
 
 ### The C+T method, from GWAS results
 
 $$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$
 
-```{r, out.width="70%"}
+```{r, out.width="90%"}
 knitr::include_graphics("figures/GWAS2PRS.png")
 ```
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
-
----
-
-## Methods compared
-
-### T-Trees (*Trees inside Trees*) 
-
-- an algorithm derived from random forests 
-
-- takes into account the correlation structure among the genetic markers implied by linkage disequilibrium in GWAS data 
-
-```{r, out.width="55%"}
-knitr::include_graphics("http://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0093379.t004")
-```
 
 ---
 
@@ -154,46 +129,45 @@ $$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum
 
 ### Efficient algorithm
 
-
 - Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2017) with *Cross-Model Selection and Averaging (CMSA)*:
+- reimplemented in R package {bigstatsr} (Privé et al., 2018) with *Cross-Model Selection and Averaging (CMSA)*
+
+TODO: more on bigstatsr and bigsnpr
+
+---
+
+### Cross-Model Selection and Averaging (CMSA)
 
 <br>
 
-```{r, out.width="85%"}
-knitr::include_graphics("figures/CMSA.png")
+```{r, out.width="75%"}
+knitr::include_graphics("figures/CMSA-explained1.svg")
 ```
 
 ---
 
-### CMSA: maximization of one model
+### CMSA: maximization of one model, in turn
 
 <br>
 
-```{r, out.width="70%"}
-knitr::include_graphics("figures/CMSA-one.svg")
+```{r, out.width="80%"}
+knitr::include_graphics("figures/CMSA-explained2.svg")
 ```
 
 ---
 
-### Extension via feature engineering
+## Comprehensive simulations
+
+### Varying many parameters
 
 <br>
 
-We construct a separate dataset with, for each SNP variable, two more variables coding for recessive and dominant effects.
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/triple.png")
+```{r, out.width="95%"}
+knitr::include_graphics("figures/table2-scenarios.png")
 ```
-
-<!-- This results in a dataset with 3 times as many variables as the initial one, on which we can apply the penalized logistic regression with the CMSA procedure, as described previously. We call this method "logit-triple" in the results. -->
-
-.footnote[We call these two methods "logit-simple" and "logit-triple".]
 
 ---
 
@@ -237,41 +211,13 @@ knitr::include_graphics("figures/pres-AUC-PRS.svg")
 
 ---
 
-### T-Trees, not performant enough
-
-```{r, out.width="90%"}
-knitr::include_graphics("figures/pres-ttrees.svg")
-```
-
----
-
-### Feature engineering improves prediction
-
-```{r, out.width="90%"}
-knitr::include_graphics("figures/pres-triple.svg")
-```
-
----
-
-### Prediction with logit-simple is improving faster (1/2)
+### Prediction with logit-simple is improving faster
 
 <br>
 
 ```{r}
 knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 ```
-
----
-
-### Prediction with logit-simple is improving faster (2/2)
-
-<br>
-
-```{r}
-knitr::include_graphics("figures/pres-AUC-chr6.svg")
-```
-
-<!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] -->
 
 ---
 
@@ -295,45 +241,25 @@ class: center, middle, inverse
 
 ### Summary of our penalized regression as compared to the C+T method
 
-- A more optimal approach for predicting complex diseases
+- A more **optimal** approach for predicting complex diseases
 
-- linear solution and really sparse 
+- models that are **linear** and very **sparse** 
 
-- even faster
+- very **fast**
 
-- no need to choose the regularization parameter
+- **automatic choice** for the regularization parameter
 
 - can be extended to capture also recessive and dominant effects
 
 <br>
 
-### Prospects: future work
+### Prospects: future work with the UK Biobank
 
-- use of summary statistics
+- use of external summary statistics to improve models
 
-- generalization on external population
+- generalization to external populations
 
 - integration of clinical and environmental data
-
----
-
-## Future work: UK Biobank
-
-UK Biobank is an extremely large dataset with 
-
- - genetic data
- 
- - clinical data
- 
- - environmental data
-
-<br>
-
-## Prospects
-
-- training in one population to improve training and prediction in another population
-
-- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
 
 ---
 
@@ -355,8 +281,16 @@ R package {bigsnpr}: https://github.com/privefl/bigsnpr
 
 .footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
 
----
 
+
+
+
+
+
+
+
+
+---
 
 ## Real genotype data
 
@@ -395,3 +329,39 @@ $$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,
 - $w_j$ are **weights** (generated with a Gaussian or a Laplace distribution)
 - $G_{i,j}$ is the **allele count** of individual $i$ for SNP $j$
 - $D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}$
+
+---
+
+### Extension via feature engineering
+
+<br>
+
+We construct a separate dataset with, for each SNP variable, two more variables coding for recessive and dominant effects.
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/triple.png")
+```
+
+.footnote[We call these two methods "logit-simple" and "logit-triple".]
+
+---
+
+### Feature engineering improves prediction
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/pres-triple.svg")
+```
+
+---
+
+### Prediction with logit-simple is improving faster
+
+<br>
+
+```{r}
+knitr::include_graphics("figures/pres-AUC-chr6.svg")
+```
+
+<!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] -->

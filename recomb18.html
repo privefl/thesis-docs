@@ -88,37 +88,15 @@ class: center, middle, inverse
 
 ---
 
-## Comprehensive simulations
-
-### Varying many parameters
-
-&lt;br&gt;
-
-&lt;img src="figures/table-scenarios.png" width="95%" style="display: block; margin: auto;" /&gt;
-
----
-
 ## Methods compared
 
 ### The C+T method, from GWAS results
 
 `$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
 
-&lt;img src="figures/GWAS2PRS.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 Pitfalls: weights learned independently and heuristics for correlation and regularization.
-
----
-
-## Methods compared
-
-### T-Trees (*Trees inside Trees*) 
-
-- an algorithm derived from random forests 
-
-- takes into account the correlation structure among the genetic markers implied by linkage disequilibrium in GWAS data 
-
-&lt;img src="http://journals.plos.org/plosone/article/figure/image?size=large&amp;id=10.1371/journal.pone.0093379.t004" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -146,40 +124,39 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 ### Efficient algorithm
 
-
 - Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2017) with *Cross-Model Selection and Averaging (CMSA)*:
+- reimplemented in R package {bigstatsr} (Privé et al., 2018) with *Cross-Model Selection and Averaging (CMSA)*
 
-&lt;br&gt;
-
-&lt;img src="figures/CMSA.png" width="85%" style="display: block; margin: auto;" /&gt;
+TODO: more on bigstatsr and bigsnpr
 
 ---
 
-### CMSA: maximization of one model
+### Cross-Model Selection and Averaging (CMSA)
 
 &lt;br&gt;
 
-&lt;img src="figures/CMSA-one.svg" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/CMSA-explained1.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Extension via feature engineering
+### CMSA: maximization of one model, in turn
 
 &lt;br&gt;
 
-We construct a separate dataset with, for each SNP variable, two more variables coding for recessive and dominant effects.
+&lt;img src="figures/CMSA-explained2.svg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Comprehensive simulations
+
+### Varying many parameters
 
 &lt;br&gt;
 
-&lt;img src="figures/triple.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-&lt;!-- This results in a dataset with 3 times as many variables as the initial one, on which we can apply the penalized logistic regression with the CMSA procedure, as described previously. We call this method "logit-triple" in the results. --&gt;
-
-.footnote[We call these two methods "logit-simple" and "logit-triple".]
+&lt;img src="figures/table2-scenarios.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -217,33 +194,11 @@ class: center, middle, inverse
 
 ---
 
-### T-Trees, not performant enough
-
-&lt;img src="figures/pres-ttrees.svg" width="90%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Feature engineering improves prediction
-
-&lt;img src="figures/pres-triple.svg" width="90%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Prediction with logit-simple is improving faster (1/2)
+### Prediction with logit-simple is improving faster
 
 &lt;br&gt;
 
 &lt;img src="figures/pres-AUC-ntrain.svg" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Prediction with logit-simple is improving faster (2/2)
-
-&lt;br&gt;
-
-&lt;img src="figures/pres-AUC-chr6.svg" width="80%" style="display: block; margin: auto;" /&gt;
-
-&lt;!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] --&gt;
 
 ---
 
@@ -263,45 +218,25 @@ class: center, middle, inverse
 
 ### Summary of our penalized regression as compared to the C+T method
 
-- A more optimal approach for predicting complex diseases
+- A more **optimal** approach for predicting complex diseases
 
-- linear solution and really sparse 
+- models that are **linear** and very **sparse** 
 
-- even faster
+- very **fast**
 
-- no need to choose the regularization parameter
+- **automatic choice** for the regularization parameter
 
 - can be extended to capture also recessive and dominant effects
 
 &lt;br&gt;
 
-### Prospects: future work
+### Prospects: future work with the UK Biobank
 
-- use of summary statistics
+- use of external summary statistics to improve models
 
-- generalization on external population
+- generalization to external populations
 
 - integration of clinical and environmental data
-
----
-
-## Future work: UK Biobank
-
-UK Biobank is an extremely large dataset with 
-
- - genetic data
- 
- - clinical data
- 
- - environmental data
-
-&lt;br&gt;
-
-## Prospects
-
-- training in one population to improve training and prediction in another population
-
-- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
 
 ---
 
@@ -323,8 +258,16 @@ R package {bigsnpr}: https://github.com/privefl/bigsnpr
 
 .footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
 
----
 
+
+
+
+
+
+
+
+
+---
 
 ## Real genotype data
 
@@ -359,12 +302,43 @@ Keep only **controls** from the **UK** and **not deviating from the robust Malah
 - `\(w_j\)` are **weights** (generated with a Gaussian or a Laplace distribution)
 - `\(G_{i,j}\)` is the **allele count** of individual `\(i\)` for SNP `\(j\)`
 - `\(D_{i,j} = \mathbf{1}\left\{G_{i,j} \neq 0\right\}\)`
+
+---
+
+### Extension via feature engineering
+
+&lt;br&gt;
+
+We construct a separate dataset with, for each SNP variable, two more variables coding for recessive and dominant effects.
+
+&lt;br&gt;
+
+&lt;img src="figures/triple.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[We call these two methods "logit-simple" and "logit-triple".]
+
+---
+
+### Feature engineering improves prediction
+
+&lt;img src="figures/pres-triple.svg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Prediction with logit-simple is improving faster
+
+&lt;br&gt;
+
+&lt;img src="figures/pres-AUC-chr6.svg" width="80%" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] --&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current% / 22"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
