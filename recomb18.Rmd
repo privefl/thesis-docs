@@ -9,7 +9,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      slideNumberFormat: "%current% / 22"
+      slideNumberFormat: "%current% / 21"
 ---
 
 ```{r setup, include=FALSE}
@@ -53,35 +53,6 @@ knitr::include_graphics("figures/celiac-gwas-cut.png")
 <br>
 
 $$PRS_i = \sum_{j \in S} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$
-
----
-
-## Our two R packages: bigstatsr and bigsnpr
-
-### Statistical tools with big matrices stored on disk
-
-<br>
-
-- {bigstatsr} for many types of matrix, to be used by any field of research
-
-- {bigsnpr} for functions that are specific to the analysis of genetic data
-
-<br>
-
-Package {bigstatsr} provides a **fast penalized logistic regression**.
-
-<br>
-<br>
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/paper1-accepted.png")
-```
-
-<!-- --- -->
-
-<!-- ## Comparison of the methods -->
-
-<!-- ###  -->
 
 ---
 
@@ -129,14 +100,21 @@ $$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum
 
 ### Efficient algorithm
 
-- Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
+- Sequential strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2018) with *Cross-Model Selection and Averaging (CMSA)*
+- reimplemented in R package {bigstatsr} (Privé et al., 2018) with Cross-Model Selection and Averaging (CMSA)
 
-TODO: more on bigstatsr and bigsnpr
+<br>
 
+<a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
+```{r, out.width="65%"}
+knitr::include_graphics("figures/bty185.png")
+```
+</a>
+
+.footnote[Package {bigstatsr} and {bigsnpr} use memory-mapping to matrices stored on risk to handle **biobank-scale data**.]
 ---
 
 ### Cross-Model Selection and Averaging (CMSA)

@@ -55,33 +55,6 @@ class: center, middle, inverse
 
 ---
 
-## Our two R packages: bigstatsr and bigsnpr
-
-### Statistical tools with big matrices stored on disk
-
-&lt;br&gt;
-
-- {bigstatsr} for many types of matrix, to be used by any field of research
-
-- {bigsnpr} for functions that are specific to the analysis of genetic data
-
-&lt;br&gt;
-
-Package {bigstatsr} provides a **fast penalized logistic regression**.
-
-&lt;br&gt;
-&lt;br&gt;
-
-&lt;img src="figures/paper1-accepted.png" width="95%" style="display: block; margin: auto;" /&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- ## Comparison of the methods --&gt;
-
-&lt;!-- ###  --&gt;
-
----
-
 class: center, middle, inverse
 
 # Methods
@@ -124,14 +97,19 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 ### Efficient algorithm
 
-- Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
+- Sequential strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2018) with *Cross-Model Selection and Averaging (CMSA)*
+- reimplemented in R package {bigstatsr} (Privé et al., 2018) with Cross-Model Selection and Averaging (CMSA)
 
-TODO: more on bigstatsr and bigsnpr
+&lt;br&gt;
 
+&lt;a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"&gt;
+&lt;img src="figures/bty185.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;/a&gt;
+
+.footnote[Package {bigstatsr} and {bigsnpr} use memory-mapping to matrices stored on risk to handle **biobank-scale data**.]
 ---
 
 ### Cross-Model Selection and Averaging (CMSA)
@@ -338,7 +316,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"slideNumberFormat": "%current% / 22"
+"slideNumberFormat": "%current% / 21"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
