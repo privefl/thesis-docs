@@ -29,11 +29,13 @@ class: center, middle, inverse
 
 ## Disease architectures
 
-&lt;br&gt;
 
-&lt;img src="figures/disease-archi.gif" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/disease-archi.gif" alt="&amp;lt;small&amp;gt;Source: 10.1126/science.338.6110.1016&amp;lt;/small&amp;gt;" width="65%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1126/science.338.6110.1016&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
 
-.footnote[Source: 10.1126/science.338.6110.1016] 
+.footnote[How to predict common diseases based on common variants with small effects?] 
 
 ---
 
@@ -53,17 +55,51 @@ class: center, middle, inverse
 
 ---
 
-## Widely-used method to compute PRS
+## Genome-wide association studies (GWAS)
+
+In case-control studies, a GWAS test each single-nucleotide polymorphism (SNP) **independently**, computing an **effect size** `\(\beta\)` and a **p-value** `\(p\)`. 
 
 &lt;br&gt;
-
-&lt;mark&gt;GWAS + Clumping + Thresholding ("C+T" or just "PRS")&lt;/mark&gt; (Chatterjee et al. 2013; Dudbridge 2013; Wray et al. 2007)
 
 &lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
 
+.footnote[Then, we can **combine these effects in a polygenic risk score (PRS)** of disease.]
+
+---
+
+## Widely-used method to compute PRS
+
+**GWAS + &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")** (Chatterjee et al. 2013; Dudbridge 2013; Wray et al. 2007)
+
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \beta_j \cdot G_{i,j}$$`
+
+&lt;img src="figures/GWAS2PRS.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Weights learned independently and heuristics for correlation and regularization.]
+
+---
+
+## A more optimal approach to computing PRS?
+
 &lt;br&gt;
 
-`$$PRS_i = \sum_{j \in S} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
+#### Statistical learning
+
+- joint models of all SNPs at once
+
+- use regularization to account for correlated and null effects
+
+- already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015)
+
+&lt;br&gt;
+
+#### Our contribution
+
+- a memory- and computation-efficient implementation to be used for **biobank-scale data**
+
+- an automatic choice of the regularization hyper-parameter
+
+- a comprehensive comparison for diffirent disease architectures
 
 ---
 
@@ -73,27 +109,15 @@ class: center, middle, inverse
 
 ---
 
-## Methods compared
-
-### The C+T method, from GWAS results
-
-`$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
-
-&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
-
-Pitfalls: weights learned independently and heuristics for correlation and regularization.
-
----
-
-## Methods compared
-
-### Penalized Logistic Regression
+## Penalized Logistic Regression
 
 &lt;br&gt;
 
-`$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$` 
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
 
-where
+&lt;br&gt;
+
+***
 
 - `\(p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)\)`
 
@@ -121,48 +145,48 @@ where
 &lt;img src="figures/bty185.png" width="65%" style="display: block; margin: auto;" /&gt;
 &lt;/a&gt;
 
-.footnote[Package {bigstatsr} and {bigsnpr} use memory-mapping to matrices stored on risk to handle **biobank-scale data**.]
+.footnote[Package {bigstatsr} and {bigsnpr} use memory-mapping to matrices stored on risk to handle biobank-scale data.]
 ---
 
 ### Cross-Model Selection and Averaging (CMSA)
 
-#### Automatic choice of the regularization hyper-parameter
+#### Automatic choice of the regularization hyper-parameter, in turn
 
 &lt;br&gt;
 
-&lt;img src="figures/CMSA-explained1.svg" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/CMSA-explained.svg" width="95%" style="display: block; margin: auto;" /&gt;
+
+- dashed line: `\(\lambda\)` corresponding to model used
+- dotted line: early stopping `\(\lambda\)`
 
 ---
 
-### CMSA: maximization of one model, in turn
-
-#### Automatic choice of the regularization hyper-parameter
-
-&lt;br&gt;
-
-&lt;img src="figures/CMSA-explained2.svg" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Comprehensive simulations
-
-### Varying many parameters
-
-&lt;br&gt;
+## Comprehensive simulations: varying many parameters
 
 &lt;img src="figures/table2-scenarios.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+#### Models
+
+- simple: only additive effects
+- fancy: additive, dominant and interaction-type effects
+
+#### Methods
+
+- PRS: PRS-all (no p-value thresholding), PRS-stringent (GWAS threshold of significance) and PRS-max (best prediction for all thresholds, considered as an upper-bound)
+
+- logit-simple: penalized logistic regression with `\(\alpha = 0.5\)` and CMSA
 
 ---
 
 ## Predictive performance measures
 
-AUC (Area Under the ROC Curve) is used.
+**AUC** (Area Under the ROC Curve) is used.
 
 &lt;img src="https://i.stack.imgur.com/5x3Xj.png" width="45%" style="display: block; margin: auto;" /&gt;
 
 `$$\text{AUC} = P(S_\text{case} &gt; S_\text{control})$$`
 
-.footnote[As a second measure, the partial AUC for specificities between 90% and 100% is also reported.]
+.footnote[As a second measure, the **partial AUC** for specificities between 90% and 100% is also reported.]
 
 ---
 
@@ -174,25 +198,51 @@ class: center, middle, inverse
 
 ### Higher predictive performance with logit-simple
 
-&lt;br&gt;
+&lt;img src="figures/pres-AUC-logit.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="figures/pres-AUC-logit.svg" width="80%" style="display: block; margin: auto;" /&gt;
+.footnote[Penalized logistic regression provides higher predictive performance in the cases that matter, especially when there are correlated variables.]
 
 ---
 
 ### Predictive performance of C+T method varies with threshold
 
-&lt;br&gt;
+&lt;img src="figures/pres-AUC-PRS.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="figures/pres-AUC-PRS.svg" width="80%" style="display: block; margin: auto;" /&gt;
+.footnote[Recall that prediction of PRS-max is an upper-bound of the prediction provided by the C+T method.]
 
 ---
 
 ### Prediction with logit-simple is improving faster
 
+&lt;img src="figures/pres-AUC-ntrain.svg" width="75%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Performance of methods improve with larger sample size. Yet, penalized logistic regression is improving faster than the C+T method.]
+
+---
+
+## Real data
+
 &lt;br&gt;
 
-&lt;img src="figures/pres-AUC-ntrain.svg" width="80%" style="display: block; margin: auto;" /&gt;
+#### Celiac disease
+
+- intolerance to gluten
+
+- only treatment: gluten-free diet
+
+- heritability: 57-87% (Nisticò et al. 2006)
+
+- prevalence: 1-6%
+
+&lt;br&gt;
+
+#### Case-control study for the celiac disease (Dubois et al. 2010)
+
+- ~15,000 individuals
+
+- ~280,000 SNPs
+
+- ~30% cases
 
 ---
 
@@ -332,7 +382,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"slideNumberFormat": "%current% / 21"
+"slideNumberFormat": "%current% / 22"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
