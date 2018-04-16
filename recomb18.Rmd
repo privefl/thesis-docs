@@ -94,11 +94,11 @@ Pitfalls: weights learned independently and heuristics for correlation and regul
 
 <br>
 
-$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$ 
+$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$ 
 
-<br>
+where
 
-***
+- $p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)$
 
 - $x$ is denoting the genotypes and covariables (e.g. principal components), 
 
