@@ -38,6 +38,18 @@ knitr::include_graphics("figures/disease-archi.gif")
 
 ## Interest in prediction: polygenic risk scores (PRS)
 
+- Wray, Naomi R., Michael E. Goddard, and Peter M. Visscher. "**Prediction of individual genetic risk** to disease from genome-wide association studies." Genome research 17.10 (**2007**): 1520-1528.
+
+- Evans, David M., Peter M. Visscher, and Naomi R. Wray. "Harnessing the information contained within genome-wide association studies to improve **individual prediction of complex disease risk**." Human molecular genetics 18.18 (**2009**): 3525-3531.
+
+- Wray, Naomi R., et al. "Pitfalls of **predicting complex traits** from SNPs." Nature Reviews Genetics 14.7 (**2013**): 507.
+
+- Dudbridge, Frank. "Power and **predictive accuracy of polygenic risk scores**." PLoS genetics 9.3 (**2013**): e1003348.
+
+- Chatterjee, Nilanjan, Jianxin Shi, and Montserrat García-Closas. "Developing and evaluating **polygenic risk prediction** models for stratified disease prevention." Nature Reviews Genetics 17.7 (**2016**): 392.
+
+- Martin, Alicia R., et al. "Human demographic history impacts **genetic risk prediction** across diverse populations." The American Journal of Human Genetics 100.4 (**2017**): 635-649.
+
 ---
 
 ## Widely-used method to compute PRS
@@ -119,6 +131,8 @@ knitr::include_graphics("figures/bty185.png")
 
 ### Cross-Model Selection and Averaging (CMSA)
 
+#### Automatic choice of the regularization hyper-parameter
+
 <br>
 
 ```{r, out.width="75%"}
@@ -129,9 +143,11 @@ knitr::include_graphics("figures/CMSA-explained1.svg")
 
 ### CMSA: maximization of one model, in turn
 
+#### Automatic choice of the regularization hyper-parameter
+
 <br>
 
-```{r, out.width="80%"}
+```{r, out.width="75%"}
 knitr::include_graphics("figures/CMSA-explained2.svg")
 ```
 
