@@ -9,25 +9,39 @@ header-includes:
 \begin{table}[htbp]
 \vspace*{0.5em}
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Numero of & \multirow{2}{*}{Dataset} & Size of & Causal SNPs & Distribution & \multirow{2}{*}{Heritability} & Simulation & \multirow{2}{*}{Methods} \\ 
-scenario & & training set & (number and location) & of effects & & model & \\
+Numero of & \multirow{2}{*}{Dataset} & Size of & Causal SNPs & Distribution & \multirow{2}{*}{Heritability} & Simulation \\ 
+scenario & & training set & (number and location) & of effects & & model\\
 \hline
 \hline
-\multirow{4}{*}{\textbf{1}} & \multirow{4}{*}{\textbf{All 22 chromosomes}} & \multirow{4}{*}{\textbf{6000}} & \textbf{30 in HLA} & \multirow{2.5}{*}{\textbf{Gaussian}} & \multirow{2.5}{*}{\textbf{0.8}} & \multirow{2.5}{*}{\textbf{simple}} & \textbf{PRS} \\
-& & & \textbf{30 in all} & & & & \textbf{logit-simple} \\
-& & & \textbf{300 in all} & \multirow{1.5}{*}{Laplace} & \multirow{1.5}{*}{0.5} & \multirow{1.5}{*}{fancy} & logit-triple \\
-& & & \textbf{3000 in all} & & & & (T-Trees) \\
+\multirow{4}{*}{\textbf{1}} & \multirow{4}{*}{\textbf{All 22 chromosomes}} & \multirow{4}{*}{\textbf{6000}} & \textbf{30 in HLA} & \multirow{2.5}{*}{\textbf{Gaussian}} & \multirow{2.5}{*}{\textbf{0.8}} & \multirow{2.5}{*}{\textbf{simple}} \\
+& & & \textbf{30 in all} & & & \\
+& & & \textbf{300 in all} & \multirow{1.5}{*}{Laplace} & \multirow{1.5}{*}{0.5} & \multirow{1.5}{*}{fancy} \\
+& & & \textbf{3000 in all} & & & \\
 \hline
-\multirow{2}{*}{2} & \multirow{2}{*}{Chromosome 6 only} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{simple} & PRS \\ 
-& & & & & & & logit-simple\\
+\multirow{2}{*}{2} & \multirow{2}{*}{Chromosome 6 only} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{-} & \multirow{2}{*}{simple} \\ 
+& & & & & & \\
 \hline
-\multirow{5}{*}{\textbf{3}} & \multirow{5}{*}{\textbf{All 22 chromosomes}} & \textbf{1000} & \multirow{5}{*}{\textbf{300 in all}} & \multirow{5}{*}{-} & \multirow{5}{*}{-} & \multirow{5}{*}{-} & \multirow{5}{*}{-} \\ 
-& & \textbf{2000} & & & & & \\
-& & \textbf{3000} & & & & & \\
-& & \textbf{4000} & & & & & \\
-& & \textbf{5000} & & & & & \\
+\multirow{5}{*}{\textbf{3}} & \multirow{5}{*}{\textbf{All 22 chromosomes}} & \textbf{1000} & \multirow{5}{*}{\textbf{300 in all}} & \multirow{5}{*}{-} & \multirow{5}{*}{-} & \multirow{5}{*}{-} \\ 
+& & \textbf{2000} & & & & \\
+& & \textbf{3000} & & & & \\
+& & \textbf{4000} & & & & \\
+& & \textbf{5000} & & & & \\
 \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\caption{Results for the real Celiac dataset. The results are averaged over 100 runs where the training step is randomly composed of 12,000 individuals. In the parentheses is reported the standard deviation of $10^5$ bootstrap samples of the mean of the corresponding variable. Results are reported with 3 significant digits.\label{tab:results-celiac}}
+\vspace*{0.5em}
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+  \hline
+Method & AUC & pAUC & \# predictors & Execution time (s) \\ 
+  \hline
+PRS-max & 0.824 (0.000704) & 0.0286 (0.00016) & 9850 (781) & 148 (0.414) \\ 
+logit-simple & 0.888 (0.000468) & 0.0414 (0.000164) & 3220 (62) & 83.8 (1.27) \\ 
+   \hline
 \end{tabular}
 \end{table}

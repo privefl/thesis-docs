@@ -137,64 +137,60 @@ class: center, middle, inverse
 
 - implemented in R package {biglasso} (Zeng et al., 2017)
 
-- reimplemented in R package {bigstatsr} (Privé et al., 2018) with Cross-Model Selection and Averaging (CMSA)
-
-<br>
+- reimplemented in our R package {bigstatsr} that uses memory-mapping to matrices stored on disk
 
 <a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
-```{r, out.width="65%"}
+```{r, out.width="60%"}
 knitr::include_graphics("figures/bty185.png")
 ```
 </a>
 
-.footnote[Package {bigstatsr} and {bigsnpr} use memory-mapping to matrices stored on risk to handle biobank-scale data.]
----
-
-### Cross-Model Selection and Averaging (CMSA)
-
-#### Automatic choice of the regularization hyper-parameter, in turn
+<br>
 
 <br>
 
-```{r, out.width="95%"}
-knitr::include_graphics("figures/CMSA-explained.svg")
-```
+<br>
 
-- dashed line: $\lambda$ corresponding to model used
-- dotted line: early stopping $\lambda$
+Let us focus on the choice of the hyper-parameter $\lambda$ and how it can make our algorithm faster.
+
+---
+
+### Choice of the hyper-parameter $\lambda$
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/simple-CMSA.png")
+```
 
 ---
 
 ## Comprehensive simulations: varying many parameters
 
-```{r, out.width="95%"}
-knitr::include_graphics("figures/table2-scenarios.png")
+#### Simulation models
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/table-simus.png")
 ```
-
-#### Models
-
-- simple: only additive effects
-- fancy: additive, dominant and interaction-type effects
 
 #### Methods
 
-- PRS: PRS-all (no p-value thresholding), PRS-stringent (GWAS threshold of significance) and PRS-max (best prediction for all thresholds, considered as an upper-bound)
+- PRS: 
+    - PRS-all (no p-value thresholding), 
+    - PRS-stringent (GWAS threshold of significance) and
+    - PRS-max (best prediction for all thresholds, considered as an upper-bound)
 
-- logit-simple: penalized logistic regression with $\alpha = 0.5$ and CMSA
+- logit-simple: penalized logistic regression with auto $\lambda$
 
 ---
 
 ## Predictive performance measures
 
-**AUC** (Area Under the ROC Curve) is used.
+**AUC** (Area Under the ROC Curve) and partial AUC (FPR < 10%) are used.
 
-```{r, out.width="45%"}
+```{r, out.width="55%"}
 knitr::include_graphics("https://i.stack.imgur.com/5x3Xj.png")
 ```
 
 $$\text{AUC} = P(S_\text{case} > S_\text{control})$$
-
-.footnote[As a second measure, the **partial AUC** for specificities between 90% and 100% is also reported.]
 
 ---
 
@@ -262,13 +258,14 @@ knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 
 ### Results: real Celiac phenotypes
 
+```{r, out.width="80%"}
+knitr::include_graphics("figures/results-celiac-prs-logit.png")
+```
+
 ```{r, out.width="55%"}
 knitr::include_graphics("figures/celiac-roc.svg")
 ```
 
-```{r, out.width="80%"}
-knitr::include_graphics("figures/results-celiac.png")
-```
 
 ---
 
