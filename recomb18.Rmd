@@ -213,7 +213,7 @@ class: center, middle, inverse
 knitr::include_graphics("figures/pres-AUC-logit.svg")
 ```
 
-.footnote[Penalized logistic regression provides higher predictive performance in the cases that matter, especially when there are correlated variables.]
+.footnote2[Penalized logistic regression provides higher predictive performance in the cases that matter, especially when there are correlated variables.]
 
 ---
 
@@ -223,7 +223,7 @@ knitr::include_graphics("figures/pres-AUC-logit.svg")
 knitr::include_graphics("figures/pres-AUC-PRS.svg")
 ```
 
-.footnote[Recall that prediction of PRS-max is an upper-bound of the prediction provided by the C+T method.]
+.footnote2[Recall that prediction of PRS-max is an upper-bound of the prediction provided by the C+T method.]
 
 ---
 
@@ -233,7 +233,7 @@ knitr::include_graphics("figures/pres-AUC-PRS.svg")
 knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 ```
 
-.footnote[Performance of methods improve with larger sample size. Yet, penalized logistic regression is improving faster than the C+T method.]
+.footnote2[Performance of methods improve with larger sample size. Yet, penalized logistic regression is improving faster than the C+T method.]
 
 ---
 
@@ -272,7 +272,6 @@ knitr::include_graphics("figures/results-celiac-prs-logit.png")
 ```{r, out.width="55%"}
 knitr::include_graphics("figures/celiac-roc.svg")
 ```
-
 
 ---
 
