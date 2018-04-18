@@ -1,5 +1,5 @@
-basename <- "paper2"
-decktape <- "../../useR-2017/decktape-1.0.0/"
+basename <- "recomb18"
+decktape <- "decktape-1.0.0/"
 
 system(glue::glue(
   "{decktape}phantomjs {decktape}decktape.js", 
