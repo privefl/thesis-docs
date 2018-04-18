@@ -99,7 +99,7 @@ knitr::include_graphics("figures/GWAS2PRS.png")
 
 - an automatic choice of the regularization hyper-parameter
 
-- a comprehensive comparison for diffirent disease architectures
+- a comprehensive comparison for different disease architectures
 
 ---
 
