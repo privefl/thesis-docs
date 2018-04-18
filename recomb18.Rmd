@@ -4,6 +4,7 @@ author: "**Florian Privé**, Hugues Aschard, Michael G.B. Blum"
 date: "RECOMB-Genetics 2018"
 output:
   xaringan::moon_reader:
+    css: ["default", "default-fonts", "my-theme.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -27,19 +28,25 @@ class: center, middle, inverse
 ## Disease architectures
 
 
-```{r, out.width="65%", fig.cap = "<small>Source: 10.1126/science.338.6110.1016</small>"}
+```{r, out.width="75%", fig.cap = "<small>Source: 10.1126/science.338.6110.1016</small>"}
 knitr::include_graphics("figures/disease-archi.gif")
 ```
 
-.footnote[How to predict common diseases based on common variants with small effects?] 
+---
+
+## Disease architectures
+
+```{r, out.width="76%"}
+knitr::include_graphics("figures/disease-archi.png")
+```
+
+.footnote2[How to derive a genetic risk score for common diseases based on common variants with small effects?] 
 
 ---
 
 ## Interest in prediction: polygenic risk scores (PRS)
 
 - Wray, Naomi R., Michael E. Goddard, and Peter M. Visscher. "**Prediction of individual genetic risk** to disease from genome-wide association studies." Genome research 17.10 (**2007**): 1520-1528.
-
-- Evans, David M., Peter M. Visscher, and Naomi R. Wray. "Harnessing the information contained within genome-wide association studies to improve **individual prediction of complex disease risk**." Human molecular genetics 18.18 (**2009**): 3525-3531.
 
 - Wray, Naomi R., et al. "Pitfalls of **predicting complex traits** from SNPs." Nature Reviews Genetics 14.7 (**2013**): 507.
 
@@ -49,39 +56,41 @@ knitr::include_graphics("figures/disease-archi.gif")
 
 - Martin, Alicia R., et al. "Human demographic history impacts **genetic risk prediction** across diverse populations." The American Journal of Human Genetics 100.4 (**2017**): 635-649.
 
+.footnote2[Still a gap between current predictions and clinical utility.</br>Need more optimal predictions + larger sample sizes.]
+
 ---
 
-## Genome-wide association studies (GWAS)
+## Standard PRS - part 1: estimating effects
 
-In case-control studies, a GWAS test each single-nucleotide polymorphism (SNP) **independently**, computing an **effect size** $\beta$ and a **p-value** $p$. 
+### Genome-wide association studies (GWAS)
 
-<br>
+In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each SNP. 
 
-```{r, out.width="70%"}
+```{r, out.width="75%"}
 knitr::include_graphics("figures/celiac-gwas-cut.png")
 ```
 
-.footnote[Then, we can **combine these effects in a polygenic risk score (PRS)** of disease.]
+Easy combining: $PRS_i = \sum \hat\beta_j \cdot G_{i,j}$
 
 ---
 
-## Widely-used method to compute PRS
+## Standard PRS - part 2: restricting predictors
 
-**GWAS + <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> ("C+T" or just "PRS")** (Chatterjee et al. 2013; Dudbridge 2013; Wray et al. 2007)
+### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> ("C+T" or just "PRS")
 
-$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \beta_j \cdot G_{i,j}$$
+<br>
 
-```{r, out.width="85%"}
+```{r, out.width="90%"}
 knitr::include_graphics("figures/GWAS2PRS.png")
 ```
 
-.footnote[Weights learned independently and heuristics for correlation and regularization.]
+$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
 
 ---
 
 ## A more optimal approach to computing PRS?
 
-<br>
+In C+T: weights learned independently and heuristics for correlation and regularization.
 
 #### Statistical learning
 
@@ -91,11 +100,9 @@ knitr::include_graphics("figures/GWAS2PRS.png")
 
 - already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015)
 
-<br>
-
 #### Our contribution
 
-- a memory- and computation-efficient implementation to be used for **biobank-scale data**
+- a memory- and computation-efficient implementation to be used for biobank-scale data
 
 - an automatic choice of the regularization hyper-parameter
 
@@ -133,29 +140,29 @@ class: center, middle, inverse
 
 ### Efficient algorithm
 
-- Sequential strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
+- sequential strong rules for discarding predictors in lasso-type problems (Tibshirani et al. 2012; Zeng et al. 2017)
 
-- implemented in R package {biglasso} (Zeng et al., 2017)
-
-- reimplemented in our R package {bigstatsr} that uses memory-mapping to matrices stored on disk
+- implemented in our R package {bigstatsr} 
 
 <a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
-```{r, out.width="60%"}
+```{r, out.width="65%"}
 knitr::include_graphics("figures/bty185.png")
 ```
 </a>
 
 <br>
 
-<br>
+#### Our implementation
 
-<br>
+- uses memory-mapping to matrices stored on disk
 
-Let us focus on the choice of the hyper-parameter $\lambda$ and how it can make our algorithm faster.
+- functioning choice of the hyper-parameter $\lambda$ 
+
+- early stopping criterion
 
 ---
 
-### Choice of the hyper-parameter $\lambda$
+### Choice of the hyper-parameter $\lambda$ 
 
 ```{r, out.width="80%"}
 knitr::include_graphics("figures/simple-CMSA.png")
@@ -178,7 +185,7 @@ knitr::include_graphics("figures/table-simus.png")
     - PRS-stringent (GWAS threshold of significance) and
     - PRS-max (best prediction for all thresholds, considered as an upper-bound)
 
-- logit-simple: penalized logistic regression with auto $\lambda$
+- logit-simple: penalized logistic regression with automatic of selection $\lambda$
 
 ---
 
@@ -246,7 +253,7 @@ knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 
 <br>
 
-#### Case-control study for the celiac disease (Dubois et al. 2010)
+#### Case-control study for the celiac disease (WTCCC, Dubois et al. 2010)
 
 - ~15,000 individuals
 
@@ -258,7 +265,7 @@ knitr::include_graphics("figures/pres-AUC-ntrain.svg")
 
 ### Results: real Celiac phenotypes
 
-```{r, out.width="80%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/results-celiac-prs-logit.png")
 ```
 
@@ -289,11 +296,11 @@ class: center, middle, inverse
 
 <br>
 
-### Prospects: future work with the UK Biobank
+### Prospects: future work using the UK Biobank
 
 - use of external summary statistics to improve models
 
-- generalization to external populations
+- better generalization to multiple populations
 
 - integration of clinical and environmental data
 

@@ -7,6 +7,7 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -31,19 +32,23 @@ class: center, middle, inverse
 
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="figures/disease-archi.gif" alt="&amp;lt;small&amp;gt;Source: 10.1126/science.338.6110.1016&amp;lt;/small&amp;gt;" width="65%" /&gt;
+&lt;img src="figures/disease-archi.gif" alt="&amp;lt;small&amp;gt;Source: 10.1126/science.338.6110.1016&amp;lt;/small&amp;gt;" width="75%" /&gt;
 &lt;p class="caption"&gt;&lt;small&gt;Source: 10.1126/science.338.6110.1016&lt;/small&gt;&lt;/p&gt;
 &lt;/div&gt;
 
-.footnote[How to predict common diseases based on common variants with small effects?] 
+---
+
+## Disease architectures
+
+&lt;img src="figures/disease-archi.png" width="76%" style="display: block; margin: auto;" /&gt;
+
+.footnote2[How to derive a genetic risk score for common diseases based on common variants with small effects?] 
 
 ---
 
 ## Interest in prediction: polygenic risk scores (PRS)
 
 - Wray, Naomi R., Michael E. Goddard, and Peter M. Visscher. "**Prediction of individual genetic risk** to disease from genome-wide association studies." Genome research 17.10 (**2007**): 1520-1528.
-
-- Evans, David M., Peter M. Visscher, and Naomi R. Wray. "Harnessing the information contained within genome-wide association studies to improve **individual prediction of complex disease risk**." Human molecular genetics 18.18 (**2009**): 3525-3531.
 
 - Wray, Naomi R., et al. "Pitfalls of **predicting complex traits** from SNPs." Nature Reviews Genetics 14.7 (**2013**): 507.
 
@@ -53,35 +58,37 @@ class: center, middle, inverse
 
 - Martin, Alicia R., et al. "Human demographic history impacts **genetic risk prediction** across diverse populations." The American Journal of Human Genetics 100.4 (**2017**): 635-649.
 
+.footnote2[Still a gap between current predictions and clinical utility.&lt;/br&gt;Need more optimal predictions + larger sample sizes.]
+
 ---
 
-## Genome-wide association studies (GWAS)
+## Standard PRS - part 1: estimating effects
 
-In case-control studies, a GWAS test each single-nucleotide polymorphism (SNP) **independently**, computing an **effect size** `\(\beta\)` and a **p-value** `\(p\)`. 
+### Genome-wide association studies (GWAS)
+
+In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP. 
+
+&lt;img src="figures/celiac-gwas-cut.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)`
+
+---
+
+## Standard PRS - part 2: restricting predictors
+
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")
 
 &lt;br&gt;
 
-&lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
 
-.footnote[Then, we can **combine these effects in a polygenic risk score (PRS)** of disease.]
-
----
-
-## Widely-used method to compute PRS
-
-**GWAS + &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")** (Chatterjee et al. 2013; Dudbridge 2013; Wray et al. 2007)
-
-`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \beta_j \cdot G_{i,j}$$`
-
-&lt;img src="figures/GWAS2PRS.png" width="85%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Weights learned independently and heuristics for correlation and regularization.]
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
 
 ---
 
 ## A more optimal approach to computing PRS?
 
-&lt;br&gt;
+In C+T: weights learned independently and heuristics for correlation and regularization.
 
 #### Statistical learning
 
@@ -91,11 +98,9 @@ In case-control studies, a GWAS test each single-nucleotide polymorphism (SNP) *
 
 - already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015)
 
-&lt;br&gt;
-
 #### Our contribution
 
-- a memory- and computation-efficient implementation to be used for **biobank-scale data**
+- a memory- and computation-efficient implementation to be used for biobank-scale data
 
 - an automatic choice of the regularization hyper-parameter
 
@@ -133,27 +138,27 @@ class: center, middle, inverse
 
 ### Efficient algorithm
 
-- Sequential strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
+- sequential strong rules for discarding predictors in lasso-type problems (Tibshirani et al. 2012; Zeng et al. 2017)
 
-- implemented in R package {biglasso} (Zeng et al., 2017)
-
-- reimplemented in our R package {bigstatsr} that uses memory-mapping to matrices stored on disk
+- implemented in our R package {bigstatsr} 
 
 &lt;a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"&gt;
-&lt;img src="figures/bty185.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/bty185.png" width="65%" style="display: block; margin: auto;" /&gt;
 &lt;/a&gt;
 
 &lt;br&gt;
 
-&lt;br&gt;
+#### Our implementation
 
-&lt;br&gt;
+- uses memory-mapping to matrices stored on disk
 
-Let us focus on the choice of the hyper-parameter `\(\lambda\)` and how it can make our algorithm faster.
+- functioning choice of the hyper-parameter `\(\lambda\)` 
+
+- early stopping criterion
 
 ---
 
-### Choice of the hyper-parameter `\(\lambda\)`
+### Choice of the hyper-parameter `\(\lambda\)` 
 
 &lt;img src="figures/simple-CMSA.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -172,7 +177,7 @@ Let us focus on the choice of the hyper-parameter `\(\lambda\)` and how it can m
     - PRS-stringent (GWAS threshold of significance) and
     - PRS-max (best prediction for all thresholds, considered as an upper-bound)
 
-- logit-simple: penalized logistic regression with auto `\(\lambda\)`
+- logit-simple: penalized logistic regression with automatic of selection `\(\lambda\)`
 
 ---
 
@@ -232,7 +237,7 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-#### Case-control study for the celiac disease (Dubois et al. 2010)
+#### Case-control study for the celiac disease (WTCCC, Dubois et al. 2010)
 
 - ~15,000 individuals
 
@@ -244,7 +249,7 @@ class: center, middle, inverse
 
 ### Results: real Celiac phenotypes
 
-&lt;img src="figures/results-celiac-prs-logit.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/results-celiac-prs-logit.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 &lt;img src="figures/celiac-roc.svg" width="55%" style="display: block; margin: auto;" /&gt;
 
@@ -271,11 +276,11 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-### Prospects: future work with the UK Biobank
+### Prospects: future work using the UK Biobank
 
 - use of external summary statistics to improve models
 
-- generalization to external populations
+- better generalization to multiple populations
 
 - integration of clinical and environmental data
 
