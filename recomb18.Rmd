@@ -10,7 +10,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      slideNumberFormat: "%current% / 22"
+      slideNumberFormat: "%current% / 23"
 ---
 
 ```{r setup, include=FALSE}
