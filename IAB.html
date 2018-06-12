@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IAB</title>
+    <meta charset="utf-8">
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+# Polygenic Risk Scores for Predictive Medecine and Epidemiology
+
+## Florian Privé &amp; Michael Blum
+
+### IAB - June 15, 2018
+
+---
+
+class: center, middle, inverse
+
+# Introduction
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Disease architectures --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ```{r, out.width="70%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/disease-archi.gif") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- .footnote[Source: 10.1126/science.338.6110.1016]  --&gt;
+
+---
+
+## From genome-wide association studies (GWAS)
+## to polygenic risk scores (PRS)
+
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Manhattan_Plot.png/546px-Manhattan_Plot.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+### One application: to provide genetic evidence
+
+&lt;img src="figures/purcell2009.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Source: 10.1038/nature08185] 
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+### Another application: to identify high risk individuals
+
+&lt;img src="figures/PRS.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Interest in prediction: polygenic risk scores (PRS)
+
+- Wray, Naomi R., Michael E. Goddard, and Peter M. Visscher. "**Prediction of individual genetic risk** to disease from genome-wide association studies." Genome research 17.10 (**2007**): 1520-1528.
+
+- Wray, Naomi R., et al. "Pitfalls of **predicting complex traits** from SNPs." Nature Reviews Genetics 14.7 (**2013**): 507.
+
+- Dudbridge, Frank. "Power and **predictive accuracy of polygenic risk scores**." PLoS genetics 9.3 (**2013**): e1003348.
+
+- Chatterjee, Nilanjan, Jianxin Shi, and Montserrat García-Closas. "Developing and evaluating **polygenic risk prediction** models for stratified disease prevention." Nature Reviews Genetics 17.7 (**2016**): 392.
+
+- Martin, Alicia R., et al. "Human demographic history impacts **genetic risk prediction** across diverse populations." The American Journal of Human Genetics 100.4 (**2017**): 635-649.
+
+.footnote2[Still a gap between current predictions and clinical utility.&lt;/br&gt;Need more optimal predictions + larger sample sizes.]
+
+
+---
+
+## Very large genotype matrices
+
+- previously: 15K x 280K, [celiac disease](https://doi.org/10.1038/ng.543) (~30GB)
+
+- currently: 500K x 500K, [UK Biobank](https://doi.org/10.1101/166298) (~2TB)
+ 
+&lt;img src="https://media.giphy.com/media/3o7bueyxGydy48Lwgo/giphy.gif" width="55%" style="display: block; margin: auto;" /&gt;
+
+.footnote[But I still want to use <i class="fab  fa-r-project "></i>..]
+
+---
+
+## Our two R packages: bigstatsr and bigsnpr
+
+### Statistical tools with big matrices stored on disk
+
+&lt;br&gt;
+
+&lt;a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"&gt;
+&lt;img src="bty185.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;/a&gt;
+
+&lt;br&gt;
+
+- {bigstatsr} for many types of matrix, to be used by any field of research
+
+- {bigsnpr} for functions that are specific to the analysis of genetic data
+
+
+&lt;br&gt;
+
+Package {bigstatsr} provides a **fast penalized logistic regression**.
+
+---
+
+## Methods compared
+
+### The C+T method, from GWAS results
+
+`$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
+
+&lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+Pitfalls: weights learned independently and heuristics for correlation and regularization.
+
+---
+
+---
+
+## Methods compared
+
+### Penalized Logistic Regression
+
+&lt;br&gt;
+
+`$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$` 
+
+&lt;br&gt;
+
+***
+
+- `\(x\)` is denoting the genotypes and covariables (e.g. principal components), 
+
+- `\(y\)` is the disease status we want to predict, 
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
+
+---
+
+### Efficient algorithm
+
+
+- Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
+
+- implemented in R package {biglasso} (Zeng et al., 2017)
+
+- reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion.
+
+---
+
+class: center, middle, inverse
+
+# Results
+
+---
+
+### Higher predictive performance with logit-simple
+
+&lt;br&gt;
+
+&lt;img src="figures/pres-AUC-logit.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+---
+
+### Results: real Celiac phenotypes
+
+&lt;img src="figures/celiac-roc.svg" width="55%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="figures/results-celiac-prs-logit.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# Discussion
+
+---
+
+## Genomics is failing on diversity
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg" alt="Source: 10.1038/538161a" width="60%" /&gt;
+&lt;p class="caption"&gt;Source: 10.1038/538161a&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote[Source: 10.1038/538161a]
+
+---
+
+## What can we do about it?
+
+- use train of other studies (possibly in other populations)
+
+---
+
+## Future work: UK Biobank
+
+UK Biobank is an extremely large dataset with 
+
+ - genetic data
+ 
+ - clinical data
+ 
+ - environmental data
+
+&lt;br&gt;
+
+## Prospects
+
+- training in one population to improve training and prediction in another population
+
+- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+
+---
+
+class: center, middle, inverse
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at
+
+https://privefl.github.io/thesis-docs/IAB.html
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> [privefl](https://twitter.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-github "></i> [privefl](https://github.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-stack-overflow "></i> [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
