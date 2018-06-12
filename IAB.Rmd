@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
 
 class: title-slide center middle inverse
 
-# Polygenic Risk Scores for Predictive Medecine and Epidemiology
+# Polygenic Risk Scores for<br>Predictive Medecine and Epidemiology
 
 ## Florian Privé & Michael Blum
 
@@ -29,28 +29,20 @@ class: center, middle, inverse
 
 # Introduction
 
-<!-- --- -->
-
-<!-- ## Disease architectures -->
-
-<!-- <br> -->
-
-<!-- ```{r, out.width="70%"} -->
-<!-- knitr::include_graphics("figures/disease-archi.gif") -->
-<!-- ``` -->
-
-<!-- .footnote[Source: 10.1126/science.338.6110.1016]  -->
-
 ---
 
-## From genome-wide association studies (GWAS)
-## to polygenic risk scores (PRS)
+## From genome-wide association studies (GWAS)<br>to polygenic risk scores (PRS)
+
+<br>
+
 
 ```{r, out.width="95%"}
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Manhattan_Plot.png/546px-Manhattan_Plot.png")
 ```
 
-$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
+<br>
+
+$$PRS_i = \sum_{\substack{j \in S \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
 
 ---
 
@@ -58,11 +50,9 @@ $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cd
 
 ### One application: to provide genetic evidence
 
-```{r, out.width="60%"}
+```{r, out.width="60%", fig.cap="<small>Source: 10.1038/nature08185</small>"}
 knitr::include_graphics("figures/purcell2009.png")
 ```
-
-.footnote[Source: 10.1038/nature08185] 
 
 ---
 
@@ -107,6 +97,12 @@ knitr::include_graphics("https://media.giphy.com/media/3o7bueyxGydy48Lwgo/giphy.
 
 ---
 
+class: center, middle, inverse
+
+# What we have done
+
+---
+
 ## Our two R packages: bigstatsr and bigsnpr
 
 ### Statistical tools with big matrices stored on disk
@@ -115,7 +111,7 @@ knitr::include_graphics("https://media.giphy.com/media/3o7bueyxGydy48Lwgo/giphy.
 
 <a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
 ```{r, out.width='70%'}
-knitr::include_graphics("bty185.png")
+knitr::include_graphics("figures/bty185.png")
 ```
 </a>
 
@@ -128,74 +124,64 @@ knitr::include_graphics("bty185.png")
 
 <br>
 
-Package {bigstatsr} provides a **fast penalized logistic regression**.
+Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 ---
 
-## Methods compared
+<!-- ## Methods compared -->
 
-### The C+T method, from GWAS results
+<!-- ### The C+T method, from GWAS results -->
 
-$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$
+<!-- $$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j < p_T\} \cdot \beta_j \cdot G_{i,j}$$ -->
 
-```{r, out.width="70%"}
-knitr::include_graphics("figures/celiac-gwas-cut.png")
-```
+<!-- ```{r, out.width="70%"} -->
+<!-- knitr::include_graphics("figures/celiac-gwas-cut.png") -->
+<!-- ``` -->
 
-Pitfalls: weights learned independently and heuristics for correlation and regularization.
+<!-- Pitfalls: weights learned independently and heuristics for correlation and regularization. -->
 
----
+<!-- --- -->
 
----
+<!-- ## Methods compared -->
 
-## Methods compared
+<!-- ### Penalized Logistic Regression -->
 
-### Penalized Logistic Regression
+<!-- <br> -->
+
+<!-- $$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$  -->
+
+<!-- <br> -->
+
+<!-- *** -->
+
+<!-- - $x$ is denoting the genotypes and covariables (e.g. principal components),  -->
+
+<!-- - $y$ is the disease status we want to predict,  -->
+
+<!-- - $\lambda$ is a regularization parameter that needs to be determined and -->
+
+<!-- - $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$.  -->
+
+<!-- --- -->
+
+<!-- ### Efficient algorithm -->
+
+
+<!-- - Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012) -->
+
+<!-- - implemented in R package {biglasso} (Zeng et al., 2017) -->
+
+<!-- - reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion. -->
+
+<!-- --- -->
+
+### Higher predictive performance with penalized logistic regression
 
 <br>
 
-$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$ 
-
-<br>
-
-***
-
-- $x$ is denoting the genotypes and covariables (e.g. principal components), 
-
-- $y$ is the disease status we want to predict, 
-
-- $\lambda$ is a regularization parameter that needs to be determined and
-
-- $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
-
----
-
-### Efficient algorithm
-
-
-- Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
-
-- implemented in R package {biglasso} (Zeng et al., 2017)
-
-- reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion.
-
----
-
-class: center, middle, inverse
-
-# Results
-
----
-
-### Higher predictive performance with logit-simple
-
-<br>
-
-```{r}
+```{r, out.width="75%"}
 knitr::include_graphics("figures/pres-AUC-logit.svg")
 ```
-
----
 
 ---
 
@@ -213,23 +199,29 @@ knitr::include_graphics("figures/results-celiac-prs-logit.png")
 
 class: center, middle, inverse
 
-# Discussion
+# What we want to do
 
 ---
 
 ## Genomics is failing on diversity
 
-```{r, out.width="60%", fig.scap="Source: 10.1038/538161a", fig.cap="Source: 10.1038/538161a"}
+```{r, out.width="70%", fig.cap="<small>Source: 10.1038/538161a</small>"}
 knitr::include_graphics("figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg")
 ```
-
-.footnote[Source: 10.1038/538161a]
 
 ---
 
 ## What can we do about it?
 
-- use train of other studies (possibly in other populations)
+<br>
+
+We can use information from other studies (possibly in other populations)
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/update-base-pred.png")
+```
 
 ---
 

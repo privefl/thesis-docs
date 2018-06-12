@@ -15,7 +15,7 @@
 
 class: title-slide center middle inverse
 
-# Polygenic Risk Scores for Predictive Medecine and Epidemiology
+# Polygenic Risk Scores for&lt;br&gt;Predictive Medecine and Epidemiology
 
 ## Florian Privé &amp; Michael Blum
 
@@ -27,26 +27,18 @@ class: center, middle, inverse
 
 # Introduction
 
-&lt;!-- --- --&gt;
-
-&lt;!-- ## Disease architectures --&gt;
-
-&lt;!-- &lt;br&gt; --&gt;
-
-&lt;!-- ```{r, out.width="70%"} --&gt;
-&lt;!-- knitr::include_graphics("figures/disease-archi.gif") --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- .footnote[Source: 10.1126/science.338.6110.1016]  --&gt;
-
 ---
 
-## From genome-wide association studies (GWAS)
-## to polygenic risk scores (PRS)
+## From genome-wide association studies (GWAS)&lt;br&gt;to polygenic risk scores (PRS)
+
+&lt;br&gt;
+
 
 &lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Manhattan_Plot.png/546px-Manhattan_Plot.png" width="95%" style="display: block; margin: auto;" /&gt;
 
-`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+&lt;br&gt;
+
+`$$PRS_i = \sum_{\substack{j \in S \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
 
 ---
 
@@ -54,9 +46,10 @@ class: center, middle, inverse
 
 ### One application: to provide genetic evidence
 
-&lt;img src="figures/purcell2009.png" width="60%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Source: 10.1038/nature08185] 
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/purcell2009.png" alt="&amp;lt;small&amp;gt;Source: 10.1038/nature08185&amp;lt;/small&amp;gt;" width="60%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1038/nature08185&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
 
 ---
 
@@ -97,6 +90,12 @@ class: center, middle, inverse
 
 ---
 
+class: center, middle, inverse
+
+# What we have done
+
+---
+
 ## Our two R packages: bigstatsr and bigsnpr
 
 ### Statistical tools with big matrices stored on disk
@@ -104,7 +103,7 @@ class: center, middle, inverse
 &lt;br&gt;
 
 &lt;a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"&gt;
-&lt;img src="bty185.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/bty185.png" width="70%" style="display: block; margin: auto;" /&gt;
 &lt;/a&gt;
 
 &lt;br&gt;
@@ -116,70 +115,62 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-Package {bigstatsr} provides a **fast penalized logistic regression**.
+Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 ---
 
-## Methods compared
+&lt;!-- ## Methods compared --&gt;
 
-### The C+T method, from GWAS results
+&lt;!-- ### The C+T method, from GWAS results --&gt;
 
-`$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$`
+&lt;!-- `$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$` --&gt;
 
-&lt;img src="figures/celiac-gwas-cut.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;!-- ```{r, out.width="70%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/celiac-gwas-cut.png") --&gt;
+&lt;!-- ``` --&gt;
 
-Pitfalls: weights learned independently and heuristics for correlation and regularization.
+&lt;!-- Pitfalls: weights learned independently and heuristics for correlation and regularization. --&gt;
 
----
+&lt;!-- --- --&gt;
 
----
+&lt;!-- ## Methods compared --&gt;
 
-## Methods compared
+&lt;!-- ### Penalized Logistic Regression --&gt;
 
-### Penalized Logistic Regression
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- `$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$`  --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- *** --&gt;
+
+&lt;!-- - `\(x\)` is denoting the genotypes and covariables (e.g. principal components),  --&gt;
+
+&lt;!-- - `\(y\)` is the disease status we want to predict,  --&gt;
+
+&lt;!-- - `\(\lambda\)` is a regularization parameter that needs to be determined and --&gt;
+
+&lt;!-- - `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`.  --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ### Efficient algorithm --&gt;
+
+
+&lt;!-- - Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012) --&gt;
+
+&lt;!-- - implemented in R package {biglasso} (Zeng et al., 2017) --&gt;
+
+&lt;!-- - reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion. --&gt;
+
+&lt;!-- --- --&gt;
+
+### Higher predictive performance with penalized logistic regression
 
 &lt;br&gt;
 
-`$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$` 
-
-&lt;br&gt;
-
-***
-
-- `\(x\)` is denoting the genotypes and covariables (e.g. principal components), 
-
-- `\(y\)` is the disease status we want to predict, 
-
-- `\(\lambda\)` is a regularization parameter that needs to be determined and
-
-- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
-
----
-
-### Efficient algorithm
-
-
-- Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012)
-
-- implemented in R package {biglasso} (Zeng et al., 2017)
-
-- reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion.
-
----
-
-class: center, middle, inverse
-
-# Results
-
----
-
-### Higher predictive performance with logit-simple
-
-&lt;br&gt;
-
-&lt;img src="figures/pres-AUC-logit.svg" style="display: block; margin: auto;" /&gt;
-
----
+&lt;img src="figures/pres-AUC-logit.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -193,24 +184,28 @@ class: center, middle, inverse
 
 class: center, middle, inverse
 
-# Discussion
+# What we want to do
 
 ---
 
 ## Genomics is failing on diversity
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg" alt="Source: 10.1038/538161a" width="60%" /&gt;
-&lt;p class="caption"&gt;Source: 10.1038/538161a&lt;/p&gt;
+&lt;img src="figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg" alt="&amp;lt;small&amp;gt;Source: 10.1038/538161a&amp;lt;/small&amp;gt;" width="70%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1038/538161a&lt;/small&gt;&lt;/p&gt;
 &lt;/div&gt;
-
-.footnote[Source: 10.1038/538161a]
 
 ---
 
 ## What can we do about it?
 
-- use train of other studies (possibly in other populations)
+&lt;br&gt;
+
+We can use information from other studies (possibly in other populations)
+
+&lt;br&gt;
+
+&lt;img src="figures/update-base-pred.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
