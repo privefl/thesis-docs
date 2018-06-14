@@ -17,7 +17,7 @@ class: title-slide center middle inverse
 
 # Polygenic Risk Scores for&lt;br&gt;Predictive Medecine and Epidemiology
 
-## Florian Privé &amp; Michael Blum
+## Florian Privé, Hugues Aschard and Michael Blum
 
 ### IAB - June 15, 2018
 
@@ -42,18 +42,31 @@ class: center, middle, inverse
 
 ---
 
-## Polygenic Risk Scores (PRS)
+## Polygenic Risk Scores (PRS) for epidemiology
 
-### One application: to provide genetic evidence
+&lt;br&gt;
+
+**One application: to provide evidence** for a polygenic contribution to a trait or a shared polygenic relationship between traits.
+
+&lt;br&gt;
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="figures/purcell2009.png" alt="&amp;lt;small&amp;gt;Source: 10.1038/nature08185&amp;lt;/small&amp;gt;" width="60%" /&gt;
+&lt;img src="figures/genomic-profile.png" alt="&amp;lt;small&amp;gt;Source: 10.1111/jcpp.12295&amp;lt;/small&amp;gt;" width="90%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1111/jcpp.12295&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+## Polygenic Risk Scores (PRS) for epidemiology
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/purcell2009.png" alt="&amp;lt;small&amp;gt;Source: 10.1038/nature08185&amp;lt;/small&amp;gt;" width="75%" /&gt;
 &lt;p class="caption"&gt;&lt;small&gt;Source: 10.1038/nature08185&lt;/small&gt;&lt;/p&gt;
 &lt;/div&gt;
 
 ---
 
-## Polygenic Risk Scores (PRS)
+## Polygenic Risk Scores (PRS) for predictive medicine
 
 ### Another application: to identify high risk individuals
 
@@ -119,39 +132,71 @@ Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 ---
 
-&lt;!-- ## Methods compared --&gt;
+## Standard PRS - part 1: estimating effects
 
-&lt;!-- ### The C+T method, from GWAS results --&gt;
+### Genome-wide association studies (GWAS)
 
-&lt;!-- `$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$` --&gt;
+In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP. 
 
-&lt;!-- ```{r, out.width="70%"} --&gt;
-&lt;!-- knitr::include_graphics("figures/celiac-gwas-cut.png") --&gt;
-&lt;!-- ``` --&gt;
+&lt;img src="figures/celiac-gwas-cut.png" width="75%" style="display: block; margin: auto;" /&gt;
 
-&lt;!-- Pitfalls: weights learned independently and heuristics for correlation and regularization. --&gt;
+Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)`
 
-&lt;!-- --- --&gt;
+---
 
-&lt;!-- ## Methods compared --&gt;
+## Standard PRS - part 2: restricting predictors
 
-&lt;!-- ### Penalized Logistic Regression --&gt;
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")
 
-&lt;!-- &lt;br&gt; --&gt;
+&lt;br&gt;
 
-&lt;!-- `$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$`  --&gt;
+&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
 
-&lt;!-- &lt;br&gt; --&gt;
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
 
-&lt;!-- *** --&gt;
+---
 
-&lt;!-- - `\(x\)` is denoting the genotypes and covariables (e.g. principal components),  --&gt;
+## A more optimal approach to computing PRS?
 
-&lt;!-- - `\(y\)` is the disease status we want to predict,  --&gt;
+In C+T: weights learned independently and heuristics for correlation and regularization.
 
-&lt;!-- - `\(\lambda\)` is a regularization parameter that needs to be determined and --&gt;
+#### Statistical learning
 
-&lt;!-- - `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`.  --&gt;
+- joint models of all SNPs at once
+
+- use regularization to account for correlated and null effects
+
+- already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015)
+
+#### Our contribution
+
+- a memory- and computation-efficient implementation to be used for biobank-scale data
+
+- an automatic choice of the regularization hyper-parameter
+
+- a comprehensive comparison for different disease architectures
+
+---
+
+## Comparison of methods for computing PRS
+
+### Penalized Logistic Regression
+
+&lt;br&gt;
+
+`$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$`
+
+&lt;br&gt;
+
+***
+
+- `\(x\)` is denoting the genotypes and covariables (e.g. principal components),
+
+- `\(y\)` is the disease status we want to predict,
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`.
 
 &lt;!-- --- --&gt;
 
@@ -164,7 +209,7 @@ Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 &lt;!-- - reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion. --&gt;
 
-&lt;!-- --- --&gt;
+---
 
 ### Higher predictive performance with penalized logistic regression
 
