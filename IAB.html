@@ -17,7 +17,7 @@ class: title-slide center middle inverse
 
 # Polygenic Risk Scores for&lt;br&gt;Predictive Medecine and Epidemiology
 
-## Florian Privé &amp; Michael Blum
+## Florian Privé, Hugues Aschard and Michael Blum
 
 ### IAB - June 15, 2018
 
@@ -42,18 +42,31 @@ class: center, middle, inverse
 
 ---
 
-## Polygenic Risk Scores (PRS)
+## Polygenic Risk Scores (PRS) for epidemiology
 
-### One application: to provide genetic evidence
+&lt;br&gt;
+
+**One application: to provide evidence** for a polygenic contribution to a trait or a shared polygenic relationship between traits.
+
+&lt;br&gt;
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="figures/purcell2009.png" alt="&amp;lt;small&amp;gt;Source: 10.1038/nature08185&amp;lt;/small&amp;gt;" width="60%" /&gt;
+&lt;img src="figures/genomic-profile.png" alt="&amp;lt;small&amp;gt;Source: 10.1111/jcpp.12295&amp;lt;/small&amp;gt;" width="90%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1111/jcpp.12295&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+## Polygenic Risk Scores (PRS) for epidemiology
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/purcell2009.png" alt="&amp;lt;small&amp;gt;Source: 10.1038/nature08185&amp;lt;/small&amp;gt;" width="75%" /&gt;
 &lt;p class="caption"&gt;&lt;small&gt;Source: 10.1038/nature08185&lt;/small&gt;&lt;/p&gt;
 &lt;/div&gt;
 
 ---
 
-## Polygenic Risk Scores (PRS)
+## Polygenic Risk Scores (PRS) for predictive medicine
 
 ### Another application: to identify high risk individuals
 
@@ -92,7 +105,7 @@ class: center, middle, inverse
 
 class: center, middle, inverse
 
-# What we have done
+# How to analyze large genomic data?
 
 ---
 
@@ -119,39 +132,77 @@ Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 ---
 
-&lt;!-- ## Methods compared --&gt;
+class: center, middle, inverse
 
-&lt;!-- ### The C+T method, from GWAS results --&gt;
+# How to predict disease status&lt;br&gt;based on genotypes?
 
-&lt;!-- `$$PRS_i = \sum_{j \in S_\text{clumping}} \mathbf{1}\{p_j &lt; p_T\} \cdot \beta_j \cdot G_{i,j}$$` --&gt;
+---
 
-&lt;!-- ```{r, out.width="70%"} --&gt;
-&lt;!-- knitr::include_graphics("figures/celiac-gwas-cut.png") --&gt;
-&lt;!-- ``` --&gt;
+## Standard PRS - part 1: estimating effects
 
-&lt;!-- Pitfalls: weights learned independently and heuristics for correlation and regularization. --&gt;
+### Genome-wide association studies (GWAS)
 
-&lt;!-- --- --&gt;
+In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP. 
 
-&lt;!-- ## Methods compared --&gt;
+&lt;img src="figures/celiac-gwas-cut.png" width="75%" style="display: block; margin: auto;" /&gt;
 
-&lt;!-- ### Penalized Logistic Regression --&gt;
+Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)`
 
-&lt;!-- &lt;br&gt; --&gt;
+---
 
-&lt;!-- `$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$`  --&gt;
+## Standard PRS - part 2: restricting predictors
 
-&lt;!-- &lt;br&gt; --&gt;
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")
 
-&lt;!-- *** --&gt;
+&lt;br&gt;
 
-&lt;!-- - `\(x\)` is denoting the genotypes and covariables (e.g. principal components),  --&gt;
+&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
 
-&lt;!-- - `\(y\)` is the disease status we want to predict,  --&gt;
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
 
-&lt;!-- - `\(\lambda\)` is a regularization parameter that needs to be determined and --&gt;
+---
 
-&lt;!-- - `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`.  --&gt;
+## A more optimal approach to computing PRS?
+
+In C+T: weights learned independently and heuristics for correlation and regularization.
+
+#### Statistical learning
+
+- joint models of all SNPs at once
+
+- use regularization to account for correlated and null effects
+
+- already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015)
+
+#### Our contribution
+
+- a memory- and computation-efficient implementation to be used for biobank-scale data
+
+- an automatic choice of the regularization hyper-parameter
+
+- a comprehensive comparison for different disease architectures
+
+---
+
+## Comparison of methods for computing PRS
+
+### Penalized Logistic Regression
+
+&lt;br&gt;
+
+`$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$`
+
+&lt;br&gt;
+
+***
+
+- `\(x\)` is denoting the genotypes and covariables (e.g. principal components),
+
+- `\(y\)` is the disease status we want to predict,
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`.
 
 &lt;!-- --- --&gt;
 
@@ -164,7 +215,7 @@ Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 &lt;!-- - reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion. --&gt;
 
-&lt;!-- --- --&gt;
+---
 
 ### Higher predictive performance with penalized logistic regression
 
@@ -182,9 +233,36 @@ Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 
 ---
 
+### Results: real Celiac phenotypes
+
+&lt;br&gt;
+
+&lt;img src="figures/density-scores.svg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
 class: center, middle, inverse
 
-# What we want to do
+# How to combine the information&lt;br&gt;of multiple studies?
+
+## (possibly of different populations)
+
+---
+
+## Genetics are different between populations
+
+&lt;br&gt;
+
+&lt;img src="figures/PC-1-2.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## which makes predictions fail on external populations
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/pred-pops.jpg" alt="&amp;lt;small&amp;gt;Source: 10.1016/j.ajhg.2017.03.004&amp;lt;/small&amp;gt;" width="63%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1016/j.ajhg.2017.03.004&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
 
 ---
 
@@ -207,25 +285,47 @@ We can use information from other studies (possibly in other populations)
 
 &lt;img src="figures/update-base-pred.png" width="95%" style="display: block; margin: auto;" /&gt;
 
+&lt;br&gt;
+
+**Will this improve prediction?**
+
+&lt;!-- .footnote[This is the topic of our next paper.] --&gt;
+
 ---
 
-## Future work: UK Biobank
-
-UK Biobank is an extremely large dataset with 
-
- - genetic data
- 
- - clinical data
- 
- - environmental data
+## Can we learn more than just prediction?
 
 &lt;br&gt;
 
-## Prospects
+1. Imagine you learn a model on a large european population
 
-- training in one population to improve training and prediction in another population
+1. You project this predictive model on an african population in order to get a base predictor
 
-- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+1. You learn another model on this african population to adjust from this base predictor `$$y_i \sim base_i + \mu + X_i^T \beta$$`
+
+&lt;br&gt;
+
+ **What can we tell about the SNPs that are used in the new model?**
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Future work: UK Biobank --&gt;
+
+&lt;!-- UK Biobank is an extremely large dataset with  --&gt;
+
+&lt;!--  - genetic data --&gt;
+
+&lt;!--  - clinical data --&gt;
+
+&lt;!--  - environmental data --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ## Prospects --&gt;
+
+&lt;!-- - training in one population to improve training and prediction in another population --&gt;
+
+&lt;!-- - assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way --&gt;
 
 ---
 
