@@ -111,7 +111,7 @@ knitr::include_graphics("https://media.giphy.com/media/3o7bueyxGydy48Lwgo/giphy.
 
 class: center, middle, inverse
 
-# What we have done
+# How to analyze large genomic data?
 
 ---
 
@@ -137,6 +137,12 @@ knitr::include_graphics("figures/bty185.png")
 <br>
 
 Package {bigstatsr} provides fast PCA, association and predictive models, etc.
+
+---
+
+class: center, middle, inverse
+
+# How to predict disease status<br>based on genotypes?
 
 ---
 
@@ -245,9 +251,39 @@ knitr::include_graphics("figures/results-celiac-prs-logit.png")
 
 ---
 
+### Results: real Celiac phenotypes
+
+<br>
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/density-scores.svg")
+```
+
+---
+
 class: center, middle, inverse
 
-# What we want to do
+# How to combine the information<br>of multiple studies?
+
+## (possibly of different populations)
+
+---
+
+## Genetics are different between populations
+
+<br>
+
+```{r, out.width="75%"}
+knitr::include_graphics("figures/PC-1-2.png")
+```
+
+---
+
+## which makes predictions fail on external populations
+
+```{r, out.width="63%", fig.cap="<small>Source: 10.1016/j.ajhg.2017.03.004</small>"}
+knitr::include_graphics("figures/pred-pops.jpg")
+```
 
 ---
 
@@ -271,25 +307,47 @@ We can use information from other studies (possibly in other populations)
 knitr::include_graphics("figures/update-base-pred.png")
 ```
 
+<br>
+
+**Will this improve prediction?**
+
+<!-- .footnote[This is the topic of our next paper.] -->
+
 ---
 
-## Future work: UK Biobank
-
-UK Biobank is an extremely large dataset with 
-
- - genetic data
- 
- - clinical data
- 
- - environmental data
+## Can we learn more than just prediction?
 
 <br>
 
-## Prospects
+1. Imagine you learn a model on a large european population
 
-- training in one population to improve training and prediction in another population
+1. You project this predictive model on an african population in order to get a base predictor
 
-- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+1. You learn another model on this african population to adjust from this base predictor $$y_i \sim base_i + \mu + X_i^T \beta$$
+
+<br>
+
+ **What can we tell about the SNPs that are used in the new model?**
+
+<!-- --- -->
+
+<!-- ## Future work: UK Biobank -->
+
+<!-- UK Biobank is an extremely large dataset with  -->
+
+<!--  - genetic data -->
+
+<!--  - clinical data -->
+
+<!--  - environmental data -->
+
+<!-- <br> -->
+
+<!-- ## Prospects -->
+
+<!-- - training in one population to improve training and prediction in another population -->
+
+<!-- - assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way -->
 
 ---
 

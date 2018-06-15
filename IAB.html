@@ -105,7 +105,7 @@ class: center, middle, inverse
 
 class: center, middle, inverse
 
-# What we have done
+# How to analyze large genomic data?
 
 ---
 
@@ -129,6 +129,12 @@ class: center, middle, inverse
 &lt;br&gt;
 
 Package {bigstatsr} provides fast PCA, association and predictive models, etc.
+
+---
+
+class: center, middle, inverse
+
+# How to predict disease status&lt;br&gt;based on genotypes?
 
 ---
 
@@ -227,9 +233,36 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 ---
 
+### Results: real Celiac phenotypes
+
+&lt;br&gt;
+
+&lt;img src="figures/density-scores.svg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
 class: center, middle, inverse
 
-# What we want to do
+# How to combine the information&lt;br&gt;of multiple studies?
+
+## (possibly of different populations)
+
+---
+
+## Genetics are different between populations
+
+&lt;br&gt;
+
+&lt;img src="figures/PC-1-2.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## which makes predictions fail on external populations
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/pred-pops.jpg" alt="&amp;lt;small&amp;gt;Source: 10.1016/j.ajhg.2017.03.004&amp;lt;/small&amp;gt;" width="63%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1016/j.ajhg.2017.03.004&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
 
 ---
 
@@ -252,25 +285,47 @@ We can use information from other studies (possibly in other populations)
 
 &lt;img src="figures/update-base-pred.png" width="95%" style="display: block; margin: auto;" /&gt;
 
+&lt;br&gt;
+
+**Will this improve prediction?**
+
+&lt;!-- .footnote[This is the topic of our next paper.] --&gt;
+
 ---
 
-## Future work: UK Biobank
-
-UK Biobank is an extremely large dataset with 
-
- - genetic data
- 
- - clinical data
- 
- - environmental data
+## Can we learn more than just prediction?
 
 &lt;br&gt;
 
-## Prospects
+1. Imagine you learn a model on a large european population
 
-- training in one population to improve training and prediction in another population
+1. You project this predictive model on an african population in order to get a base predictor
 
-- assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way
+1. You learn another model on this african population to adjust from this base predictor `$$y_i \sim base_i + \mu + X_i^T \beta$$`
+
+&lt;br&gt;
+
+ **What can we tell about the SNPs that are used in the new model?**
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Future work: UK Biobank --&gt;
+
+&lt;!-- UK Biobank is an extremely large dataset with  --&gt;
+
+&lt;!--  - genetic data --&gt;
+
+&lt;!--  - clinical data --&gt;
+
+&lt;!--  - environmental data --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ## Prospects --&gt;
+
+&lt;!-- - training in one population to improve training and prediction in another population --&gt;
+
+&lt;!-- - assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way --&gt;
 
 ---
 
