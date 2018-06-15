@@ -1,0 +1,49 @@
+---
+title: "Too many predictors?"
+author: "Florian Privé"
+date: "June 15, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+## Assumptions
+
+- heritability of 0.8
+
+    ```{r}
+    h2 <- 0.8
+    ```
+
+- SNP heritability as a function of number of SNPs
+
+    ```{r}
+    h2_SNP <- function(h2, p) {
+      h2 * (1 - exp(-log(1 + p) / 3))
+    }
+    curve(h2_SNP(h2, x), from = 1, to = 1e7, log = "x")
+    ```
+
+- possible prediction (correlation) as a function of the sample size (n), the number of SNPs (p), and the heritability (h2)
+
+    ```{r}
+    r2_SNP <- function(h2, n, p) {
+      h2 <- h2_SNP(h2, p)
+      ratio <- n / p * h2
+      h2 * ratio / (ratio + 1)
+    }
+    ```
+
+## Results
+
+```{r}
+plot(NULL, xlim = c(1, 1e7), ylim = c(0, h2), log = "x", xlab = "p", ylab = "R2")
+seq_n <- 10^(2:7)
+for (i in seq_along(seq_n)) {
+  curve(r2_SNP(h2, seq_n[i], x), col = i, lwd = 2, add = TRUE)
+}
+legend("topleft", legend = seq_n, title = "n",
+       col = seq_along(seq_n), lty = 1, lwd = 2)
+```
