@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Data Club</title>
+    <meta charset="utf-8">
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+# High-dimensional data:&lt;br&gt;a different kind of big data
+
+## Florian Privé
+
+### Data Club - June 27, 2018
+
+---
+
+class: center, middle, inverse
+
+# Introduction
+
+---
+
+## The data I work with: very large genotype matrices
+
+&lt;br&gt;
+
+- Each variable (column): number of mutations for **one position of the genome** (generally between 100,000 to several millions) -&gt; **ultra-high dimensional** data
+
+&lt;img src="https://jmtomko.files.wordpress.com/2015/12/dna-double-helix.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+- Each observation (row): one individual (generally between 1000 and 1M)
+
+.footnote[Example of a dataset I previously worked with: 15K x 280K, [celiac disease](https://doi.org/10.1038/ng.543) (~30GB)]
+
+---
+
+class: center, middle, inverse
+
+# What types of analysis we do?
+
+## (and how?)
+
+---
+
+## Principal Component Analysis (PCA)&lt;br&gt;captures population structure
+
+&lt;br&gt;
+
+&lt;img src="figures/PC-1-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Partial PCA algorithm
+
+&lt;br&gt;
+
+- Before (for `\(n &lt; 10,000\)`), we got the eigen decomposition from `\(X X^T\)` (an `\(n \times n\)` matrix). It is impossible to do it with `\(X^T X\)` because `\(p\)` is too large.
+
+.footnote[n is the number of individuals and p the number of variables.]
+
+- **Now n is also large** (both dimensions of the matrix are large), then we use algorithms based on random projections to get first PCs (usually we are interested in only first 10-20 PCs).
+
+&lt;br&gt;
+
+With my implementation, you can get first 10 PCs of a 15K x 100K matrix in one minute only.
+
+---
+
+&lt;!-- class: center, middle, inverse --&gt;
+
+&lt;!-- # How to analyze large genomic data? --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Our two R packages: bigstatsr and bigsnpr --&gt;
+
+&lt;!-- ### Statistical tools with big matrices stored on disk --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- &lt;a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"&gt; --&gt;
+&lt;!-- ```{r, out.width='70%'} --&gt;
+&lt;!-- knitr::include_graphics("figures/bty185.png") --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/a&gt; --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- - {bigstatsr} for many types of matrix, to be used by any field of research --&gt;
+
+&lt;!-- - {bigsnpr} for functions that are specific to the analysis of genetic data --&gt;
+
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- Package {bigstatsr} provides fast PCA, association and predictive models, etc. --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- class: center, middle, inverse --&gt;
+
+&lt;!-- # How to predict disease status&lt;br&gt;based on genotypes? --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Standard PRS - part 1: estimating effects --&gt;
+
+&lt;!-- ### Genome-wide association studies (GWAS) --&gt;
+
+&lt;!-- In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP.  --&gt;
+
+&lt;!-- ```{r, out.width="75%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/celiac-gwas-cut.png") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Standard PRS - part 2: restricting predictors --&gt;
+
+&lt;!-- ### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS") --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ```{r, out.width="90%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/GWAS2PRS.png") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- `$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## A more optimal approach to computing PRS? --&gt;
+
+&lt;!-- In C+T: weights learned independently and heuristics for correlation and regularization. --&gt;
+
+&lt;!-- #### Statistical learning --&gt;
+
+&lt;!-- - joint models of all SNPs at once --&gt;
+
+&lt;!-- - use regularization to account for correlated and null effects --&gt;
+
+&lt;!-- - already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015) --&gt;
+
+&lt;!-- #### Our contribution --&gt;
+
+&lt;!-- - a memory- and computation-efficient implementation to be used for biobank-scale data --&gt;
+
+&lt;!-- - an automatic choice of the regularization hyper-parameter --&gt;
+
+&lt;!-- - a comprehensive comparison for different disease architectures --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Comparison of methods for computing PRS --&gt;
+
+&lt;!-- ### Penalized Logistic Regression --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- `$$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$` --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- *** --&gt;
+
+&lt;!-- - `\(x\)` is denoting the genotypes and covariables (e.g. principal components), --&gt;
+
+&lt;!-- - `\(y\)` is the disease status we want to predict, --&gt;
+
+&lt;!-- - `\(\lambda\)` is a regularization parameter that needs to be determined and --&gt;
+
+&lt;!-- - `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. --&gt;
+
+&lt;!-- &lt;!-- --- --&gt; --&gt;
+
+&lt;!-- &lt;!-- ### Efficient algorithm --&gt; --&gt;
+
+
+&lt;!-- &lt;!-- - Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012) --&gt; --&gt;
+
+&lt;!-- &lt;!-- - implemented in R package {biglasso} (Zeng et al., 2017) --&gt; --&gt;
+
+&lt;!-- &lt;!-- - reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion. --&gt; --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ### Higher predictive performance with penalized logistic regression --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ```{r, out.width="75%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/pres-AUC-logit.svg") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ### Results: real Celiac phenotypes --&gt;
+
+&lt;!-- ```{r, out.width="55%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/celiac-roc.svg") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- ```{r, out.width="90%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/results-celiac-prs-logit.png") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ### Results: real Celiac phenotypes --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ```{r, out.width="90%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/density-scores.svg") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- class: center, middle, inverse --&gt;
+
+&lt;!-- # How to combine the information&lt;br&gt;of multiple studies? --&gt;
+
+&lt;!-- ## (possibly of different populations) --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Genetics are different between populations --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ```{r, out.width="75%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/PC-1-2.png") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## which makes predictions fail on external populations --&gt;
+
+&lt;!-- ```{r, out.width="63%", fig.cap="&lt;small&gt;Source: 10.1016/j.ajhg.2017.03.004&lt;/small&gt;"} --&gt;
+&lt;!-- knitr::include_graphics("figures/pred-pops.jpg") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Genomics is failing on diversity --&gt;
+
+&lt;!-- ```{r, out.width="70%", fig.cap="&lt;small&gt;Source: 10.1038/538161a&lt;/small&gt;"} --&gt;
+&lt;!-- knitr::include_graphics("figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## What can we do about it? --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- We can use information from other studies (possibly in other populations) --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- ```{r, out.width="95%"} --&gt;
+&lt;!-- knitr::include_graphics("figures/update-base-pred.png") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- **Will this improve prediction?** --&gt;
+
+&lt;!-- &lt;!-- .footnote[This is the topic of our next paper.] --&gt; --&gt;
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Can we learn more than just prediction? --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- 1. Imagine you learn a model on a large european population --&gt;
+
+&lt;!-- 1. You project this predictive model on an african population in order to get a base predictor --&gt;
+
+&lt;!-- 1. You learn another model on this african population to adjust from this base predictor `$$y_i \sim base_i + \mu + X_i^T \beta$$` --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!--  **What can we tell about the SNPs that are used in the new model?** --&gt;
+
+&lt;!-- &lt;!-- --- --&gt; --&gt;
+
+&lt;!-- &lt;!-- ## Future work: UK Biobank --&gt; --&gt;
+
+&lt;!-- &lt;!-- UK Biobank is an extremely large dataset with  --&gt; --&gt;
+
+&lt;!-- &lt;!--  - genetic data --&gt; --&gt;
+
+&lt;!-- &lt;!--  - clinical data --&gt; --&gt;
+
+&lt;!-- &lt;!--  - environmental data --&gt; --&gt;
+
+&lt;!-- &lt;!-- &lt;br&gt; --&gt; --&gt;
+
+&lt;!-- &lt;!-- ## Prospects --&gt; --&gt;
+
+&lt;!-- &lt;!-- - training in one population to improve training and prediction in another population --&gt; --&gt;
+
+&lt;!-- &lt;!-- - assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way --&gt; --&gt;
+
+---
+
+class: center, middle, inverse
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at
+
+https://privefl.github.io/thesis-docs/data-club.html
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> [privefl](https://twitter.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-github "></i> [privefl](https://github.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-stack-overflow "></i> [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via R package [**xaringan**](https://github.com/yihui/xaringan).]
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
