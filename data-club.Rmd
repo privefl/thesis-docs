@@ -71,7 +71,7 @@ knitr::include_graphics("figures/PC-1-2.png")
 
 <br>
 
-- Before (for $n < 10,000$), we got the eigen decomposition from $X X^T$ (an $n \times n$ matrix). It is impossible to do it with $X^T X$ because $p$ is too large.
+- If $n$ is not to large (say $n < 10,000$), you can use the eigen decomposition from $X X^T$ (an $n \times n$ matrix). It is impossible to do it with $X^T X$ because $p$ is too large.
 
 .footnote[n is the number of individuals and p the number of variables.]
 
@@ -83,245 +83,103 @@ With my implementation, you can get first 10 PCs of a 15K x 100K matrix in one m
 
 ---
 
-<!-- class: center, middle, inverse -->
+## Genome-wide association studies
 
-<!-- # How to analyze large genomic data? -->
+For linear regression, a t-test is performed **for each variable** $j$ on $\beta^{(j)}$ where
+\begin{multline}
+  \hat{y} = \alpha^{(j)} + \beta^{(j)} X^{(j)} + \gamma_1^{(j)} PC_1 + \cdots + \gamma_K^{(j)} PC_K \\ + \delta_1^{(j)} COV_1 + \cdots + \delta_K^{(j)} COV_L~,
+\end{multline}
+and $K$ is the number of principal components and $L$ is the number of other covariates (such as age and gender). 
 
-<!-- --- -->
+<br>
 
-<!-- ## Our two R packages: bigstatsr and bigsnpr -->
+Similarly, for logistic regression, a Z-test is performed for each variable $j$ on $\beta^{(j)}$ where
+\begin{multline}
+  \log{\left(\frac{\hat{p}}{1-\hat{p}}\right)} = \alpha^{(j)} + \beta^{(j)} X^{(j)} + \gamma_1^{(j)} PC_1 + \cdots + \gamma_K^{(j)} PC_K \\ + \delta_1^{(j)} COV_1 + \cdots + \delta_K^{(j)} COV_L~,
+\end{multline}
+and $\hat{p} = \mathbb{P}(Y = 1)$ and $Y$ denotes the binary phenotype.
 
-<!-- ### Statistical tools with big matrices stored on disk -->
+---
 
-<!-- <br> -->
+## Genome-wide association studies
 
-<!-- <a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"> -->
-<!-- ```{r, out.width='70%'} -->
-<!-- knitr::include_graphics("figures/bty185.png") -->
-<!-- ``` -->
-<!-- </a> -->
+### Which genes are associated with the disease?
 
-<!-- <br> -->
+Here, you do ~1M tests, so beware **multiple testing**!
 
-<!-- - {bigstatsr} for many types of matrix, to be used by any field of research -->
+<br>
 
-<!-- - {bigsnpr} for functions that are specific to the analysis of genetic data -->
+```{r, out.width='85%'}
+knitr::include_graphics("figures/celiac-gwas-cut.png")
+```
 
+---
 
-<!-- <br> -->
+talk about linear algebra tricks?
 
-<!-- Package {bigstatsr} provides fast PCA, association and predictive models, etc. -->
+---
 
-<!-- --- -->
+## Prediction
 
-<!-- class: center, middle, inverse -->
+Can you fit a statistical learning model when you have more variables than observations ($n > p$)?
 
-<!-- # How to predict disease status<br>based on genotypes? -->
+<br>
 
-<!-- --- -->
+## Quiz
 
-<!-- ## Standard PRS - part 1: estimating effects -->
+How can you do?
 
-<!-- ### Genome-wide association studies (GWAS) -->
+---
 
-<!-- In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each SNP.  -->
+## Regularization / Penalization
 
-<!-- ```{r, out.width="75%"} -->
-<!-- knitr::include_graphics("figures/celiac-gwas-cut.png") -->
-<!-- ``` -->
+Minimize
 
-<!-- Easy combining: $PRS_i = \sum \hat\beta_j \cdot G_{i,j}$ -->
+$$F(\lambda, \alpha) = \text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}$$
 
-<!-- --- -->
+Different regularizations can be used to prevent overfitting, among other benefits: 
 
-<!-- ## Standard PRS - part 2: restricting predictors -->
+- the L2-regularization ("ridge") shrinks coefficients and is ideal if there are many predictors drawn from a Gaussian distribution (corresponds to $\alpha = 0$ in the previous equation)
 
-<!-- ### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> ("C+T" or just "PRS") -->
+- the L1-regularization ("lasso") forces some of the coefficients to be equal to zero and can be used as a means of variable selection, leading to sparse models (corresponds to $\alpha = 1$)
 
-<!-- <br> -->
+- the L1- and L2-regularization ("elastic-net") is a compromise between the two previous penalties and is particularly useful in the $p \gg n$ situation, or any situation involving many correlated predictors (corresponds to $0 < \alpha < 1$).
 
-<!-- ```{r, out.width="90%"} -->
-<!-- knitr::include_graphics("figures/GWAS2PRS.png") -->
-<!-- ``` -->
+---
 
-<!-- $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$ -->
+### Predict Celiac disease
 
-<!-- --- -->
+<br>
 
-<!-- ## A more optimal approach to computing PRS? -->
+```{r, out.width="90%"}
+knitr::include_graphics("figures/density-scores.svg")
+```
 
-<!-- In C+T: weights learned independently and heuristics for correlation and regularization. -->
+---
 
-<!-- #### Statistical learning -->
+class: center, middle, inverse
 
-<!-- - joint models of all SNPs at once -->
+# How to analyze large genomic data?
 
-<!-- - use regularization to account for correlated and null effects -->
+---
 
-<!-- - already proved useful in the litterature (Abraham et al. 2013; Okser et al. 2014; Spiliopoulou et al. 2015) -->
+## Our two R packages: bigstatsr and bigsnpr
 
-<!-- #### Our contribution -->
+### Statistical tools with big matrices stored on disk
 
-<!-- - a memory- and computation-efficient implementation to be used for biobank-scale data -->
+<br>
 
-<!-- - an automatic choice of the regularization hyper-parameter -->
+<a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
+```{r, out.width='70%'}
+knitr::include_graphics("figures/bty185.png")
+```
+</a>
 
-<!-- - a comprehensive comparison for different disease architectures -->
+<br>
 
-<!-- --- -->
+- {bigstatsr} for many types of matrix, to be used by any field of research
 
-<!-- ## Comparison of methods for computing PRS -->
-
-<!-- ### Penalized Logistic Regression -->
-
-<!-- <br> -->
-
-<!-- $$\arg\!\min_{\beta_0, \beta}(\lambda, \alpha)\left\{\underbrace{\frac{1}{n}\sum_{i=1}^n \log\left(1+e^{-y_i (\beta_0+x_i^T\beta)}\right)}_\text{Loss function} + \underbrace{\lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right)}_\text{Penalization}\right\}$$ -->
-
-<!-- <br> -->
-
-<!-- *** -->
-
-<!-- - $x$ is denoting the genotypes and covariables (e.g. principal components), -->
-
-<!-- - $y$ is the disease status we want to predict, -->
-
-<!-- - $\lambda$ is a regularization parameter that needs to be determined and -->
-
-<!-- - $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. -->
-
-<!-- <!-- --- --> -->
-
-<!-- <!-- ### Efficient algorithm --> -->
-
-
-<!-- <!-- - Strong rules for discarding predictors in lasso-type problems (Tibshirani et al., 2012) --> -->
-
-<!-- <!-- - implemented in R package {biglasso} (Zeng et al., 2017) --> -->
-
-<!-- <!-- - reimplemented in R package {bigstatsr} (Privé et al., 2018) with an early stopping criterion. --> -->
-
-<!-- --- -->
-
-<!-- ### Higher predictive performance with penalized logistic regression -->
-
-<!-- <br> -->
-
-<!-- ```{r, out.width="75%"} -->
-<!-- knitr::include_graphics("figures/pres-AUC-logit.svg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- ### Results: real Celiac phenotypes -->
-
-<!-- ```{r, out.width="55%"} -->
-<!-- knitr::include_graphics("figures/celiac-roc.svg") -->
-<!-- ``` -->
-
-<!-- ```{r, out.width="90%"} -->
-<!-- knitr::include_graphics("figures/results-celiac-prs-logit.png") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- ### Results: real Celiac phenotypes -->
-
-<!-- <br> -->
-
-<!-- ```{r, out.width="90%"} -->
-<!-- knitr::include_graphics("figures/density-scores.svg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- class: center, middle, inverse -->
-
-<!-- # How to combine the information<br>of multiple studies? -->
-
-<!-- ## (possibly of different populations) -->
-
-<!-- --- -->
-
-<!-- ## Genetics are different between populations -->
-
-<!-- <br> -->
-
-<!-- ```{r, out.width="75%"} -->
-<!-- knitr::include_graphics("figures/PC-1-2.png") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- ## which makes predictions fail on external populations -->
-
-<!-- ```{r, out.width="63%", fig.cap="<small>Source: 10.1016/j.ajhg.2017.03.004</small>"} -->
-<!-- knitr::include_graphics("figures/pred-pops.jpg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- ## Genomics is failing on diversity -->
-
-<!-- ```{r, out.width="70%", fig.cap="<small>Source: 10.1038/538161a</small>"} -->
-<!-- knitr::include_graphics("figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-<!-- ## What can we do about it? -->
-
-<!-- <br> -->
-
-<!-- We can use information from other studies (possibly in other populations) -->
-
-<!-- <br> -->
-
-<!-- ```{r, out.width="95%"} -->
-<!-- knitr::include_graphics("figures/update-base-pred.png") -->
-<!-- ``` -->
-
-<!-- <br> -->
-
-<!-- **Will this improve prediction?** -->
-
-<!-- <!-- .footnote[This is the topic of our next paper.] --> -->
-
-<!-- --- -->
-
-<!-- ## Can we learn more than just prediction? -->
-
-<!-- <br> -->
-
-<!-- 1. Imagine you learn a model on a large european population -->
-
-<!-- 1. You project this predictive model on an african population in order to get a base predictor -->
-
-<!-- 1. You learn another model on this african population to adjust from this base predictor $$y_i \sim base_i + \mu + X_i^T \beta$$ -->
-
-<!-- <br> -->
-
-<!--  **What can we tell about the SNPs that are used in the new model?** -->
-
-<!-- <!-- --- --> -->
-
-<!-- <!-- ## Future work: UK Biobank --> -->
-
-<!-- <!-- UK Biobank is an extremely large dataset with  --> -->
-
-<!-- <!--  - genetic data --> -->
-
-<!-- <!--  - clinical data --> -->
-
-<!-- <!--  - environmental data --> -->
-
-<!-- <!-- <br> --> -->
-
-<!-- <!-- ## Prospects --> -->
-
-<!-- <!-- - training in one population to improve training and prediction in another population --> -->
-
-<!-- <!-- - assess how can we combine the information provided by genetic data with clinical and environmental data, possibly in a non-linear way --> -->
+- {bigsnpr} for functions that are specific to the analysis of genetic data
 
 ---
 
