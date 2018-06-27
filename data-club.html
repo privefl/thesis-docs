@@ -61,15 +61,19 @@ class: center, middle, inverse
 
 ---
 
-### Partial PCA algorithm
+## Partial PCA algorithm
 
 &lt;br&gt;
 
-- If `\(n\)` is not to large (say `\(n &lt; 10,000\)`), you can use the eigen decomposition from `\(X X^T\)` (an `\(n \times n\)` matrix). It is impossible to do it with `\(X^T X\)` because `\(p\)` is too large.
+You have a matrix `\(X\)` with `\(n\)` observations (rows) and `\(p\)` variables (columns).
 
-.footnote[n is the number of individuals and p the number of variables.]
+&lt;br&gt;
 
-- **Now n is also large** (both dimensions of the matrix are large), then we use algorithms based on random projections to get first PCs (usually we are interested in only first 10-20 PCs).
+- Usually, `\(p\)` is small and you can get the SVD from the eigen decomposition of `\(X^T X\)`. In bioinformatics, `\(p\)` is usually too large, so you can't use this standard algorithm.
+
+- If `\(n\)` is not to large (say `\(n &lt; 10,000\)`), you can use the eigen decomposition of `\(X X^T\)` instead (an `\(n \times n\)` matrix). 
+
+- **Now, n is also large** (both dimensions of the matrix are large), so we use algorithms based on random projections to get first PCs (usually we are interested in only first 10-20 PCs).
 
 &lt;br&gt;
 
@@ -77,11 +81,11 @@ With my implementation, you can get first 10 PCs of a 15K x 100K matrix in one m
 
 ---
 
-## Still can't do PCA naively
+## Still, we can't do PCA naively
 
 &lt;br&gt;
 
-&lt;img src="figures/PC-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/PC-3-4.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -123,33 +127,23 @@ and `\(\hat{p} = \mathbb{P}(Y = 1)\)` and `\(Y\)` denotes the binary phenotype.
 
 ### Which genes are associated with the disease?
 
-Here, you do ~1M tests, so beware **multiple testing**!
-
 &lt;br&gt;
 
-&lt;img src="figures/celiac-gwas-cut.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/celiac-gwas-cut.png" width="80%" style="display: block; margin: auto;" /&gt;
 
----
-
-talk about linear algebra tricks? bof
+.footnote[Here, you do ~1M tests, so beware **multiple testing**!]
 
 ---
 
 ## Prediction
 
-Can you fit a statistical learning model when you have more variables than observations ($n &gt; p$)?
+Can you fit a statistical learning model when you have more variables than observations ( `\(n &gt; p\)` )?
 
 &lt;br&gt;
 
-## Quiz
+### Quiz
 
-How can you do?
-
----
-
-## Filtering on univariate statistics?
-
-How to show that this is sub-optimal?
+How can you fit a prediction model when you have too many variables?
 
 ---
 
@@ -159,7 +153,7 @@ Minimize
 
 `$$F(\lambda, \alpha) = \text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}$$`
 
-Different regularizations can be used to prevent overfitting, among other benefits: 
+Different regularizations can be used to make the problem solvable and to prevent overfitting: 
 
 - the L2-regularization ("ridge") shrinks coefficients and is ideal if there are many predictors drawn from a Gaussian distribution (corresponds to `\(\alpha = 0\)` in the previous equation)
 
@@ -169,7 +163,7 @@ Different regularizations can be used to prevent overfitting, among other benefi
 
 ---
 
-### Predict Celiac disease
+### Predict Celiac disease based on penalized logistic regression
 
 &lt;br&gt;
 
@@ -204,6 +198,14 @@ class: center, middle, inverse
 class: center, middle, inverse
 
 # High-dimensional data&lt;br&gt;come with their own problems
+
+---
+
+class: center, middle, inverse
+
+# Data are becoming larger and larger
+
+# Will we all need skills in computer science?
 
 ---
 
