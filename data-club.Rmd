@@ -83,6 +83,36 @@ With my implementation, you can get first 10 PCs of a 15K x 100K matrix in one m
 
 ---
 
+## Still can't do PCA naively
+
+<br>
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/PC-3-4.png")
+```
+
+---
+
+## Cause of the problem
+
+<br>
+
+```{r, out.width="78%"}
+knitr::include_graphics("figures/load3-3-4.svg")
+```
+
+---
+
+## After some filtering
+
+<br>
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/PC4-3-4.png")
+```
+
+---
+
 ## Genome-wide association studies
 
 For linear regression, a t-test is performed **for each variable** $j$ on $\beta^{(j)}$ where
@@ -115,7 +145,7 @@ knitr::include_graphics("figures/celiac-gwas-cut.png")
 
 ---
 
-talk about linear algebra tricks?
+talk about linear algebra tricks? bof
 
 ---
 
@@ -128,6 +158,12 @@ Can you fit a statistical learning model when you have more variables than obser
 ## Quiz
 
 How can you do?
+
+---
+
+## Filtering on univariate statistics?
+
+How to show that this is sub-optimal?
 
 ---
 
@@ -180,6 +216,12 @@ knitr::include_graphics("figures/bty185.png")
 - {bigstatsr} for many types of matrix, to be used by any field of research
 
 - {bigsnpr} for functions that are specific to the analysis of genetic data
+
+---
+
+class: center, middle, inverse
+
+# High-dimensional data<br>come with their own problems
 
 ---
 

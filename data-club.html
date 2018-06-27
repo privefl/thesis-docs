@@ -77,6 +77,30 @@ With my implementation, you can get first 10 PCs of a 15K x 100K matrix in one m
 
 ---
 
+## Still can't do PCA naively
+
+&lt;br&gt;
+
+&lt;img src="figures/PC-3-4.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Cause of the problem
+
+&lt;br&gt;
+
+&lt;img src="figures/load3-3-4.svg" width="78%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## After some filtering
+
+&lt;br&gt;
+
+&lt;img src="figures/PC4-3-4.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
 ## Genome-wide association studies
 
 For linear regression, a t-test is performed **for each variable** `\(j\)` on `\(\beta^{(j)}\)` where
@@ -107,7 +131,7 @@ Here, you do ~1M tests, so beware **multiple testing**!
 
 ---
 
-talk about linear algebra tricks?
+talk about linear algebra tricks? bof
 
 ---
 
@@ -120,6 +144,12 @@ Can you fit a statistical learning model when you have more variables than obser
 ## Quiz
 
 How can you do?
+
+---
+
+## Filtering on univariate statistics?
+
+How to show that this is sub-optimal?
 
 ---
 
@@ -136,6 +166,14 @@ Different regularizations can be used to prevent overfitting, among other benefi
 - the L1-regularization ("lasso") forces some of the coefficients to be equal to zero and can be used as a means of variable selection, leading to sparse models (corresponds to `\(\alpha = 1\)`)
 
 - the L1- and L2-regularization ("elastic-net") is a compromise between the two previous penalties and is particularly useful in the `\(p \gg n\)` situation, or any situation involving many correlated predictors (corresponds to `\(0 &lt; \alpha &lt; 1\)`).
+
+---
+
+### Predict Celiac disease
+
+&lt;br&gt;
+
+&lt;img src="figures/density-scores.svg" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -161,14 +199,11 @@ class: center, middle, inverse
 
 - {bigsnpr} for functions that are specific to the analysis of genetic data
 
-
 ---
 
-### Prredictive Celiac disease
+class: center, middle, inverse
 
-&lt;br&gt;
-
-&lt;img src="figures/density-scores.svg" width="90%" style="display: block; margin: auto;" /&gt;
+# High-dimensional data&lt;br&gt;come with their own problems
 
 ---
 
