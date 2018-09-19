@@ -1,0 +1,157 @@
+---
+title: "Rapport pour CSI n°2"
+author: Florian Privé
+output: 
+  pdf_document: 
+    number_sections: yes
+---
+
+  
+$$ $$
+
+# CV
+
+## Publications
+
+- Privé, Florian, Hugues Aschard, and Michael GB Blum. "Efficient implementation of penalized regression for genetic risk prediction." bioRxiv (2018): 403337. (Preprint: https://doi.org/10.1101/403337)
+
+- Privé, Florian, et al. "Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr." Bioinformatics (2018). (Open Access: https://doi.org/10.1093/bioinformatics/bty185)
+
+## Responsabilités
+
+- Créateur et co-organisateur de "R in Grenoble", un groupe d'utilisateurs de R à Grenoble, se réunissant chaque mois (https://r-in-grenoble.github.io/).
+
+- Participation à l'organisation de 3 Data Challenge (https://goo.gl/Cjvemi, https://goo.gl/rUyBqZ, https://goo.gl/KfpKKS)
+
+## Enseignement
+
+- Mathématiques (cours + TDs) à des L1 scientifiques (128h)
+
+- Formation R avancé (https://privefl.github.io/advr38book/) à des doctorants (60h)
+
+- Instructeur Software Carpentry pour un cours d'introduction à R (1 journée)
+
+## Conférences
+
+- [Rencontres R 2018](https://r2018-rennes.sciencesconf.org/): The R package bigstatsr: Memory- and Computation-Efficient Statistical Tools for Big Matrices.
+
+- [eRum 2018](https://2018.erum.io/): An R package for statistical tools with big matrices stored on disk.
+
+- [Recomb-Genetics 2018](http://recomb2018.fr/recomb-genetics/): Predicting complex diseases: performance and robustness.
+
+- [LIFE 2018](https://life.univ-grenoble-alpes.fr/life-world/events-news/life-annual-meeting-725690.htm?RH=11210192165071361): Predicting complex diseases: performance and robustness.
+
+- [hackseq 2017](http://www.hackseq.com/): Developing advanced R tutorials for genomic data analysis.
+
+- [useR!2017](https://user2017.brussels/): The R package bigstatsr:
+Memory- and Computation-Efficient Tools for Big Matrices.
+
+- [ALT'2016](http://alt2016.sciencesconf.org/): Goodness-of-fit tests for the Weibull distribution with censored data.
+
+\newpage
+
+# Formation suivies
+
+```{r, echo=FALSE, fig.align='center'}
+webshot::webshot("formations.html", zoom = 0.65, file = "formations.pdf",
+                 vheight = 1500)
+```
+
+
+\newpage
+
+# Calendrier prévisionnel de fin de thèse
+
+## Fin 2018
+
+- Publication du deuxième papier
+
+- Analyse exploratoire pour le 3ème papier
+
+- Rédaction des premières parties de la thèse
+
+## Janvier - Mai 2019
+
+- Enseignements (R avancé + Cours de statistique à l'Ensimag)
+
+- Analyse finale + rédaction du second papier
+
+## Mai - Juillet 2019
+
+- Soumission du 3ème papier
+
+- Fin de rédaction de la thèse
+
+- Conférence useR!2019 à Toulouse
+
+## Juillet - Septembre 2019
+
+- Répondre aux reviews du 3ème papier
+
+- Vacances
+
+- Soleil
+
+- Champagne
+
+## Fin septembre 2019
+
+- Soutenance
+
+- Champagne
+
+
+\newpage
+
+# Plan de thèse
+
+Introduction
+
+Genotype data
+
+Many types of genomic data
+SNP data larger and larger
+
+What are PRS?
+
+Combine many SNP into a single score.
+
+What can PRS be used for?
+
+Epidemiology + Prediction
+
+Motivations of the thesis
+
+Using statistical learning methods to improve PRS
+
+
+Methods for deriving PRS (SotA)
+
+Tools for SNP data analysis
+
+
+Imputation
+Data formats
+PCA
+GWAS
+paper 1
+
+Deriving PRS
+Using summary statistics
+
+PRS + LDpred
+
+Using the whole genome
+
+LMM + Gad + paper 2
+
+Predict more and perspective
+Generalize to multiple populations
+Use other data
+Ethical aspects?
+
+Computational aspects -> appendix?
+GWAS tricks 
+Scaling tricks     
+mmap / parallel / examples?
+
