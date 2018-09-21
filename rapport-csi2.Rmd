@@ -23,11 +23,13 @@ $$ $$
 
 - Participation à l'organisation de 3 Data Challenge (https://goo.gl/Cjvemi, https://goo.gl/rUyBqZ, https://goo.gl/KfpKKS)
 
-## Enseignement
+## Enseignements
 
 - Mathématiques (cours + TDs) à des L1 scientifiques (128h)
 
-- Formation R avancé (https://privefl.github.io/advr38book/) à des doctorants (60h)
+- Formation R avancé (https://privefl.github.io/advr38book/) à des doctorants (30h + 30h cette année)
+
+- Principes et méthodes statistiques à des 1A de l'ENSIMAG (18h de TDs cette année)
 
 - Instructeur Software Carpentry pour un cours d'introduction à R (1 journée)
 
@@ -105,53 +107,54 @@ webshot::webshot("formations.html", zoom = 0.65, file = "formations.pdf",
 
 # Plan de thèse
 
-Introduction
+## Introduction
 
-Genotype data
+### Genotype data
 
-Many types of genomic data
-SNP data larger and larger
+GWAS SNP data larger and larger.
 
-What are PRS?
+### Polygenic Risk Scores
 
 Combine many SNP into a single score.
 
-What can PRS be used for?
+### What can PRS be used for?
 
 Epidemiology + Prediction
 
-Motivations of the thesis
+### Motivations of the thesis
 
-Using statistical learning methods to improve PRS
-
-
-Methods for deriving PRS (SotA)
-
-Tools for SNP data analysis
+Using statistical learning methods to improve PRS.
 
 
-Imputation
-Data formats
-PCA
-GWAS
-paper 1
+## Methods for deriving PRS (SotA)
 
-Deriving PRS
-Using summary statistics
+### Tools for SNP data analysis
 
-PRS + LDpred
+#### Imputation
+#### Data formats
+#### PCA
+#### GWAS
+#### Paper 1
 
-Using the whole genome
+### Deriving PRS
+
+#### Using summary statistics
+
+PRS + LDpred (+ lassosum)
+
+#### Using the whole genome
 
 LMM + Gad + paper 2
 
-Predict more and perspective
-Generalize to multiple populations
-Use other data
-Ethical aspects?
+### Predict more and perspective
 
-Computational aspects -> appendix?
-GWAS tricks 
-Scaling tricks     
-mmap / parallel / examples?
+#### Generalize to different populations
+#### Use other data (environmental, clinical)
+#### Ethical aspects?
+
+## Appendix: computational aspects
+
+### GWAS tricks 
+### Scaling tricks     
+### memory-mapping / parallel / examples?
 
