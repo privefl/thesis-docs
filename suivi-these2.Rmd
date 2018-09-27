@@ -300,7 +300,7 @@ class: center, middle, inverse
 ### Higher predictive performance with logit-simple
 
 ```{r, out.width="75%"}
-knitr::include_graphics("figures/pres-AUC-logit.svg")
+knitr::include_graphics("figures/pres2-AUC-logit.svg")
 ```
 
 .footnote2[Penalized logistic regression provides higher predictive performance in the cases that matter, especially when there are correlated variables.]
@@ -310,7 +310,7 @@ knitr::include_graphics("figures/pres-AUC-logit.svg")
 ### Predictive performance of C+T method varies with threshold
 
 ```{r, out.width="75%"}
-knitr::include_graphics("figures/pres-AUC-PRS.svg")
+knitr::include_graphics("figures/pres2-AUC-PRS.svg")
 ```
 
 .footnote2[Recall that prediction of PRS-max is an upper-bound of the prediction provided by the C+T method.]
@@ -320,7 +320,7 @@ knitr::include_graphics("figures/pres-AUC-PRS.svg")
 ### Prediction with logit-simple is improving faster
 
 ```{r, out.width="75%"}
-knitr::include_graphics("figures/pres-AUC-ntrain.svg")
+knitr::include_graphics("figures/pres2-AUC-ntrain.svg")
 ```
 
 .footnote2[Performance of methods improve with larger sample size. Yet, penalized logistic regression is improving faster than the C+T method.]
@@ -360,7 +360,7 @@ knitr::include_graphics("figures/results-celiac-prs-logit.png")
 ```
 
 ```{r, out.width="55%"}
-knitr::include_graphics("figures/celiac-roc.svg")
+knitr::include_graphics("figures/celiac-roc2.svg")
 ```
 
 ---
@@ -516,7 +516,7 @@ knitr::include_graphics("figures/triple.png")
 ### Feature engineering improves prediction
 
 ```{r, out.width="90%"}
-knitr::include_graphics("figures/pres-triple.svg")
+knitr::include_graphics("figures/pres2-triple.svg")
 ```
 
 ---
@@ -526,7 +526,7 @@ knitr::include_graphics("figures/pres-triple.svg")
 <br>
 
 ```{r}
-knitr::include_graphics("figures/pres-AUC-chr6.svg")
+knitr::include_graphics("figures/pres2-AUC-chr6.svg")
 ```
 
 <!-- .footnote[Aims at increasing the polygenicity of the simulated models and at virtually increasing the sample size.] -->
