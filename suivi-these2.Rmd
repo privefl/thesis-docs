@@ -265,7 +265,7 @@ knitr::include_graphics("figures/simple-CMSA.png")
 #### Simulation models
 
 ```{r, out.width="85%"}
-knitr::include_graphics("figures/table-simus.png")
+knitr::include_graphics("figures/table2-simus.png")
 ```
 
 #### Methods
@@ -356,7 +356,7 @@ knitr::include_graphics("figures/pres2-AUC-ntrain.svg")
 ### Results: real Celiac phenotypes
 
 ```{r, out.width="95%"}
-knitr::include_graphics("figures/results-celiac-prs-logit.png")
+knitr::include_graphics("figures/results-celiac2.png")
 ```
 
 ```{r, out.width="55%"}
