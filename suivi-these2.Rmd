@@ -78,6 +78,10 @@ class: center, middle, inverse
 
 # Recall of 1st year
 
+### Developing tools to help
+
+### researchers (me!) in their analysis
+
 ---
 
 ## What I want to be able to do
@@ -115,9 +119,11 @@ knitr::include_graphics("https://privefl.github.io/RR18/memory-solution.svg")
 
 ## My first paper
 
+<a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
 ```{r, fig.asp=0.9}
 knitr::include_graphics("figures/bty185.png")
 ```
+</a>
 
 <br>
 
@@ -148,6 +154,10 @@ class: center, middle, inverse
 
 # Results of 2nd year
 
+### Comparing models for computing
+
+### Polygenic Risk Scores (PRS)
+
 ---
 
 ## Standard PRS - part 1: estimating effects
@@ -166,12 +176,12 @@ Easy combining: $PRS_i = \sum \hat\beta_j \cdot G_{i,j}$
 
 ## Standard PRS - part 2: restricting predictors
 
-### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> ("C+T" or just "PRS")
+### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (<span style="color:#38761D">C</span>+<span style="color:#1515FF">T</span>)
 
 <br>
 
 ```{r, out.width="90%"}
-knitr::include_graphics("figures/GWAS2PRS.png")
+knitr::include_graphics("figures/GWAS2PRS2.png")
 ```
 
 $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
@@ -206,7 +216,7 @@ class: center, middle, inverse
 
 ---
 
-## Penalized Logistic Regression
+## Penalized Logistic Regression (PLR)
 
 <br>
 
@@ -246,9 +256,9 @@ knitr::include_graphics("figures/bty185.png")
 
 - uses memory-mapping to matrices stored on disk
 
-- functioning choice of the hyper-parameter $\lambda$ 
+- functioning choice of the hyper-parameter $\lambda$ + embedded grid-search for $\alpha$
 
-- early stopping criterion
+- early stopping criterion to fasten the overall procedure
 
 ---
 
@@ -264,18 +274,18 @@ knitr::include_graphics("figures/simple-CMSA.png")
 
 #### Simulation models
 
-```{r, out.width="85%"}
+```{r, out.width="80%"}
 knitr::include_graphics("figures/table2-simus.png")
 ```
 
 #### Methods
 
-- PRS: 
-    - PRS-all (no p-value thresholding), 
-    - PRS-stringent (GWAS threshold of significance) and
-    - PRS-max (best prediction for all thresholds, considered as an upper-bound)
+- C+T: 
+    - C+T-all (no p-value thresholding), 
+    - C+T-stringent (GWAS threshold of significance) and
+    - C+T-max (best prediction for all thresholds, considered as an upper-bound)
 
-- logit-simple: penalized logistic regression with automatic of selection $\lambda$
+- PLR: penalized logistic regression with automatic selection of hyper-parameters
 
 ---
 
@@ -283,9 +293,11 @@ knitr::include_graphics("figures/table2-simus.png")
 
 **AUC** (Area Under the ROC Curve) and partial AUC (FPR < 10%) are used.
 
-```{r, out.width="55%"}
+```{r, out.width="50%"}
 knitr::include_graphics("https://i.stack.imgur.com/5x3Xj.png")
 ```
+
+<br>
 
 $$\text{AUC} = P(S_\text{case} > S_\text{control})$$
 
@@ -297,13 +309,13 @@ class: center, middle, inverse
 
 ---
 
-### Higher predictive performance with logit-simple
+### Higher predictive performance with PLR
 
 ```{r, out.width="75%"}
 knitr::include_graphics("figures/pres2-AUC-logit.svg")
 ```
 
-.footnote2[Penalized logistic regression provides higher predictive performance in the cases that matter, especially when there are correlated variables.]
+.footnote2[Penalized logistic regression consistently provides higher predictive performance, especially when there are correlated variables.]
 
 ---
 
@@ -313,17 +325,17 @@ knitr::include_graphics("figures/pres2-AUC-logit.svg")
 knitr::include_graphics("figures/pres2-AUC-PRS.svg")
 ```
 
-.footnote2[Recall that prediction of PRS-max is an upper-bound of the prediction provided by the C+T method.]
+.footnote2[Recall that prediction of C+T-max is an upper-bound of the prediction provided by the C+T method.]
 
 ---
 
-### Prediction with logit-simple is improving faster
+### Prediction with PLR is improving faster (Scenario #3)
 
 ```{r, out.width="75%"}
 knitr::include_graphics("figures/pres2-AUC-ntrain.svg")
 ```
 
-.footnote2[Performance of methods improve with larger sample size. Yet, penalized logistic regression is improving faster than the C+T method.]
+.footnote2[Performance of methods improve with larger sample size. Yet, PLR is improving faster than C+T.]
 
 ---
 
@@ -393,16 +405,17 @@ class: center, middle, inverse
 
 - integration of clinical and environmental data
 
-
-
-
 ---
 
 class: center, middle, inverse
 
 # Planning for 3rd year
 
+### + early results usink the UK biobank
+
 ---
+
+### Planning for 3rd year
 
 #### End of 2018
 
@@ -414,6 +427,7 @@ class: center, middle, inverse
 
 - Teaching (Advanced R for doctoral school + statistics at ENSIMAG)
 - Final analysis + wirting of third paper
+- Getting my DNA sequenced and analyzing it!
 
 #### Until July 2019
 
@@ -425,6 +439,85 @@ class: center, middle, inverse
 
 - Answer reviews for 3rd paper
 - Thesis defense
+
+---
+
+class: center, middle, inverse
+
+# Pitfalls of penalized regression
+
+---
+
+## Penalization is too strong when there are large effects (sex for height)
+
+$$\text{height} \sim \text{SNPs} + \text{PCs} + \text{sex}$$
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/pred-with-sex.png")
+```
+
+---
+
+## Better prediction, but still too conservative
+
+$$\text{height} \sim \text{base} + \text{SNPs} + \text{PCs} + \text{sex}$$
+$$\text{base:}~~\text{height} \sim \text{sex}$$
+
+.footnote[A solution is to adjust for these strong effects before fitting the model (as a base prediction).]
+
+---
+
+class: center, middle, inverse
+
+# How to combine the information<br>of multiple studies?
+
+## (possibly of different populations)
+
+---
+
+## Genetics are different between populations
+
+```{r, out.width="60%"}
+knitr::include_graphics("figures/UKB-PC-1-2.png")
+```
+
+.footnote[Produced with our R packages (450K people from the UK biobank)]
+
+---
+
+## which makes predictions fail on external populations
+
+```{r, out.width="63%", fig.cap="<small>Source: 10.1016/j.ajhg.2017.03.004</small>"}
+knitr::include_graphics("figures/pred-pops.jpg")
+```
+
+---
+
+## Genomics is failing on diversity
+
+```{r, out.width="70%", fig.cap="<small>Source: 10.1038/538161a</small>"}
+knitr::include_graphics("figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg")
+```
+
+---
+
+## What can we do about it?
+
+<br>
+
+We can use information from other studies (possibly in other populations)
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/update-base-pred.png")
+```
+
+<br>
+
+**Will this improve prediction?**
+
+<!-- .footnote[This is the topic of our next paper.] -->
 
 ---
 
@@ -481,11 +574,11 @@ knitr::include_graphics("figures/LTM.png")
 
 ### Two models of liability
 
-#### A "simple" model
+#### Model "ADD"
 
 $$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$ 
 
-#### A "fancy" model
+#### Model "COMP"
 
 $$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$ 
 
@@ -509,7 +602,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 knitr::include_graphics("figures/triple.png")
 ```
 
-.footnote[We call these two methods "logit-simple" and "logit-triple".]
+.footnote[We call these two methods "PLR" and "PLR3".]
 
 ---
 
@@ -521,7 +614,7 @@ knitr::include_graphics("figures/pres2-triple.svg")
 
 ---
 
-### Prediction with logit-simple is improving faster
+### Prediction with PLR is improving faster (Scenario #2)
 
 <br>
 

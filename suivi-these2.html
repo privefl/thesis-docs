@@ -80,6 +80,10 @@ class: center, middle, inverse
 
 # Recall of 1st year
 
+### Developing tools to help
+
+### researchers (me!) in their analysis
+
 ---
 
 ## What I want to be able to do
@@ -115,7 +119,9 @@ class: center, middle, inverse
 
 ## My first paper
 
+&lt;a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank"&gt;
 &lt;img src="figures/bty185.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;/a&gt;
 
 &lt;br&gt;
 
@@ -144,6 +150,10 @@ class: center, middle, inverse
 
 # Results of 2nd year
 
+### Comparing models for computing
+
+### Polygenic Risk Scores (PRS)
+
 ---
 
 ## Standard PRS - part 1: estimating effects
@@ -160,11 +170,11 @@ Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)`
 
 ## Standard PRS - part 2: restricting predictors
 
-### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; (&lt;span style="color:#38761D"&gt;C&lt;/span&gt;+&lt;span style="color:#1515FF"&gt;T&lt;/span&gt;)
 
 &lt;br&gt;
 
-&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/GWAS2PRS2.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 `$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
 
@@ -198,7 +208,7 @@ class: center, middle, inverse
 
 ---
 
-## Penalized Logistic Regression
+## Penalized Logistic Regression (PLR)
 
 &lt;br&gt;
 
@@ -236,9 +246,9 @@ class: center, middle, inverse
 
 - uses memory-mapping to matrices stored on disk
 
-- functioning choice of the hyper-parameter `\(\lambda\)` 
+- functioning choice of the hyper-parameter `\(\lambda\)` + embedded grid-search for `\(\alpha\)`
 
-- early stopping criterion
+- early stopping criterion to fasten the overall procedure
 
 ---
 
@@ -252,16 +262,16 @@ class: center, middle, inverse
 
 #### Simulation models
 
-&lt;img src="figures/table2-simus.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/table2-simus.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 #### Methods
 
-- PRS: 
-    - PRS-all (no p-value thresholding), 
-    - PRS-stringent (GWAS threshold of significance) and
-    - PRS-max (best prediction for all thresholds, considered as an upper-bound)
+- C+T: 
+    - C+T-all (no p-value thresholding), 
+    - C+T-stringent (GWAS threshold of significance) and
+    - C+T-max (best prediction for all thresholds, considered as an upper-bound)
 
-- logit-simple: penalized logistic regression with automatic of selection `\(\lambda\)`
+- PLR: penalized logistic regression with automatic selection of hyper-parameters
 
 ---
 
@@ -269,7 +279,9 @@ class: center, middle, inverse
 
 **AUC** (Area Under the ROC Curve) and partial AUC (FPR &lt; 10%) are used.
 
-&lt;img src="https://i.stack.imgur.com/5x3Xj.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://i.stack.imgur.com/5x3Xj.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
 
 `$$\text{AUC} = P(S_\text{case} &gt; S_\text{control})$$`
 
@@ -281,11 +293,11 @@ class: center, middle, inverse
 
 ---
 
-### Higher predictive performance with logit-simple
+### Higher predictive performance with PLR
 
 &lt;img src="figures/pres2-AUC-logit.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
-.footnote2[Penalized logistic regression provides higher predictive performance in the cases that matter, especially when there are correlated variables.]
+.footnote2[Penalized logistic regression consistently provides higher predictive performance, especially when there are correlated variables.]
 
 ---
 
@@ -293,15 +305,15 @@ class: center, middle, inverse
 
 &lt;img src="figures/pres2-AUC-PRS.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
-.footnote2[Recall that prediction of PRS-max is an upper-bound of the prediction provided by the C+T method.]
+.footnote2[Recall that prediction of C+T-max is an upper-bound of the prediction provided by the C+T method.]
 
 ---
 
-### Prediction with logit-simple is improving faster
+### Prediction with PLR is improving faster (Scenario #3)
 
 &lt;img src="figures/pres2-AUC-ntrain.svg" width="75%" style="display: block; margin: auto;" /&gt;
 
-.footnote2[Performance of methods improve with larger sample size. Yet, penalized logistic regression is improving faster than the C+T method.]
+.footnote2[Performance of methods improve with larger sample size. Yet, PLR is improving faster than C+T.]
 
 ---
 
@@ -367,16 +379,17 @@ class: center, middle, inverse
 
 - integration of clinical and environmental data
 
-
-
-
 ---
 
 class: center, middle, inverse
 
 # Planning for 3rd year
 
+### + early results usink the UK biobank
+
 ---
+
+### Planning for 3rd year
 
 #### End of 2018
 
@@ -388,6 +401,7 @@ class: center, middle, inverse
 
 - Teaching (Advanced R for doctoral school + statistics at ENSIMAG)
 - Final analysis + wirting of third paper
+- Getting my DNA sequenced and analyzing it!
 
 #### Until July 2019
 
@@ -399,6 +413,81 @@ class: center, middle, inverse
 
 - Answer reviews for 3rd paper
 - Thesis defense
+
+---
+
+class: center, middle, inverse
+
+# Pitfalls of penalized regression
+
+---
+
+## Penalization is too strong when there are large effects (sex for height)
+
+`$$\text{height} \sim \text{SNPs} + \text{PCs} + \text{sex}$$`
+
+&lt;img src="figures/pred-with-sex.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Better prediction, but still too conservative
+
+`$$\text{height} \sim \text{base} + \text{SNPs} + \text{PCs}$$`
+`$$\text{base:}~~\text{height} \sim \text{sex}$$`
+
+.footnote[A solution is to adjust for these strong effects before fitting the model (as a base prediction).]
+
+---
+
+class: center, middle, inverse
+
+# How to combine the information&lt;br&gt;of multiple studies?
+
+## (possibly of different populations)
+
+---
+
+## Genetics are different between populations
+
+&lt;img src="figures/UKB-PC-1-2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Produced with our R packages (450K people from the UK biobank)]
+
+---
+
+## which makes predictions fail on external populations
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/pred-pops.jpg" alt="&amp;lt;small&amp;gt;Source: 10.1016/j.ajhg.2017.03.004&amp;lt;/small&amp;gt;" width="63%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1016/j.ajhg.2017.03.004&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+## Genomics is failing on diversity
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/Genomics_ethnicity_2016_COMMENT_WEB.jpg" alt="&amp;lt;small&amp;gt;Source: 10.1038/538161a&amp;lt;/small&amp;gt;" width="70%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1038/538161a&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+## What can we do about it?
+
+&lt;br&gt;
+
+We can use information from other studies (possibly in other populations)
+
+&lt;br&gt;
+
+&lt;img src="figures/update-base-pred.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+**Will this improve prediction?**
+
+&lt;!-- .footnote[This is the topic of our next paper.] --&gt;
 
 ---
 
@@ -451,11 +540,11 @@ Keep only **controls** from the **UK** and **not deviating from the robust Malah
 
 ### Two models of liability
 
-#### A "simple" model
+#### Model "ADD"
 
 `$$y_i = \underbrace{\sum_{j\in S_\text{causal}} w_j \cdot \widetilde{G_{i,j}}}_\text{genetic effect} + \underbrace{\epsilon_i}_\text{environmental effect}$$` 
 
-#### A "fancy" model
+#### Model "COMP"
 
 `$$y_i = \underbrace{\sum_{j\in S_\text{causal}^{(1)}} w_j \cdot \widetilde{G_{i,j}}}_\text{linear} + \underbrace{\sum_{j\in S_\text{causal}^{(2)}} w_j \cdot \widetilde{D_{i,j}}}_\text{dominant} + \underbrace{\sum_{\substack{k=1 \\ j_1=e_k^{(3.1)} \\ j_2=e_k^{(3.2)}}}^{k=\left|S_\text{causal}^{(3.1)}\right|} w_{j_1} \cdot \widetilde{G_{i,j_1} G_{i,j_2}}}_\text{interaction} + \epsilon_i$$` 
 
@@ -477,7 +566,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 
 &lt;img src="figures/triple.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-.footnote[We call these two methods "logit-simple" and "logit-triple".]
+.footnote[We call these two methods "PLR" and "PLR3".]
 
 ---
 
@@ -487,7 +576,7 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 
 ---
 
-### Prediction with logit-simple is improving faster
+### Prediction with PLR is improving faster (Scenario #2)
 
 &lt;br&gt;
 
