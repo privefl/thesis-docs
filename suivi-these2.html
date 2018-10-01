@@ -389,33 +389,6 @@ class: center, middle, inverse
 
 ---
 
-### Planning for 3rd year
-
-#### End of 2018
-
-- Publication of second paper
-- Exploratory analysis for 3rd paper
-- Starting thesis writing
-
-#### Early 2019
-
-- Teaching (Advanced R for doctoral school + statistics at ENSIMAG)
-- Final analysis + wirting of third paper
-- Getting my DNA sequenced and analyzing it!
-
-#### Until July 2019
-
-- Submission of 3rd paper
-- Finishing writing thesis
-- International R Conference useR!2019 in Toulouse
-
-#### The end
-
-- Answer reviews for 3rd paper
-- Thesis defense
-
----
-
 class: center, middle, inverse
 
 # Pitfalls of penalized regression
@@ -426,16 +399,27 @@ class: center, middle, inverse
 
 `$$\text{height} \sim \text{SNPs} + \text{PCs} + \text{sex}$$`
 
-&lt;img src="figures/pred-with-sex.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/pred-with-sex.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ## Better prediction, but still too conservative
 
-`$$\text{height} \sim \text{base} + \text{SNPs} + \text{PCs}$$`
+`$$\text{base:}~~\text{height} \sim \text{sex}$$`
+`$$\text{pred:}~~\text{height} \sim \text{base} + \text{SNPs} + \text{PCs} + \text{sex}$$`
+
+&lt;img src="figures/pred-no-adj.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Post-process with some linear regression
+
 `$$\text{base:}~~\text{height} \sim \text{sex}$$`
 
-.footnote[A solution is to adjust for these strong effects before fitting the model (as a base prediction).]
+`$$\text{pred:}~~\text{height} \sim \text{base} + \text{SNPs} + \text{PCs} + \text{sex}$$`
+`$$\text{post_pred:}~~\text{height} \sim \text{pred} \times \text{sex}$$`
+
+&lt;img src="figures/pred-adj.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -488,6 +472,33 @@ We can use information from other studies (possibly in other populations)
 **Will this improve prediction?**
 
 &lt;!-- .footnote[This is the topic of our next paper.] --&gt;
+
+---
+
+### Planning for 3rd year
+
+#### End of 2018
+
+- Publication of second paper
+- Exploratory analysis for 3rd paper
+- Starting thesis writing
+
+#### Early 2019
+
+- Teaching (Advanced R for doctoral school + statistics at ENSIMAG)
+- Final analysis + writing of third paper
+- Getting my DNA sequenced and analyzing it!
+
+#### Until July 2019
+
+- Submission of 3rd paper
+- Finishing writing thesis
+- International R Conference useR!2019 in Toulouse
+
+#### The end
+
+- Answer reviews for 3rd paper
+- Thesis defense
 
 ---
 
@@ -588,7 +599,8 @@ We construct a separate dataset with, for each SNP variable, two more variables 
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current% / 41"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

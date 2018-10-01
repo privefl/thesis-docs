@@ -11,7 +11,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      # slideNumberFormat: "%current% / 23"
+      slideNumberFormat: "%current% / 41"
 ---
 
 ```{r setup, include=FALSE}
@@ -415,33 +415,6 @@ class: center, middle, inverse
 
 ---
 
-### Planning for 3rd year
-
-#### End of 2018
-
-- Publication of second paper
-- Exploratory analysis for 3rd paper
-- Starting thesis writing
-
-#### Early 2019
-
-- Teaching (Advanced R for doctoral school + statistics at ENSIMAG)
-- Final analysis + wirting of third paper
-- Getting my DNA sequenced and analyzing it!
-
-#### Until July 2019
-
-- Submission of 3rd paper
-- Finishing writing thesis
-- International R Conference useR!2019 in Toulouse
-
-#### The end
-
-- Answer reviews for 3rd paper
-- Thesis defense
-
----
-
 class: center, middle, inverse
 
 # Pitfalls of penalized regression
@@ -452,7 +425,7 @@ class: center, middle, inverse
 
 $$\text{height} \sim \text{SNPs} + \text{PCs} + \text{sex}$$
 
-```{r, out.width="70%"}
+```{r, out.width="75%"}
 knitr::include_graphics("figures/pred-with-sex.png")
 ```
 
@@ -460,10 +433,25 @@ knitr::include_graphics("figures/pred-with-sex.png")
 
 ## Better prediction, but still too conservative
 
-$$\text{height} \sim \text{base} + \text{SNPs} + \text{PCs} + \text{sex}$$
+$$\text{base:}~~\text{height} \sim \text{sex}$$
+$$\text{pred:}~~\text{height} \sim \text{base} + \text{SNPs} + \text{PCs} + \text{sex}$$
+
+```{r, out.width="75%"}
+knitr::include_graphics("figures/pred-no-adj.png")
+```
+
+---
+
+## Post-process with some linear regression
+
 $$\text{base:}~~\text{height} \sim \text{sex}$$
 
-.footnote[A solution is to adjust for these strong effects before fitting the model (as a base prediction).]
+$$\text{pred:}~~\text{height} \sim \text{base} + \text{SNPs} + \text{PCs} + \text{sex}$$
+$$\text{post_pred:}~~\text{height} \sim \text{pred} \times \text{sex}$$
+
+```{r, out.width="75%"}
+knitr::include_graphics("figures/pred-adj.png")
+```
 
 ---
 
@@ -518,6 +506,33 @@ knitr::include_graphics("figures/update-base-pred.png")
 **Will this improve prediction?**
 
 <!-- .footnote[This is the topic of our next paper.] -->
+
+---
+
+### Planning for 3rd year
+
+#### End of 2018
+
+- Publication of second paper
+- Exploratory analysis for 3rd paper
+- Starting thesis writing
+
+#### Early 2019
+
+- Teaching (Advanced R for doctoral school + statistics at ENSIMAG)
+- Final analysis + writing of third paper
+- Getting my DNA sequenced and analyzing it!
+
+#### Until July 2019
+
+- Submission of 3rd paper
+- Finishing writing thesis
+- International R Conference useR!2019 in Toulouse
+
+#### The end
+
+- Answer reviews for 3rd paper
+- Thesis defense
 
 ---
 
