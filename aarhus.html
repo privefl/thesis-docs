@@ -336,7 +336,9 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 - Within each sex category, 65.5% of correlation between predicted and true height (56% max with C+T // 58.8% with lassosum)
 
-&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+.footnote[[(blog post)](https://privefl.github.io/blog/predicting-height-based-on-dna-mutations/)]
 
 ---
 
@@ -354,9 +356,21 @@ class: center, middle, inverse
 
 - lassosum (Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.)
 
-
 The idea of LDpred and lassosum is to use a reference panel to accound for LD between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
 
+---
+
+## Could those models be improved?
+
+- linear models; optimal for binary phenotypes?
+
+- support PLINK bed files only; what about BGEN files such as for the UK Biobank?
+
+- scalable to which extent?
+
+- take into account quality of imputation?
+
+- combine with individual-level datasets? (of possibly different populations)
 
 ---
 

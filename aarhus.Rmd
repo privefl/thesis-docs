@@ -368,9 +368,11 @@ knitr::include_graphics("figures/celiac-roc3.svg")
 
 - Within each sex category, 65.5% of correlation between predicted and true height (56% max with C+T // 58.8% with lassosum)
 
-```{r, out.width="70%"}
+```{r, out.width="65%"}
 knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
 ```
+
+.footnote[[(blog post)](https://privefl.github.io/blog/predicting-height-based-on-dna-mutations/)]
 
 ---
 
@@ -394,6 +396,11 @@ The idea of LDpred and lassosum is to use a reference panel to accound for LD be
 
 ## Could those models be improved?
 
+- linear models; optimal for binary phenotypes?
+
+- support PLINK bed files only; what about BGEN files such as for the UK Biobank?
+
+- scalable to which extent?
 
 - take into account quality of imputation?
 
