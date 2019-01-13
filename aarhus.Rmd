@@ -81,7 +81,7 @@ $$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$
 
 
 ```{r, out.width="95%"}
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Manhattan_Plot.png/546px-Manhattan_Plot.png")
+knitr::include_graphics("figures/gwas-height-20K.png")
 ```
 
 <br>
@@ -199,7 +199,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/privefl/RR18/master/m
 The idea behind Genome-Wide Association Studies (GWAS) is simple: test each variant one by one for association with the phenotype of interest.
 For a continuous phenotype (e.g. height), linear regression is used and a t-test is performed for each SNP $j$ on $\beta^{(j)}$ where
 $$\hat{y} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$
-and $K$ is the number of covariables, including **principal components** and other covariates such as age and gender. 
+and $K$ is the number of covariables, including **first principal components** and other covariates such as age and gender. 
 
 Similarly, for a binary phenotype (e.g. disease status), logistic regression is used and a Z-test is performed for each SNP $j$ on $\beta^{(j)}$ where
 $$\log{\left(\frac{\hat{p}}{1-\hat{p}}\right)} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$
@@ -211,8 +211,10 @@ and $\hat{p} = \mathbb{P}(Y = 1)$ and $Y$ denotes the binary phenotype.
 
 <br>
 
-```{r, out.width='90%'}
-knitr::include_graphics("figures/celiac-gwas-cut.png")
+<br>
+
+```{r, out.width='100%'}
+knitr::include_graphics("figures/gwas-height-20K.png")
 ```
 
 ---
@@ -259,11 +261,11 @@ class: center, middle, inverse
 
 In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each SNP. 
 
-```{r, out.width="75%"}
-knitr::include_graphics("figures/celiac-gwas-cut.png")
+```{r, out.width="95%"}
+knitr::include_graphics("figures/gwas-height-20K.png")
 ```
 
-Easy combining: $PRS_i = \sum \hat\beta_j \cdot G_{i,j}$
+Easy combining: $PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}$
 
 ---
 
@@ -273,9 +275,11 @@ Easy combining: $PRS_i = \sum \hat\beta_j \cdot G_{i,j}$
 
 <br>
 
-```{r, out.width="90%"}
-knitr::include_graphics("figures/GWAS2PRS.png")
+```{r, out.width="100%"}
+knitr::include_graphics("figures/GWAS2PRS3.png")
 ```
+
+<br>
 
 $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
 
@@ -395,11 +399,31 @@ class: center, middle, inverse
 
 ---
 
+## Standard PRS: C+T
+
+In a GWAS, each SNP is tested independently, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each SNP (**summary statistics**). 
+
+<br>
+
+```{r, out.width="85%"}
+knitr::include_graphics("figures/gwas-height-20K.png")
+```
+
+<br>
+
+$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
+
+---
+
 ## Predictive methods based on summary statistics
 
 <br>
 
-- C+T (already presented)
+When you have only summary statistics (and a small reference panel):
+
+<br>
+
+- C+T
 
 - LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
 
@@ -425,6 +449,31 @@ knitr::include_graphics("figures/imputation.png")
 - scalable to which extent?
 
 - combine with individual-level datasets? (of possibly different populations)
+
+---
+class: center, middle, inverse
+
+# Conclusion
+
+---
+
+## My thesis work
+
+<br>
+
+1. Developping two `r icon::fa_r_project()` packages for the analysis of large-scale genomic data.    
+
+    (https://doi.org/10.1093/bioinformatics/bty185) 
+    
+    Package bigstatsr can be used for any data encoded as matrices.
+
+2. Including an implementation of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
+    
+    (https://doi.org/10.1101/403337) 
+
+3. Including summary statistics from large GWAS to improve prediction. 
+
+    (TODO) 
 
 ---
 

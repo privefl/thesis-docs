@@ -76,7 +76,7 @@ for each individual (row) and each genome position (column)
 &lt;br&gt;
 
 
-&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Manhattan_Plot.png/546px-Manhattan_Plot.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/gwas-height-20K.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 &lt;br&gt;
 
@@ -190,7 +190,7 @@ Package {bigstatsr} provides fast PCA, association and predictive models, etc.
 The idea behind Genome-Wide Association Studies (GWAS) is simple: test each variant one by one for association with the phenotype of interest.
 For a continuous phenotype (e.g. height), linear regression is used and a t-test is performed for each SNP `\(j\)` on `\(\beta^{(j)}\)` where
 `$$\hat{y} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$`
-and `\(K\)` is the number of covariables, including **principal components** and other covariates such as age and gender. 
+and `\(K\)` is the number of covariables, including **first principal components** and other covariates such as age and gender. 
 
 Similarly, for a binary phenotype (e.g. disease status), logistic regression is used and a Z-test is performed for each SNP `\(j\)` on `\(\beta^{(j)}\)` where
 `$$\log{\left(\frac{\hat{p}}{1-\hat{p}}\right)} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$`
@@ -202,7 +202,9 @@ and `\(\hat{p} = \mathbb{P}(Y = 1)\)` and `\(Y\)` denotes the binary phenotype.
 
 &lt;br&gt;
 
-&lt;img src="figures/celiac-gwas-cut.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt;
+
+&lt;img src="figures/gwas-height-20K.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -242,9 +244,9 @@ class: center, middle, inverse
 
 In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP. 
 
-&lt;img src="figures/celiac-gwas-cut.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/gwas-height-20K.png" width="95%" style="display: block; margin: auto;" /&gt;
 
-Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)`
+Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 ---
 
@@ -254,7 +256,9 @@ Easy combining: `\(PRS_i = \sum \hat\beta_j \cdot G_{i,j}\)`
 
 &lt;br&gt;
 
-&lt;img src="figures/GWAS2PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/GWAS2PRS3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
 
 `$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
 
@@ -366,11 +370,29 @@ class: center, middle, inverse
 
 ---
 
+## Standard PRS: C+T
+
+In a GWAS, each SNP is tested independently, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP (**summary statistics**). 
+
+&lt;br&gt;
+
+&lt;img src="figures/gwas-height-20K.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+
+---
+
 ## Predictive methods based on summary statistics
 
 &lt;br&gt;
 
-- C+T (already presented)
+When you have only summary statistics (and a small reference panel):
+
+&lt;br&gt;
+
+- C+T
 
 - LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
 
@@ -394,6 +416,31 @@ The idea of LDpred and lassosum is to use a reference panel to **account for cor
 - scalable to which extent?
 
 - combine with individual-level datasets? (of possibly different populations)
+
+---
+class: center, middle, inverse
+
+# Conclusion
+
+---
+
+## My thesis work
+
+&lt;br&gt;
+
+1. Developping two <i class="fab  fa-r-project "></i> packages for the analysis of large-scale genomic data.    
+
+    (https://doi.org/10.1093/bioinformatics/bty185) 
+    
+    Package bigstatsr can be used for any data encoded as matrices.
+
+2. Including an implementation of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
+    
+    (https://doi.org/10.1101/403337) 
+
+3. Including summary statistics from large GWAS to improve prediction. 
+
+    (TODO) 
 
 ---
 
