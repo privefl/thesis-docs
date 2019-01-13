@@ -49,6 +49,27 @@ class: center, middle, inverse
 
 ---
 
+## Data
+
+&lt;br&gt;
+
+**Matrices of** Single Nucleotide Polymorphisms (SNPs)
+
+counting the number of alternative alleles (**0, 1, or 2**) 
+
+for each individual (row) and each genome position (column)
+
+&lt;br&gt;
+
+\+ some phenotype(s) (e.g. disease status you want to predict)
+
+\+ other metadata 
+
+&lt;br&gt;
+
+`$$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$`
+
+---
 
 ## From genome-wide association studies (GWAS)&lt;br&gt;to polygenic risk scores (PRS)
 
@@ -91,7 +112,10 @@ class: center, middle, inverse
 
 ### Another application: to identify high risk individuals
 
-&lt;img src="figures/PRS.png" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/high-risk.jpg" alt="&amp;lt;small&amp;gt;Source: 10.1038/s41576-018-0018-x&amp;lt;/small&amp;gt;" width="85%" /&gt;
+&lt;p class="caption"&gt;&lt;small&gt;Source: 10.1038/s41576-018-0018-x&lt;/small&gt;&lt;/p&gt;
+&lt;/div&gt;
 
 ---
 
@@ -200,15 +224,9 @@ and `\(\hat{p} = \mathbb{P}(Y = 1)\)` and `\(Y\)` denotes the binary phenotype.
 
 ---
 
-## Benchmarks (PCA)
+## Precision (approximate PCA)
 
-.pull-left[
-&lt;img src="figures/bench-pca.png" width="100%" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-right[
-&lt;img src="figures/approx-pca.png" width="100%" style="display: block; margin: auto;" /&gt;
-]
+&lt;img src="figures/approx-pca.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -350,30 +368,42 @@ class: center, middle, inverse
 
 ## Predictive methods based on summary statistics
 
+&lt;br&gt;
+
 - C+T (already presented)
 
-- LDpred (Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592).
+- LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
 
-- lassosum (Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.)
+- lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
-The idea of LDpred and lassosum is to use a reference panel to accound for LD between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
+&lt;br&gt;
+
+The idea of LDpred and lassosum is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
 
 ---
 
 ## Could those models be improved?
 
-- linear models; optimal for binary phenotypes?
+
+- take into account quality of imputation?
+
+&lt;img src="figures/imputation.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 - support PLINK bed files only; what about BGEN files such as for the UK Biobank?
 
 - scalable to which extent?
 
-- take into account quality of imputation?
-
 - combine with individual-level datasets? (of possibly different populations)
 
 ---
 
+## Make sure to grab an hex sticker
+
+&lt;br&gt;
+
+&lt;img src="https://raw.githubusercontent.com/privefl/bigstatsr/master/bigstatsr.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
 class: center, middle, inverse
 
 # Thanks!

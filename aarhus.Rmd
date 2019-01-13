@@ -53,6 +53,27 @@ class: center, middle, inverse
 
 ---
 
+## Data
+
+<br>
+
+**Matrices of** Single Nucleotide Polymorphisms (SNPs)
+
+counting the number of alternative alleles (**0, 1, or 2**) 
+
+for each individual (row) and each genome position (column)
+
+<br>
+
+\+ some phenotype(s) (e.g. disease status you want to predict)
+
+\+ other metadata 
+
+<br>
+
+$$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$
+
+---
 
 ## From genome-wide association studies (GWAS)<br>to polygenic risk scores (PRS)
 
@@ -95,8 +116,8 @@ knitr::include_graphics("figures/purcell2009.png")
 
 ### Another application: to identify high risk individuals
 
-```{r, out.width="95%"}
-knitr::include_graphics("figures/PRS.png")
+```{r, out.width="85%", fig.cap="<small>Source: 10.1038/s41576-018-0018-x</small>"}
+knitr::include_graphics("figures/high-risk.jpg")
 ```
 
 ---
@@ -218,19 +239,11 @@ knitr::include_graphics("figures/table-bench.png")
 
 ---
 
-## Benchmarks (PCA)
+## Precision (approximate PCA)
 
-.pull-left[
-```{r, out.width='100%'}
-knitr::include_graphics("figures/bench-pca.png")
-```
-]
-
-.pull-right[
-```{r, out.width='100%'}
+```{r, out.width='80%'}
 knitr::include_graphics("figures/approx-pca.png")
 ```
-]
 
 ---
 
@@ -384,30 +397,46 @@ class: center, middle, inverse
 
 ## Predictive methods based on summary statistics
 
+<br>
+
 - C+T (already presented)
 
-- LDpred (Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592).
+- LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
 
-- lassosum (Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.)
+- lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
-The idea of LDpred and lassosum is to use a reference panel to accound for LD between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
+<br>
+
+The idea of LDpred and lassosum is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
 
 ---
 
 ## Could those models be improved?
 
-- linear models; optimal for binary phenotypes?
+
+- take into account quality of imputation?
+
+```{r, out.width="50%"}
+knitr::include_graphics("figures/imputation.png")
+```
 
 - support PLINK bed files only; what about BGEN files such as for the UK Biobank?
 
 - scalable to which extent?
 
-- take into account quality of imputation?
-
 - combine with individual-level datasets? (of possibly different populations)
 
 ---
 
+## Make sure to grab an hex sticker
+
+<br>
+
+```{r, out.width='45%'}
+knitr::include_graphics("https://raw.githubusercontent.com/privefl/bigstatsr/master/bigstatsr.png")
+```
+
+---
 class: center, middle, inverse
 
 # Thanks!
