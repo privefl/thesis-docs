@@ -329,9 +329,8 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 ---
 
-### Prediction with logit-simple is improving faster
+### Prediction with PLR is improving faster
 
-<br>
 
 ```{r, out.width="80%"}
 knitr::include_graphics("figures/pres-AUC-ntrain2.svg")
@@ -370,7 +369,7 @@ knitr::include_graphics("figures/pres-AUC-ntrain2.svg")
 ### Results: real Celiac phenotypes
 
 ```{r, out.width="95%"}
-knitr::include_graphics("figures/results-celiac-prs-logit.png")
+knitr::include_graphics("figures/results-celiac2.png")
 ```
 
 ```{r, out.width="55%"}
@@ -383,13 +382,12 @@ knitr::include_graphics("figures/celiac-roc3.svg")
 
 - 350K individuals x 656K SNPs in less than one day
 
-- Within each sex category, 65.5% of correlation between predicted and true height (56% max with C+T // 58.8% with lassosum)
+- Within each sex category, 65.5% of correlation between predicted and true height (56% with C+T-max)
 
-```{r, out.width="65%"}
+```{r, out.width="70%"}
 knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
 ```
 
-.footnote[[(blog post)](https://privefl.github.io/blog/predicting-height-based-on-dna-mutations/)]
 
 ---
 
@@ -419,9 +417,7 @@ $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cd
 
 <br>
 
-When you have only summary statistics (and a small reference panel):
-
-<br>
+When you have only summary statistics (and a small reference panel), you can use:
 
 - C+T
 
@@ -429,9 +425,11 @@ When you have only summary statistics (and a small reference panel):
 
 - lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
+- NPS (*Chun, Sung, et al. "Non-parametric polygenic risk prediction using partitioned GWAS summary statistics." bioRxiv (2018): 370064.*)
+
 <br>
 
-The idea of LDpred and lassosum is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
+The idea of LDpred, lassosum and NPS is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
 
 ---
 
@@ -449,6 +447,37 @@ knitr::include_graphics("figures/imputation.png")
 - scalable to which extent?
 
 - combine with individual-level datasets? (of possibly different populations)
+
+---
+
+## One idea: stacking
+
+<br>
+
+For a grid of combinations of 3 parameters:
+
+- threshold of clumping ( $r^2_{clumping}$ ) 
+
+- p-value threshold ( $p_T$ )
+
+- threshold of imputation quality score ( $r^2_{imputation}$ )
+
+<br>
+
+Get a C+T prediction for each combination of parameters.
+
+<br>
+
+Then use those predictions as variables in a (penalized) regression (stacking of models).
+
+---
+
+## Stacking: preliminary results
+
+
+```{r, out.width="90%", fig.cap="Prediction for breast cancer.<br>Facets are representing different imputation quality thresholds."}
+knitr::include_graphics("figures/stacking.png")
+```
 
 ---
 class: center, middle, inverse
