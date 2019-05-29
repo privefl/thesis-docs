@@ -57,14 +57,18 @@ $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cd
 
 ---
 
-## There are (at least) 4 hyper-parameters in C+T
-
-- threshold of imputation quality score ( $INFO_T \sim 0.3$ )
+## Hyper-parameters in C+T
 
 - threshold on squared correlation of clumping ( $r_c^2 \sim 0.2$ ) and    
 window size for LD computation ( $w_c \sim 250 kb$ )
 
 - p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
+
+--
+
+- threshold of imputation quality score ( $INFO_T \sim 0.3$ )
+
+--
 
 $\Longrightarrow$ *stdCT* (standard C+T)
 
@@ -76,6 +80,8 @@ $\Longrightarrow$ *stdCT* (standard C+T)
 
 - an efficient implementation to compute many C+T scores for different hyper-parameters (5600 sets of hyper-parameters $\times$ 22 chromosomes)    
 $\Longrightarrow$ *maxCT* (maximized C+T)
+
+--
 
 - going further by stacking all C+T models (instead of just choosing the best model)    
 $\Longrightarrow$ *SCT* (Stacked C+T)
