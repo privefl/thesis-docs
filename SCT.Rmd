@@ -60,7 +60,7 @@ $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cd
 ## Hyper-parameters in C+T
 
 - threshold on squared correlation of clumping ( $r_c^2 \sim 0.2$ ) and    
-window size for LD computation ( $w_c \sim 250 kb$ )
+window size for LD computation ( $w_c \sim 500 kb$ )
 
 - p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
 
@@ -122,6 +122,17 @@ knitr::include_graphics("figures/SCT-AUC-simus.png")
 
 ```{r}
 knitr::include_graphics("figures/SCT-AUC-real.png")
+```
+
+---
+
+## Results (grid of hyper-parameters for MDD)
+
+<br>
+<br>
+
+```{r, out.width="120%"}
+knitr::include_graphics("https://raw.githubusercontent.com/privefl/simus-PRS/master/figures/grid-MDD.png")
 ```
 
 ---
