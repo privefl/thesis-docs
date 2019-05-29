@@ -1,0 +1,137 @@
+---
+title: "SCT"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
+```
+
+class: title-slide center middle inverse
+
+# Stacked Clumping and Thresholding (SCT)
+
+## Making the most of C+T for polygenic scores
+
+<br>
+
+### Florian Privé
+
+---
+
+## Standard PRS - part 1: estimating effects
+
+### Genome-wide association studies (GWAS)
+
+In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each SNP. 
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/gwas-height-20K.png")
+```
+
+Easy combining: $PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}$
+
+---
+
+## Standard PRS - part 2: restricting predictors
+
+### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (C+T)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/GWAS2PRS3.png")
+```
+
+<br>
+
+$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
+
+---
+
+## There are (at least) 4 hyper-parameters in C+T
+
+- threshold of imputation quality score ( $INFO_T \sim 0.3$ )
+
+- threshold on squared correlation of clumping ( $r_c^2 \sim 0.2$ ) and    
+window size for LD computation ( $w_c \sim 250 kb$ )
+
+- p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
+
+$\Longrightarrow$ *stdCT* (standard C+T)
+
+<br>
+
+--
+
+#### Our contribution
+
+- an efficient implementation to compute many C+T scores for different hyper-parameters (5600 sets of hyper-parameters $\times$ 22 chromosomes)    
+$\Longrightarrow$ *maxCT* (maximized C+T)
+
+- going further by stacking all C+T models (instead of just choosing the best model)    
+$\Longrightarrow$ *SCT* (Stacked C+T)
+
+---
+
+## Stacking with penalized logistic regression
+
+<br>
+
+<Small>$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$</Small>
+
+<br>
+
+***
+
+- $p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)$
+
+- $x$ is denoting the **C+T scores** and covariates (e.g. principal components), 
+
+- $y$ is the disease status we want to predict, 
+
+- $\lambda$ is a regularization parameter that needs to be determined and
+
+- $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
+
+---
+
+## Results (simulations)
+
+```{r}
+knitr::include_graphics("figures/SCT-AUC-simus.png")
+```
+
+---
+
+## Results (real data)
+
+```{r}
+knitr::include_graphics("figures/SCT-AUC-real.png")
+```
+
+---
+
+class: center, middle, inverse
+
+# Thanks!
+
+<br>
+
+Presentation available at
+
+https://privefl.github.io/thesis-docs/SCT.html
+
+<br>
+
+`r icon::fa("twitter")` [privefl](https://twitter.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("github")` [privefl](https://github.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("stack-overflow")` [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via R package [**xaringan**](https://github.com/yihui/xaringan).]
