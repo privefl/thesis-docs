@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>SCT</title>
+    <meta charset="utf-8" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+# Stacked Clumping and Thresholding (SCT)
+
+## Making the most of C+T for polygenic scores
+
+&lt;br&gt;
+
+### Florian Privé
+
+#### Copenhagen, June 2019
+
+---
+
+## Standard PRS - part 1: estimating effects
+
+### Genome-wide association studies (GWAS)
+
+In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP. 
+
+&lt;img src="figures/gwas-height-20K.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
+
+---
+
+## Standard PRS - part 2: restricting predictors
+
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; (C+T)
+
+&lt;br&gt;
+
+&lt;img src="figures/GWAS2PRS3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+
+---
+
+## Hyper-parameters in C+T
+
+- threshold on squared correlation of clumping ( `\(r_c^2 \sim 0.2\)` ) and    
+window size for LD computation ( `\(w_c \sim 500 kb\)` )
+
+- p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
+
+--
+
+- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
+
+--
+
+`\(\Longrightarrow\)` *stdCT* (standard C+T)
+
+&lt;br&gt;
+
+--
+
+#### Our contribution
+
+- an efficient implementation to compute many C+T scores for different hyper-parameters (5600 sets of hyper-parameters `\(\times\)` 22 chromosomes)    
+`\(\Longrightarrow\)` *maxCT* (maximized C+T)
+
+--
+
+- going further by stacking all C+T models (instead of just choosing the best model)    
+`\(\Longrightarrow\)` *SCT* (Stacked C+T)
+
+---
+
+## Stacking with penalized logistic regression
+
+&lt;br&gt;
+
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+
+&lt;br&gt;
+
+***
+
+- `\(p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)\)`
+
+- `\(x\)` is denoting the **C+T scores** and covariates (e.g. principal components), 
+
+- `\(y\)` is the disease status we want to predict, 
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
+
+---
+
+## Results (simulations)
+
+&lt;img src="figures/SCT-AUC-simus.png" width="3480" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (real data)
+
+&lt;img src="figures/SCT-AUC-real.png" width="3000" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (grid of hyper-parameters for MDD and T2D)
+
+&lt;img src="https://raw.githubusercontent.com/privefl/simus-PRS/master/figures/grid-MDD.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+&lt;img src="https://raw.githubusercontent.com/privefl/simus-PRS/master/figures/grid-T2D.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: title-slide center middle inverse
+
+# Beyond predicting one disease
+
+## Differentiating type 1 from type 2 diabetes
+
+---
+
+class: center, middle, inverse
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at
+
+https://privefl.github.io/thesis-docs/SCT.html
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> [privefl](https://twitter.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-github "></i> [privefl](https://github.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-stack-overflow "></i> [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via R package [**xaringan**](https://github.com/yihui/xaringan).]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
