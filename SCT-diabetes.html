@@ -136,6 +136,30 @@ class: title-slide center middle inverse
 
 ---
 
+## Stacking C+T scores for both types of diabetes
+
+&lt;br&gt;
+
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+
+&lt;br&gt;
+
+***
+
+- `\(p_i=1/\left(1+\exp\left(-(\beta_0 + {x_1}_i^T\beta_1 + {x_2}_i^T\beta_2)\right)\right)\)`
+
+- `\(x_1\)` is denoting the C+T scores derived from **T1D** summary statistics
+
+- `\(x_2\)` is denoting the C+T scores derived from **T2D** summary statistics
+
+- `\(y\)` (restricting to people with diabetes) is 
+
+    - 1 for type 2 diabetes and
+    - 0 for type 1 diabetes 
+
+
+---
+
 class: center, middle, inverse
 
 # Thanks!
@@ -144,7 +168,7 @@ class: center, middle, inverse
 
 Presentation available at
 
-https://privefl.github.io/thesis-docs/SCT.html
+https://privefl.github.io/thesis-docs/SCT-diabetes.html
 
 &lt;br&gt;
 
