@@ -157,6 +157,72 @@ class: title-slide center middle inverse
     - 1 for type 2 diabetes and
     - 0 for type 1 diabetes 
 
+---
+
+## Predictive power of PRS
+
+&lt;img src="figures/prob-PRS-diabetes.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Investigating age of diagnosis
+
+&lt;img src="figures/prob2-PRS-diabetes.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Predictive power of PRS + age at diagnosis
+
+&lt;img src="figures/prob3-PRS-diabetes.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Investigating age of diagnosis
+
+&lt;img src="figures/prob4-PRS-diabetes.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Other useful variables?
+
+&lt;img src="figures/var-diabetes.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Conclusion / limitations
+
+&lt;br&gt;
+
+- PRS is of relative improvement over "age at diagnosis" alone    
+(AUC of 91.0 [87.8-93.9] vs 88.7 [85.1-92.0])
+
+--
+
+- Small sample size    
+(493 T1D / 7507 T2D in training and 149 / 2139 in test set)
+
+--
+
+- Use of other variables?    
+(available at diagnosis: BMI, sex, others?)
+
+--
+
+- Consider other types of diabetes?
+
+--
+
+- Possible misdiagnosis errors in the dataset used
+
+--
+
+- Try a different method?
+
+    - build one PRS for each type of diabetes separately    
+    and merge them after with other variables?
+    
+    - prefer individual-level data methods?    
+    (works best for T1D because of large effects in HLA region)
 
 ---
 
@@ -181,7 +247,7 @@ https://privefl.github.io/thesis-docs/SCT-diabetes.html
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": true
+"countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

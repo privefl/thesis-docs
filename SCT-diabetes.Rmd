@@ -7,7 +7,7 @@ output:
     nature:
       highlightStyle: github
       highlightLines: true
-      countIncrementalSlides: true
+      countIncrementalSlides: false
 ---
 
 ```{r setup, include=FALSE}
@@ -171,6 +171,82 @@ class: title-slide center middle inverse
     - 1 for type 2 diabetes and
     - 0 for type 1 diabetes 
 
+---
+
+## Predictive power of PRS
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/prob-PRS-diabetes.png")
+```
+
+---
+
+## Investigating age of diagnosis
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/prob2-PRS-diabetes.png")
+```
+
+---
+
+## Predictive power of PRS + age at diagnosis
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/prob3-PRS-diabetes.png")
+```
+
+---
+
+## Investigating age of diagnosis
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/prob4-PRS-diabetes.png")
+```
+
+---
+
+## Other useful variables?
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/var-diabetes.png")
+```
+
+---
+
+## Conclusion / limitations
+
+<br>
+
+- PRS is of relative improvement over "age at diagnosis" alone    
+(AUC of 91.0 [87.8-93.9] vs 88.7 [85.1-92.0])
+
+--
+
+- Small sample size    
+(493 T1D / 7507 T2D in training and 149 / 2139 in test set)
+
+--
+
+- Use of other variables?    
+(available at diagnosis: BMI, sex, others?)
+
+--
+
+- Consider other types of diabetes?
+
+--
+
+- Possible misdiagnosis errors in the dataset used
+
+--
+
+- Try a different method?
+
+    - build one PRS for each type of diabetes separately    
+    and merge them after with other variables?
+    
+    - prefer individual-level data methods?    
+    (works best for T1D because of large effects in HLA region)
 
 ---
 
