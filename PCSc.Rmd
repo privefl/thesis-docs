@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
 
 ## An alternative for whitening?
 
-Let $X$ be the genotype matrix, with columns center and of unit norm.
+Let $X$ be the genotype matrix, with columns centered and of unit norm.
 
 Then the LD matrix is $R = X^T X$.
 
