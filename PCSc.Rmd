@@ -1,0 +1,39 @@
+---
+title: "PC score"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
+```
+
+## An alternative for whitening?
+
+Let $X$ be the genotype matrix, with columns center and of unit norm.
+
+Then the LD matrix is $R = X^T X$.
+
+If we get the SVD decomposition of $X \approx U D V^T$ (e.g. 10 components)
+
+and $R_2 = (X - U D V^T)^T (X - U D V^T)$ 
+$~~~~~~~~~~~~= X^T X - X^T X V V^T - V V^T X^T X + V D^2 V^T$
+
+then $R_2^T V = R_2 V = X^T X V - X^T X V - V V^T X^T X V + V D^2 = 0$
+
+because $V^T V = I$, $X V = U D$ and $U^T U = I$.
+
+***
+
+Two problems: 
+
+- SVD do not use all variants to get population structure (pruning)
+
+- $LDSc_2 = diag(R_2 R_2)$ and $PCSc = V \beta$, can we show that $LDSc^T PCSc = 0$?
