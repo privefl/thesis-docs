@@ -27,7 +27,42 @@ class: center middle inverse
 
 # Introduction & Motivation
 
-### Data, applications and research interest 
+### Data, application and research interest 
+
+---
+
+## Disease architecture
+
+<br>
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/disease-archi.png")
+```
+
+.footnote[Source: 10.1126/science.338.6110.1016] 
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+A simple model: $y_i = \sum_j \beta_j x_{i,j} + \epsilon$    
+$y_i$: phenotypes, $x_{i,j}$: genotypes, $\beta_j$: effect sizes.
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/PRS.png")
+```
+
+---
+
+## PRS define lifetime trajectories
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/risk-strat.png")
+```
+
+.footnote[Source: 10.1093/hmg/ddz187]
 
 ---
 
@@ -50,53 +85,6 @@ for each individual (row) and each genome position (column)
 <br>
 
 $$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$
-
----
-
-## From genome-wide association studies (GWAS)<br>to polygenic risk scores (PRS)
-
-<br>
-
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/gwas-height-20K.png")
-```
-
-<br>
-
-$$PRS_i = \sum_{\substack{j \in S \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
-
----
-
-## Polygenic Risk Scores (PRS) for epidemiology
-
-<br>
-
-**One application: to provide evidence** for a polygenic contribution to a trait or a shared polygenic relationship between traits.
-
-<br>
-
-```{r, out.width="90%", fig.cap="<small>Source: 10.1111/jcpp.12295</small>"}
-knitr::include_graphics("figures/genomic-profile.png")
-```
-
----
-
-## Polygenic Risk Scores (PRS) for epidemiology
-
-```{r, out.width="75%", fig.cap="<small>Source: 10.1038/nature08185</small>"}
-knitr::include_graphics("figures/purcell2009.png")
-```
-
----
-
-## Polygenic Risk Scores (PRS) for predictive medicine
-
-### Another application: to identify high risk individuals
-
-```{r, out.width="85%", fig.cap="<small>Source: 10.1038/s41576-018-0018-x</small>"}
-knitr::include_graphics("figures/high-risk.jpg")
-```
 
 ---
 
@@ -141,28 +129,26 @@ class: center, middle, inverse
 
 ---
 
-## Our two R packages: bigstatsr and bigsnpr
+## What I want to be able to do
 
-### Statistical tools with big matrices stored on disk
+### Data analysis on large-scale genotype matrices!
 
-<br>
+- Be fast to test many ideas quickly
 
-<a href="https://doi.org/10.1093/bioinformatics/bty185" target="_blank">
-```{r, out.width='70%'}
-knitr::include_graphics("figures/bty185.png")
-```
-</a>
+    - code should be fast
+    - I shouldn't have to make many conversions between formats
+    - easily combine multiple functions
+    
+- Not be restricted in my analysis
+   
+    - Basically use all I already know in `r icon::fa_r_project()`
+    
+- Work on my computer (interactively)
 
-<br>
+    - I have 64 GB of RAM and 12 cores
+    - Working on a server is not as easy as on my computer
 
-- {bigstatsr} for many types of matrix, to be used by any field of research
-
-- {bigsnpr} for functions that are specific to the analysis of genetic data
-
-
-<br>
-
-Package {bigstatsr} provides fast PCA, association and predictive models, etc.
+<br><center>**Smooth and fast analysis!**
 
 ---
 
@@ -176,12 +162,26 @@ knitr::include_graphics("https://raw.githubusercontent.com/privefl/RR18/master/m
 
 ---
 
+## Partial Singular Value Decomposition
+
+15K $\times$ 100K -- 10 first PCs -- 6 cores -- **1 min** (vs 2h in base R)
+
+</br>
+
+```{r, out.width='90%'}
+knitr::include_graphics("https://raw.githubusercontent.com/privefl/RR18/master/PC1-4.png")
+```
+
+.footnote[Implemented in `big_randomSVD()`, powered by R packages {RSpectra} and {Rcpp}.]
+
+---
+
 ## Multiple association testing
 
 The idea behind Genome-Wide Association Studies (GWAS) is simple: test each variant one by one for association with the phenotype of interest.
 For a continuous phenotype (e.g. height), linear regression is used and a t-test is performed for each SNP $j$ on $\beta^{(j)}$ where
 $$\hat{y} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$
-and $K$ is the number of covariables, including **first principal components** and other covariates such as age and gender. 
+and $K$ is the number of covariates, including **first principal components** and other covariates such as age and gender. 
 
 Similarly, for a binary phenotype (e.g. disease status), logistic regression is used and a Z-test is performed for each SNP $j$ on $\beta^{(j)}$ where
 $$\log{\left(\frac{\hat{p}}{1-\hat{p}}\right)} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$
@@ -201,20 +201,6 @@ knitr::include_graphics("figures/gwas-height-20K.png")
 
 ---
 
-## Partial Singular Value Decomposition
-
-15K $\times$ 100K -- 10 first PCs -- 6 cores -- **1 min** (vs 2h in base R)
-
-</br>
-
-```{r, out.width='90%'}
-knitr::include_graphics("https://raw.githubusercontent.com/privefl/RR18/master/PC1-4.png")
-```
-
-.footnote[Implemented in `big_randomSVD()`, powered by R packages {RSpectra} and {Rcpp}.]
-
----
-
 ## Benchmarks (GWAS)
 
 ```{r, out.width='80%'}
@@ -231,10 +217,19 @@ knitr::include_graphics("figures/approx-pca.png")
 
 ---
 
-## TODO: add new algorithms
+## Easy development of (two) new algorithms
 
-- autoSVD
-- fastImpute
+<br>
+
+- *fastImpute*: fast imputation of genotyped SNPs using XGBoost. 
+
+    $\Longrightarrow$ 15x faster than BEAGLE (no phasing) / almost same accuracy / imputation error estimation.
+
+- *autoSVD*: Automatic detection of long-range LD regions in PCA.
+
+```{r, out.width="60%"}
+knitr::include_graphics("figures/loadings-out.png")
+```
 
 ---
 
@@ -312,13 +307,54 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 - $p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)$
 
-- $x$ is denoting the genotypes and covariables (e.g. principal components), 
+- $x$ is denoting the **genotypes** and covariates (e.g. principal components), 
 
 - $y$ is the disease status we want to predict, 
 
 - $\lambda$ is a regularization parameter that needs to be determined and
 
 - $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
+
+---
+
+### Choice of the hyper-parameter $\lambda$ 
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/simple-CMSA.png")
+```
+
+---
+
+## Comprehensive simulations: varying many parameters
+
+#### Simulation models
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/table2-simus.png")
+```
+
+#### Methods
+
+- C+T: 
+    - C+T-all (no p-value thresholding), 
+    - C+T-stringent (GWAS threshold of significance) and
+    - C+T-max (best prediction for all thresholds, considered as an upper-bound)
+
+- PLR: penalized logistic regression with automatic selection of hyper-parameters
+
+---
+
+## Predictive performance measures
+
+**AUC** (Area Under the ROC Curve) and partial AUC (FPR < 10%) are used.
+
+```{r, out.width="50%"}
+knitr::include_graphics("https://i.stack.imgur.com/5x3Xj.png")
+```
+
+<br>
+
+$$\text{AUC} = P(S_\text{case} > S_\text{control})$$
 
 ---
 
@@ -379,6 +415,27 @@ knitr::include_graphics("figures/celiac-roc3.svg")
 knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
 ```
 
+---
+
+### Summary of our penalized regression as compared to the C+T method
+
+<br>
+
+- A more **optimal** approach for predicting complex diseases, providing more predictive models as long as one of 
+
+    - there are moderate effects, 
+    - there is some correlation between causal variants
+    - sample size if large enough
+
+- models are **linear** and **sparse** 
+
+- very **fast** and scalable to very large datasets such as the UK Biobank
+
+- **automatic choice** for the regularization parameter
+
+- can be extended to capture also recessive and dominant effects
+
+- can be extended to integrate external summary statistics information
 
 ---
 
@@ -412,7 +469,7 @@ $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cd
 
 <br>
 
-When you have only summary statistics (and a small reference panel), you can use:
+When you have only summary statistics (and a small individual-level dataset), you can use:
 
 - C+T
 
@@ -430,6 +487,7 @@ The idea of LDpred, lassosum and NPS is to use a reference panel to **account fo
 
 ## Could those models be improved?
 
+<br>
 
 - take into account quality of imputation?
 
@@ -441,16 +499,17 @@ knitr::include_graphics("figures/imputation.png")
 
 - scalable to which extent?
 
-- combine with individual-level datasets? (of possibly different populations)
-
 ---
 
 ## Hyper-parameters in C+T
 
-- threshold on squared correlation of clumping ( $r_c^2 \sim 0.2$ ) and    
-window size for LD computation ( $w_c \sim 500 kb$ )
 
 - p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
+
+--
+
+- threshold on squared correlation of clumping ( $r_c^2 \sim 0.2$ ) and    
+window size for LD computation ( $w_c \sim 500 kb$ )
 
 --
 
@@ -466,12 +525,12 @@ $\Longrightarrow$ *stdCT* (standard C+T)
 
 #### Our contribution
 
-- an efficient implementation to compute many C+T scores for different hyper-parameters (5600 sets of hyper-parameters $\times$ 22 chromosomes)    
+- an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** $\times$ 22 chromosomes)    
 $\Longrightarrow$ *maxCT* (maximized C+T)
 
 --
 
-- going further by stacking all C+T models (instead of just choosing the best model)    
+- going further by **stacking** (with an optimal linear combination of) all C+T models (instead of just choosing the best model)    
 $\Longrightarrow$ *SCT* (Stacked C+T)
 
 ---
