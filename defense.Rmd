@@ -137,7 +137,7 @@ class: center, middle, inverse
 
 <br>
 
-### **Privé, F.**, Aschard, H., Ziyatdinov, A., & Blum, M. G.B. (2018). Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr. Bioinformatics, 34(16), 2781-2787.
+### **Privé, F.**, Aschard, H., Ziyatdinov, A., & Blum, M. G.B. (2018).<br>*Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr.* Bioinformatics, 34(16), 2781-2787.
 
 ---
 
@@ -231,9 +231,20 @@ knitr::include_graphics("figures/approx-pca.png")
 
 ---
 
+## TODO: add new algorithms
+
+- autoSVD
+- fastImpute
+
+---
+
 class: center, middle, inverse
 
 # How to predict disease status<br>based on genotypes?
+
+<br>
+
+### **Privé, F.**, Aschard, H., & Blum, M. G.B. (2019).<br>*Efficient implementation of penalized regression for genetic risk prediction.* Genetics, 212(1), 65-74.
 
 ---
 
@@ -318,8 +329,6 @@ In C+T: weights learned independently and heuristics for correlation and regular
 knitr::include_graphics("figures/pres-AUC-ntrain2.svg")
 ```
 
-.foonote["Efficient implementation of penalized regression for genetic risk prediction" -- under revision]
-
 ---
 
 ## Real data
@@ -377,6 +386,10 @@ class: center, middle, inverse
 
 # Using summary statistics
 
+<br>
+
+### **Privé, F.**, Vilhjálmsson, B. J., Aschard, H., & Blum, M. G. (2019).<br>*Making the most of Clumping and Thresholding for polygenic scores.* bioRxiv, 653204. [soon in AJHG]
+
 ---
 
 ## Standard PRS: C+T
@@ -429,46 +442,6 @@ knitr::include_graphics("figures/imputation.png")
 - scalable to which extent?
 
 - combine with individual-level datasets? (of possibly different populations)
-
----
-
-# Stacked Clumping and Thresholding (SCT)
-
-## Making the most of C+T for polygenic scores
-
-<br>
-
-### Florian Privé
-
----
-
-## Standard PRS - part 1: estimating effects
-
-### Genome-wide association studies (GWAS)
-
-In a GWAS, each single-nucleotide polymorphism (SNP) is tested **independently**, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each SNP. 
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/gwas-height-20K.png")
-```
-
-Easy combining: $PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}$
-
----
-
-## Standard PRS - part 2: restricting predictors
-
-### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (C+T)
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/GWAS2PRS3.png")
-```
-
-<br>
-
-$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cdot G_{i,j}$$
 
 ---
 
@@ -579,13 +552,9 @@ class: center, middle, inverse
 
 ---
 
-## Make sure to grab an hex sticker
+## Current and future work
 
-<br>
-
-```{r, out.width='45%'}
-knitr::include_graphics("https://raw.githubusercontent.com/privefl/bigstatsr/master/bigstatsr.png")
-```
+TODO
 
 ---
 class: center, middle, inverse
