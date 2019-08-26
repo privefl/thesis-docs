@@ -7,7 +7,7 @@ output:
     nature:
       highlightStyle: github
       highlightLines: true
-      countIncrementalSlides: true
+      countIncrementalSlides: false
 ---
 
 ```{r setup, include=FALSE}
@@ -329,16 +329,15 @@ knitr::include_graphics("figures/simple-CMSA.png")
 
 #### Simulation models
 
-```{r, out.width="80%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/table2-simus.png")
 ```
 
+--
+
 #### Methods
 
-- C+T: 
-    - C+T-all (no p-value thresholding), 
-    - C+T-stringent (GWAS threshold of significance) and
-    - C+T-max (best prediction for all thresholds, considered as an upper-bound)
+- C+T-max: best prediction for all thresholds, considered as an upper-bound
 
 - PLR: penalized logistic regression with automatic selection of hyper-parameters
 
@@ -358,10 +357,21 @@ $$\text{AUC} = P(S_\text{case} > S_\text{control})$$
 
 ---
 
+### Prediction in different simulation scenarios
+
+<br>
+
+```{r, out.width="85%"}
+knitr::include_graphics("figures/pres2-AUC-logit.svg")
+```
+
+---
+
 ### Prediction with PLR is improving faster
 
+<br>
 
-```{r, out.width="80%"}
+```{r, out.width="85%"}
 knitr::include_graphics("figures/pres-AUC-ntrain2.svg")
 ```
 
@@ -426,14 +436,24 @@ knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.pn
     - there are moderate effects, 
     - there is some correlation between causal variants
     - sample size if large enough
+    
+--
 
 - models are **linear** and **sparse** 
 
+--
+
 - very **fast** and scalable to very large datasets such as the UK Biobank
+
+--
 
 - **automatic choice** for the regularization parameter
 
+--
+
 - can be extended to capture also recessive and dominant effects
+
+--
 
 - can be extended to integrate external summary statistics information
 
@@ -601,19 +621,45 @@ class: center, middle, inverse
     
     Package bigstatsr can be used for any data encoded as matrices.
 
-2. Including an implementation of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
+--
+2. Including an implementation (in bigstatsr) of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
     
     (https://doi.org/10.1101/403337) 
 
-3. Including summary statistics from large GWAS to improve prediction. 
+--
+3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with lassosum and LDpred.
 
-    (TODO) 
+    (https://doi.org/10.1101/653204)
 
 ---
 
-## Current and future work
+background-image: url("figures/flag-denmark.png")
+background-size: cover
 
-TODO
+### Current work in Denmark
+
+- Answering reviews for C+T/SCT paper (due for 30 Sept)
+
+--
+
+- Coding in bigsnpr
+
+    - clumping and PCA directly on PLINK files with missing values
+    - improving autoSVD algorithm, including automatic detection of outlier samples on top of long-range LD regions
+
+--
+
+### Future work in Denmark
+
+- multi-phenotype prediction with SCT (e.g. for schizophrenia, bipolar disorder and depression)
+
+- inclusion of summary statistics information in penalized regressions
+
+- coding of penalized Cox regression
+
+- comparison of PRS methods (via data challenge?)
+
+- comparison of PRS models with models based on clinical & environmental factors
 
 ---
 class: center, middle, inverse

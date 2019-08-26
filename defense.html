@@ -301,14 +301,13 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 #### Simulation models
 
-&lt;img src="figures/table2-simus.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/table2-simus.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+--
 
 #### Methods
 
-- C+T: 
-    - C+T-all (no p-value thresholding), 
-    - C+T-stringent (GWAS threshold of significance) and
-    - C+T-max (best prediction for all thresholds, considered as an upper-bound)
+- C+T-max: best prediction for all thresholds, considered as an upper-bound
 
 - PLR: penalized logistic regression with automatic selection of hyper-parameters
 
@@ -326,10 +325,19 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 ---
 
+### Prediction in different simulation scenarios
+
+&lt;br&gt;
+
+&lt;img src="figures/pres2-AUC-logit.svg" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
 ### Prediction with PLR is improving faster
 
+&lt;br&gt;
 
-&lt;img src="figures/pres-AUC-ntrain2.svg" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/pres-AUC-ntrain2.svg" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -386,14 +394,24 @@ In C+T: weights learned independently and heuristics for correlation and regular
     - there are moderate effects, 
     - there is some correlation between causal variants
     - sample size if large enough
+    
+--
 
 - models are **linear** and **sparse** 
 
+--
+
 - very **fast** and scalable to very large datasets such as the UK Biobank
+
+--
 
 - **automatic choice** for the regularization parameter
 
+--
+
 - can be extended to capture also recessive and dominant effects
+
+--
 
 - can be extended to integrate external summary statistics information
 
@@ -551,19 +569,45 @@ class: center, middle, inverse
     
     Package bigstatsr can be used for any data encoded as matrices.
 
-2. Including an implementation of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
+--
+2. Including an implementation (in bigstatsr) of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
     
     (https://doi.org/10.1101/403337) 
 
-3. Including summary statistics from large GWAS to improve prediction. 
+--
+3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with lassosum and LDpred.
 
-    (TODO) 
+    (https://doi.org/10.1101/653204)
 
 ---
 
-## Current and future work
+background-image: url("figures/flag-denmark.png")
+background-size: cover
 
-TODO
+### Current work in Denmark
+
+- Answering reviews for C+T/SCT paper (due for 30 Sept)
+
+--
+
+- Coding in bigsnpr
+
+    - clumping and PCA directly on PLINK files with missing values
+    - improving autoSVD algorithm, including automatic detection of outlier samples on top of long-range LD regions
+
+--
+
+### Future work in Denmark
+
+- multi-phenotype prediction with SCT (e.g. for schizophrenia, bipolar disorder and depression)
+
+- inclusion of summary statistics information in penalized regressions
+
+- coding of penalized Cox regression
+
+- comparison of PRS methods (via data challenge?)
+
+- comparison of PRS models with models based on clinical &amp; environmental factors
 
 ---
 class: center, middle, inverse
@@ -587,7 +631,7 @@ https://privefl.github.io/thesis-docs/defense.html
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": true
+"countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
