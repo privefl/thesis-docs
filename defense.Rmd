@@ -66,6 +66,20 @@ knitr::include_graphics("figures/risk-strat.png")
 
 ---
 
+## Interest in Polygenic Risk Scores (PRS)
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/PRS-trend.png")
+```
+
+
+However, current predictions fall short from clinical utility.
+
+We need more optimal predictions and larger sample sizes.
+
+
+---
+
 ## Data
 
 <br>
@@ -85,23 +99,6 @@ for each individual (row) and each genome position (column)
 <br>
 
 $$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$
-
----
-
-## Interest in prediction: polygenic risk scores (PRS)
-
-- Wray, Naomi R., Michael E. Goddard, and Peter M. Visscher. "**Prediction of individual genetic risk** to disease from genome-wide association studies." Genome research 17.10 (**2007**): 1520-1528.
-
-- Wray, Naomi R., et al. "Pitfalls of **predicting complex traits** from SNPs." Nature Reviews Genetics 14.7 (**2013**): 507.
-
-- Dudbridge, Frank. "Power and **predictive accuracy of polygenic risk scores**." PLoS genetics 9.3 (**2013**): e1003348.
-
-- Chatterjee, Nilanjan, Jianxin Shi, and Montserrat García-Closas. "Developing and evaluating **polygenic risk prediction** models for stratified disease prevention." Nature Reviews Genetics 17.7 (**2016**): 392.
-
-- Martin, Alicia R., et al. "Human demographic history impacts **genetic risk prediction** across diverse populations." The American Journal of Human Genetics 100.4 (**2017**): 635-649.
-
-.footnote2[Still a gap between current predictions and clinical utility.</br>Need more optimal predictions + larger sample sizes.]
-
 
 ---
 
