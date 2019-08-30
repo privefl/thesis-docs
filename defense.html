@@ -130,9 +130,6 @@ class: center, middle, inverse
     
 - Work on my computer (interactively)
 
-    - I have 64 GB of RAM and 12 cores
-    - Working on a server is not as easy as on my computer
-
 &lt;br&gt;&lt;center&gt;**Smooth and fast analysis!**
 
 ---
@@ -145,70 +142,23 @@ class: center, middle, inverse
 
 ---
 
-## Partial Singular Value Decomposition
+## Benchmarks (example with PCA/GWAS)
 
-15K `\(\times\)` 100K -- 10 first PCs -- 6 cores -- **1 min** (vs 2h in base R)
-
-&lt;/br&gt;
-
-&lt;img src="https://raw.githubusercontent.com/privefl/RR18/master/PC1-4.png" width="90%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Implemented in `big_randomSVD()`, powered by R packages {RSpectra} and {Rcpp}.]
-
----
-
-## Multiple association testing
-
-The idea behind Genome-Wide Association Studies (GWAS) is simple: test each variant one by one for association with the phenotype of interest.
-For a continuous phenotype (e.g. height), linear regression is used and a t-test is performed for each SNP `\(j\)` on `\(\beta^{(j)}\)` where
-`$$\hat{y} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$`
-and `\(K\)` is the number of covariates, including **first principal components** and other covariates such as age and gender. 
-
-Similarly, for a binary phenotype (e.g. disease status), logistic regression is used and a Z-test is performed for each SNP `\(j\)` on `\(\beta^{(j)}\)` where
-`$$\log{\left(\frac{\hat{p}}{1-\hat{p}}\right)} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$`
-and `\(\hat{p} = \mathbb{P}(Y = 1)\)` and `\(Y\)` denotes the binary phenotype.
-
----
-
-### Which DNA mutations are associated with one disease?
-
-&lt;br&gt;
-
-&lt;br&gt;
-
-&lt;img src="figures/gwas-height-20K.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Benchmarks (GWAS)
+#### I have spent a lot of time optimizing all functions
 
 &lt;img src="figures/table-bench.png" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Precision (approximate PCA)
-
-&lt;img src="figures/approx-pca.png" width="80%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Easy development of (two) new algorithms
-
-&lt;br&gt;
-
-- *fastImpute*: fast imputation of genotyped SNPs using XGBoost. 
-
-    `\(\Longrightarrow\)` 15x faster than BEAGLE (no phasing) / almost same accuracy / imputation error estimation.
-
-- *autoSVD*: Automatic detection of long-range LD regions in PCA.
-
-&lt;img src="figures/loadings-out.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 class: center, middle, inverse
 
 # How to predict disease status&lt;br&gt;based on genotypes?
+
+---
+
+class: center, middle, inverse
+
+# Prediction using individual-level data
 
 &lt;br&gt;
 
@@ -410,15 +360,23 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 - can be extended to integrate external summary statistics information
 
+--
+
+&lt;br&gt;
+
+**However**, need to have access to large individual-level data.
+
 ---
 
 class: center, middle, inverse
 
-# Using summary statistics
+# Prediction using summary statistics
 
 &lt;br&gt;
 
-### **Privé, F.**, Vilhjálmsson, B. J., Aschard, H., &amp; Blum, M. G. (2019).&lt;br&gt;*Making the most of Clumping and Thresholding for polygenic scores.* bioRxiv, 653204. [soon in AJHG]
+### **Privé, F.**, Vilhjálmsson, B. J., Aschard, H., &amp; Blum, M. G. (2019).&lt;br&gt;*Making the most of Clumping and Thresholding for polygenic scores.* bioRxiv, 653204. 
+
+[In revision in the American Journal of Human Genetics]
 
 ---
 
@@ -444,34 +402,52 @@ When you have only summary statistics (and a small individual-level dataset), yo
 
 - C+T
 
+--
+
 - LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
+
+--
 
 - lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
-- NPS (*Chun, Sung, et al. "Non-parametric polygenic risk prediction using partitioned GWAS summary statistics." bioRxiv (2018): 370064.*)
+--
 
-&lt;br&gt;
+- Other methods in development, such as NPS, PRS-CS and SBayesR.
 
-The idea of LDpred, lassosum and NPS is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
+--
+
+The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
 
 ---
 
 ## Could those models be improved?
 
-&lt;br&gt;
+--
 
 - take into account quality of imputation?
 
 &lt;img src="figures/imputation.png" width="50%" style="display: block; margin: auto;" /&gt;
 
-- support PLINK bed files only; what about BGEN files such as for the UK Biobank?
+--
 
-- scalable to which extent?
+- support other formats than PLINK bed files?    
+(imputation probabilities / dosages)
+
+--
+
+- do they have a scalable implementation?
+
+--
+
+&lt;br&gt;
+
+We decided to improve C+T first.
 
 ---
 
 ## Hyper-parameters in C+T
 
+--
 
 - p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
 
@@ -504,25 +480,45 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 ---
 
-## Stacking with penalized logistic regression
+## Grid of hyper-parameters and Stacking
+
+We compute C+T scores *for each chromosome separately* and for several parameters:
+
+- **Threshold on imputation** INFO score `\(\text{INFO}_T\)` within **\{0.3, 0.6, 0.9, 0.95\}**.
+
+--
+
+- Squared correlation **threshold of clumping** `\(r_c^2\)` within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
+
+--
+
+- Base **size of clumping window** within \{50, 100, 200, 500\}. The window size `\(w_c\)` is then computed as the base size divided by `\(r_c^2\)`. For example, for `\(r_c^2 = 0.2\)`, we test values of `\(w_c\)` within \{250, 500, 1000, 2500\} (in kb).
+
+--
+
+- **A sequence of 50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
+
+--
 
 &lt;br&gt;
 
-&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+Then, we **stack these 123,200 C+T scores** by using them as variables in the efficient penalized regressions we implemented previously.
+
+---
+
+## Data (simulations)
 
 &lt;br&gt;
 
-***
+UK Biobank data for 1M variants and:
 
-- `\(p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)\)`
+- 315,609 individuals for computing summary
+statistics (GWAS), 
 
-- `\(x\)` is denoting the **C+T scores** and covariates (e.g. principal components), 
+- a set of 10,000 individuals for training hyper-parameters and lastly 
 
-- `\(y\)` is the disease status we want to predict, 
-
-- `\(\lambda\)` is a regularization parameter that needs to be determined and
-
-- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
+- a test set of
+10,000 individuals for evaluating models.
 
 ---
 
@@ -532,9 +528,26 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 ---
 
-## Results (real data)
+## Data (real summary statistics and phenotypes)
 
 &lt;br&gt;
+
+&lt;img src="figures/data-SCT.png" width="1911" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (small training set)
+
+500 cases and 2000 controls in training
+
+
+&lt;img src="figures/AUC-real-small-1.png" width="2267" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (large training set)
+
+Between 120K and 350K individuals in training
 
 &lt;img src="figures/SCT-AUC-real.png" width="1047" style="display: block; margin: auto;" /&gt;
 
@@ -546,6 +559,12 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 &lt;br&gt;
 
 &lt;img src="figures/opt-param-maxCT.png" width="120%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Summary
+
+TODO
 
 ---
 class: center, middle, inverse
@@ -567,19 +586,16 @@ class: center, middle, inverse
 --
 2. Including an implementation (in bigstatsr) of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
     
-    (https://doi.org/10.1101/403337) 
+    (https://doi.org/10.1534/genetics.119.302019) 
 
 --
-3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with lassosum and LDpred.
+3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with standard C+T, lassosum and LDpred.
 
     (https://doi.org/10.1101/653204)
 
 ---
 
-background-image: url("figures/flag-denmark.png")
-background-size: cover
-
-### Current work in Denmark
+## Directions of future work
 
 - Answering reviews for C+T/SCT paper (due for 30 Sept)
 
@@ -592,15 +608,25 @@ background-size: cover
 
 --
 
-### Future work in Denmark
-
 - multi-phenotype prediction with SCT (e.g. for schizophrenia, bipolar disorder and depression)
+
+--
+
+- testing of different scaling functions in penalized regressions
+
+--
 
 - inclusion of summary statistics information in penalized regressions
 
+--
+
 - coding of penalized Cox regression
 
+--
+
 - comparison of PRS methods (via data challenge?)
+
+--
 
 - comparison of PRS models with models based on clinical &amp; environmental factors
 

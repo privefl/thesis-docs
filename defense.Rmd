@@ -142,9 +142,6 @@ class: center, middle, inverse
     
 - Work on my computer (interactively)
 
-    - I have 64 GB of RAM and 12 cores
-    - Working on a server is not as easy as on my computer
-
 <br><center>**Smooth and fast analysis!**
 
 ---
@@ -159,46 +156,9 @@ knitr::include_graphics("https://raw.githubusercontent.com/privefl/RR18/master/m
 
 ---
 
-## Partial Singular Value Decomposition
+## Benchmarks (example with PCA/GWAS)
 
-15K $\times$ 100K -- 10 first PCs -- 6 cores -- **1 min** (vs 2h in base R)
-
-</br>
-
-```{r, out.width='90%'}
-knitr::include_graphics("https://raw.githubusercontent.com/privefl/RR18/master/PC1-4.png")
-```
-
-.footnote[Implemented in `big_randomSVD()`, powered by R packages {RSpectra} and {Rcpp}.]
-
----
-
-## Multiple association testing
-
-The idea behind Genome-Wide Association Studies (GWAS) is simple: test each variant one by one for association with the phenotype of interest.
-For a continuous phenotype (e.g. height), linear regression is used and a t-test is performed for each SNP $j$ on $\beta^{(j)}$ where
-$$\hat{y} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$
-and $K$ is the number of covariates, including **first principal components** and other covariates such as age and gender. 
-
-Similarly, for a binary phenotype (e.g. disease status), logistic regression is used and a Z-test is performed for each SNP $j$ on $\beta^{(j)}$ where
-$$\log{\left(\frac{\hat{p}}{1-\hat{p}}\right)} = \alpha^{(j)} + \beta^{(j)} SNP^{(j)} + \gamma_1^{(j)} COV_1 + \cdots + \gamma_K^{(j)} COV_K~,$$
-and $\hat{p} = \mathbb{P}(Y = 1)$ and $Y$ denotes the binary phenotype.
-
----
-
-### Which DNA mutations are associated with one disease?
-
-<br>
-
-<br>
-
-```{r, out.width='100%'}
-knitr::include_graphics("figures/gwas-height-20K.png")
-```
-
----
-
-## Benchmarks (GWAS)
+#### I have spent a lot of time optimizing all functions
 
 ```{r, out.width='80%'}
 knitr::include_graphics("figures/table-bench.png")
@@ -206,33 +166,15 @@ knitr::include_graphics("figures/table-bench.png")
 
 ---
 
-## Precision (approximate PCA)
+class: center, middle, inverse
 
-```{r, out.width='80%'}
-knitr::include_graphics("figures/approx-pca.png")
-```
-
----
-
-## Easy development of (two) new algorithms
-
-<br>
-
-- *fastImpute*: fast imputation of genotyped SNPs using XGBoost. 
-
-    $\Longrightarrow$ 15x faster than BEAGLE (no phasing) / almost same accuracy / imputation error estimation.
-
-- *autoSVD*: Automatic detection of long-range LD regions in PCA.
-
-```{r, out.width="60%"}
-knitr::include_graphics("figures/loadings-out.png")
-```
+# How to predict disease status<br>based on genotypes?
 
 ---
 
 class: center, middle, inverse
 
-# How to predict disease status<br>based on genotypes?
+# Prediction using individual-level data
 
 <br>
 
@@ -454,15 +396,23 @@ knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.pn
 
 - can be extended to integrate external summary statistics information
 
+--
+
+<br>
+
+**However**, need to have access to large individual-level data.
+
 ---
 
 class: center, middle, inverse
 
-# Using summary statistics
+# Prediction using summary statistics
 
 <br>
 
-### **Privé, F.**, Vilhjálmsson, B. J., Aschard, H., & Blum, M. G. (2019).<br>*Making the most of Clumping and Thresholding for polygenic scores.* bioRxiv, 653204. [soon in AJHG]
+### **Privé, F.**, Vilhjálmsson, B. J., Aschard, H., & Blum, M. G. (2019).<br>*Making the most of Clumping and Thresholding for polygenic scores.* bioRxiv, 653204. 
+
+[In revision in the American Journal of Human Genetics]
 
 ---
 
@@ -490,21 +440,27 @@ When you have only summary statistics (and a small individual-level dataset), yo
 
 - C+T
 
+--
+
 - LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
+
+--
 
 - lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
-- NPS (*Chun, Sung, et al. "Non-parametric polygenic risk prediction using partitioned GWAS summary statistics." bioRxiv (2018): 370064.*)
+--
 
-<br>
+- Other methods in development, such as NPS, PRS-CS and SBayesR.
 
-The idea of LDpred, lassosum and NPS is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
+--
+
+The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs. Lassosum also adds some sparsity.
 
 ---
 
 ## Could those models be improved?
 
-<br>
+--
 
 - take into account quality of imputation?
 
@@ -512,14 +468,26 @@ The idea of LDpred, lassosum and NPS is to use a reference panel to **account fo
 knitr::include_graphics("figures/imputation.png")
 ```
 
-- support PLINK bed files only; what about BGEN files such as for the UK Biobank?
+--
 
-- scalable to which extent?
+- support other formats than PLINK bed files?    
+(imputation probabilities / dosages)
+
+--
+
+- do they have a scalable implementation?
+
+--
+
+<br>
+
+We decided to improve C+T first.
 
 ---
 
 ## Hyper-parameters in C+T
 
+--
 
 - p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
 
@@ -552,25 +520,45 @@ $\Longrightarrow$ *SCT* (Stacked C+T)
 
 ---
 
-## Stacking with penalized logistic regression
+## Grid of hyper-parameters and Stacking
+
+We compute C+T scores *for each chromosome separately* and for several parameters:
+
+- **Threshold on imputation** INFO score $\text{INFO}_T$ within **\{0.3, 0.6, 0.9, 0.95\}**.
+
+--
+
+- Squared correlation **threshold of clumping** $r_c^2$ within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
+
+--
+
+- Base **size of clumping window** within \{50, 100, 200, 500\}. The window size $w_c$ is then computed as the base size divided by $r_c^2$. For example, for $r_c^2 = 0.2$, we test values of $w_c$ within \{250, 500, 1000, 2500\} (in kb).
+
+--
+
+- **A sequence of 50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
+
+--
 
 <br>
 
-<Small>$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ -\sum_{i=1}^n \left( y_i \log\left(p_i\right) + (1 - y_i) \log\left(1 - p_i\right) \right) }_\text{Loss function}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$</Small>
+Then, we **stack these 123,200 C+T scores** by using them as variables in the efficient penalized regressions we implemented previously.
+
+---
+
+## Data (simulations)
 
 <br>
 
-***
+UK Biobank data for 1M variants and:
 
-- $p_i=1/\left(1+\exp\left(-(\beta_0 + x_i^T\beta)\right)\right)$
+- 315,609 individuals for computing summary
+statistics (GWAS), 
 
-- $x$ is denoting the **C+T scores** and covariates (e.g. principal components), 
+- a set of 10,000 individuals for training hyper-parameters and lastly 
 
-- $y$ is the disease status we want to predict, 
-
-- $\lambda$ is a regularization parameter that needs to be determined and
-
-- $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
+- a test set of
+10,000 individuals for evaluating models.
 
 ---
 
@@ -582,9 +570,30 @@ knitr::include_graphics("figures/SCT-AUC-simus.png")
 
 ---
 
-## Results (real data)
+## Data (real summary statistics and phenotypes)
 
 <br>
+
+```{r}
+knitr::include_graphics("figures/data-SCT.png")
+```
+
+---
+
+## Results (small training set)
+
+500 cases and 2000 controls in training
+
+
+```{r}
+knitr::include_graphics("figures/AUC-real-small-1.png")
+```
+
+---
+
+## Results (large training set)
+
+Between 120K and 350K individuals in training
 
 ```{r}
 knitr::include_graphics("figures/SCT-AUC-real.png")
@@ -600,6 +609,12 @@ knitr::include_graphics("figures/SCT-AUC-real.png")
 ```{r, out.width="120%"}
 knitr::include_graphics("figures/opt-param-maxCT.png")
 ```
+
+---
+
+## Summary
+
+TODO
 
 ---
 class: center, middle, inverse
@@ -621,19 +636,16 @@ class: center, middle, inverse
 --
 2. Including an implementation (in bigstatsr) of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
     
-    (https://doi.org/10.1101/403337) 
+    (https://doi.org/10.1534/genetics.119.302019) 
 
 --
-3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with lassosum and LDpred.
+3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with standard C+T, lassosum and LDpred.
 
     (https://doi.org/10.1101/653204)
 
 ---
 
-background-image: url("figures/flag-denmark.png")
-background-size: cover
-
-### Current work in Denmark
+## Directions of future work
 
 - Answering reviews for C+T/SCT paper (due for 30 Sept)
 
@@ -646,15 +658,25 @@ background-size: cover
 
 --
 
-### Future work in Denmark
-
 - multi-phenotype prediction with SCT (e.g. for schizophrenia, bipolar disorder and depression)
+
+--
+
+- testing of different scaling functions in penalized regressions
+
+--
 
 - inclusion of summary statistics information in penalized regressions
 
+--
+
 - coding of penalized Cox regression
 
+--
+
 - comparison of PRS methods (via data challenge?)
+
+--
 
 - comparison of PRS models with models based on clinical & environmental factors
 
