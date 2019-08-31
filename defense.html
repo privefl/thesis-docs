@@ -508,7 +508,19 @@ Then, we **stack these 123,200 C+T scores** by using them as variables in the ef
 
 ## Data (simulations)
 
-&lt;br&gt;
+#### Simulate new phenotypes
+
+- 100, 10K, or 1M random causal variants with Gaussian effects
+
+- Three additional scenarios with more complex architectures:
+
+    - "2chr": 100 variants of chromosome 1 and all variants of chromosome 2 are causal
+    - "err": we use 10K random causal variants but 10\% of the GWAS effects are reported with an opposite effect in the summary statistics
+    - "HLA": 7105 causal variants are chosen in one long-range LD region
+
+--
+
+#### Real genotypes
 
 UK Biobank data for 1M variants and:
 
@@ -528,7 +540,15 @@ statistics (GWAS),
 
 ---
 
-## Data (real summary statistics and phenotypes)
+## Data (real phenotypes)
+
+- Include 8 common disorders
+
+- Real genotype + phenotype data (UK Biobank)
+
+- External published summary statistics (that did not use UK Biobank)
+
+--
 
 &lt;br&gt;
 
@@ -539,7 +559,6 @@ statistics (GWAS),
 ## Results (small training set)
 
 500 cases and 2000 controls in training
-
 
 &lt;img src="figures/AUC-real-small-1.png" width="2267" style="display: block; margin: auto;" /&gt;
 
@@ -564,7 +583,20 @@ Between 120K and 350K individuals in training
 
 ## Summary
 
-TODO
+&lt;br&gt;
+
+TODO COMPLETE
+
+- We improved C+T by tuning more hyper-parameters &amp; stacking
+
+--
+
+- maxCT is on par with lassosum, while being more robust (no model)
+
+--
+
+- predictive power of SCT is increasing with sample size 
+
 
 ---
 class: center, middle, inverse
@@ -597,7 +629,10 @@ class: center, middle, inverse
 
 ## Directions of future work
 
-- Answering reviews for C+T/SCT paper (due for 30 Sept)
+- Revisions for C+T/SCT paper
+
+    - add LDpred to the comparisons
+    - investigate MAF parameter
 
 --
 
@@ -628,7 +663,7 @@ class: center, middle, inverse
 
 --
 
-- comparison of PRS models with models based on clinical &amp; environmental factors
+- comparison of PRS models with clinical and environmental factors
 
 ---
 class: center, middle, inverse
