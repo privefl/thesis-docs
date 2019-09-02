@@ -56,6 +56,8 @@ knitr::include_graphics("figures/PRS.png")
 
 ## PRS define lifetime trajectories
 
+### An example (e.g. breast cancer)
+
 <br>
 
 ```{r, out.width="95%"}
