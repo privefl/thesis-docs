@@ -212,6 +212,21 @@ $$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~<~p_T}} \hat\beta_j \cd
 
 ---
 
+```{r}
+knitr::include_graphics("figures/fig-GWAS-C+T.png")
+```
+--
+```{r}
+knitr::include_graphics("figures/fig-GWAS-C+T-clumping.png")
+```
+--
+```{r}
+knitr::include_graphics("figures/fig-GWAS-C+T-clumping-thresholding.png")
+```
+
+
+---
+
 ## A more optimal approach to computing PRS?
 
 In C+T: weights learned independently and heuristics for correlation and regularization.
