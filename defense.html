@@ -62,6 +62,8 @@ A simple model: `\(y_i = \sum_j \beta_j x_{i,j} + \epsilon\)`
 
 &lt;img src="figures/PRS-trend.png" width="80%" style="display: block; margin: auto;" /&gt;
 
+&lt;br&gt;
+
 
 However, current predictions fall short from clinical utility.
 
@@ -192,18 +194,18 @@ Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 ---
 
-&lt;img src="figures/fig-GWAS-C+T.png" width="1741" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/fig-GWAS-C+T.jpg" width="1741" style="display: block; margin: auto;" /&gt;
 --
-&lt;img src="figures/fig-GWAS-C+T-clumping.png" width="1741" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/fig-GWAS-C+T-clumping.jpg" width="1741" style="display: block; margin: auto;" /&gt;
 --
-&lt;img src="figures/fig-GWAS-C+T-clumping-thresholding.png" width="1741" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/fig-GWAS-C+T-clumping-thresholding.jpg" width="1741" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 ## A more optimal approach to computing PRS?
 
-In C+T: weights learned independently and heuristics for correlation and regularization.
+In C+T, weights are learned independently and we use heuristics for correlation and regularization.
 
 --
 
@@ -325,7 +327,7 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 ---
 
-## LASSO for predicting height
+## PLR for predicting height
 
 - 350K individuals x 656K SNPs in less than one day
 
@@ -369,7 +371,7 @@ In C+T: weights learned independently and heuristics for correlation and regular
 
 &lt;br&gt;
 
-**However**, need to have access to large individual-level data.
+**However, need to have access to large individual-level data.**
 
 ---
 
@@ -385,17 +387,9 @@ class: center, middle, inverse
 
 ---
 
-## Standard PRS: C+T
+### Using summary statistics from large GWAS
 
-In a GWAS, each SNP is tested independently, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each SNP (**summary statistics**). 
-
-&lt;br&gt;
-
-&lt;img src="figures/gwas-height-20K.png" width="85%" style="display: block; margin: auto;" /&gt;
-
-&lt;br&gt;
-
-`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+&lt;img src="figures/PRS-sumstats.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -425,32 +419,9 @@ The idea of LDpred, lassosum and the other methods is to use a reference panel t
 
 ---
 
-## Could those models be improved?
+### Making the most of C+T
 
---
-
-- take into account quality of imputation?
-
-&lt;img src="figures/imputation.png" width="50%" style="display: block; margin: auto;" /&gt;
-
---
-
-- support other formats than PLINK bed files?    
-(imputation probabilities / dosages)
-
---
-
-- do they have a scalable implementation?
-
---
-
-&lt;br&gt;
-
-We decided to improve C+T first.
-
----
-
-## Hyper-parameters in C+T
+#### Hyper-parameters in C+T
 
 --
 
@@ -469,8 +440,6 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 `\(\Longrightarrow\)` *stdCT* (standard C+T)
 
-&lt;br&gt;
-
 --
 
 #### Our contribution
@@ -480,7 +449,7 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 --
 
-- going further by **stacking** (with an optimal linear combination of) all C+T models (instead of just choosing the best model)    
+- going further by **stacking** (*Breiman, Leo. "Stacked regressions." Machine learning 24.1 (1996): 49-64.*) with a linear combination of all C+T models (instead of just choosing the best model)    
 `\(\Longrightarrow\)` *SCT* (Stacked C+T)
 
 ---
@@ -590,9 +559,7 @@ Between 120K and 350K individuals in training
 
 &lt;br&gt;
 
-TODO COMPLETE
-
-- We improved C+T by tuning more hyper-parameters &amp; stacking
+- We improved C+T by tuning more hyper-parameters
 
 --
 
@@ -600,7 +567,19 @@ TODO COMPLETE
 
 --
 
-- predictive power of SCT is increasing with sample size 
+- stacking makes C+T more flexible and potentially much more predictive
+
+--
+
+- predictive power of SCT is increasing with sample size
+
+--
+
+- can extend SCT to account for other parameters (e.g. MAF)
+
+--
+
+- can extend SCT to use multiple summary statistics
 
 
 ---
