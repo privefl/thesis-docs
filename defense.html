@@ -72,7 +72,7 @@ We need more optimal predictions and larger sample sizes.
 
 ---
 
-## Data
+## Data: very large genotype matrices
 
 &lt;br&gt;
 
@@ -84,23 +84,14 @@ for each individual (row) and each genome position (column)
 
 &lt;br&gt;
 
-\+ some phenotype(s) (e.g. disease status you want to predict)
+--
 
-\+ other metadata 
+Data I analyzed:
 
-&lt;br&gt;
+- [celiac disease](https://doi.org/10.1038/ng.543): 15K x 280K (~30GB)
 
-`$$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$`
+- [UK Biobank](https://doi.org/10.1101/166298): 500K x 800K (~3TB)
 
----
-
-## Very large genotype matrices
-
-- previously: 15K x 280K, [celiac disease](https://doi.org/10.1038/ng.543) (~30GB)
-
-- currently: 500K x 800K, [UK Biobank](https://doi.org/10.1101/166298) (~3TB)
- 
-&lt;img src="https://media.giphy.com/media/3o7bueyxGydy48Lwgo/giphy.gif" width="55%" style="display: block; margin: auto;" /&gt;
 
 .footnote[But I still want to use <i class="fab  fa-r-project "></i>..]
 
@@ -116,43 +107,19 @@ class: center, middle, inverse
 
 ---
 
-## What I want to be able to do
+## Our two R packages: bigstatsr and bigsnpr
 
-### Data analysis on large-scale genotype matrices!
-
-- Be fast to test many ideas quickly
-
-    - code should be fast
-    - I shouldn't have to make many conversions between formats
-    - easily combine multiple functions
-    
-- Not be restricted in my analysis
-   
-    - Basically use all I already know in <i class="fab  fa-r-project "></i>
-    
-- Work on my computer (interactively)
-
-&lt;br&gt;&lt;center&gt;**Smooth and fast data analysis!**
-
----
-
-## The solution I found
-
-&lt;img src="https://raw.githubusercontent.com/privefl/RR18/master/memory-solution.svg?sanitize=true" width="90%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Format `FBM` is very similar to format `filebacked.big.matrix` from package {bigmemory} (details in [this vignette](https://privefl.github.io/bigstatsr/articles/bigstatsr-and-bigmemory.html)).]
-
----
-
-## Benchmarks (example with PCA/GWAS)
+### Smooth and fast data analysis with big matrices stored on disk
 
 &lt;br&gt;
 
-&lt;img src="figures/table-bench-simple.png" width="85%" style="display: block; margin: auto;" /&gt;
+- {bigstatsr} for many types of matrix, to be used by any field of research
+
+- {bigsnpr} for functions that are specific to the analysis of genetic data
 
 &lt;br&gt;
 
-**I have spent a lot of time optimizing all functions.**
+&lt;img src="figures/package-stars.png" width="1421" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -417,7 +384,7 @@ When you have only summary statistics (and a small individual-level dataset), yo
 
 &lt;!-- -- --&gt;
 
-The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between variants, instead of pruning (removing) variants.
+The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between variants, instead of clumping (removing) variants.
 
 ---
 
@@ -427,7 +394,7 @@ The idea of LDpred, lassosum and the other methods is to use a reference panel t
 
 &lt;!-- -- --&gt;
 
-- p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
+- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
 
 &lt;!-- -- --&gt;
 
@@ -436,7 +403,7 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 &lt;!-- -- --&gt;
 
-- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
+- p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
 
 &lt;!-- -- --&gt;
 
@@ -518,9 +485,11 @@ statistics (GWAS),
 
 ## Data (real phenotypes)
 
+&lt;br&gt;
+
 - Include 8 common disorders
 
-- Real genotype + phenotype data (UK Biobank)
+- Real genotypes + phenotypes (UK Biobank) for training/validation/test
 
 - External published summary statistics (that did not use UK Biobank)
 
@@ -528,7 +497,7 @@ statistics (GWAS),
 
 &lt;br&gt;
 
-&lt;img src="figures/data-SCT.png" width="1911" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/data-SCT.png" width="1301" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -545,15 +514,6 @@ statistics (GWAS),
 Between 120K and 350K individuals in training
 
 &lt;img src="figures/AUC-real.png" width="3400" style="display: block; margin: auto;" /&gt;
-
----
-
-## Results (optimal parameters in maxCT)
-
-&lt;br&gt;
-&lt;br&gt;
-
-&lt;img src="figures/opt-param-maxCT.png" width="120%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -607,7 +567,7 @@ class: center, middle, inverse
     (https://doi.org/10.1534/genetics.119.302019) 
 
 --
-3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with standard C+T, lassosum and LDpred.
+3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with standard C+T, lassosum (and LDpred).
 
     (https://doi.org/10.1101/653204)
 
