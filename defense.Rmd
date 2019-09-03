@@ -54,14 +54,12 @@ knitr::include_graphics("figures/PRS.png")
 
 ---
 
-## PRS define lifetime trajectories
-
-### An example (e.g. breast cancer)
+## Identify high-risk individuals
 
 <br>
 
-```{r, out.width="95%"}
-knitr::include_graphics("figures/risk-strat.png")
+```{r, out.width="80%"}
+knitr::include_graphics("figures/PRS-utility.png")
 ```
 
 .footnote[Source: 10.1093/hmg/ddz187]
