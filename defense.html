@@ -347,15 +347,15 @@ In C+T, weights are learned independently and we use heuristics for correlation 
     - there is some correlation between causal variants
     - sample size if large enough
     
---
+&lt;!-- -- --&gt;
 
 - models are **linear** and **sparse** 
 
---
+&lt;!-- -- --&gt;
 
 - very **fast** and scalable to very large datasets such as the UK Biobank
 
---
+&lt;!-- -- --&gt;
 
 - **automatic choice** for the two hyper-parameters of PLR
 
@@ -363,11 +363,11 @@ In C+T, weights are learned independently and we use heuristics for correlation 
 
 - can be extended to capture also recessive and dominant effects
 
---
+&lt;!-- -- --&gt;
 
 - can be extended to integrate external summary statistics information
 
---
+&lt;!-- -- --&gt;
 
 &lt;br&gt;
 
@@ -401,19 +401,19 @@ When you have only summary statistics (and a small individual-level dataset), yo
 
 - C+T
 
---
+&lt;!-- -- --&gt;
 
 - LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
 
---
+&lt;!-- -- --&gt;
 
 - lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
---
+&lt;!-- -- --&gt;
 
 - Other methods in development, such as NPS, PRS-CS and SBayesR.
 
---
+&lt;!-- -- --&gt;
 
 The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs.
 
@@ -423,20 +423,20 @@ The idea of LDpred, lassosum and the other methods is to use a reference panel t
 
 #### Hyper-parameters in C+T
 
---
+&lt;!-- -- --&gt;
 
 - p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
 
---
+&lt;!-- -- --&gt;
 
 - threshold on squared correlation of clumping ( `\(r_c^2 \sim 0.2\)` ) and    
 window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
---
+&lt;!-- -- --&gt;
 
 - threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
 
---
+&lt;!-- -- --&gt;
 
 `\(\Longrightarrow\)` *stdCT* (standard C+T)
 
@@ -447,7 +447,7 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 - an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** `\(\times\)` 22 chromosomes)    
 `\(\Longrightarrow\)` *maxCT* (maximized C+T)
 
---
+&lt;!-- -- --&gt;
 
 - going further by **stacking** (*Breiman, Leo. "Stacked regressions." Machine learning 24.1 (1996): 49-64.*) with a linear combination of all C+T models (instead of just choosing the best model)    
 `\(\Longrightarrow\)` *SCT* (Stacked C+T)
@@ -460,15 +460,15 @@ We compute C+T scores *for each chromosome separately* and for several parameter
 
 - **Threshold on imputation** INFO score `\(\text{INFO}_T\)` within **\{0.3, 0.6, 0.9, 0.95\}**.
 
---
+&lt;!-- -- --&gt;
 
 - Squared correlation **threshold of clumping** `\(r_c^2\)` within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
 
---
+&lt;!-- -- --&gt;
 
 - Base **size of clumping window** within \{50, 100, 200, 500\}. The window size `\(w_c\)` is then computed as the base size divided by `\(r_c^2\)`. For example, for `\(r_c^2 = 0.2\)`, we test values of `\(w_c\)` within \{250, 500, 1000, 2500\} (in kb).
 
---
+&lt;!-- -- --&gt;
 
 - **A sequence of 50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
 
@@ -561,7 +561,7 @@ Between 120K and 350K individuals in training
 
 - We improved C+T by tuning more hyper-parameters
 
---
+&lt;!-- -- --&gt;
 
 - maxCT is on par with lassosum, while being more robust (no model)
 
@@ -569,7 +569,7 @@ Between 120K and 350K individuals in training
 
 - stacking makes C+T more flexible and potentially much more predictive
 
---
+&lt;!-- -- --&gt;
 
 - predictive power of SCT is increasing with sample size
 
@@ -577,7 +577,7 @@ Between 120K and 350K individuals in training
 
 - can extend SCT to account for other parameters (e.g. MAF)
 
---
+&lt;!-- -- --&gt;
 
 - can extend SCT to use multiple summary statistics
 
@@ -652,7 +652,7 @@ class: center, middle, inverse
 ---
 class: center, middle, inverse
 
-# Thanks!
+# I thank you for your attention
 
 &lt;br&gt;
 

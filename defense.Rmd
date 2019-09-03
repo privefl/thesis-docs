@@ -387,15 +387,15 @@ knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.pn
     - there is some correlation between causal variants
     - sample size if large enough
     
---
+<!-- -- -->
 
 - models are **linear** and **sparse** 
 
---
+<!-- -- -->
 
 - very **fast** and scalable to very large datasets such as the UK Biobank
 
---
+<!-- -- -->
 
 - **automatic choice** for the two hyper-parameters of PLR
 
@@ -403,11 +403,11 @@ knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.pn
 
 - can be extended to capture also recessive and dominant effects
 
---
+<!-- -- -->
 
 - can be extended to integrate external summary statistics information
 
---
+<!-- -- -->
 
 <br>
 
@@ -443,19 +443,19 @@ When you have only summary statistics (and a small individual-level dataset), yo
 
 - C+T
 
---
+<!-- -- -->
 
 - LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
 
---
+<!-- -- -->
 
 - lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
 
---
+<!-- -- -->
 
 - Other methods in development, such as NPS, PRS-CS and SBayesR.
 
---
+<!-- -- -->
 
 The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between SNPs, instead of pruning (removing) SNPs.
 
@@ -465,20 +465,20 @@ The idea of LDpred, lassosum and the other methods is to use a reference panel t
 
 #### Hyper-parameters in C+T
 
---
+<!-- -- -->
 
 - p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
 
---
+<!-- -- -->
 
 - threshold on squared correlation of clumping ( $r_c^2 \sim 0.2$ ) and    
 window size for LD computation ( $w_c \sim 500 kb$ )
 
---
+<!-- -- -->
 
 - threshold of imputation quality score ( $INFO_T \sim 0.3$ )
 
---
+<!-- -- -->
 
 $\Longrightarrow$ *stdCT* (standard C+T)
 
@@ -489,7 +489,7 @@ $\Longrightarrow$ *stdCT* (standard C+T)
 - an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** $\times$ 22 chromosomes)    
 $\Longrightarrow$ *maxCT* (maximized C+T)
 
---
+<!-- -- -->
 
 - going further by **stacking** (*Breiman, Leo. "Stacked regressions." Machine learning 24.1 (1996): 49-64.*) with a linear combination of all C+T models (instead of just choosing the best model)    
 $\Longrightarrow$ *SCT* (Stacked C+T)
@@ -502,15 +502,15 @@ We compute C+T scores *for each chromosome separately* and for several parameter
 
 - **Threshold on imputation** INFO score $\text{INFO}_T$ within **\{0.3, 0.6, 0.9, 0.95\}**.
 
---
+<!-- -- -->
 
 - Squared correlation **threshold of clumping** $r_c^2$ within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
 
---
+<!-- -- -->
 
 - Base **size of clumping window** within \{50, 100, 200, 500\}. The window size $w_c$ is then computed as the base size divided by $r_c^2$. For example, for $r_c^2 = 0.2$, we test values of $w_c$ within \{250, 500, 1000, 2500\} (in kb).
 
---
+<!-- -- -->
 
 - **A sequence of 50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
 
@@ -613,7 +613,7 @@ knitr::include_graphics("figures/opt-param-maxCT.png")
 
 - We improved C+T by tuning more hyper-parameters
 
---
+<!-- -- -->
 
 - maxCT is on par with lassosum, while being more robust (no model)
 
@@ -621,7 +621,7 @@ knitr::include_graphics("figures/opt-param-maxCT.png")
 
 - stacking makes C+T more flexible and potentially much more predictive
 
---
+<!-- -- -->
 
 - predictive power of SCT is increasing with sample size
 
@@ -629,7 +629,7 @@ knitr::include_graphics("figures/opt-param-maxCT.png")
 
 - can extend SCT to account for other parameters (e.g. MAF)
 
---
+<!-- -- -->
 
 - can extend SCT to use multiple summary statistics
 
@@ -704,7 +704,7 @@ class: center, middle, inverse
 ---
 class: center, middle, inverse
 
-# Thanks!
+# I thank you for your attention
 
 <br>
 
