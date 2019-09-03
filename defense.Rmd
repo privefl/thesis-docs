@@ -108,7 +108,7 @@ $$\boxed{\Large{\text{Disease} \sim \text{DNA mutations} + \cdots}}$$
 
 - previously: 15K x 280K, [celiac disease](https://doi.org/10.1038/ng.543) (~30GB)
 
-- currently: 500K x 800K, [UK Biobank](https://doi.org/10.1101/166298) (~2.9TB)
+- currently: 500K x 800K, [UK Biobank](https://doi.org/10.1101/166298) (~3TB)
  
 ```{r, out.width='55%'}
 knitr::include_graphics("https://media.giphy.com/media/3o7bueyxGydy48Lwgo/giphy.gif")
@@ -329,9 +329,7 @@ knitr::include_graphics("figures/pres-AUC-ntrain2.svg")
 
 ---
 
-## Real data
-
-<br>
+### Real data
 
 #### Celiac disease
 
