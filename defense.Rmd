@@ -46,7 +46,7 @@ knitr::include_graphics("figures/disease-archi.png")
 ## Polygenic Risk Scores (PRS)
 
 A simple model: $y_i = \sum_j \beta_j x_{i,j} + \epsilon$    
-$y_i$: phenotypes, $x_{i,j}$: genotypes, $\beta_j$: effect sizes.
+$y_i$: phenotypes, $x_{i,j}$: genotypes, $\beta_j$: effect sizes, $\epsilon$: environmental effect.
 
 ```{r, out.width="90%"}
 knitr::include_graphics("figures/PRS.png")
@@ -583,7 +583,7 @@ knitr::include_graphics("figures/data-SCT.png")
 500 cases and 2000 controls in training
 
 ```{r}
-knitr::include_graphics("figures/AUC-real-small-1.png")
+knitr::include_graphics("figures/AUC-real-small.png")
 ```
 
 ---
@@ -593,7 +593,7 @@ knitr::include_graphics("figures/AUC-real-small-1.png")
 Between 120K and 350K individuals in training
 
 ```{r}
-knitr::include_graphics("figures/SCT-AUC-real.png")
+knitr::include_graphics("figures/AUC-real.png")
 ```
 
 ---
