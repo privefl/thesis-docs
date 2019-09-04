@@ -77,7 +77,7 @@ knitr::include_graphics("figures/PRS-trend.png")
 
 However, current predictions fall short from clinical utility.
 
-We need more optimal predictions and larger sample sizes.
+We need larger sample sizes and more optimal predictions.
 
 
 ---
@@ -510,7 +510,7 @@ statistics (GWAS),
 - Three additional scenarios with more complex architectures:
 
     - "2chr": 100 variants of chromosome 1 and all variants of chromosome 2 are causal
-    - "err": we use 10K random causal variants but 10% of the GWAS effects are reported with an opposite effect in the summary statistics
+    - "err": (not presented)
     - "HLA": 7105 causal variants are chosen in one long-range LD region
 
 ---
@@ -652,10 +652,6 @@ class: center, middle, inverse
 <!-- -- -->
 
 - comparison of PRS methods (via data challenge?)
-
-<!-- -- -->
-
-- comparison of PRS models with clinical and environmental factors
 
 ---
 class: center, middle, inverse
