@@ -17,11 +17,50 @@ class: title-slide center middle inverse
 
 # Stacked Clumping and Thresholding (SCT)
 
-## Making the most of C+T for polygenic scores
+&lt;br&gt;
+
+### **Privé, F.**, Vilhjálmsson, B. J., Aschard, H., &amp; Blum, M. G. (2019).&lt;br&gt;*Making the most of Clumping and Thresholding for polygenic scores.*
+
+[soon in AJHG (the American Journal of Human Genetics)]
+
+---
+class: center, middle, inverse
+
+# Introduction and Methods
+
+---
+
+## Using summary statistics from large GWAS
 
 &lt;br&gt;
 
-### Florian Privé
+&lt;img src="figures/PRS-sumstats.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Predictive methods based on summary statistics
+
+&lt;br&gt;
+
+When you have only summary statistics (and a small individual-level dataset), you can use:
+
+- C+T
+
+&lt;!-- -- --&gt;
+
+- LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
+
+&lt;!-- -- --&gt;
+
+- lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
+
+&lt;!-- -- --&gt;
+
+- Other methods in development, such as NPS, PRS-CS and SBayesR.
+
+&lt;!-- -- --&gt;
+
+The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between variants, instead of clumping (removing) variants.
 
 ---
 
@@ -51,34 +90,64 @@ Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 ---
 
-## Hyper-parameters in C+T
+### Making the most of C+T
+
+#### Hyper-parameters in C+T
+
+&lt;!-- -- --&gt;
+
+- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
+
+&lt;!-- -- --&gt;
 
 - threshold on squared correlation of clumping ( `\(r_c^2 \sim 0.2\)` ) and    
 window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
+&lt;!-- -- --&gt;
+
 - p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
 
---
-
-- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
-
---
+&lt;!-- -- --&gt;
 
 `\(\Longrightarrow\)` *stdCT* (standard C+T)
-
-&lt;br&gt;
 
 --
 
 #### Our contribution
 
-- an efficient implementation to compute many C+T scores for different hyper-parameters (5600 sets of hyper-parameters `\(\times\)` 22 chromosomes)    
+- an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** `\(\times\)` 22 chromosomes)    
 `\(\Longrightarrow\)` *maxCT* (maximized C+T)
+
+&lt;!-- -- --&gt;
+
+- going further by **stacking** (*Breiman, Leo. "Stacked regressions." Machine learning 24.1 (1996): 49-64.*) with a linear combination of all C+T models (instead of just choosing the best model)    
+`\(\Longrightarrow\)` *SCT* (Stacked C+T)
+
+---
+
+## Grid of hyper-parameters and Stacking
+
+We compute C+T scores *for each chromosome separately* and for several parameters:
+
+- **Threshold on imputation** INFO score `\(\text{INFO}_T\)` within **\{0.3, 0.6, 0.9, 0.95\}**.
+
+&lt;!-- -- --&gt;
+
+- Squared correlation **threshold of clumping** `\(r_c^2\)` within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
+
+&lt;!-- -- --&gt;
+
+- Base **size of clumping window** within \{50, 100, 200, 500\}. The window size `\(w_c\)` is then computed as the base size divided by `\(r_c^2\)`. For example, for `\(r_c^2 = 0.2\)`, we test values of `\(w_c\)` within \{250, 500, 1000, 2500\} (in kb).
+
+&lt;!-- -- --&gt;
+
+- A sequence of **50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
 
 --
 
-- going further by stacking all C+T models (instead of just choosing the best model)    
-`\(\Longrightarrow\)` *SCT* (Stacked C+T)
+&lt;br&gt;
+
+Then, we **stack these 123,200 C+T scores** by using them as variables in the efficient penalized regressions we implemented previously.
 
 ---
 
@@ -103,25 +172,135 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 - `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
 
 ---
+class: center, middle, inverse
 
-## Results (simulations)
-
-&lt;img src="figures/SCT-AUC-simus.png" width="3480" style="display: block; margin: auto;" /&gt;
+# Data and Results
 
 ---
 
-## Results (real data)
+## Data (simulations)
 
-&lt;img src="figures/SCT-AUC-real.png" width="3000" style="display: block; margin: auto;" /&gt;
+#### Real genotypes
+
+UK Biobank data for 1M variants and:
+
+- 315,609 individuals for computing summary
+statistics (GWAS), 
+
+- a set of 10,000 individuals for training hyper-parameters and lastly 
+
+- a test set of
+10,000 individuals for evaluating models.
+
+--
+
+#### Simulate new phenotypes
+
+- 100, 10K, or 1M random causal variants with Gaussian effects
+
+- Three additional scenarios with more complex architectures:
+
+    - "2chr": 100 variants of chromosome 1 and all variants of chromosome 2 are causal
+    - "err": (not presented)
+    - "HLA": 7105 causal variants are chosen in one long-range LD region
+
+---
+
+## Results (simulations)
+
+&lt;img src="figures/SCT-AUC-simus.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Data (real phenotypes)
+
+&lt;br&gt;
+
+- Include 8 common disorders
+
+- Real genotypes + phenotypes (UK Biobank) for training/validation/test
+
+- External published summary statistics (that did not use UK Biobank)
+
+--
+
+&lt;br&gt;
+
+&lt;img src="figures/data-SCT.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (small training set)
+
+500 cases and 2000 controls in training
+
+&lt;img src="figures/AUC-real-small.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (large training set)
+
+Between 120K and 350K individuals in training
+
+&lt;img src="figures/AUC-real.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (optimal parameters for C+T)
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+&lt;img src="figures/opt-param-maxCT.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ## Results (grid of hyper-parameters for MDD)
 
-&lt;br&gt;
+&lt;img src="https://raw.githubusercontent.com/privefl/simus-PRS/master/figures/grid-MDD.png" width="98%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="https://raw.githubusercontent.com/privefl/simus-PRS/master/figures/grid-MDD-with-MAF.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle, inverse
+
+# Conclusion
+
+---
+
+## Summary
+
 &lt;br&gt;
 
-&lt;img src="https://raw.githubusercontent.com/privefl/simus-PRS/master/figures/grid-MDD.png" width="120%" style="display: block; margin: auto;" /&gt;
+- We improved C+T by tuning more hyper-parameters    
+(this is important because optimal thresholds are very different)
+
+&lt;!-- -- --&gt;
+
+- maxCT is on par with lassosum, while being more robust (no model)
+
+--
+
+- stacking makes C+T more flexible and potentially much more predictive
+
+&lt;!-- -- --&gt;
+
+- predictive power of SCT is increasing with sample size    
+(very useful if both sumstats and genotypes are large)
+
+- C+T and lassosum (and LDpred) can use small genotype sample sizes    
+(they just the validation data to choose optimal hyper-parameters) 
+
+--
+
+- SCT is more calibrated (because uses logistic regression when stacking)
+
+- can extend SCT to account for other parameters (e.g. MAF)
+
+&lt;!-- -- --&gt;
+
+- can extend SCT to use multiple summary statistics
 
 ---
 
@@ -186,7 +365,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
