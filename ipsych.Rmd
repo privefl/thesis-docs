@@ -1,0 +1,128 @@
+---
+title: "iPSYCH"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
+```
+
+class: title-slide center middle inverse
+
+# A community wiki for best practices<br>when analysing iPSYCH data
+
+<br>
+
+### Florian Privé
+
+---
+
+## Community
+
+<br>
+
+A **community share 3 characteristics**:
+
+- Participants have a common product or purpose that they work on or toward,
+
+- They are mutually engaged, i.e., they assist and mentor one another,
+
+- They develop shared resources and domain knowledge.
+
+<br>
+
+$\Longrightarrow$ It is **faster to build together instead of reinventing the wheel**.
+
+
+.footnote[
+- Lave & Wenger (1991). Situated Learning: Legitimate Peripheral Participation.
+- Wenger (1998). Communities of Practice: Learning, Meaning, and Identity.
+- Sholler et al. (2019). Ten simple rules for helping newcomers become contributors to open projects.]
+
+---
+
+## You already benefit from many communities
+
+<br>
+
+If you
+
+- use open-source programming languages such as `r icon::fa_r_project()` and `r icon::fa("python")`,
+
+- google problems and find solutions:
+
+    - in blog posts and tutorials (relayed by e.g. R Bloggers and R Weekly)
+    
+    - on Stack Overflow
+    
+    - on Biostars
+    
+<br>
+
+People invest some time for you, often as they want to **give back to the community**.
+
+---
+
+## Many analyses in Genetics
+
+<br>
+
+- GWAS
+
+- Principal Component Analysis (PCA)
+
+- Genetic correlation 
+
+- Mendelian Randomization (MR)
+
+- Polygenic Risk Scores (PRS)
+
+- etc.
+
+<br>
+
+$\Longrightarrow$ It is hard to know about everything, and can be overwhelming.
+
+My example: after 3 years of thesis, I am an "expert" in PCA and PRS, but still know too little about analyses such as MR and genetic correlation.
+
+---
+
+## Create a communtiy wiki for best practices<br> when analysing iPSYCH data
+
+<br>
+
+- Build a common knowledge and best practices about genetic analyses
+
+- Share your analysis code to be used by others (e.g. for other phenotypes)
+
+- Recall some particularities about iPSYCH data (e.g. "wave effect", data security, etc.)
+
+<br>
+
+In practice, we could simply create wiki pages on GitHub.
+
+
+---
+class: center, middle, inverse
+
+# Thanks
+
+### Feedback and help welcome
+
+### (talk here or by email at fp@econ.au.dk)
+
+<br>
+
+<br>
+
+`r icon::fa("twitter")` [privefl](https://twitter.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("github")` [privefl](https://github.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("stack-overflow")` [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via R package [**xaringan**](https://github.com/yihui/xaringan).]
