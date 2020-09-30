@@ -33,7 +33,7 @@ class: title-slide center middle inverse
 
 <br>
 
-A bit of background to understand where this talk is coming from:
+My background to understand where this talk is coming from:
 
 --
 
@@ -199,21 +199,21 @@ Everyday, in 5-10 minutes, everyone presents
 
 --
 
-- Design small tasks that you can do quickly (sprints)
+- Design small tasks that you can do quickly (sprints).
 
 --
 
-- For exploratory analyses, determine a time limit beforehand 
+- For exploratory analyses, set a time limit beforehand.
 
 --
 
-- Deliver as early and regularly as possible, to keep everyone on track and motivated by the Research project
+- Deliver as early and regularly as possible, to keep everyone on track and motivated by the Research project.
 
 <br>
 
 --
 
-- Agile is a tried-and-tested method in the Industry.
+- The Agile methodology is a tried-and-tested method in the Industry.
 
 --
 
