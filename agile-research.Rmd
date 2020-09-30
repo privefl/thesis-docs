@@ -1,0 +1,97 @@
+---
+title: "Agile Research"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
+```
+
+class: title-slide center middle inverse
+
+# Agile Research
+
+## How to work efficiently, especially remotely 
+
+<br>
+
+### Florian Privé
+
+#### WIP -- 02/10/20
+
+---
+
+## About me
+
+<br>
+
+- Graduated in Informatics and Applied Mathematics 
+
+- PhD in predictive human genetics
+
+- Just started my second year as a postdoc at NCRR
+
+- Now have the perspective from both first author and (co-)last author
+
+
+---
+
+## Agile workflow
+
+<br>
+
+- Primarily developed for software development
+
+- A response to the problem of many teams failing to deliver a working product in time, and funders pulling money because they lost confidence or/and interest in the project
+
+---
+
+## Agile workflow in Research?
+
+<br>
+
+A crude analogy:
+
+--
+
+- the team: the first author(s)
+
+--
+
+- the final product: the paper
+
+--
+
+- a working component of the product: a figure or table of the paper
+
+--
+
+- stackholders/funders: the last author(s)
+
+---
+
+---
+class: center, middle, inverse
+
+# Thanks
+
+<br>
+
+Presentation available at
+
+https://privefl.github.io/thesis-docs/agile-research.html
+
+<br>
+
+
+`r icon::fa("twitter")` [privefl](https://twitter.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("github")` [privefl](https://github.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("stack-overflow")` [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via R package [**xaringan**](https://github.com/yihui/xaringan).]
