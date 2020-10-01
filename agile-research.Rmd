@@ -244,6 +244,7 @@ https://privefl.github.io/thesis-docs/agile-research.html
 Some inspiration from *Agile Data Science with R: a workflow* by Edwin Thoen, available at https://edwinth.github.io/ADSwR/
 
 <br>
+
 <br>
 
 `r icon::fa("twitter")` [privefl](https://twitter.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("github")` [privefl](https://github.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("stack-overflow")` [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
