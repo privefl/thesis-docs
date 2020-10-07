@@ -19,7 +19,7 @@ class: title-slide center middle inverse
 
 &lt;br&gt;
 
-# Efficient penalized regression methods for genetic prediction
+# Efficient penalized regression methods&lt;br&gt;for genetic prediction
 
 &lt;br&gt;
 
@@ -166,6 +166,8 @@ This is the L1- and L2-regularization ("**elastic-net**", Zou and Hastie, 2005);
 
 ## Cross-validation for choosing hyper-parameters
 
+&lt;br&gt;
+
 &lt;img src="https://privefl.github.io/R-presentation/crossval.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 However, if using e.g. R package {glmnet}, it can take a long time to run for genetic data.
@@ -209,6 +211,86 @@ class: inverse, center, middle
 # Application to 240 phenotypes within the UK Biobank
 
 ---
+
+## Genetic data
+
+
+- **1,117,182** variants (HapMap3)
+
+- Training based on **434,868** individuals of European ancestry +    
+testing in 8636 South Asians, 1803 East Asians and 6983 Africans
+
+
+```r
+knitr::include_graphics("figures/ancestry.png")
+```
+
+&lt;img src="figures/ancestry.png" width="62%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Phenotypic data
+
+&lt;br&gt;
+
+-  111 continuous + 129 binary = **240 phenotypes**
+    
+&lt;br&gt;
+
+Some examples:
+
+- multiple diseases: cancers, diabetes, autoimmune, etc.
+
+- body measures: height, BMI, BMD, etc.
+
+- blood biochemistry: cholesterol, vitamin D, etc.
+
+- ECG measures
+
+- misc
+
+---
+
+## How fast is the LASSO implementation?
+
+&lt;br&gt;
+
+
+```r
+knitr::include_graphics("../figures/timings.png")
+```
+
+&lt;img src="../figures/timings.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+Running time is quadratic with the number of non-zero variables.
+
+---
+
+## Prediction for height
+
+
+---
+
+## Limitation of polygenic scores: prediction in different ancestries
+
+&lt;br&gt;
+
+
+```r
+knitr::include_graphics("figures/lasso-results.png")
+```
+
+&lt;img src="figures/lasso-results.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+Robust slope of pcor_other ~ pcor_eur, squared:
+
+- 62.3% for South Asians
+- 45.5% for East Asians
+- 18.8% for Africans
 
 ---
 

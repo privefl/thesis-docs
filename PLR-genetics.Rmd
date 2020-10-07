@@ -24,7 +24,7 @@ class: title-slide center middle inverse
 
 <br>
 
-# Efficient penalized regression methods for genetic prediction
+# Efficient penalized regression methods<br>for genetic prediction
 
 <br>
 
@@ -171,6 +171,8 @@ This is the L1- and L2-regularization ("**elastic-net**", Zou and Hastie, 2005);
 
 ## Cross-validation for choosing hyper-parameters
 
+<br>
+
 ```{r, echo=FALSE}
 knitr::include_graphics("https://privefl.github.io/R-presentation/crossval.png")
 ```
@@ -218,6 +220,77 @@ class: inverse, center, middle
 # Application to 240 phenotypes within the UK Biobank
 
 ---
+
+## Genetic data
+
+
+- **1,117,182** variants (HapMap3)
+
+- Training based on **434,868** individuals of European ancestry +    
+testing in 8636 South Asians, 1803 East Asians and 6983 Africans
+
+```{r, out.width="62%"}
+knitr::include_graphics("figures/ancestry.png")
+```
+
+---
+
+## Phenotypic data
+
+<br>
+
+-  111 continuous + 129 binary = **240 phenotypes**
+    
+<br>
+
+Some examples:
+
+- multiple diseases: cancers, diabetes, autoimmune, etc.
+
+- body measures: height, BMI, BMD, etc.
+
+- blood biochemistry: cholesterol, vitamin D, etc.
+
+- ECG measures
+
+- misc
+
+---
+
+## How fast is the LASSO implementation?
+
+<br>
+
+```{r, out.width="75%"}
+knitr::include_graphics("../figures/timings.png")
+```
+
+<br>
+
+Running time is quadratic with the number of non-zero variables.
+
+---
+
+## Prediction for height
+
+
+---
+
+## Limitation of polygenic scores: prediction in different ancestries
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/lasso-results.png")
+```
+
+<br>
+
+Robust slope of pcor_other ~ pcor_eur, squared:
+
+- 62.3% for South Asians
+- 45.5% for East Asians
+- 18.8% for Africans
 
 ---
 
