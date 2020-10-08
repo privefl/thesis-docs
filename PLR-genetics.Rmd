@@ -15,7 +15,7 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
-                      echo = TRUE, comment = "", fig.width = 5)
+                      echo = FALSE, comment = "", fig.width = 5)
 options(width = 70)
 knitr::opts_knit$set(global.par = TRUE)
 ```
@@ -201,9 +201,11 @@ knitr::include_graphics("https://raw.githubusercontent.com/privefl/paper2-PRS/ma
 
 ---
 
-## Advantages of using {bigstasr}
+## Advantages of using {bigstatsr}
 
 <br>
+
+- automatic choice for the two hyper-parameters $\lambda$ and $\alpha$
 
 - faster (mainly because of early-stopping criterion)
 
@@ -211,7 +213,47 @@ knitr::include_graphics("https://raw.githubusercontent.com/privefl/paper2-PRS/ma
 
 - parallelization of fitting (easy because data on disk)
 
-So, can be applied to huge genotype data.
+<br>
+
+So, can be easily applied to huge data.
+
+--
+
+<br>
+
+- also two new options:
+
+    - use of different scaling (default is dividing variants by SD)
+    
+    - adaptive lasso (larger marginal effects are penalized less)
+
+---
+
+## Application to predicting height
+
+Height is up to 80% heritable. 
+Here we can predict ~40% variance using genetics (400K individuals $\times$ 560K genetic variants).
+
+
+```{r, out.width="78%"}
+knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
+```
+
+---
+
+
+## Application to predicting celiac disease
+
+Gluten intolerance, autoimmune disease with large effects on chromosome 6.
+
+
+```{r, out.width="70%"}
+knitr::include_graphics("figures/results-celiac2-simple.png")
+```
+
+```{r, out.width="50%"}
+knitr::include_graphics("figures/celiac-roc3.svg")
+```
 
 ---
 
@@ -239,7 +281,7 @@ knitr::include_graphics("figures/ancestry.png")
 
 <br>
 
--  111 continuous + 129 binary = **240 phenotypes**
+111 continuous + 129 binary = **240 phenotypes**
     
 <br>
 
@@ -262,7 +304,7 @@ Some examples:
 <br>
 
 ```{r, out.width="75%"}
-knitr::include_graphics("../figures/timings.png")
+knitr::include_graphics("figures/timings.png")
 ```
 
 <br>
@@ -270,10 +312,6 @@ knitr::include_graphics("../figures/timings.png")
 Running time is quadratic with the number of non-zero variables.
 
 ---
-
-## Prediction for height
-
-
 ---
 
 ## Limitation of polygenic scores: prediction in different ancestries
@@ -300,8 +338,10 @@ class: inverse, center, middle
 
 <br>
 
-Presentation available at https://privefl.github.io/thesis-docs/PLR-genetics.html.
+Presentation available at    
+https://privefl.github.io/thesis-docs/PLR-genetics.html
 
+<br>
 <br>
 
 `r icon::fa("twitter")` [privefl](https://twitter.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("github")` [privefl](https://github.com/privefl) &nbsp;&nbsp;&nbsp;&nbsp; `r icon::fa("stack-overflow")` [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
