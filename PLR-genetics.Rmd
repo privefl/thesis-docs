@@ -2,15 +2,12 @@
 title: "Penalized methods for genetic data"
 output:
   xaringan::moon_reader:
-    df_print: paged
     seal: false
     lib_dir: libs
     nature:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
