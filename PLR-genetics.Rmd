@@ -11,6 +11,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
                       echo = FALSE, comment = "", fig.width = 5)
 options(width = 70)
