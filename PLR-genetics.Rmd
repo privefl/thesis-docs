@@ -185,6 +185,8 @@ class: inverse, center, middle
 
 # A slightly different approach in {bigstatsr}
 
+## Application to building polygenic scores
+
 <br>
 
 https://doi.org/10.1093/bioinformatics/bty185
@@ -207,7 +209,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/privefl/paper2-PRS/ma
 
 - automatic choice for the two hyper-parameters $\lambda$ and $\alpha$
 
-- faster (mainly because of early-stopping criterion)
+- faster (mainly because of early-stopping criterion and no need of refitting)
 
 - memory efficient (because data is stored on disk)
 
@@ -226,6 +228,30 @@ So, can be easily applied to huge data.
     - use of different scaling (default is dividing variants by SD)
     
     - adaptive lasso (larger marginal effects are penalized less)
+
+---
+
+## Application to building polygenic scores
+
+<br>
+
+**Polygenic scores (PGS)** = (predictive) scores that combine many genetic variants (linearly here)
+
+**Polygenic risk scores (PRS)** = PGS for disease risk (e.g. probability of being diagnosed during lifetime)
+
+--
+
+<br>
+
+**Major benefit of PRS:** genetic variants mostly do not change during lifetime, meaning you can derive such risk from birth.
+
+--
+
+**What is hard:** most common traits or diseases have genetic variants associated with them, usually with very small effect sizes.
+
+--
+
+**Limitation:** prediction from genetic variants is limited by heritability.
 
 ---
 
@@ -259,7 +285,7 @@ knitr::include_graphics("figures/celiac-roc3.svg")
 
 class: inverse, center, middle
 
-# Application to 240 phenotypes within the UK Biobank
+# Application to 240 phenotypes<br>within the UK Biobank
 
 ---
 
@@ -299,19 +325,24 @@ Some examples:
 
 ---
 
-## How fast is the LASSO implementation?
+## Results for binary phenotypes
 
 <br>
 
-```{r, out.width="75%"}
-knitr::include_graphics("figures/timings.png")
+```{r, out.width="72%"}
+knitr::include_graphics("figures/best-AUC-binary.JPG")
 ```
 
+---
+
+## Results for continuous phenotypes
+
 <br>
 
-Running time is quadratic with the number of non-zero variables.
+```{r, out.width="45%"}
+knitr::include_graphics("figures/best-pcor-continuous.JPG")
+```
 
----
 ---
 
 ## Limitation of polygenic scores: prediction in different ancestries
@@ -329,6 +360,20 @@ Robust slope of pcor_other ~ pcor_eur, squared:
 - 62.3% for South Asians
 - 45.5% for East Asians
 - 18.8% for Africans
+
+---
+
+## How fast is the LASSO implementation?
+
+<br>
+
+```{r, out.width="75%"}
+knitr::include_graphics("figures/timings.png")
+```
+
+<br>
+
+Running time is quadratic with the number of non-zero variables.
 
 ---
 
