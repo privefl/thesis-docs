@@ -377,6 +377,31 @@ Running time is quadratic with the number of non-zero variables.
 
 ---
 
+## Conclusion
+
+<br>
+
+- Using R package {bigstatsr}, you can fit penalized regressions on **100s of GBs** of data.
+
+- E.g. to build polygenic scores for 240 traits in the UK Biobank
+
+- However, more work is needed (e.g. to improve PGS in other ancestries)
+
+--
+
+<br>
+
+- Paper describing R packages {bigstatsr} and {bigsnpr}:    
+https://doi.org/10.1093/bioinformatics/bty185
+
+- Paper specifically describing the  penalized regression implementation:    
+https://doi.org/10.1534/genetics.119.302019
+
+- Tutorial:    
+https://privefl.github.io/bigstatsr/articles/penalized-regressions.html
+
+---
+
 class: inverse, center, middle
 
 # Thanks!
