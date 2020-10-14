@@ -35,7 +35,67 @@ class: title-slide center middle inverse
 
 class: inverse, center, middle
 
-# Introduction to penalized regression models
+# Context of application
+
+---
+
+## Application to building polygenic scores
+
+&lt;br&gt;
+
+**Polygenic scores (PGS)** = (predictive) scores that combine many genetic variants (linearly here)
+
+**Polygenic risk scores (PRS)** = PGS for disease risk (e.g. probability of being diagnosed during lifetime)
+
+--
+
+&lt;br&gt;
+
+**Major benefit of PRS:** genetic variants mostly do not change during lifetime, meaning you can derive such risk from birth.
+
+--
+
+**What is hard:** most common traits or diseases have genetic variants associated with them, usually with very small effect sizes.
+
+--
+
+**Limitation:** prediction from genetic variants is limited by heritability.
+
+---
+
+## Utility of polygenic scores
+
+&lt;img src="https://www.onlinejacc.org/content/accj/72/16/1883/F1.large.jpg" width="78%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Application to predicting height
+
+Height is up to 80% heritable. 
+Here we can predict ~40% variance using genetics (400K individuals `\(\times\)` 560K genetic variants).
+
+
+&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="78%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Application to predicting celiac disease
+
+Gluten intolerance, autoimmune disease with large effects on chromosome 6.
+
+
+&lt;img src="figures/results-celiac2-simple.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="figures/celiac-roc3.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Penalized regression models
+
+## A reminder
 
 ---
 
@@ -166,7 +226,9 @@ This is the L1- and L2-regularization ("**elastic-net**", Zou and Hastie, 2005);
 
 &lt;br&gt;
 
-&lt;img src="https://privefl.github.io/R-presentation/crossval.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://miro.medium.com/max/700/1*me-aJdjnt3ivwAurYkB7PA.png" width="82%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
 
 However, if using e.g. R package {glmnet}, it can take a long time to run for genetic data.
 
@@ -174,15 +236,7 @@ However, if using e.g. R package {glmnet}, it can take a long time to run for ge
 
 class: inverse, center, middle
 
-# A slightly different approach in {bigstatsr}
-
-## Application to building polygenic scores
-
-&lt;br&gt;
-
-https://doi.org/10.1093/bioinformatics/bty185
-
-https://doi.org/10.1534/genetics.119.302019
+## A slightly different approach in {bigstatsr}
 
 ---
 
@@ -217,52 +271,6 @@ So, can be easily applied to huge data.
     - use of different scaling (default is dividing variants by SD)
     
     - adaptive lasso (larger marginal effects are penalized less)
-
----
-
-## Application to building polygenic scores
-
-&lt;br&gt;
-
-**Polygenic scores (PGS)** = (predictive) scores that combine many genetic variants (linearly here)
-
-**Polygenic risk scores (PRS)** = PGS for disease risk (e.g. probability of being diagnosed during lifetime)
-
---
-
-&lt;br&gt;
-
-**Major benefit of PRS:** genetic variants mostly do not change during lifetime, meaning you can derive such risk from birth.
-
---
-
-**What is hard:** most common traits or diseases have genetic variants associated with them, usually with very small effect sizes.
-
---
-
-**Limitation:** prediction from genetic variants is limited by heritability.
-
----
-
-## Application to predicting height
-
-Height is up to 80% heritable. 
-Here we can predict ~40% variance using genetics (400K individuals `\(\times\)` 560K genetic variants).
-
-
-&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="78%" style="display: block; margin: auto;" /&gt;
-
----
-
-
-## Application to predicting celiac disease
-
-Gluten intolerance, autoimmune disease with large effects on chromosome 6.
-
-
-&lt;img src="figures/results-celiac2-simple.png" width="70%" style="display: block; margin: auto;" /&gt;
-
-&lt;img src="figures/celiac-roc3.svg" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -354,7 +362,7 @@ Running time is quadratic with the number of non-zero variables.
 
 &lt;br&gt;
 
-- Using R package {bigstatsr}, you can fit penalized regressions on **100s of GBs** of data.
+- Using R package {bigstatsr}, you can fit penalized regressions on **100s of GBs** of data (any matrix-like data).
 
 - E.g. to build polygenic scores for 240 traits in the UK Biobank
 
