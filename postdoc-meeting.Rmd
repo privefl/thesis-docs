@@ -20,7 +20,7 @@ class: title-slide center middle inverse
 
 <br>
 
-# Summary of my work so far
+# Overview of my work so far
 
 <br>
 
@@ -155,7 +155,7 @@ How to split the genome in independent LD blocks?
 
 ---
 
-## Current and future work
+## Ongoing and future work
 
 <br>
 
