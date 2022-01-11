@@ -159,9 +159,13 @@ Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 ---
 
+#### SLIDE ON INDIRECT ASSOCIATION
+
+---
+
 ## Standard PRS - part 2: restricting predictors
 
-### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; (C+T, or P+T)
 
 &lt;br&gt;
 
@@ -173,43 +177,13 @@ Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 ---
 
-&lt;img src="figures/fig-GWAS-C+T.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/fig-GWAS-C+T.jpg" width="85%" style="display: block; margin: auto;" /&gt;
 --
-&lt;img src="figures/fig-GWAS-C+T-clumping.jpg" width="70%" style="display: block; margin: auto;" /&gt;
---
-&lt;img src="figures/fig-GWAS-C+T-clumping-thresholding.jpg" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Using summary statistics from large GWAS
-
-&lt;img src="figures/PRS-sumstats.png" width="85%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Predictive methods based on summary statistics
-
 &lt;br&gt;
-
-When you have only summary statistics (and a small individual-level dataset), you can use:
-
-- C+T
-
-&lt;!-- -- --&gt;
-
-- LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
-
-&lt;!-- -- --&gt;
-
-- lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
-
-&lt;!-- -- --&gt;
-
-- Other methods in development, such as NPS, PRS-CS and SBayesR.
-
-&lt;!-- -- --&gt;
-
-The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between variants, instead of clumping (removing) variants.
+&lt;img src="figures/fig-GWAS-C+T-clumping.jpg" width="85%" style="display: block; margin: auto;" /&gt;
+--
+&lt;br&gt;
+&lt;img src="figures/fig-GWAS-C+T-clumping-thresholding.jpg" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -236,138 +210,63 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 --
 
-#### Our contribution
+#### Our contribution [[bit.ly/sct-paper](https://bit.ly/sct-paper)]
 
 - an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** `\(\times\)` 22 chromosomes)    
 `\(\Longrightarrow\)` *maxCT* (maximized C+T)
 
 &lt;!-- -- --&gt;
 
-- going further by **stacking** (*Breiman, Leo. "Stacked regressions." Machine learning 24.1 (1996): 49-64.*) with a linear combination of all C+T models (instead of just choosing the best model)    
+- going further by **stacking** with a linear combination of all C+T models (instead of just choosing the best model)    
 `\(\Longrightarrow\)` *SCT* (Stacked C+T)
 
 ---
 
-## Grid of hyper-parameters and Stacking
+### Using summary statistics from large GWAS
 
-We compute C+T scores *for each chromosome separately* and for several parameters:
+&lt;img src="figures/PRS-sumstats.png" width="85%" style="display: block; margin: auto;" /&gt;
 
-- **Threshold on imputation** INFO score `\(\text{INFO}_T\)` within **\{0.3, 0.6, 0.9, 0.95\}**.
+---
 
-&lt;!-- -- --&gt;
+## Alternative: approximating a penalized regression
 
-- Squared correlation **threshold of clumping** `\(r_c^2\)` within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
+A linear model with elastic-net regularization using coordinate descent by iteratively updating: 
 
-&lt;!-- -- --&gt;
+$$
+\beta_j^{(t+1)} =
+`\begin{cases}
+\text{sign}\left(u_j^{(t)}\right) \left(\left|u_j^{(t)}\right| - \lambda_1\right) / \left(1 + \lambda_2\right) &amp; \text{if } \left|u_j^{(t)}\right| &gt; \lambda_1 ~, \\
+0 &amp; \text{otherwise.}
+\end{cases}`
+$$
 
-- Base **size of clumping window** within \{50, 100, 200, 500\}. The window size `\(w_c\)` is then computed as the base size divided by `\(r_c^2\)`. For example, for `\(r_c^2 = 0.2\)`, we test values of `\(w_c\)` within \{250, 500, 1000, 2500\} (in kb).
+where 
 
-&lt;!-- -- --&gt;
+`$$u_j^{(t)} = \sum_i \left[ X_{i,j} \left( y_i - \sum_{k \neq j} X_{i,k} \beta_k^{(t)} \right) \right] = \sum_i X_{i,j} y_i - \sum_{k \neq j} \left( \sum_i X_{i,j} X_{i,k} \right) \beta_k^{(t)} ~.$$`
 
-- A sequence of **50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
+--
+
+In this equation, `\(\sum_i X_{i,j} y_i\)` can be obtained from GWAS summary statistics, while `\(\sum_i X_{i,j} X_{i,k}\)` can be estimated from another dataset.
+Therefore, we can approximate this model using only summary statistics (no individual-level data).
+
+This idea is used in lassosum    
+&lt;small&gt;(TSH Mak et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology (2017))&lt;/small&gt;
+
+---
+
+### Local correlation between genetic variants
+
+- Fortunately, we can consider that the correlation between two genetic variants ( `\(\sum_i X_{i,j} X_{i,k}\)`, when `\(X\)` is appropriately scaled) is 0 when they are too distant on the genome. So the matrix `\(X^T X\)`, while being e.g. 1M x 1M is actually very sparse (banded).
 
 --
 
 &lt;br&gt;
 
-Then, we **stack these 123,200 C+T scores** by using them as variables in the efficient penalized regressions we implemented previously.
+### Other methods for polygenic prediction from summary statistics
 
----
+Many other methods have been developed, lots being Bayesian. They all the same idea of approximating the linear regression model using GWAS summary statistics and an external reference for the correlation between variants.
 
-## Data (simulations)
-
-#### Real genotypes
-
-UK Biobank data for 1M variants and:
-
-- 315,609 individuals for computing summary
-statistics (GWAS), 
-
-- a set of 10,000 individuals for training hyper-parameters and lastly 
-
-- a test set of
-10,000 individuals for evaluating models.
-
---
-
-#### Simulate new phenotypes
-
-- 100, 10K, or 1M random causal variants with Gaussian effects
-
-- Three additional scenarios with more complex architectures:
-
-    - "2chr": 100 variants of chromosome 1 and all variants of chromosome 2 are causal
-    - "err": (not presented)
-    - "HLA": 7105 causal variants are chosen in one long-range LD region
-
----
-
-## Results (simulations)
-
-&lt;img src="figures/SCT-AUC-simus.png" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Data (real phenotypes)
-
-&lt;br&gt;
-
-- Include 8 common disorders
-
-- Real genotypes + phenotypes (UK Biobank) for training/validation/test
-
-- External published summary statistics (that did not use UK Biobank)
-
---
-
-&lt;br&gt;
-
-&lt;img src="figures/data-SCT.png" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Results (small training set)
-
-500 cases and 2000 controls in training
-
-&lt;img src="figures/AUC-real-small.png" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Results (large training set)
-
-Between 120K and 350K individuals in training
-
-&lt;img src="figures/AUC-real.png" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Summary
-
-&lt;br&gt;
-
-- We improved C+T by tuning more hyper-parameters
-
-&lt;!-- -- --&gt;
-
-- maxCT is on par with lassosum, while being more robust (no model)
-
---
-
-- stacking makes C+T more flexible and potentially much more predictive
-
-&lt;!-- -- --&gt;
-
-- predictive power of SCT is increasing with sample size
-
---
-
-- can extend SCT to account for other parameters (e.g. MAF)
-
-&lt;!-- -- --&gt;
-
-- can extend SCT to use multiple summary statistics
-
+For example, we have developed LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)].
 
 ---
 class: center, middle, inverse
@@ -441,7 +340,7 @@ class: inverse, center, middle
 &lt;br&gt;
 
 Presentation available at    
-https://privefl.github.io/thesis-docs/spmgd22.html
+https://privefl.github.io/thesis-docs/smpgd22.html
 
 &lt;br&gt;
 
