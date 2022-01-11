@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SMPGD2022</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+&lt;br&gt;
+
+# Predicting complex traits and diseases&lt;br&gt;from genetic data
+
+## SMPGD 2022
+
+&lt;br&gt;
+
+### Florian Privé
+
+#### Senior Researcher, Aarhus University (DK)
+
+---
+
+class: center middle inverse
+
+# Introduction &amp; Motivation
+
+### Data, application and research interest 
+
+---
+
+## Disease architecture
+
+&lt;br&gt;
+
+&lt;img src="figures/disease-archi.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Source: 10.1126/science.338.6110.1016] 
+
+---
+
+## Polygenic Risk Scores (PRS)
+
+A simple model: `\(y_i = \sum_j \beta_j x_{i,j} + \epsilon\)`    
+`\(y_i\)`: phenotypes, `\(x_{i,j}\)`: genotypes, `\(\beta_j\)`: effect sizes, `\(\epsilon\)`: environmental effect.
+
+&lt;img src="figures/PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Identify high-risk individuals
+
+&lt;br&gt;
+
+&lt;img src="figures/PRS-utility.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Source: 10.1093/hmg/ddz187]
+
+---
+
+## Interest in Polygenic Scores (PGS)
+
+&lt;br&gt;
+
+&lt;img src="figures/PRS-trend22.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Data: very large genotype matrices
+
+&lt;br&gt;
+
+**Matrices** of genetic variants (DNA mutations)
+
+counting the number of alternative alleles (**0, 1, or 2**)    
+or imputed dosages (between 0 and 2)
+
+for each individual (row) and each genome position (column)
+
+&lt;br&gt;
+
+Data I typically work with:
+
+- [UK Biobank](https://doi.org/10.1101/166298) genotyped data: 500K x 800K (~3TB)
+
+- [UK Biobank](https://doi.org/10.1101/166298) imputed data (common variants): 500K x 11M
+
+---
+
+class: center, middle, inverse
+
+# How to predict disease status&lt;br&gt;based on genotypes?
+
+&lt;br&gt;
+
+## 1) using individual-level data
+
+---
+
+## Penalized Linear/Logistic Regression (PLR)
+
+&lt;br&gt;
+
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear re)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+
+&lt;br&gt;
+
+- `\(x\)` is the **genotypes** and covariates (e.g. sex and principal components), 
+
+- `\(y\)` is the trait / disease status we want to predict, 
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
+
+&lt;br&gt;
+
+In <i class="fab  fa-r-project "></i> package {bigstatsr}, very fast implementation with automatic choice of `\(\lambda\)` and `\(\alpha\)` [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+
+---
+
+## PLR for predicting height from genotypes
+
+- 350K individuals x 656K variants in less than one day
+
+- Within each both males and females, 65.5% of correlation between predicted and true height
+
+&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+class: center, middle, inverse
+
+# How to predict disease status&lt;br&gt;based on genotypes?
+
+&lt;br&gt;
+
+## 2) using GWAS summary statistics
+
+---
+
+## Standard PRS - part 1: estimating effects
+
+### Genome-wide association studies (GWAS)
+
+In a GWAS, each genetic variant is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each variant. 
+
+&lt;img src="figures/gwas-height-20K.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
+
+---
+
+## Standard PRS - part 2: restricting predictors
+
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; ("C+T" or just "PRS")
+
+&lt;br&gt;
+
+&lt;img src="figures/GWAS2PRS3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+
+---
+
+&lt;img src="figures/fig-GWAS-C+T.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+--
+&lt;img src="figures/fig-GWAS-C+T-clumping.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+--
+&lt;img src="figures/fig-GWAS-C+T-clumping-thresholding.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Using summary statistics from large GWAS
+
+&lt;img src="figures/PRS-sumstats.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Predictive methods based on summary statistics
+
+&lt;br&gt;
+
+When you have only summary statistics (and a small individual-level dataset), you can use:
+
+- C+T
+
+&lt;!-- -- --&gt;
+
+- LDpred (*Vilhjálmsson, Bjarni J., et al. "Modeling linkage disequilibrium increases accuracy of polygenic risk scores." The American Journal of Human Genetics 97.4 (2015): 576-592*).
+
+&lt;!-- -- --&gt;
+
+- lassosum (*Mak, Timothy Shin Heng, et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology 41.6 (2017): 469-480.*)
+
+&lt;!-- -- --&gt;
+
+- Other methods in development, such as NPS, PRS-CS and SBayesR.
+
+&lt;!-- -- --&gt;
+
+The idea of LDpred, lassosum and the other methods is to use a reference panel to **account for correlation** between variants, instead of clumping (removing) variants.
+
+---
+
+### Making the most of C+T
+
+#### Hyper-parameters in C+T
+
+&lt;!-- -- --&gt;
+
+- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
+
+&lt;!-- -- --&gt;
+
+- threshold on squared correlation of clumping ( `\(r_c^2 \sim 0.2\)` ) and    
+window size for LD computation ( `\(w_c \sim 500 kb\)` )
+
+&lt;!-- -- --&gt;
+
+- p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
+
+&lt;!-- -- --&gt;
+
+`\(\Longrightarrow\)` *stdCT* (standard C+T)
+
+--
+
+#### Our contribution
+
+- an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** `\(\times\)` 22 chromosomes)    
+`\(\Longrightarrow\)` *maxCT* (maximized C+T)
+
+&lt;!-- -- --&gt;
+
+- going further by **stacking** (*Breiman, Leo. "Stacked regressions." Machine learning 24.1 (1996): 49-64.*) with a linear combination of all C+T models (instead of just choosing the best model)    
+`\(\Longrightarrow\)` *SCT* (Stacked C+T)
+
+---
+
+## Grid of hyper-parameters and Stacking
+
+We compute C+T scores *for each chromosome separately* and for several parameters:
+
+- **Threshold on imputation** INFO score `\(\text{INFO}_T\)` within **\{0.3, 0.6, 0.9, 0.95\}**.
+
+&lt;!-- -- --&gt;
+
+- Squared correlation **threshold of clumping** `\(r_c^2\)` within **\{0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 0.95\}**.
+
+&lt;!-- -- --&gt;
+
+- Base **size of clumping window** within \{50, 100, 200, 500\}. The window size `\(w_c\)` is then computed as the base size divided by `\(r_c^2\)`. For example, for `\(r_c^2 = 0.2\)`, we test values of `\(w_c\)` within \{250, 500, 1000, 2500\} (in kb).
+
+&lt;!-- -- --&gt;
+
+- A sequence of **50 thresholds on p-values** between the least and the most significant p-values, equally spaced on a log-log scale.
+
+--
+
+&lt;br&gt;
+
+Then, we **stack these 123,200 C+T scores** by using them as variables in the efficient penalized regressions we implemented previously.
+
+---
+
+## Data (simulations)
+
+#### Real genotypes
+
+UK Biobank data for 1M variants and:
+
+- 315,609 individuals for computing summary
+statistics (GWAS), 
+
+- a set of 10,000 individuals for training hyper-parameters and lastly 
+
+- a test set of
+10,000 individuals for evaluating models.
+
+--
+
+#### Simulate new phenotypes
+
+- 100, 10K, or 1M random causal variants with Gaussian effects
+
+- Three additional scenarios with more complex architectures:
+
+    - "2chr": 100 variants of chromosome 1 and all variants of chromosome 2 are causal
+    - "err": (not presented)
+    - "HLA": 7105 causal variants are chosen in one long-range LD region
+
+---
+
+## Results (simulations)
+
+&lt;img src="figures/SCT-AUC-simus.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Data (real phenotypes)
+
+&lt;br&gt;
+
+- Include 8 common disorders
+
+- Real genotypes + phenotypes (UK Biobank) for training/validation/test
+
+- External published summary statistics (that did not use UK Biobank)
+
+--
+
+&lt;br&gt;
+
+&lt;img src="figures/data-SCT.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (small training set)
+
+500 cases and 2000 controls in training
+
+&lt;img src="figures/AUC-real-small.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Results (large training set)
+
+Between 120K and 350K individuals in training
+
+&lt;img src="figures/AUC-real.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Summary
+
+&lt;br&gt;
+
+- We improved C+T by tuning more hyper-parameters
+
+&lt;!-- -- --&gt;
+
+- maxCT is on par with lassosum, while being more robust (no model)
+
+--
+
+- stacking makes C+T more flexible and potentially much more predictive
+
+&lt;!-- -- --&gt;
+
+- predictive power of SCT is increasing with sample size
+
+--
+
+- can extend SCT to account for other parameters (e.g. MAF)
+
+&lt;!-- -- --&gt;
+
+- can extend SCT to use multiple summary statistics
+
+
+---
+class: center, middle, inverse
+
+# Conclusion
+
+---
+
+## My thesis work
+
+&lt;br&gt;
+
+1. Developping two <i class="fab  fa-r-project "></i> packages for the analysis of large-scale genomic data.    
+
+    (https://doi.org/10.1093/bioinformatics/bty185) 
+    
+    Package bigstatsr can be used for any data encoded as matrices.
+
+--
+2. Including an implementation (in bigstatsr) of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
+    
+    (https://doi.org/10.1534/genetics.119.302019) 
+
+--
+3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with standard C+T, lassosum (and LDpred).
+
+    (https://doi.org/10.1101/653204)
+
+---
+
+## Directions of future work
+
+- Revisions for C+T/SCT paper
+
+    - add LDpred to the comparisons
+    - investigate MAF parameter
+
+--
+
+- Coding in bigsnpr
+
+    - clumping and PCA directly on PLINK files with missing values
+    - improving autoSVD algorithm, including automatic detection of outlier samples on top of long-range LD regions
+
+--
+
+- multi-phenotype prediction with SCT (e.g. for schizophrenia, bipolar disorder and depression)
+
+&lt;!-- -- --&gt;
+
+- testing of different scaling functions in penalized regressions
+
+&lt;!-- -- --&gt;
+
+- inclusion of summary statistics information in penalized regressions
+
+&lt;!-- -- --&gt;
+
+- coding of penalized Cox regression
+
+&lt;!-- -- --&gt;
+
+- comparison of PRS methods (via data challenge?)
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at    
+https://privefl.github.io/thesis-docs/spmgd22.html
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> [privefl](https://twitter.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-github "></i> [privefl](https://github.com/privefl) &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <i class="fab  fa-stack-overflow "></i> [F. Privé](https://stackoverflow.com/users/6103040/f-priv%c3%a9)
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
