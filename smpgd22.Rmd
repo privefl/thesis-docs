@@ -173,7 +173,13 @@ Easy combining: $PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}$
 
 ---
 
-#### SLIDE ON INDIRECT ASSOCIATION
+### Local correlation between variants causes redundant GWAS signals
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/fig-LD.png")
+```
 
 ---
 
@@ -232,6 +238,8 @@ $\Longrightarrow$ *stdCT* (standard C+T)
 
 --
 
+***
+
 #### Our contribution [[bit.ly/sct-paper](https://bit.ly/sct-paper)]
 
 - an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** $\times$ 22 chromosomes)    
@@ -280,11 +288,13 @@ This idea is used in lassosum
 
 ### Local correlation between genetic variants
 
-- Fortunately, we can consider that the correlation between two genetic variants ( $\sum_i X_{i,j} X_{i,k}$, when $X$ is appropriately scaled) is 0 when they are too distant on the genome. So the matrix $X^T X$, while being e.g. 1M x 1M is actually very sparse (banded).
+Fortunately, we can consider that the correlation between two genetic variants ( $\sum_i X_{i,j} X_{i,k}$, when $X$ is appropriately scaled) is 0 when they are too distant on the genome. So the matrix $X^T X$, while being e.g. 1M x 1M is actually very sparse (banded).
 
 --
 
 <br>
+
+***
 
 ### Other methods for polygenic prediction from summary statistics
 
@@ -293,67 +303,85 @@ Many other methods have been developed, lots being Bayesian. They all the same i
 For example, we have developed LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)].
 
 ---
+
+### What influences predictive power?
+
+<br>
+
+- Predictive power $r^2$ is bounded by the heritability $h^2$ captured by the set of variants used.
+
+- $r^2$ increases with sample size $N$ (of course)
+
+- $r^2$ decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate. Let's denote $M_c$ the number of causal variants.
+
+--
+
+***
+
+<br>
+
+$$r^2_\text{max} = \dfrac{h^2}{1 + (1 - r^2_\text{max}) \dfrac{M_c}{N h^2}}$$
+
+
+.footnote[Source: 10.1371/journal.pone.0003395]
+
+---
+
+class: center, middle, inverse
+
+# A major limitation of polygenic scores:
+
+# their poor portability across ancestries
+
+---
+
+
+### Portability across 245 phenotypes and 9 ancestry groups
+
+```{r, out.width="95%"}
+knitr::include_graphics("https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/lasso-ancestry-2.png?raw=true")
+```
+
+.footnote[Percentage in figure title = squared slope (in blue) -- Source: [[bit.ly/portability-paper](https://bit.ly/portability-paper)]]
+
+---
+
+### Predictive performance drops with genetic distance
+
+<br>
+
+```{r, out.width="82%"}
+knitr::include_graphics("https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/ratio-dist-2.png?raw=true")
+```
+
+<!-- <span class="footnote">Recall: $\text{dist}_{PC}^2 \propto F_{ST}$</span> -->
+
+---
+
+### One possible explanation: different tagging
+
+<br>
+
+```{r, out.width="70%"}
+knitr::include_graphics("https://github.com/privefl/thesis/blob/master/figures/indirect-association.png?raw=true")
+```
+
+Linkage disequilibrium = correlation between genetic variants    
+(can be different across populations)
+
+.footnote[Source: 10.1214/09-STS307]
+
+---
+
 class: center, middle, inverse
 
 # Conclusion
 
 ---
 
-## My thesis work
+### Take-home messages
 
-<br>
-
-1. Developping two `r icon::fa_r_project()` packages for the analysis of large-scale genomic data.    
-
-    (https://doi.org/10.1093/bioinformatics/bty185) 
-    
-    Package bigstatsr can be used for any data encoded as matrices.
-
---
-2. Including an implementation (in bigstatsr) of penalized regression for very large individual-level datasets \+ assess the potential gain in prediction over the simple standard model (C+T).
-    
-    (https://doi.org/10.1534/genetics.119.302019) 
-
---
-3. Extending the set of parameters tested in C+T (implemented in bigsnpr) to achieve higher predictive performance with C+T. Extension via stacking. Comparison with standard C+T, lassosum (and LDpred).
-
-    (https://doi.org/10.1101/653204)
-
----
-
-## Directions of future work
-
-- Revisions for C+T/SCT paper
-
-    - add LDpred to the comparisons
-    - investigate MAF parameter
-
---
-
-- Coding in bigsnpr
-
-    - clumping and PCA directly on PLINK files with missing values
-    - improving autoSVD algorithm, including automatic detection of outlier samples on top of long-range LD regions
-
---
-
-- multi-phenotype prediction with SCT (e.g. for schizophrenia, bipolar disorder and depression)
-
-<!-- -- -->
-
-- testing of different scaling functions in penalized regressions
-
-<!-- -- -->
-
-- inclusion of summary statistics information in penalized regressions
-
-<!-- -- -->
-
-- coding of penalized Cox regression
-
-<!-- -- -->
-
-- comparison of PRS methods (via data challenge?)
+TODO
 
 ---
 
