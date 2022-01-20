@@ -110,7 +110,7 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear re)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear reg)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
 
 &lt;br&gt;
 
@@ -197,16 +197,16 @@ Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 &lt;!-- -- --&gt;
 
-- threshold of imputation quality score ( `\(INFO_T \sim 0.3\)` )
-
 &lt;!-- -- --&gt;
 
-- threshold on squared correlation of clumping ( `\(r_c^2 \sim 0.2\)` ) and    
-window size for LD computation ( `\(w_c \sim 500 kb\)` )
+- threshold on squared correlation of clumping (e.g. `\(r_c^2 &gt; 0.2\)`) and    
+window size for LD computation (e.g. `\(w_c = 500 kb\)`)
 
 &lt;!-- -- --&gt;
 
 - p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
+
+- other parameters such as the threshold of imputation quality score (e.g. `\(INFO &gt; 0.3\)`) or minor allele frequency (e.g. `\(MAF &gt; 0.01\)`)
 
 &lt;!-- -- --&gt;
 
@@ -218,7 +218,7 @@ window size for LD computation ( `\(w_c \sim 500 kb\)` )
 
 #### Our contribution [[bit.ly/sct-paper](https://bit.ly/sct-paper)]
 
-- an efficient implementation to compute many C+T scores for different hyper-parameters (**5600 sets of hyper-parameters** `\(\times\)` 22 chromosomes)    
+- an efficient implementation to compute thousands of C+T scores corresponding to different sets of hyper-parameters   
 `\(\Longrightarrow\)` *maxCT* (maximized C+T)
 
 &lt;!-- -- --&gt;
@@ -248,11 +248,11 @@ $$
 
 where 
 
-`$$u_j^{(t)} = \sum_i \left[ X_{i,j} \left( y_i - \sum_{k \neq j} X_{i,k} \beta_k^{(t)} \right) \right] = \sum_i X_{i,j} y_i - \sum_{k \neq j} \left( \sum_i X_{i,j} X_{i,k} \right) \beta_k^{(t)} ~.$$`
+`$$u_j^{(t)} = \sum_i \left[ G_{i,j} \left( y_i - \sum_{k \neq j} G_{i,k} \beta_k^{(t)} \right) \right] = \sum_i G_{i,j} y_i - \sum_{k \neq j} \left( \sum_i G_{i,j} G_{i,k} \right) \beta_k^{(t)} ~.$$`
 
 --
 
-In this equation, `\(\sum_i X_{i,j} y_i\)` can be obtained from GWAS summary statistics, while `\(\sum_i X_{i,j} X_{i,k}\)` can be estimated from another dataset.
+In this equation, `\(\sum_i G_{i,j} y_i\)` can be obtained from GWAS summary statistics, while `\(\sum_i G_{i,j} G_{i,k}\)` can be estimated from another dataset.
 Therefore, we can approximate this model using only summary statistics (no individual-level data).
 
 This idea is used in lassosum    
@@ -262,7 +262,7 @@ This idea is used in lassosum
 
 ### Local correlation between genetic variants
 
-Fortunately, we can consider that the correlation between two genetic variants ( `\(\sum_i X_{i,j} X_{i,k}\)`, when `\(X\)` is appropriately scaled) is 0 when they are too distant on the genome. So the matrix `\(X^T X\)`, while being e.g. 1M x 1M is actually very sparse (banded).
+Fortunately, we can consider that the correlation between two genetic variants ( `\(\sum_i G_{i,j} G_{i,k}\)`, when `\(G\)` is appropriately scaled) is 0 when they are too distant on the genome. So the matrix `\(G^T G\)`, while being e.g. 1M x 1M is actually very sparse (banded).
 
 --
 
@@ -275,6 +275,14 @@ Fortunately, we can consider that the correlation between two genetic variants (
 Many other methods have been developed, lots being Bayesian. They all the same idea of approximating the linear regression model using GWAS summary statistics and an external reference for the correlation between variants.
 
 For example, we have developed LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)].
+
+---
+
+class: center, middle, inverse
+
+# What influences predictive power
+
+# of polygenic scores
 
 ---
 
