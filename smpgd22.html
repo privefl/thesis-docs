@@ -32,38 +32,18 @@ class: title-slide center middle inverse
 
 class: center middle inverse
 
-# Introduction &amp; Motivation
-
-### Data, application and research interest 
+# Introduction
 
 ---
 
 ## Disease architecture
 
-&lt;br&gt;
-
 &lt;img src="figures/disease-archi.png" width="70%" style="display: block; margin: auto;" /&gt;
 
+Many genetic variants contribute to the risk of getting a common disease     
+`\(\Longrightarrow\)` build predictive scores that combine many genetic variants (polygenic risk scores)
+
 .footnote[Source: 10.1126/science.338.6110.1016] 
-
----
-
-## Polygenic Risk Scores (PRS)
-
-A simple model: `\(y_i = \sum_j \beta_j x_{i,j} + \epsilon\)`    
-`\(y_i\)`: phenotypes, `\(x_{i,j}\)`: genotypes, `\(\beta_j\)`: effect sizes, `\(\epsilon\)`: environmental effect.
-
-&lt;img src="figures/PRS.png" width="90%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Identify high-risk individuals
-
-&lt;br&gt;
-
-&lt;img src="figures/PRS-utility.png" width="80%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Source: 10.1093/hmg/ddz187]
 
 ---
 
@@ -72,6 +52,16 @@ A simple model: `\(y_i = \sum_j \beta_j x_{i,j} + \epsilon\)`
 &lt;br&gt;
 
 &lt;img src="figures/PRS-trend22.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# How to predict from genetic data?
+
+&lt;br&gt;
+
+## 1) using individual-level data
 
 ---
 
@@ -93,16 +83,6 @@ Data I typically work with:
 - [UK Biobank](https://doi.org/10.1101/166298) genotyped data: 500K x 800K (~3TB)
 
 - [UK Biobank](https://doi.org/10.1101/166298) imputed data (common variants): 500K x 11M
-
----
-
-class: center, middle, inverse
-
-# How to predict disease status&lt;br&gt;based on genotypes?
-
-&lt;br&gt;
-
-## 1) using individual-level data
 
 ---
 
@@ -139,7 +119,7 @@ In <i class="fab  fa-r-project "></i> package {bigstatsr}, very fast implementat
 
 class: center, middle, inverse
 
-# How to predict disease status&lt;br&gt;based on genotypes?
+# How to predict from genetic data?
 
 &lt;br&gt;
 
@@ -252,17 +232,24 @@ where
 
 --
 
-In this equation, `\(\sum_i G_{i,j} y_i\)` can be obtained from GWAS summary statistics, while `\(\sum_i G_{i,j} G_{i,k}\)` can be estimated from another dataset.
-Therefore, we can approximate this model using only summary statistics (no individual-level data).
+***
 
-This idea is used in lassosum    
-&lt;small&gt;(TSH Mak et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology (2017))&lt;/small&gt;
+- `\(\sum_i G_{i,j} y_i\)` can be obtained from GWAS summary statistics 
+- `\(\sum_i G_{i,j} G_{i,k}\)` can be estimated from another dataset
+
+`\(\Longrightarrow\)` we can use summary statistics only (no individual-level data).
+
+This idea is used in lassosum &lt;small&gt;(TSH Mak et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology (2017))&lt;/small&gt;
 
 ---
 
-### Local correlation between genetic variants
+### Computational considerations
 
-Fortunately, we can consider that the correlation between two genetic variants ( `\(\sum_i G_{i,j} G_{i,k}\)`, when `\(G\)` is appropriately scaled) is 0 when they are too distant on the genome. So the matrix `\(G^T G\)`, while being e.g. 1M x 1M is actually very sparse (banded).
+- correlation between genetic variants is local ( `\(\sum_i G_{i,j} G_{i,k}\)`, when `\(G\)` is appropriately scaled)
+ 
+- the correlation matrix `\(G^T G\)` is very sparse (banded)
+
+- `\(\Rightarrow\)` we can use e.g. 1M variants without too much difficulty
 
 --
 
@@ -272,7 +259,9 @@ Fortunately, we can consider that the correlation between two genetic variants (
 
 ### Other methods for polygenic prediction from summary statistics
 
-Many other methods have been developed, lots being Bayesian. They all the same idea of approximating the linear regression model using GWAS summary statistics and an external reference for the correlation between variants.
+Many other methods have been developed, lots being Bayesian.
+
+They all use the same idea of approximating the linear regression model using GWAS summary statistics and an external reference for the correlation between variants.
 
 For example, we have developed LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)].
 
@@ -294,7 +283,8 @@ class: center, middle, inverse
 
 - `\(r^2\)` increases with sample size `\(N\)` (of course)
 
-- `\(r^2\)` decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate. Let's denote `\(M_c\)` the number of causal variants.
+- `\(r^2\)` decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate.    
+Let's denote `\(M_c\)` the number of causal variants.
 
 --
 
