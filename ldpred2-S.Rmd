@@ -32,6 +32,12 @@ class: title-slide center middle inverse
 
 ---
 
+class: title-slide center middle inverse
+
+## Disclaimer:<br><br>I have started this project last Thursday
+
+---
+
 ### LDpred2
 
 LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
@@ -55,7 +61,9 @@ where
 
 <br>
 
-LDpred2 is a polygenic score method (i.e. its primary goal is prediction), but LDpred2-auto can estimate $h^2$ and $p$ directly from the data (i.e. no extra data is needed to tune these two hyper-parameters).
+LDpred2 is a polygenic score method (i.e. its primary goal is prediction),    
+but LDpred2-auto can estimate $h^2$ and $p$ directly from the data     
+(i.e. no extra data is needed to tune these two hyper-parameters).
 
 ---
 
@@ -79,7 +87,9 @@ LDpred2 should probably assume instead (the BayesS model)
 
 --
 
-- Current value assumed, $S = -1$, assumes all variants are expected to contribute similarly to the heritability, whatever their allele frequency $f$. It is also reported as a sign of negative selection.
+- Currently LDpred2 assumes that $S = -1$, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency $f$. 
+
+- A negative $S$ parameter is often reported as a sign of negative selection.
 
 - $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
 
@@ -97,7 +107,7 @@ knitr::include_graphics("figures/res-bayesS.png")
 
 ---
 
-### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6)
+### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6) <small>(uses lower MAF)</small>
 
 ```{r, message=FALSE}
 text <- c("Phenotype \tSample size \talpha / S [95% CI]",
@@ -130,13 +140,71 @@ DT::datatable(bigreadr::fread2(text = text)[-2], rownames = FALSE)
 
 ---
 
-### Results from [LDAK](https://doi.org/10.1038/ng.3865)
+### Results from [LDAK](https://doi.org/10.1038/ng.3865) <small>(maybe not the same parameter exactly)</small>
 
 ```{r, out.width="85%", fig.align='left'}
 knitr::include_graphics("figures/res-ldak.jpg")
 ```
 
 .footnote[M. sclerosis, multiple sclerosis &mdash; IOP, intraocular pressure &mdash; WRAT, wide-range achievement test]
+
+---
+
+### New results for $h^2$ from LDpred2-auto in the UK Biobank
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-h2.jpg")
+```
+
+---
+
+### New results for $p$ from LDpred2-auto in the UK Biobank
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-p.jpg")
+```
+
+---
+
+### New results for $S$ from LDpred2-auto in the UK Biobank
+
+#### (using MLE similar to the one used in SBayesS)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-S.jpg")
+```
+
+---
+
+### New results for $S$ and $p$ from LDpred2-auto in the UK Biobank
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-pS.jpg")
+```
+
+---
+
+### Next analyses
+
+<br>
+
+- Validate in simulations
+
+- Does a better $S$ provide better prediction?
+
+- Is $S=0$ better for portability across ancestries?
+
+- Can we also infer the predictive performance $R^2$?
+
+- What else?
 
 ---
 

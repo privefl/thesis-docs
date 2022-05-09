@@ -39,6 +39,12 @@ class: title-slide center middle inverse
 
 ---
 
+class: title-slide center middle inverse
+
+## Disclaimer:&lt;br&gt;&lt;br&gt;I have started this project last Thursday
+
+---
+
 ### LDpred2
 
 LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
@@ -62,7 +68,9 @@ where
 
 &lt;br&gt;
 
-LDpred2 is a polygenic score method (i.e. its primary goal is prediction), but LDpred2-auto can estimate `\(h^2\)` and `\(p\)` directly from the data (i.e. no extra data is needed to tune these two hyper-parameters).
+LDpred2 is a polygenic score method (i.e. its primary goal is prediction),    
+but LDpred2-auto can estimate `\(h^2\)` and `\(p\)` directly from the data     
+(i.e. no extra data is needed to tune these two hyper-parameters).
 
 ---
 
@@ -86,7 +94,9 @@ LDpred2 should probably assume instead (the BayesS model)
 
 --
 
-- Current value assumed, `\(S = -1\)`, assumes all variants are expected to contribute similarly to the heritability, whatever their allele frequency `\(f\)`. It is also reported as a sign of negative selection.
+- Currently LDpred2 assumes that `\(S = -1\)`, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency `\(f\)`. 
+
+- A negative `\(S\)` parameter is often reported as a sign of negative selection.
 
 - `\(S = 0\)` would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
 
@@ -96,24 +106,74 @@ LDpred2 should probably assume instead (the BayesS model)
 
 ### Results from [BayesS and SBayesS](https://doi.org/10.1038/s41467-021-21446-3)
 
-&lt;img src="figures/res-bayesS.png" width="98%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/res-bayesS.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 .footnote[BMR basal metabolic rate &amp;mdash; BMI body mass index &amp;mdash; BFP body fat percentage &amp;mdash; DBP diastolic blood pressure &amp;mdash; FEV forced expiratory volume &amp;mdash; FVC forced vital capacity &amp;mdash; HGSL hand grip strength (left) &amp;mdash; HGSR hand grip strength (right) &amp;mdash; HCadjBMI hip circumference adjusted for BMI &amp;mdash; HT height &amp;mdash; MTCIM mean time to correctly identify matches &amp;mdash; NS neuroticism score &amp;mdash; PEF peak expiratory flow &amp;mdash; PR pulse rate &amp;mdash; SBP systolic blood pressure &amp;mdash; WCadjBMI waist circumference adjusted for BMI &amp;mdash; WHRadjBMI waist–hip ratio adjusted for BMI &amp;mdash; WT weight]
 
 ---
 
-### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6)
+### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6) &lt;small&gt;(uses lower MAF)&lt;/small&gt;
 
-<div id="htmlwidget-590ee916dbea3ee265ec" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-590ee916dbea3ee265ec">{"x":{"filter":"none","data":[["Age of menarche","Blood pressure (diastolic)","Blood pressure (systolic)","BMI","Bone mineral density","FEV1/FVC","FVC","Height","Smoking status","Waist-hip ratio","Allergic eczema","Asthma","College education","Hypertension","Eosinophil count","High light scatter reticulocyte count","Lymphocyte count","Mean corpuscular hemoglobin","Mean sphered cell volume","Monocyte count","Platelet count","Platelet distribution width","Red blood cell count","Red blood cell distribution width","White blood cell count"],["-0.40 [-0.63, -0.11]","-0.39 [-0.54, -0.20]","-0.38 [-0.54, -0.18]","-0.24 [-0.38, -0.06]","-0.35 [-0.45, -0.23]","-0.44 [-0.55, -0.31]","-0.15 [-0.31, 0.04]","-0.45 [-0.52, -0.39]","-0.16 [-0.43, 0.21]","-0.17 [-0.43, 0.19]","-0.60 [-0.85, -0.26]","-0.25 [-0.60, 0.28]","-0.32 [-0.54, -0.04]","-0.18 [-0.46, 0.21]","-0.40 [-0.54, -0.24]","-0.53 [-0.65, -0.38]","-0.52 [-0.63, -0.38]","-0.42 [-0.53, -0.31]","-0.43 [-0.56, -0.28]","-0.19 [-0.35, -0.01]","-0.19 [-0.32, -0.03]","-0.27 [-0.44, -0.07]","-0.39 [-0.51, -0.25]","-0.20 [-0.36, -0.01]","-0.25 [-0.42, -0.03]"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Phenotype<\/th>\n      <th>alpha / S [95% CI]<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c67548cd372be37b4f6b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c67548cd372be37b4f6b">{"x":{"filter":"none","data":[["Age of menarche","Blood pressure (diastolic)","Blood pressure (systolic)","BMI","Bone mineral density","FEV1/FVC","FVC","Height","Smoking status","Waist-hip ratio","Allergic eczema","Asthma","College education","Hypertension","Eosinophil count","High light scatter reticulocyte count","Lymphocyte count","Mean corpuscular hemoglobin","Mean sphered cell volume","Monocyte count","Platelet count","Platelet distribution width","Red blood cell count","Red blood cell distribution width","White blood cell count"],["-0.40 [-0.63, -0.11]","-0.39 [-0.54, -0.20]","-0.38 [-0.54, -0.18]","-0.24 [-0.38, -0.06]","-0.35 [-0.45, -0.23]","-0.44 [-0.55, -0.31]","-0.15 [-0.31, 0.04]","-0.45 [-0.52, -0.39]","-0.16 [-0.43, 0.21]","-0.17 [-0.43, 0.19]","-0.60 [-0.85, -0.26]","-0.25 [-0.60, 0.28]","-0.32 [-0.54, -0.04]","-0.18 [-0.46, 0.21]","-0.40 [-0.54, -0.24]","-0.53 [-0.65, -0.38]","-0.52 [-0.63, -0.38]","-0.42 [-0.53, -0.31]","-0.43 [-0.56, -0.28]","-0.19 [-0.35, -0.01]","-0.19 [-0.32, -0.03]","-0.27 [-0.44, -0.07]","-0.39 [-0.51, -0.25]","-0.20 [-0.36, -0.01]","-0.25 [-0.42, -0.03]"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Phenotype<\/th>\n      <th>alpha / S [95% CI]<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
-### Results from [LDAK](https://doi.org/10.1038/ng.3865)
+### Results from [LDAK](https://doi.org/10.1038/ng.3865) &lt;small&gt;(maybe not the same parameter exactly)&lt;/small&gt;
 
 &lt;img src="figures/res-ldak.jpg" width="85%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 .footnote[M. sclerosis, multiple sclerosis &amp;mdash; IOP, intraocular pressure &amp;mdash; WRAT, wide-range achievement test]
+
+---
+
+### New results for `\(h^2\)` from LDpred2-auto in the UK Biobank
+
+&lt;br&gt;
+
+&lt;img src="figures/ldpred2-h2.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### New results for `\(p\)` from LDpred2-auto in the UK Biobank
+
+&lt;br&gt;
+
+&lt;img src="figures/ldpred2-p.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### New results for `\(S\)` from LDpred2-auto in the UK Biobank
+
+#### (using MLE similar to the one used in SBayesS)
+
+&lt;br&gt;
+
+&lt;img src="figures/ldpred2-S.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### New results for `\(S\)` and `\(p\)` from LDpred2-auto in the UK Biobank
+
+&lt;br&gt;
+
+&lt;img src="figures/ldpred2-pS.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Next analyses
+
+&lt;br&gt;
+
+- Validate in simulations
+
+- Does a better `\(S\)` provide better prediction?
+
+- Is `\(S=0\)` better for portability across ancestries?
+
+- Can we also infer the predictive performance `\(R^2\)`?
+
+- What else?
 
 ---
 
