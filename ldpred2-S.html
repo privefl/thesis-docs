@@ -6,6 +6,15 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding/datatables.js"></script>
+    <link href="libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
   </head>
   <body>
@@ -38,7 +47,7 @@ LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the follo
 \[
 \beta_j = S_j \gamma_j \sim \left\{
 \begin{array}{ll}
-\mathcal N\left(0, \dfrac{h^2}{M p}\right) &amp; \mbox{with probability } p,\\
+\mathcal N\left(0, \frac{h^2}{M p}\right) &amp; \mbox{with probability } p,\\
 0 &amp; \mbox{otherwise,}\end{array}
 \right.
 \]
@@ -93,6 +102,18 @@ LDpred2 should probably assume instead (the BayesS model)
 
 ---
 
+### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6)
+
+<div id="htmlwidget-5b60f53a92bfcd4c8922" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b60f53a92bfcd4c8922">{"x":{"filter":"none","data":[["Age of menarche","Blood pressure (diastolic)","Blood pressure (systolic)","BMI","Bone mineral density","FEV1/FVC","FVC","Height","Smoking status","Waist-hip ratio","Allergic eczema","Asthma","College education","Hypertension","Eosinophil count","High light scatter reticulocyte count","Lymphocyte count","Mean corpuscular hemoglobin","Mean sphered cell volume","Monocyte count","Platelet count","Platelet distribution width","Red blood cell count","Red blood cell distribution width","White blood cell count"],["-0.40 [-0.63, -0.11]","-0.39 [-0.54, -0.20]","-0.38 [-0.54, -0.18]","-0.24 [-0.38, -0.06]","-0.35 [-0.45, -0.23]","-0.44 [-0.55, -0.31]","-0.15 [-0.31, 0.04]","-0.45 [-0.52, -0.39]","-0.16 [-0.43, 0.21]","-0.17 [-0.43, 0.19]","-0.60 [-0.85, -0.26]","-0.25 [-0.60, 0.28]","-0.32 [-0.54, -0.04]","-0.18 [-0.46, 0.21]","-0.40 [-0.54, -0.24]","-0.53 [-0.65, -0.38]","-0.52 [-0.63, -0.38]","-0.42 [-0.53, -0.31]","-0.43 [-0.56, -0.28]","-0.19 [-0.35, -0.01]","-0.19 [-0.32, -0.03]","-0.27 [-0.44, -0.07]","-0.39 [-0.51, -0.25]","-0.20 [-0.36, -0.01]","-0.25 [-0.42, -0.03]"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Phenotype<\/th>\n      <th>alpha / S [95% CI]<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### Results for [LDAK](https://doi.org/10.1038/ng.3865)
+
+&lt;img src="figures/res-ldak.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+.footnote[M. sclerosis, multiple sclerosis &amp;mdash; IOP, intraocular pressure &amp;mdash; WRAT, wide-range achievement test]
 
 
 ---

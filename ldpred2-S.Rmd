@@ -40,7 +40,7 @@ LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the follo
 \[
 \beta_j = S_j \gamma_j \sim \left\{
 \begin{array}{ll}
-\mathcal N\left(0, \dfrac{h^2}{M p}\right) & \mbox{with probability } p,\\
+\mathcal N\left(0, \frac{h^2}{M p}\right) & \mbox{with probability } p,\\
 0 & \mbox{otherwise,}\end{array}
 \right.
 \]
@@ -97,7 +97,46 @@ knitr::include_graphics("figures/res-bayesS.png")
 
 ---
 
+### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6)
 
+```{r, message=FALSE}
+text <- c("Phenotype \tSample size \talpha / S [95% CI]",
+          "Age of menarche \t58,329 \t-0.40 [-0.63, -0.11]",
+          "Blood pressure (diastolic) \t104,835 \t-0.39 [-0.54, -0.20]",
+          "Blood pressure (systolic) \t104,835 \t-0.38 [-0.54, -0.18]",
+          "BMI \t113,540 \t-0.24 [-0.38, -0.06]",
+          "Bone mineral density \t110,611 \t-0.35 [-0.45, -0.23]",
+          "FEV1/FVC \t97,075 \t-0.44 [-0.55, -0.31]","FVC \t97,075 \t-0.15 [-0.31, 0.04]",
+          "Height \t113,660 \t-0.45 [-0.52, -0.39]",
+          "Smoking status \t113,560 \t-0.16 [-0.43, 0.21]",
+          "Waist-hip ratio \t113,668 \t-0.17 [-0.43, 0.19]",
+          "Allergic eczema \t113,707 \t-0.60 [-0.85, -0.26]",
+          "Asthma \t113,707 \t-0.25 [-0.60, 0.28]",
+          "College education \t112,811 \t-0.32 [-0.54, -0.04]",
+          "Hypertension \t113,689 \t-0.18 [-0.46, 0.21]",
+          "Eosinophil count \t108,957 \t-0.40 [-0.54, -0.24]",
+          "High light scatter reticulocyte count \t108,785 \t-0.53 [-0.65, -0.38]",
+          "Lymphocyte count \t108,664 \t-0.52 [-0.63, -0.38]",
+          "Mean corpuscular hemoglobin \t108,513 \t-0.42 [-0.53, -0.31]",
+          "Mean sphered cell volume \t109,523 \t-0.43 [-0.56, -0.28]",
+          "Monocyte count \t110,026 \t-0.19 [-0.35, -0.01]",
+          "Platelet count \t109,971 \t-0.19 [-0.32, -0.03]",
+          "Platelet distribution width \t109,938 \t-0.27 [-0.44, -0.07]",
+          "Red blood cell count \t110,054 \t-0.39 [-0.51, -0.25]",
+          "Red blood cell distribution width \t109,913 \t-0.20 [-0.36, -0.01]",
+          "White blood cell count \t110,186 \t-0.25 [-0.42, -0.03]")
+DT::datatable(bigreadr::fread2(text = text)[-2], rownames = FALSE)
+```
+
+---
+
+### Results for [LDAK](https://doi.org/10.1038/ng.3865)
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/res-ldak.jpg")
+```
+
+.footnote[M. sclerosis, multiple sclerosis &mdash; IOP, intraocular pressure &mdash; WRAT, wide-range achievement test]
 
 ---
 
