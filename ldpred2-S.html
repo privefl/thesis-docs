@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>LDpred2-S</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+&lt;br&gt;
+
+# Disease architecture estimation&lt;br&gt;with LDpred2-auto
+
+&lt;br&gt;
+
+&lt;!-- ## Focus on the 'S' parameter --&gt;
+
+&lt;br&gt;
+
+### Florian Privé
+
+---
+
+### LDpred2
+
+LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
+
+&lt;div class="math"&gt;
+\[
+\beta_j = S_j \gamma_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, \dfrac{h^2}{M p}\right) &amp; \mbox{with probability } p,\\
+0 &amp; \mbox{otherwise,}\end{array}
+\right.
+\]
+&lt;/div&gt;
+
+where 
+- `\(p\)` is the proportion of causal variants, 
+- `\(M\)` the number of variants,
+- `\(h^2\)` the (SNP) heritability.
+- `\(\gamma\)` the effect sizes on the allele scale,
+- `\(\beta\)` the effects of the scaled genotypes `\(\rightarrow S\)` is their SD.
+
+&lt;br&gt;
+
+LDpred2 is a polygenic score method (i.e. its primary goal is prediction), but LDpred2-auto can estimate `\(h^2\)` and `\(p\)` directly from the data (i.e. no extra data is needed to tune these two hyper-parameters).
+
+---
+
+### Introducing the S parameter
+
+&lt;br&gt;
+
+LDpred2 should probably assume instead (the BayesS model)
+
+&lt;div class="math"&gt;
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) &amp; \mbox{with probability } p,\\
+0 &amp; \mbox{otherwise,}\end{array}
+\right.
+\]
+&lt;/div&gt;
+
+&lt;br&gt;
+
+--
+
+- Current value assumed, `\(S = -1\)`, assumes all variants are expected to contribute similarly to the heritability, whatever their allele frequency `\(f\)`. It is also reported as a sign of negative selection.
+
+- `\(S = 0\)` would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
+
+- Should use something in-between?
+
+---
+
+### Results from [BayesS and SBayesS](https://doi.org/10.1038/s41467-021-21446-3)
+
+&lt;img src="figures/res-bayesS.png" width="98%" style="display: block; margin: auto;" /&gt;
+
+.footnote[BMR basal metabolic rate &amp;mdash; BMI body mass index &amp;mdash; BFP body fat percentage &amp;mdash; DBP diastolic blood pressure &amp;mdash; FEV forced expiratory volume &amp;mdash; FVC forced vital capacity &amp;mdash; HGSL hand grip strength (left) &amp;mdash; HGSR hand grip strength (right) &amp;mdash; HCadjBMI hip circumference adjusted for BMI &amp;mdash; HT height &amp;mdash; MTCIM mean time to correctly identify matches &amp;mdash; NS neuroticism score &amp;mdash; PEF peak expiratory flow &amp;mdash; PR pulse rate &amp;mdash; SBP systolic blood pressure &amp;mdash; WCadjBMI waist circumference adjusted for BMI &amp;mdash; WHRadjBMI waist–hip ratio adjusted for BMI &amp;mdash; WT weight]
+
+---
+
+
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at    
+https://privefl.github.io/thesis-docs/ldpred2-S.html
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> <i class="fab  fa-github "></i> privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

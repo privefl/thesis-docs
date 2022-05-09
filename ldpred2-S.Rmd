@@ -1,0 +1,120 @@
+---
+title: "LDpred2-S"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Disease architecture estimation<br>with LDpred2-auto
+
+<br>
+
+<!-- ## Focus on the 'S' parameter -->
+
+<br>
+
+### Florian Privé
+
+---
+
+### LDpred2
+
+LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
+
+<div class="math">
+\[
+\beta_j = S_j \gamma_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, \dfrac{h^2}{M p}\right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise,}\end{array}
+\right.
+\]
+</div>
+
+where 
+- $p$ is the proportion of causal variants, 
+- $M$ the number of variants,
+- $h^2$ the (SNP) heritability.
+- $\gamma$ the effect sizes on the allele scale,
+- $\beta$ the effects of the scaled genotypes $\rightarrow S$ is their SD.
+
+<br>
+
+LDpred2 is a polygenic score method (i.e. its primary goal is prediction), but LDpred2-auto can estimate $h^2$ and $p$ directly from the data (i.e. no extra data is needed to tune these two hyper-parameters).
+
+---
+
+### Introducing the S parameter
+
+<br>
+
+LDpred2 should probably assume instead (the BayesS model)
+
+<div class="math">
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise,}\end{array}
+\right.
+\]
+</div>
+
+<br>
+
+--
+
+- Current value assumed, $S = -1$, assumes all variants are expected to contribute similarly to the heritability, whatever their allele frequency $f$. It is also reported as a sign of negative selection.
+
+- $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
+
+- Should use something in-between?
+
+---
+
+### Results from [BayesS and SBayesS](https://doi.org/10.1038/s41467-021-21446-3)
+
+```{r, out.width="98%"}
+knitr::include_graphics("figures/res-bayesS.png")
+```
+
+.footnote[BMR basal metabolic rate &mdash; BMI body mass index &mdash; BFP body fat percentage &mdash; DBP diastolic blood pressure &mdash; FEV forced expiratory volume &mdash; FVC forced vital capacity &mdash; HGSL hand grip strength (left) &mdash; HGSR hand grip strength (right) &mdash; HCadjBMI hip circumference adjusted for BMI &mdash; HT height &mdash; MTCIM mean time to correctly identify matches &mdash; NS neuroticism score &mdash; PEF peak expiratory flow &mdash; PR pulse rate &mdash; SBP systolic blood pressure &mdash; WCadjBMI waist circumference adjusted for BMI &mdash; WHRadjBMI waist–hip ratio adjusted for BMI &mdash; WT weight]
+
+---
+
+
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+<br>
+
+Presentation available at    
+https://privefl.github.io/thesis-docs/ldpred2-S.html
+
+<br>
+
+<br>
+
+`r icon::fa("twitter")` `r icon::fa("github")` privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
