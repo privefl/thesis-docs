@@ -89,7 +89,7 @@ LDpred2 should probably assume instead (the BayesS model)
 
 ### Results from [BayesS and SBayesS](https://doi.org/10.1038/s41467-021-21446-3)
 
-```{r, out.width="98%"}
+```{r, out.width="100%"}
 knitr::include_graphics("figures/res-bayesS.png")
 ```
 
@@ -130,9 +130,9 @@ DT::datatable(bigreadr::fread2(text = text)[-2], rownames = FALSE)
 
 ---
 
-### Results for [LDAK](https://doi.org/10.1038/ng.3865)
+### Results from [LDAK](https://doi.org/10.1038/ng.3865)
 
-```{r, out.width="80%"}
+```{r, out.width="85%", fig.align='left'}
 knitr::include_graphics("figures/res-ldak.jpg")
 ```
 
