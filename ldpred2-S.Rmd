@@ -150,9 +150,13 @@ knitr::include_graphics("figures/res-ldak.jpg")
 
 ---
 
-### New results for $h^2$ from LDpred2-auto in the UK Biobank
+class: title-slide center middle inverse
 
-<br>
+## New results from LDpred2-auto<br>in the UK Biobank
+
+---
+
+### New results for $h^2$ from LDpred2-auto in the UK Biobank
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/ldpred2-h2.jpg")
@@ -161,8 +165,6 @@ knitr::include_graphics("figures/ldpred2-h2.jpg")
 ---
 
 ### New results for $p$ from LDpred2-auto in the UK Biobank
-
-<br>
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/ldpred2-p.jpg")
@@ -174,17 +176,13 @@ knitr::include_graphics("figures/ldpred2-p.jpg")
 
 #### (using MLE similar to the one used in SBayesS)
 
-<br>
-
-```{r, out.width="100%"}
+```{r, out.width="90%"}
 knitr::include_graphics("figures/ldpred2-S.jpg")
 ```
 
 ---
 
 ### New results for $S$ and $p$ from LDpred2-auto in the UK Biobank
-
-<br>
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/ldpred2-pS.jpg")
@@ -203,6 +201,10 @@ knitr::include_graphics("figures/ldpred2-pS.jpg")
 - Is $S=0$ better for portability across ancestries?
 
 - Can we also infer the predictive performance $R^2$?
+
+- Using more than HapMap3 variants
+
+- Find a better way to filter chains from the Gibbs sampler
 
 - What else?
 
