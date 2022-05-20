@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Overview of my work</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding/datatables.js"></script>
+    <link href="libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+&lt;br&gt;
+
+# Overview of my work
+
+&lt;br&gt;
+
+## Statistical tools for human genetics
+
+### (focus on prediction and ancestry inference)
+
+&lt;br&gt;
+
+### Florian Privé
+
+---
+
+#### [1] Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr
+
+&lt;img src="figures/overview-paper1.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+#### Main motivations for developing these two packages
+
+&lt;br&gt;
+
+- being able to run all my analyses within <i class="fab  fa-r-project "></i>
+
+- frustration of having to use all these different software, with different input formats, and requiring text files for parameters
+
+- simpler to build a chain of analyses, to perform some exploratory analyses, and to use familiar packages
+
+- simpler to develop new methods, thanks to a simple matrix-like format
+
+&lt;br&gt;
+
+--
+
+Note that many functions (to perform e.g. GWAS, PCA, summary statistics) are not really specific to genotype data; I implemented those in {bigstatsr}. 
+
+This is why there are two packages, where {bigstatsr} can basically be used by any field using matrices, while {bigsnpr} provides some tools rather specific to genotype data, largely building on top of {bigstatsr}. 
+
+Learn more about {bigstatsr} and the Filebacked Big Matrix (FBM) format in [this webinar](https://t.co/LUQQp7INlX).
+
+---
+
+#### [2] Efficient Implementation of Penalized Regression for Genetic Risk Prediction
+
+&lt;br&gt;
+
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear reg)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+
+&lt;br&gt;
+
+- `\(x\)` is the **genotypes** and covariates (e.g. sex and principal components), 
+
+- `\(y\)` is the trait / disease status we want to predict, 
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
+
+&lt;br&gt;
+
+In <i class="fab  fa-r-project "></i> package {bigstatsr}, very fast implementation with automatic choice of `\(\lambda\)` and `\(\alpha\)` [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+
+---
+
+#### Penalized linear regression for predicting height from genotypes
+
+&lt;br&gt;
+
+- 350K individuals x 656K variants in less than one day
+
+- Within each both males and females, 65.5% of correlation between predicted and true height
+
+&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+#### [3] Making the Most of Clumping and Thresholding for Polygenic Scores
+
+Hyper-parameters in C+T:
+
+- threshold on squared correlation of clumping (e.g. `\(r_c^2 &gt; 0.2\)`) and    
+window size for LD computation (e.g. `\(w_c = 500 kb\)`)
+
+- p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
+
+- other parameters such as the threshold of imputation quality score (e.g. `\(INFO &gt; 0.3\)`) or minor allele frequency (e.g. `\(MAF &gt; 0.01\)`)
+
+`\(\Longrightarrow\)` *stdCT* (standard C+T)
+
+--
+
+&lt;br&gt;
+
+Our contribution:
+
+- an efficient implementation to compute thousands of C+T scores corresponding to different sets of hyper-parameters   
+`\(\Longrightarrow\)` *maxCT* (maximized C+T)
+
+- going further by **stacking** with a linear combination of all C+T models (instead of just choosing the best model)    
+`\(\Longrightarrow\)` *SCT* (Stacked C+T)
+
+---
+
+#### [4] Performing Highly Efficient Genome Scans for Local Adaptation with R Package pcadapt Version 4
+
+Basically performs a GWAS for population structure `\(\rightarrow\)` faster implementation
+
+&lt;img src="figures/timings-pcadapt.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+#### [5] Efficient toolkit implementing best practices for principal component analysis of population genetic data
+
+PC loadings of the UK Biobank:
+
+&lt;img src="figures/loadings-ukbb.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+#### PCA projection is biased
+
+&lt;img src="figures/pca-proj.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+
+PC scores 1–8 of the 1000 Genomes project
+
+- black points: individuals for PCA training (60%)
+
+- red points: simple projection of other individuals
+
+- blue points: corrected projection
+
+---
+
+#### Our proposed pipeline
+
+&lt;img src="figures/pca-pipeline.jpeg" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
+
+&lt;div class="math"&gt;
+\[
+\beta_j = S_j \gamma_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, \frac{h^2}{M p}\right) &amp; \mbox{with probability } p,\\
+0 &amp; \mbox{otherwise,}\end{array}
+\right.
+\]
+&lt;/div&gt;
+
+where 
+- `\(p\)` is the proportion of causal variants, 
+- `\(M\)` the number of variants,
+- `\(h^2\)` the (SNP) heritability.
+- `\(\gamma\)` the effect sizes on the allele scale,
+- `\(\beta\)` the effects of the scaled genotypes `\(\rightarrow S\)` is their SD.
+
+&lt;br&gt;
+
+LDpred2 is a polygenic score method (i.e. its primary goal is prediction),    
+but LDpred2-auto can estimate `\(h^2\)` and `\(p\)` directly from the data     
+(i.e. no extra data is needed to tune these two hyper-parameters).
+
+---
+
+### Introducing the S parameter
+
+&lt;br&gt;
+
+LDpred2 should probably assume instead (the BayesS model)
+
+&lt;div class="math"&gt;
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) &amp; \mbox{with probability } p,\\
+0 &amp; \mbox{otherwise,}\end{array}
+\right.
+\]
+&lt;/div&gt;
+
+&lt;br&gt;
+
+--
+
+- Currently LDpred2 assumes that `\(S = -1\)`, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency `\(f\)`. 
+
+- A negative `\(S\)` parameter is often reported as a sign of negative selection.
+
+- `\(S = 0\)` would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
+
+- Should use something in-between?
+
+---
+
+### Results from [BayesS and SBayesS](https://doi.org/10.1038/s41467-021-21446-3)
+
+&lt;img src="figures/res-bayesS.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[BMR basal metabolic rate &amp;mdash; BMI body mass index &amp;mdash; BFP body fat percentage &amp;mdash; DBP diastolic blood pressure &amp;mdash; FEV forced expiratory volume &amp;mdash; FVC forced vital capacity &amp;mdash; HGSL hand grip strength (left) &amp;mdash; HGSR hand grip strength (right) &amp;mdash; HCadjBMI hip circumference adjusted for BMI &amp;mdash; HT height &amp;mdash; MTCIM mean time to correctly identify matches &amp;mdash; NS neuroticism score &amp;mdash; PEF peak expiratory flow &amp;mdash; PR pulse rate &amp;mdash; SBP systolic blood pressure &amp;mdash; WCadjBMI waist circumference adjusted for BMI &amp;mdash; WHRadjBMI waist–hip ratio adjusted for BMI &amp;mdash; WT weight]
+
+---
+
+### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6) &lt;small&gt;(uses lower MAF)&lt;/small&gt;
+
+<div id="htmlwidget-824dd6bb76c61263fe30" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-824dd6bb76c61263fe30">{"x":{"filter":"none","data":[["Age of menarche","Blood pressure (diastolic)","Blood pressure (systolic)","BMI","Bone mineral density","FEV1/FVC","FVC","Height","Smoking status","Waist-hip ratio","Allergic eczema","Asthma","College education","Hypertension","Eosinophil count","High light scatter reticulocyte count","Lymphocyte count","Mean corpuscular hemoglobin","Mean sphered cell volume","Monocyte count","Platelet count","Platelet distribution width","Red blood cell count","Red blood cell distribution width","White blood cell count"],["-0.40 [-0.63, -0.11]","-0.39 [-0.54, -0.20]","-0.38 [-0.54, -0.18]","-0.24 [-0.38, -0.06]","-0.35 [-0.45, -0.23]","-0.44 [-0.55, -0.31]","-0.15 [-0.31, 0.04]","-0.45 [-0.52, -0.39]","-0.16 [-0.43, 0.21]","-0.17 [-0.43, 0.19]","-0.60 [-0.85, -0.26]","-0.25 [-0.60, 0.28]","-0.32 [-0.54, -0.04]","-0.18 [-0.46, 0.21]","-0.40 [-0.54, -0.24]","-0.53 [-0.65, -0.38]","-0.52 [-0.63, -0.38]","-0.42 [-0.53, -0.31]","-0.43 [-0.56, -0.28]","-0.19 [-0.35, -0.01]","-0.19 [-0.32, -0.03]","-0.27 [-0.44, -0.07]","-0.39 [-0.51, -0.25]","-0.20 [-0.36, -0.01]","-0.25 [-0.42, -0.03]"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Phenotype<\/th>\n      <th>alpha / S [95% CI]<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### Results from [LDAK](https://doi.org/10.1038/ng.3865) &lt;small&gt;(maybe not the same parameter exactly)&lt;/small&gt;
+
+&lt;img src="figures/res-ldak.jpg" width="85%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+.footnote[M. sclerosis, multiple sclerosis &amp;mdash; IOP, intraocular pressure &amp;mdash; WRAT, wide-range achievement test]
+
+---
+
+class: title-slide center middle inverse
+
+## New results from LDpred2-auto&lt;br&gt;in the UK Biobank
+
+---
+
+### New results for `\(h^2\)` from LDpred2-auto in the UK Biobank
+
+&lt;img src="figures/ldpred2-h2.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### New results for `\(p\)` from LDpred2-auto in the UK Biobank
+
+&lt;img src="figures/ldpred2-p.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### New results for `\(S\)` from LDpred2-auto in the UK Biobank
+
+#### (using MLE similar to the one used in SBayesS)
+
+&lt;img src="figures/ldpred2-S.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### New results for `\(S\)` and `\(p\)` from LDpred2-auto in the UK Biobank
+
+&lt;img src="figures/ldpred2-pS.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Next analyses
+
+&lt;br&gt;
+
+- Validate in simulations
+
+- Does a better `\(S\)` provide better prediction?
+
+- Is `\(S=0\)` better for portability across ancestries?
+
+- Can we also infer the predictive performance `\(R^2\)`?
+
+- Using more than HapMap3 variants
+
+- Find a better way to filter chains from the Gibbs sampler
+
+- What else?
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at    
+https://privefl.github.io/thesis-docs/ldpred2-S.html
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> <i class="fab  fa-github "></i> privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,362 @@
+---
+title: "Overview of my work"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Overview of my work
+
+<br>
+
+## Statistical tools for human genetics
+
+### (focus on prediction and ancestry inference)
+
+<br>
+
+### Florian Privé
+
+---
+
+#### [1] Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/overview-paper1.png")
+```
+
+---
+
+#### Main motivations for developing these two packages
+
+<br>
+
+- being able to run all my analyses within `r icon::fa_r_project()`
+
+- frustration of having to use all these different software, with different input formats, and requiring text files for parameters
+
+- simpler to build a chain of analyses, to perform some exploratory analyses, and to use familiar packages
+
+- simpler to develop new methods, thanks to a simple matrix-like format
+
+<br>
+
+--
+
+Note that many functions (to perform e.g. GWAS, PCA, summary statistics) are not really specific to genotype data; I implemented those in {bigstatsr}. 
+
+This is why there are two packages, where {bigstatsr} can basically be used by any field using matrices, while {bigsnpr} provides some tools rather specific to genotype data, largely building on top of {bigstatsr}. 
+
+Learn more about {bigstatsr} and the Filebacked Big Matrix (FBM) format in [this webinar](https://t.co/LUQQp7INlX).
+
+---
+
+#### [2] Efficient Implementation of Penalized Regression for Genetic Risk Prediction
+
+<br>
+
+<Small>$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear reg)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$</Small>
+
+<br>
+
+- $x$ is the **genotypes** and covariates (e.g. sex and principal components), 
+
+- $y$ is the trait / disease status we want to predict, 
+
+- $\lambda$ is a regularization parameter that needs to be determined and
+
+- $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
+
+<br>
+
+In `r icon::fa_r_project()` package {bigstatsr}, very fast implementation with automatic choice of $\lambda$ and $\alpha$ [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+
+---
+
+#### Penalized linear regression for predicting height from genotypes
+
+<br>
+
+- 350K individuals x 656K variants in less than one day
+
+- Within each both males and females, 65.5% of correlation between predicted and true height
+
+```{r, out.width="75%"}
+knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
+```
+
+---
+
+#### [3] Making the Most of Clumping and Thresholding for Polygenic Scores
+
+Hyper-parameters in C+T:
+
+- threshold on squared correlation of clumping (e.g. $r_c^2 > 0.2$) and    
+window size for LD computation (e.g. $w_c = 500 kb$)
+
+- p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
+
+- other parameters such as the threshold of imputation quality score (e.g. $INFO > 0.3$) or minor allele frequency (e.g. $MAF > 0.01$)
+
+$\Longrightarrow$ *stdCT* (standard C+T)
+
+--
+
+<br>
+
+Our contribution:
+
+- an efficient implementation to compute thousands of C+T scores corresponding to different sets of hyper-parameters   
+$\Longrightarrow$ *maxCT* (maximized C+T)
+
+- going further by **stacking** with a linear combination of all C+T models (instead of just choosing the best model)    
+$\Longrightarrow$ *SCT* (Stacked C+T)
+
+---
+
+#### [4] Performing Highly Efficient Genome Scans for Local Adaptation with R Package pcadapt Version 4
+
+Basically performs a GWAS for population structure $\rightarrow$ faster implementation
+
+```{r, out.width="75%"}
+knitr::include_graphics("figures/timings-pcadapt.png")
+```
+
+---
+
+#### [5] Efficient toolkit implementing best practices for principal component analysis of population genetic data
+
+PC loadings of the UK Biobank:
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/loadings-ukbb.jpeg")
+```
+
+---
+
+#### PCA projection is biased
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/pca-proj.jpeg")
+```
+
+PC scores 1–8 of the 1000 Genomes project
+
+- black points: individuals for PCA training (60%)
+
+- red points: simple projection of other individuals
+
+- blue points: corrected projection
+
+---
+
+#### Our proposed pipeline
+
+```{r, out.width="60%"}
+knitr::include_graphics("figures/pca-pipeline.jpeg")
+```
+
+---
+
+LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
+
+<div class="math">
+\[
+\beta_j = S_j \gamma_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, \frac{h^2}{M p}\right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise,}\end{array}
+\right.
+\]
+</div>
+
+where 
+- $p$ is the proportion of causal variants, 
+- $M$ the number of variants,
+- $h^2$ the (SNP) heritability.
+- $\gamma$ the effect sizes on the allele scale,
+- $\beta$ the effects of the scaled genotypes $\rightarrow S$ is their SD.
+
+<br>
+
+LDpred2 is a polygenic score method (i.e. its primary goal is prediction),    
+but LDpred2-auto can estimate $h^2$ and $p$ directly from the data     
+(i.e. no extra data is needed to tune these two hyper-parameters).
+
+---
+
+### Introducing the S parameter
+
+<br>
+
+LDpred2 should probably assume instead (the BayesS model)
+
+<div class="math">
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise,}\end{array}
+\right.
+\]
+</div>
+
+<br>
+
+--
+
+- Currently LDpred2 assumes that $S = -1$, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency $f$. 
+
+- A negative $S$ parameter is often reported as a sign of negative selection.
+
+- $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
+
+- Should use something in-between?
+
+---
+
+### Results from [BayesS and SBayesS](https://doi.org/10.1038/s41467-021-21446-3)
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/res-bayesS.png")
+```
+
+.footnote[BMR basal metabolic rate &mdash; BMI body mass index &mdash; BFP body fat percentage &mdash; DBP diastolic blood pressure &mdash; FEV forced expiratory volume &mdash; FVC forced vital capacity &mdash; HGSL hand grip strength (left) &mdash; HGSR hand grip strength (right) &mdash; HCadjBMI hip circumference adjusted for BMI &mdash; HT height &mdash; MTCIM mean time to correctly identify matches &mdash; NS neuroticism score &mdash; PEF peak expiratory flow &mdash; PR pulse rate &mdash; SBP systolic blood pressure &mdash; WCadjBMI waist circumference adjusted for BMI &mdash; WHRadjBMI waist–hip ratio adjusted for BMI &mdash; WT weight]
+
+---
+
+### Results from [GRM-MAF-LD](https://doi.org/10.1038/s41467-019-08424-6) <small>(uses lower MAF)</small>
+
+```{r, message=FALSE}
+text <- c("Phenotype \tSample size \talpha / S [95% CI]",
+          "Age of menarche \t58,329 \t-0.40 [-0.63, -0.11]",
+          "Blood pressure (diastolic) \t104,835 \t-0.39 [-0.54, -0.20]",
+          "Blood pressure (systolic) \t104,835 \t-0.38 [-0.54, -0.18]",
+          "BMI \t113,540 \t-0.24 [-0.38, -0.06]",
+          "Bone mineral density \t110,611 \t-0.35 [-0.45, -0.23]",
+          "FEV1/FVC \t97,075 \t-0.44 [-0.55, -0.31]","FVC \t97,075 \t-0.15 [-0.31, 0.04]",
+          "Height \t113,660 \t-0.45 [-0.52, -0.39]",
+          "Smoking status \t113,560 \t-0.16 [-0.43, 0.21]",
+          "Waist-hip ratio \t113,668 \t-0.17 [-0.43, 0.19]",
+          "Allergic eczema \t113,707 \t-0.60 [-0.85, -0.26]",
+          "Asthma \t113,707 \t-0.25 [-0.60, 0.28]",
+          "College education \t112,811 \t-0.32 [-0.54, -0.04]",
+          "Hypertension \t113,689 \t-0.18 [-0.46, 0.21]",
+          "Eosinophil count \t108,957 \t-0.40 [-0.54, -0.24]",
+          "High light scatter reticulocyte count \t108,785 \t-0.53 [-0.65, -0.38]",
+          "Lymphocyte count \t108,664 \t-0.52 [-0.63, -0.38]",
+          "Mean corpuscular hemoglobin \t108,513 \t-0.42 [-0.53, -0.31]",
+          "Mean sphered cell volume \t109,523 \t-0.43 [-0.56, -0.28]",
+          "Monocyte count \t110,026 \t-0.19 [-0.35, -0.01]",
+          "Platelet count \t109,971 \t-0.19 [-0.32, -0.03]",
+          "Platelet distribution width \t109,938 \t-0.27 [-0.44, -0.07]",
+          "Red blood cell count \t110,054 \t-0.39 [-0.51, -0.25]",
+          "Red blood cell distribution width \t109,913 \t-0.20 [-0.36, -0.01]",
+          "White blood cell count \t110,186 \t-0.25 [-0.42, -0.03]")
+DT::datatable(bigreadr::fread2(text = text)[-2], rownames = FALSE)
+```
+
+---
+
+### Results from [LDAK](https://doi.org/10.1038/ng.3865) <small>(maybe not the same parameter exactly)</small>
+
+```{r, out.width="85%", fig.align='left'}
+knitr::include_graphics("figures/res-ldak.jpg")
+```
+
+.footnote[M. sclerosis, multiple sclerosis &mdash; IOP, intraocular pressure &mdash; WRAT, wide-range achievement test]
+
+---
+
+class: title-slide center middle inverse
+
+## New results from LDpred2-auto<br>in the UK Biobank
+
+---
+
+### New results for $h^2$ from LDpred2-auto in the UK Biobank
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-h2.jpg")
+```
+
+---
+
+### New results for $p$ from LDpred2-auto in the UK Biobank
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-p.jpg")
+```
+
+---
+
+### New results for $S$ from LDpred2-auto in the UK Biobank
+
+#### (using MLE similar to the one used in SBayesS)
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/ldpred2-S.jpg")
+```
+
+---
+
+### New results for $S$ and $p$ from LDpred2-auto in the UK Biobank
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-pS.jpg")
+```
+
+---
+
+### Next analyses
+
+<br>
+
+- Validate in simulations
+
+- Does a better $S$ provide better prediction?
+
+- Is $S=0$ better for portability across ancestries?
+
+- Can we also infer the predictive performance $R^2$?
+
+- Using more than HapMap3 variants
+
+- Find a better way to filter chains from the Gibbs sampler
+
+- What else?
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+<br>
+
+Presentation available at    
+https://privefl.github.io/thesis-docs/ldpred2-S.html
+
+<br>
+
+<br>
+
+`r icon::fa("twitter")` `r icon::fa("github")` privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
