@@ -24,7 +24,7 @@ class: title-slide center middle inverse
 
 <br>
 
-## Statistical tools for human genetics
+## Statistical methods & tools for human genetics
 
 ### (focus on prediction and ancestry inference)
 
@@ -88,17 +88,21 @@ In `r icon::fa_r_project()` package {bigstatsr}, very fast implementation with a
 
 ---
 
-#### Penalized linear regression for predicting height from genotypes
+#### Benchmark against snpnet
 
-<br>
-
-- 350K individuals x 656K variants in less than one day
-
-- Within each both males and females, 65.5% of correlation between predicted and true height
-
-```{r, out.width="75%"}
-knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
+```{r, out.width="100%"}
+knitr::include_graphics("figures/snpnet-benchmark.jpg")
 ```
+
+- 337K individuals (including 20% kept for testing), 504K genotyped variants and 10 cores used
+
+- snpnet uses 60% of the data for initial training, then 80% for refitting (with best hyper-parameters)
+
+- reporting partial correlations, and timings in minutes
+
+- timings for bigstatsr report the time taken by the CMSA procedure (fitting K=4 models here)
+
+.footnote[Our paper was published 1.5y before snpnet, before snpnet was even a preprint.]
 
 ---
 
@@ -173,20 +177,11 @@ knitr::include_graphics("figures/pca-pipeline.jpeg")
 
 ---
 
-#### [6] Optimal linkage disequilibrium splitting
+#### [6] LDpred2: better, faster, stronger
 
-```{r, out.width="78%"}
-knitr::include_graphics("https://github.com/privefl/paper-ldsplit/raw/main/illu.png")
-```
+<br>
 
-$$C(i, k) = \min_j \left\lbrace E(i, j) + C(j + 1, k - 1) \right\rbrace$$
----
-
-#### Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort
-
----
-
-LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
+LDpred2 assumes the following model for effect sizes,
 
 <div class="math">
 \[
@@ -213,35 +208,120 @@ but LDpred2-auto can estimate $h^2$ and $p$ directly from the data
 
 ---
 
-### Introducing the S parameter
+#### LDpred2 is a very competitive PGS method
 
 <br>
 
-LDpred2 should probably assume instead (the BayesS model)
-
-<div class="math">
-\[
-\beta_j \sim \left\{
-\begin{array}{ll}
-\mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) & \mbox{with probability } p,\\
-0 & \mbox{otherwise,}\end{array}
-\right.
-\]
-</div>
-
-<br>
-
---
-
-- Currently LDpred2 assumes that $S = -1$, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency $f$. 
-
-- A negative $S$ parameter is often reported as a sign of negative selection.
-
-- $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
-
-- Should use something in-between?
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-comparison.jpeg")
+```
 
 ---
+
+#### [7] Optimal linkage disequilibrium splitting
+
+```{r, out.width="78%"}
+knitr::include_graphics("https://github.com/privefl/paper-ldsplit/raw/main/illu.png")
+```
+
+$$C(i, k) = \min_j \left\lbrace E(i, j) + C(j + 1, k - 1) \right\rbrace$$
+---
+
+#### [8] Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIe2G4wWYAEYWwA?format=png&name=4096x4096")
+```
+
+---
+
+#### Predictive power decreases with genetic distance to training population
+
+<br>
+
+```{r, out.width="90%"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIe3e0PXMAQ04rF?format=png&name=large")
+```
+
+---
+
+#### [9] Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics
+
+<br>
+
+- defined 21 ancestry groups in the UK Biobank (later merged into 18)
+
+- use PCA projection and quadratic programming to infer ancestry proportions from allele frequencies alone
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ancestry-prop.jpg")
+```
+
+---
+
+<!-- ### Introducing the S parameter -->
+
+<!-- <br> -->
+
+<!-- LDpred2 should probably assume instead (the BayesS model) -->
+
+<!-- <div class="math"> -->
+<!-- \[ -->
+<!-- \beta_j \sim \left\{ -->
+<!-- \begin{array}{ll} -->
+<!-- \mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) & \mbox{with probability } p,\\ -->
+<!-- 0 & \mbox{otherwise,}\end{array} -->
+<!-- \right. -->
+<!-- \] -->
+<!-- </div> -->
+
+<!-- <br> -->
+
+<!-- -- -->
+
+<!-- - Currently LDpred2 assumes that $S = -1$, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency $f$.  -->
+
+<!-- - A negative $S$ parameter is often reported as a sign of negative selection. -->
+
+<!-- - $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies. -->
+
+<!-- - Should use something in-between? -->
+
+---
+
+#### References
+
+```{css}
+.small { font-size: 75% }
+```
+
+
+.small[
+[10] Privé, Florian, et al. "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *bioRxiv* (2022). [[preprint]](https://doi.org/10.1101/2021.03.29.437510)
+
+[9] Privé, Florian. "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *bioRxiv* (2021). [[preprint]](https://doi.org/10.1101/2021.10.27.466078)
+
+[8] Privé, Florian, et al. "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort." *The American Journal of Human Genetics* 109.1 (2022): 12-23. [[Paper]](https://doi.org/10.1016/j.ajhg.2021.11.008)
+
+[7] Privé, Florian. "Optimal linkage disequilibrium splitting." *Bioinformatics* 38.1 (2022): 255–256. [[Open Access]](https://doi.org/10.1093/bioinformatics/btab519)
+
+[6] Privé, Florian, et al. "LDpred2: better, faster, stronger." *Bioinformatics* 36.22-23 (2020): 5424-5431. [[Open Access]](https://doi.org/10.1093/bioinformatics/btaa1029)
+
+[5] Privé, Florian, et al. "Efficient toolkit implementing best practices for principal component analysis of population genetic data." *Bioinformatics* 36.16 (2020): 4449-4457. [[Open Access]](https://doi.org/10.1093/bioinformatics/btaa520)
+
+[4] Privé, Florian, et al. "Performing highly efficient genome scans for local adaptation with R package pcadapt version 4." *Molecular biology and evolution* 37.7 (2020): 2153-2154. [[Open access]](https://doi.org/10.1093/molbev/msaa053)
+
+[3] Privé, Florian, et al. "Making the most of Clumping and Thresholding for polygenic scores." *The American Journal of Human Genetics* 105.6 (2019): 1213-1221. [[Open access]](https://doi.org/10.1016/j.ajhg.2019.11.001)
+
+[2] Privé, Florian, et al. "Efficient implementation of penalized regression for genetic risk prediction." *Genetics* 212.1 (2019): 65-74. [[Open access]](https://doi.org/10.1534/genetics.119.302019)
+
+[1] Privé, Florian, et al. "Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr." *Bioinformatics* 34.16 (2018): 2781-2787. [[Open access]](https://doi.org/10.1093/bioinformatics/bty185)
+
+]
+
+
 
 
 ---
