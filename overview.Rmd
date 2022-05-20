@@ -291,6 +291,14 @@ knitr::include_graphics("figures/ancestry-prop.jpg")
 
 ---
 
+#### Overview of methods implemented
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/overview-packages.jpg")
+```
+
+---
+
 #### References
 
 ```{css}
@@ -301,7 +309,7 @@ knitr::include_graphics("figures/ancestry-prop.jpg")
 .small[
 [10] Privé, Florian, et al. "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *bioRxiv* (2022). [[preprint]](https://doi.org/10.1101/2021.03.29.437510)
 
-[9] Privé, Florian. "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *bioRxiv* (2021). [[preprint]](https://doi.org/10.1101/2021.10.27.466078)
+[9] Privé, Florian. "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *bioRxiv* (2022). [[preprint]](https://doi.org/10.1101/2021.10.27.466078)
 
 [8] Privé, Florian, et al. "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort." *The American Journal of Human Genetics* 109.1 (2022): 12-23. [[Paper]](https://doi.org/10.1016/j.ajhg.2021.11.008)
 
