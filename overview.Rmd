@@ -36,7 +36,17 @@ class: title-slide center middle inverse
 
 #### [1] Efficient analysis of large-scale genome-wide data with two R packages: bigstatsr and bigsnpr
 
+<br>
+
 ```{r, out.width="95%"}
+knitr::include_graphics("https://raw.githubusercontent.com/privefl/R-presentation/master/memory-solution.svg")
+```
+
+---
+
+#### Some features of the packages
+
+```{r, out.width="100%"}
 knitr::include_graphics("figures/overview-paper1.png")
 ```
 
@@ -255,39 +265,65 @@ knitr::include_graphics("https://pbs.twimg.com/media/FIe3e0PXMAQ04rF?format=png&
 
 - use PCA projection and quadratic programming to infer ancestry proportions from allele frequencies alone
 
+<br>
+
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/ancestry-prop.jpg")
 ```
 
 ---
 
-<!-- ### Introducing the S parameter -->
+#### [10] Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores
 
-<!-- <br> -->
+$$\text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}}$$
 
-<!-- LDpred2 should probably assume instead (the BayesS model) -->
+```{r, out.width="100%"}
+knitr::include_graphics("https://pbs.twimg.com/media/FMWcONOWUAE6mvr?format=jpg&name=4096x4096")
+```
 
-<!-- <div class="math"> -->
-<!-- \[ -->
-<!-- \beta_j \sim \left\{ -->
-<!-- \begin{array}{ll} -->
-<!-- \mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) & \mbox{with probability } p,\\ -->
-<!-- 0 & \mbox{otherwise,}\end{array} -->
-<!-- \right. -->
-<!-- \] -->
-<!-- </div> -->
+---
 
-<!-- <br> -->
+#### INFO scores are misestimated for multi-ancestry data
 
-<!-- -- -->
+```{r, out.width="80%"}
+knitr::include_graphics("https://pbs.twimg.com/media/FMWbKkRXEAAFjew?format=jpg&name=4096x4096")
+```
 
-<!-- - Currently LDpred2 assumes that $S = -1$, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency $f$.  -->
+---
 
-<!-- - A negative $S$ parameter is often reported as a sign of negative selection. -->
+#### True per-variant sample sizes are better for polygenic scores
 
-<!-- - $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies. -->
+<br>
 
-<!-- - Should use something in-between? -->
+```{r, out.width="100%"}
+knitr::include_graphics("figures/misspecN.jpg")
+```
+
+---
+
+#### An ancestry-matched LD reference is better for polygenic scores
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("https://pbs.twimg.com/media/FMWhYF_XwAA04HY?format=png&name=large")
+```
+
+---
+
+#### Overview of some possible misspecifications
+
+```{r, out.width="100%"}
+knitr::include_graphics("https://pbs.twimg.com/media/FMWZBAlX0AELSLG?format=jpg&name=900x900")
+```
+
+---
+
+class: title-slide center middle inverse
+
+## Overview of methods
+
+## and future work
 
 ---
 
@@ -330,6 +366,43 @@ knitr::include_graphics("figures/overview-packages.jpg")
 ]
 
 
+---
+
+#### Using LDpred2-auto for inference, and introducing the S parameter
+
+<br>
+
+LDpred2 should probably assume instead (the BayesS model)
+
+<div class="math">
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, [2 f_j (1 - f_j)]^{S+1} \sigma_\beta^2\right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise,}\end{array}
+\right.
+\]
+</div>
+
+<br>
+
+--
+
+- Currently LDpred2 assumes that $S = -1$, i.e. that all causal variants contribute similarly to the heritability on average, whatever their allele frequency $f$.
+
+- A negative $S$ parameter is often reported as a sign of negative selection.
+
+- $S = 0$ would mean that expected effect sizes (on the allele scale) do not vary with the allele frequencies.
+
+- Should use something in-between?
+
+---
+
+#### Extending LDpred2 for multi-ancestry
+
+<br>
+
+TODO
 
 
 ---
@@ -349,5 +422,5 @@ https://privefl.github.io/thesis-docs/overview.html
 
 `r icon::fa("twitter")` `r icon::fa("github")` privefl
 
-.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+.footnote[Slides created with R package [**xaringan**](https://github.com/yihui/xaringan)]
 
