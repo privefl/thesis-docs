@@ -26,7 +26,7 @@ class: title-slide center middle inverse
 
 ## Statistical methods & tools for human genetics
 
-### (focus on prediction and ancestry inference)
+### &mdash; focus on prediction and ancestry inference &mdash;
 
 <br>
 
@@ -40,14 +40,6 @@ class: title-slide center middle inverse
 
 ```{r, out.width="95%"}
 knitr::include_graphics("https://raw.githubusercontent.com/privefl/R-presentation/master/memory-solution.svg")
-```
-
----
-
-#### Some features of the packages
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/overview-paper1.png")
 ```
 
 ---
@@ -73,6 +65,14 @@ Note that many functions (to perform e.g. GWAS, PCA, summary statistics) are not
 This is why there are two packages, where {bigstatsr} can basically be used by any field using matrices, while {bigsnpr} provides some tools rather specific to genotype data, largely building on top of {bigstatsr}. 
 
 Learn more about {bigstatsr} and the Filebacked Big Matrix (FBM) format in [this webinar](https://t.co/LUQQp7INlX).
+
+---
+
+#### Some features of the packages
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/overview-paper1.png")
+```
 
 ---
 
@@ -118,7 +118,21 @@ knitr::include_graphics("figures/snpnet-benchmark.jpg")
 
 #### [3] Making the Most of Clumping and Thresholding for Polygenic Scores
 
-Hyper-parameters in C+T:
+```{r, out.width = "85%"}
+knitr::include_graphics("figures/fig-GWAS-C+T.jpg")
+```
+
+```{r, out.width = "85%"}
+knitr::include_graphics("figures/fig-GWAS-C+T-clumping.jpg")
+```
+
+```{r, out.width = "85%"}
+knitr::include_graphics("figures/fig-GWAS-C+T-clumping-thresholding.jpg")
+```
+
+---
+
+#### Hyper-parameters in C+T
 
 - threshold on squared correlation of clumping (e.g. $r_c^2 > 0.2$) and    
 window size for LD computation (e.g. $w_c = 500 kb$)
@@ -133,7 +147,7 @@ $\Longrightarrow$ *stdCT* (standard C+T)
 
 <br>
 
-Our contribution:
+#### Our contribution
 
 - an efficient implementation to compute thousands of C+T scores corresponding to different sets of hyper-parameters   
 $\Longrightarrow$ *maxCT* (maximized C+T)
@@ -204,9 +218,9 @@ LDpred2 assumes the following model for effect sizes,
 </div>
 
 where 
-- $p$ is the proportion of causal variants, 
+- $h^2$ is the (SNP) heritability,
+- $p$ the proportion of causal variants (polygenicity), 
 - $M$ the number of variants,
-- $h^2$ the (SNP) heritability.
 - $\gamma$ the effect sizes on the allele scale,
 - $\beta$ the effects of the scaled genotypes $\rightarrow S$ is their SD.
 
@@ -283,7 +297,7 @@ knitr::include_graphics("https://pbs.twimg.com/media/FMWcONOWUAE6mvr?format=jpg&
 
 ---
 
-#### INFO scores are misestimated for multi-ancestry data
+#### INFO scores are misestimated from multi-ancestry data
 
 ```{r, out.width="80%"}
 knitr::include_graphics("https://pbs.twimg.com/media/FMWbKkRXEAAFjew?format=jpg&name=4096x4096")
@@ -402,7 +416,9 @@ LDpred2 should probably assume instead (the BayesS model)
 
 <br>
 
-TODO
+- causal variants are mostly shared across ancestries
+
+- genetic correlations are usually large (0.4 - 1)
 
 
 ---
