@@ -426,9 +426,9 @@ class: inverse, center, middle
 
 <br>
 
-Presentation available at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
-
 <br>
+
+Presentation available at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
 
 <br>
 
