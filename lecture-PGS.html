@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PGS lecture</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+&lt;br&gt;
+
+# Predicting complex traits and diseases&lt;br&gt;from genetic data
+
+&lt;br&gt;
+
+### Lecture on polygenic scores
+
+&lt;br&gt;
+
+### Florian Privé
+
+#### Senior Researcher, Aarhus University (DK)
+
+&lt;br&gt;
+
+---
+
+class: center middle inverse
+
+# Introduction
+
+---
+
+## Disease architecture
+
+&lt;img src="figures/disease-archi.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+Many genetic variants contribute to the risk of getting a common disease     
+`\(\Longrightarrow\)` build a predictive score that combines many genetic variants (polygenic risk score)
+
+.footnote[Source: 10.1126/science.338.6110.1016] 
+
+---
+
+## Interest in Polygenic Scores (PGS)
+
+&lt;br&gt;
+
+&lt;img src="figures/PRS-trend22.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# How to predict from genetic data?
+
+&lt;br&gt;
+
+## 1) using individual-level data
+
+---
+
+## Data: very large genotype matrices
+
+&lt;br&gt;
+
+**Matrices** of genetic variants (DNA mutations)
+
+counting the number of alternative alleles (**0, 1, or 2**)    
+or imputed dosages (between 0 and 2)
+
+for each individual (row) and each genome position (column)
+
+&lt;br&gt;
+
+Data I typically work with:
+
+- [UK Biobank](https://doi.org/10.1101/166298) genotyped data: 500K x 800K (~3TB)
+
+- [UK Biobank](https://doi.org/10.1101/166298) imputed data (common variants): 500K x 11M
+
+---
+
+## Penalized Linear/Logistic Regression (PLR)
+
+&lt;br&gt;
+
+&lt;Small&gt;$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear reg)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$&lt;/Small&gt;
+
+&lt;br&gt;
+
+- `\(x\)` is the **genotypes** and covariates (e.g. sex and principal components), 
+
+- `\(y\)` is the trait / disease status we want to predict, 
+
+- `\(\lambda\)` is a regularization parameter that needs to be determined and
+
+- `\(\alpha\)` determines relative parts of the regularization `\(0 \le \alpha \le 1\)`. 
+
+&lt;br&gt;
+
+In <i class="fab  fa-r-project "></i> package {bigstatsr}, very fast implementation with automatic choice of `\(\lambda\)` and `\(\alpha\)` [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+
+---
+
+## PLR for predicting height from genotypes
+
+- 350K individuals x 656K variants in less than one day
+
+- Within each both males and females, 65.5% of correlation between predicted and true height
+
+&lt;img src="https://privefl.github.io/blog/images/UKB-final-pred.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+class: center, middle, inverse
+
+# How to predict from genetic data?
+
+&lt;br&gt;
+
+## 2) using GWAS summary statistics
+
+---
+
+## Standard PRS - part 1: estimating effects
+
+### Genome-wide association studies (GWAS)
+
+In a GWAS, each genetic variant is tested **independently**, resulting in one **effect size** `\(\hat\beta\)` and one **p-value** `\(p\)` for each variant. 
+
+&lt;img src="figures/gwas-height-20K.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
+
+---
+
+### Local correlation between variants causes redundant GWAS signals
+
+&lt;br&gt;
+
+&lt;img src="figures/fig-LD.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Standard PRS - part 2: restricting predictors
+
+### &lt;span style="color:#38761D"&gt;Clumping&lt;/span&gt; + &lt;span style="color:#1515FF"&gt;Thresholding&lt;/span&gt; (C+T, or P+T)
+
+&lt;br&gt;
+
+&lt;img src="figures/GWAS2PRS3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+`$$PRS_i = \sum_{\substack{j \in S_\text{clumping} \\ p_j~&lt;~p_T}} \hat\beta_j \cdot G_{i,j}$$`
+
+---
+
+&lt;img src="figures/fig-GWAS-C+T.jpg" width="85%" style="display: block; margin: auto;" /&gt;
+--
+&lt;br&gt;
+&lt;img src="figures/fig-GWAS-C+T-clumping.jpg" width="85%" style="display: block; margin: auto;" /&gt;
+--
+&lt;br&gt;
+&lt;img src="figures/fig-GWAS-C+T-clumping-thresholding.jpg" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Making the most of C+T
+
+#### Hyper-parameters in C+T
+
+&lt;!-- -- --&gt;
+
+&lt;!-- -- --&gt;
+
+- threshold on squared correlation of clumping (e.g. `\(r_c^2 &gt; 0.2\)`) and    
+window size for LD computation (e.g. `\(w_c = 500 kb\)`)
+
+&lt;!-- -- --&gt;
+
+- p-value threshold ( `\(p_T\)` between `\(1\)` and `\(10^{-8}\)` and choose the best one )
+
+- other parameters such as the threshold of imputation quality score (e.g. `\(INFO &gt; 0.3\)`) or minor allele frequency (e.g. `\(MAF &gt; 0.01\)`)
+
+&lt;!-- -- --&gt;
+
+`\(\Longrightarrow\)` *stdCT* (standard C+T)
+
+--
+
+***
+
+#### Our contribution [[bit.ly/sct-paper](https://bit.ly/sct-paper)]
+
+- an efficient implementation to compute thousands of C+T scores corresponding to different sets of hyper-parameters   
+`\(\Longrightarrow\)` *maxCT* (maximized C+T)
+
+&lt;!-- -- --&gt;
+
+- going further by **stacking** with a linear combination of all C+T models (instead of just choosing the best model)    
+`\(\Longrightarrow\)` *SCT* (Stacked C+T)
+
+---
+
+### Using summary statistics from large GWAS
+
+&lt;img src="figures/PRS-sumstats.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Alternative: approximating a penalized regression
+
+A linear model with elastic-net regularization using coordinate descent by iteratively updating: 
+
+$$
+\beta_j^{(t+1)} =
+`\begin{cases}
+\text{sign}\left(u_j^{(t)}\right) \left(\left|u_j^{(t)}\right| - \lambda_1\right) / \left(1 + \lambda_2\right) &amp; \text{if } \left|u_j^{(t)}\right| &gt; \lambda_1 ~, \\
+0 &amp; \text{otherwise.}
+\end{cases}`
+$$
+
+where 
+
+`$$u_j^{(t)} = \sum_i \left[ G_{i,j} \left( y_i - \sum_{k \neq j} G_{i,k} \beta_k^{(t)} \right) \right] = \sum_i G_{i,j} y_i - \sum_{k \neq j} \left( \sum_i G_{i,j} G_{i,k} \right) \beta_k^{(t)} ~.$$`
+
+--
+
+***
+
+- `\(\sum_i G_{i,j} y_i\)` can be obtained from GWAS summary statistics 
+- `\(\sum_i G_{i,j} G_{i,k}\)` can be estimated from another dataset
+
+`\(\Longrightarrow\)` we can use summary statistics only (no individual-level data).
+
+This idea is used in lassosum &lt;small&gt;(TSH Mak et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology (2017))&lt;/small&gt;
+
+---
+
+### Computational considerations
+
+- correlation between genetic variants is local ( `\(\sum_i G_{i,j} G_{i,k}\)`, when `\(G\)` is appropriately scaled)
+ 
+- the correlation matrix `\(G^T G\)` is very sparse (banded)
+
+- `\(\Rightarrow\)` we can use e.g. 1M variants without too much difficulty
+
+--
+
+&lt;br&gt;
+
+***
+
+### Other methods for polygenic prediction from summary statistics
+
+Many other methods have been developed, lots being Bayesian.
+
+They all use the same idea of approximating the linear regression model using GWAS summary statistics and an external reference for the correlation between variants.
+
+For example, we have developed LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)].
+
+---
+
+### LDpred2
+
+LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
+
+&lt;div class="math"&gt;
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, \dfrac{h^2}{M p}\right) &amp; \mbox{with probability } p,\\
+0 &amp; \mbox{otherwise,}\end{array}
+\right.
+\]
+&lt;/div&gt;
+
+where `\(p\)` is the proportion of causal variants, `\(M\)` the number of variants and `\(h^2\)` the (SNP) heritability.
+
+--
+
+&lt;img src="figures/ldpred2-comparison.jpeg" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# What influences predictive power
+
+# of polygenic scores
+
+---
+
+### What influences predictive power?
+
+&lt;br&gt;
+
+- Predictive power `\(r^2\)` is bounded by the heritability `\(h^2\)` captured by the set of variants used.
+
+- `\(r^2\)` increases with sample size `\(N\)` (of course)
+
+- `\(r^2\)` decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate.    
+Let's denote `\(M_c\)` the number of causal variants.
+
+--
+
+***
+
+&lt;br&gt;
+
+`$$r^2_\text{max} = \dfrac{h^2}{1 + (1 - r^2_\text{max}) \dfrac{M_c}{N h^2}}$$`
+
+
+.footnote[Source: 10.1371/journal.pone.0003395]
+
+---
+
+class: center, middle, inverse
+
+# A major limitation of polygenic scores:
+
+# their poor portability across ancestries
+
+---
+
+
+### Portability across 245 phenotypes and 9 ancestry groups
+
+&lt;img src="https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/lasso-ancestry-2.png?raw=true" width="95%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Percentage in figure title = squared slope (in blue) -- Source: [[bit.ly/portability-paper](https://bit.ly/portability-paper)]]
+
+---
+
+### Predictive performance drops with genetic distance
+
+&lt;br&gt;
+
+&lt;img src="https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/ratio-dist-2.png?raw=true" width="82%" style="display: block; margin: auto;" /&gt;
+
+&lt;!-- &lt;span class="footnote"&gt;Recall: `\(\text{dist}_{PC}^2 \propto F_{ST}\)`&lt;/span&gt; --&gt;
+
+---
+
+### One possible explanation: different tagging
+
+&lt;br&gt;
+
+&lt;img src="https://github.com/privefl/thesis/blob/master/figures/indirect-association.png?raw=true" width="65%" style="display: block; margin: auto;" /&gt;
+
+***
+
+Linkage disequilibrium = correlation between genetic variants    
+(can be different across populations)
+
+.footnote[Source: 10.1214/09-STS307]
+
+---
+
+class: center, middle, inverse
+
+# Conclusion
+
+---
+
+### Take-home messages
+
+&lt;br&gt;
+
+- We can predict traits and diseases from genetic data (up to the heritability)
+
+- One can use supervised learning methods when individual-level data is available (but, beware scalability)
+
+- Many methods using summary statistics only have been developed (because we can easily obtain larger sample sizes through meta-analysis)
+
+- For some traits, we have large sample sizes (e.g. 5M for height), but we still need larger sample sizes for most complex traits and diseases
+
+- We still need to address the concern of providing PGS that work well in ALL ancestries    
+This could be achieved by recruiting more people from non-European ancestries, and developing new methods for multi-ancestry training
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+&lt;br&gt;
+
+Presentation available at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+<i class="fab  fa-twitter "></i> <i class="fab  fa-github "></i> privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
