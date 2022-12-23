@@ -61,9 +61,15 @@ LDpred2 is currently fast enough (it generally takes less than one hour). The ma
 
 ---
 
-### How to use even more variants? (1/)
+class: center middle inverse
 
-By being more stringent in the block splitting (i.e. making smaller blocks), we can reduce the size by 50%. It also makes LDpred2 more robust, but also reduces its predictive performance when robustness is not an issue.
+##  How to use even more variants?
+
+---
+
+### Use a more stringent LD splitting? (1/)
+
+By making smaller blocks, we can reduce the size by 50%. It also makes LDpred2 more robust, but also reduces its predictive performance when robustness is not an issue.
 
 &lt;img src="figures/hm3_plus_tight.png" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -104,6 +110,15 @@ Can store 65536 different values with 2 bytes, so why not values between -1 and 
 - The precision of the rounding is then a bit more than 4 decimal places
 
 This rounding seems fine since it does not seem to change much the eigenvalues of the LD matrix.
+
+---
+
+### Use very sparse inverse of the LD matrix?
+
+&lt;br&gt; 
+
+- Bjarni covered the LDGMs very recently in a JC
+
 
 
 ---
