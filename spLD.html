@@ -63,11 +63,11 @@ LDpred2 is currently fast enough (it generally takes less than one hour). The ma
 
 class: center middle inverse
 
-##  How to use even more variants?
+## How to use even more variants?
 
 ---
 
-### Use a more stringent LD splitting? (1/)
+### Use a more stringent LD splitting? (1/5)
 
 By making smaller blocks, we can reduce the size by 50%. It also makes LDpred2 more robust, but also reduces its predictive performance when robustness is not an issue.
 
@@ -75,7 +75,7 @@ By making smaller blocks, we can reduce the size by 50%. It also makes LDpred2 m
 
 ---
 
-### Use (smaller) sliding blocks? (2/)
+### Use (smaller) sliding blocks? (2/5)
 
 &lt;img src="figures/sliding_blocks.png" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -83,7 +83,7 @@ It can reduces the size of the LD matrix by up to `\(7\times\)`. But leads to di
 
 ---
 
-### Use an eigen decomposition of the LD? (3/)
+### Use an eigen decomposition of the LD? (3/5)
 
 &lt;br&gt;
 
@@ -95,7 +95,7 @@ I cannot see how this could be a good solution for LDpred2.
 
 ---
 
-### Store LD with 2 bytes (instead of 8)? (4/)
+### Store LD with 2 bytes (instead of 8)? (4/5)
 
 &lt;br&gt;
 
@@ -113,13 +113,44 @@ This rounding seems fine since it does not seem to change much the eigenvalues o
 
 ---
 
-### Use very sparse inverse of the LD matrix?
+### Use very sparse inverse of the LD matrix? (5/5)
 
 &lt;br&gt; 
 
 - Bjarni covered the LDGMs very recently in a JC
 
+- For the largest block (11,497 variants in EUR), the precision matrix `\(P\)` is 99.8% sparse  and takes only 1.8 Mb to store.
 
+- It is estimated using a graphical lasso algorithm, which makes it positive-definite (i.e. the smallest eigenvalue is positive).
+
+- We can recover a column of the (rescaled) inverse (what we need) by solving the linear system `\(P R_{.,j} = I_{.,j}\)`.
+
+- A fast way to solve this linear system is to use a Cholesky decomposition `\(P = L L^T\)`, but the triangular matrix `\(L\)` is less sparse than `\(P\)` and requires `\(24\times\)` more memory.
+
+- Using Eigen C++ library, we can make this decomposition in 1.2 sec and then solve 1000 linear systems in 6 more seconds. Therefore, it would require 2 hours to perform these computations in 1000 iterations (for one block only!).
+
+---
+
+class: center middle inverse
+
+## How to make LDpred2 more robust?
+
+&lt;br&gt;
+
+### Use an LD matrix which is positive-definite
+
+---
+
+### Use a regularized LD matrix
+
+&lt;br&gt;
+
+- Using the graphical lasso, which I have reimplemented.
+
+- Using the multiplicative shrinkage from Wen and Stephens (2010): `$$\exp(\text{-}2 \cdot Ne / m \cdot c_{i,j}),$$`
+where `\(Ne\)` and `\(m\)` are population parameters, and `\(c_{i,j}\)` is the distance in Morgan between variants `\(i\)` and `\(j\)`. For `\(Ne = 11400\)` and `\(m = 183\)`, we have `\(\exp(\text{-}1.25 \cdot d_{i,j})\)` where `\(d_{i,j}\)` is the distance in cM.
+
+- Using a convex linear shrinkage `\(R_s = s R + (1 - s) I\)`.
 
 ---
 
