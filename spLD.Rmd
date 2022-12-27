@@ -32,7 +32,7 @@ class: title-slide center middle inverse
 
 <br>
 
-LDpred2 (and lassosum2) only needs to compute $$\omega_j = {R_{.,j}}^T \beta,$$ where $R_{.,j}$ is the $j$-th column of the correlation (LD) matrix and $\beta$ is a sampled vector of (scaled) effect sizes.
+LDpred2 (and lassosum2) only needs to compute $$\omega_j = {R_{.,j}}^T \beta,$$ where $R_{.,j}$ is the $j$-th column of the correlation (LD) matrix and $\beta$ is the current vector of (scaled) effect sizes sampled from the Gibbs sampler.
 
 --
 
@@ -41,6 +41,12 @@ LDpred2 (and lassosum2) only needs to compute $$\omega_j = {R_{.,j}}^T \beta,$$ 
 In practice, we keep track of the vector $\Omega$ (of all $\omega_j$), and update it using $$\Omega = \Omega + R_{.,j} \cdot (\beta_j^\text{new} - \beta_j^\text{old}).$$
 Often $\beta_j^\text{new} = \beta_j^\text{old} = 0$, then there is no update needed.
 Moreover, the update needs to happen only for indices such that $R_{.,j} \neq 0$.
+
+--
+
+<br>
+
+**Basically, we need $R_{.,j}$.**
 
 ---
 
@@ -108,13 +114,15 @@ I cannot see how this could be a good solution for LDpred2.
 
 Can store 65536 different values with 2 bytes, so why not values between -1 and 1 with good enough precision? 
 
+- The precision of the rounding is then a bit more than 4 decimal places
+
 - This would reduce the size of the data by $4\times$
 
 - Can use [0; 65535] -> [-1; 1] with f(x) = 2 / 65535 * x - 1
 
 - Should probably use something centered around 0, so from 0 to 65534
 
-- The precision of the rounding is then a bit more than 4 decimal places
+<br>
 
 This rounding seems fine since it does not seem to change much the eigenvalues of the LD matrix.
 
@@ -128,7 +136,7 @@ This rounding seems fine since it does not seem to change much the eigenvalues o
 
 - For the largest block (11,497 variants in EUR), the precision matrix $P$ is 99.8% sparse  and takes only 1.8 Mb to store.
 
-- It is estimated using a graphical lasso algorithm, which makes it positive-definite (i.e. the smallest eigenvalue is positive).
+- It is estimated using a graphical lasso algorithm, which makes it positive definite (i.e. the smallest eigenvalue is positive).
 
 - We can recover a column of the (rescaled) inverse (what we need) by solving the linear system $P R_{.,j} = I_{.,j}$.
 
@@ -144,20 +152,39 @@ class: center middle inverse
 
 <br>
 
-### Use an LD matrix which is positive-definite
+### Use an LD matrix which is positive definite
 
 ---
 
 ### Use a regularized LD matrix
 
+- Using the graphical lasso, which I have reimplemented (and tweaked to keep the sparsity of the input correlation matrix).    
+When the regularization is large enough, the resulting correlation matrix is positive definite.
+
+--
+
 <br>
 
-- Using the graphical lasso, which I have reimplemented.
-
 - Using the multiplicative shrinkage from Wen and Stephens (2010): $$\exp(\text{-}2 \cdot Ne / m \cdot c_{i,j}),$$
-where $Ne$ and $m$ are population parameters, and $c_{i,j}$ is the distance in Morgan between variants $i$ and $j$. For $Ne = 11400$ and $m = 183$, we have $\exp(\text{-}1.25 \cdot d_{i,j})$ where $d_{i,j}$ is the distance in cM.
+where $Ne$ and $m$ are population parameters, and $c_{i,j}$ is the distance in Morgan between variants $i$ and $j$. For $Ne = 11400$ and $m = 183$, we have $\exp(\text{-}1.25 \cdot d_{i,j})$ where $d_{i,j}$ is the distance in cM.    
+In practice, it makes the smallest eigenvalue much closer to 0.
 
-- Using a convex linear shrinkage $R_s = s R + (1 - s) I$.
+--
+
+<br>
+
+- Using a convex linear shrinkage $R_s = s R + (1 - s) I$.    
+With $\lambda_\text{min}$ as the smallest eigenvalues for $R$, we can use $s = \frac{\epsilon - 1}{\lambda_\text{min} - 1}$ to get $\epsilon$ as the smallest eigenvalue for $R_s$.
+
+---
+
+### Some results
+
+#### y-axis uses s=0.95 // x-axis uses the mult shrinkage + glasso
+
+```{r, out.width = "85%"}
+knitr::include_graphics("figures/hm3_plus_regul.png")
+```
 
 ---
 
