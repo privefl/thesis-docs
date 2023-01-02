@@ -114,13 +114,11 @@ I cannot see how this could be a good solution for LDpred2.
 
 Can store 65536 different values with 2 bytes, so why not values between -1 and 1 with good enough precision? 
 
-- The precision of the rounding is then a bit more than 4 decimal places
+- Can use [-1; 1] $\longleftrightarrow$ [-32767; 32767]
 
 - This would reduce the size of the data by $4\times$
 
-- Can use [0; 65535] -> [-1; 1] with f(x) = 2 / 65535 * x - 1
-
-- Should probably use something centered around 0, so from 0 to 65534
+- The precision of the rounding is more than 4 decimal places
 
 <br>
 
