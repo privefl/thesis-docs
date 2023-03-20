@@ -21,8 +21,8 @@ class: title-slide center middle inverse
 
 <br>
 
-# Lecture on polygenic scores 
-## NCRR junior seminars
+# Lecture on Polygenic Scores 
+## NCRR Junior Seminars
 
 <br>
 
@@ -32,11 +32,9 @@ class: title-slide center middle inverse
 
 ---
 
-## Interest in Polygenic Scores (PGS)
-
 <br>
 
-```{r, out.width="92%"}
+```{r, out.width="100%"}
 knitr::include_graphics("figures/PRS-trend22.png")
 ```
 
@@ -52,16 +50,13 @@ class: center, middle, inverse
 
 ---
 
-## Data: very large genotype matrices
+### GWAS data can be used for prediction
 
 <br>
 
-**Matrices** of genetic variants (DNA mutations)
+**Very large matrices** of genetic variants + individual phenotypes
 
-counting the number of alternative alleles (**0, 1, or 2**)    
-or imputed dosages (between 0 and 2)
-
-for each individual (row) and each genome position (column)
+--
 
 <br>
 
@@ -71,39 +66,24 @@ Data I typically work with:
 
 - [UK Biobank](https://doi.org/10.1101/166298) imputed data (common variants): 500K x 11M
 
----
-
-## Penalized Linear/Logistic Regression (PLR)
+--
 
 <br>
 
-<Small>$$\arg\!\min_{\beta_0,~\beta}(\lambda, \alpha)\left\{  \underbrace{ \sum_{i=1}^n \left( y_i -(\beta_0 + x_i^T\beta) \right)^2 }_\text{Loss function (linear reg)}   +   \underbrace{ \lambda \left((1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1\right) }_\text{Penalization}  \right\}$$</Small>
-
-<br>
-
-- $x$ is the **genotypes** and covariates (e.g. sex and principal components), 
-
-- $y$ is the trait / disease status we want to predict, 
-
-- $\lambda$ is a regularization parameter that needs to be determined and
-
-- $\alpha$ determines relative parts of the regularization $0 \le \alpha \le 1$. 
-
-<br>
-
-In `r ICON_R_PROJECT` package {bigstatsr}, very fast implementation with automatic choice of $\lambda$ and $\alpha$ [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+You can then **run any predictive model** that is scalable to the size of the data, e.g. in `r ICON_R_PROJECT` package {bigstatsr}, there is a very fast implementation of penalized regression with automatic choice of hyper-parameters [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
 
 ---
 
-## PLR for predicting height from genotypes
+### Penalized regression for predicting height from genotypes
 
-- 350K individuals x 656K variants in less than one day
+<br>
 
-- Within each both males and females, 65.5% of correlation between predicted and true height
-
-```{r, out.width="70%"}
+```{r, out.width="75%"}
 knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
 ```
+
+Within both males and females, we achieve 65.5% of correlation between predicted and true height
+
 ---
 
 class: center, middle, inverse
@@ -172,43 +152,6 @@ knitr::include_graphics("figures/fig-GWAS-C+T-clumping-thresholding.jpg")
 
 ---
 
-### Making the most of C+T
-
-#### Hyper-parameters in C+T
-
-<!-- -- -->
-
-<!-- -- -->
-
-- threshold on squared correlation of clumping (e.g. $r_c^2 > 0.2$) and    
-window size for LD computation (e.g. $w_c = 500 kb$)
-
-<!-- -- -->
-
-- p-value threshold ( $p_T$ between $1$ and $10^{-8}$ and choose the best one )
-
-- other parameters such as the threshold of imputation quality score (e.g. $INFO > 0.3$) or minor allele frequency (e.g. $MAF > 0.01$)
-
-<!-- -- -->
-
-$\Longrightarrow$ *stdCT* (standard C+T)
-
---
-
-***
-
-#### Our contribution [[bit.ly/sct-paper](https://bit.ly/sct-paper)]
-
-- an efficient implementation to compute thousands of C+T scores corresponding to different sets of hyper-parameters   
-$\Longrightarrow$ *maxCT* (maximized C+T)
-
-<!-- -- -->
-
-- going further by **stacking** with a linear combination of all C+T models (instead of just choosing the best model)    
-$\Longrightarrow$ *SCT* (Stacked C+T)
-
----
-
 ### Using summary statistics from large GWAS
 
 ```{r, out.width="85%"}
@@ -217,80 +160,28 @@ knitr::include_graphics("figures/PRS-sumstats.png")
 
 ---
 
-## Alternative: approximating a penalized regression
+### Alternative Methods
 
-A linear model with elastic-net regularization using coordinate descent by iteratively updating: 
+<br>
 
-$$
-\beta_j^{(t+1)} =
-\begin{cases}
-\text{sign}\left(u_j^{(t)}\right) \left(\left|u_j^{(t)}\right| - \lambda_1\right) / \left(1 + \lambda_2\right) & \text{if } \left|u_j^{(t)}\right| > \lambda_1 ~, \\
-0 & \text{otherwise.}
-\end{cases}
-$$
-
-where 
-
-$$u_j^{(t)} = \sum_i \left[ G_{i,j} \left( y_i - \sum_{k \neq j} G_{i,k} \beta_k^{(t)} \right) \right] = \sum_i G_{i,j} y_i - \sum_{k \neq j} \left( \sum_i G_{i,j} G_{i,k} \right) \beta_k^{(t)} ~.$$
+- using R package bigsnpr or software PRSice-2 to build C+T scores 
 
 --
 
-***
+- approximating a penalized regression (lassosum, lassosum2): the coordinate descent algorithm can be approximated using summary statistics only 
 
-- $\sum_i G_{i,j} y_i$ can be obtained from GWAS summary statistics 
-- $\sum_i G_{i,j} G_{i,k}$ can be estimated from another dataset
+    - marginal GWAS summary statistics
+    - reference for correlation structure between variants
 
-$\Longrightarrow$ we can use summary statistics only (no individual-level data).
+--
 
-This idea is used in lassosum <small>(TSH Mak et al. "Polygenic scores via penalized regression on summary statistics." Genetic epidemiology (2017))</small>
-
----
-
-### Computational considerations
-
-- correlation between genetic variants is local ( $\sum_i G_{i,j} G_{i,k}$, when $G$ is appropriately scaled)
- 
-- the correlation matrix $G^T G$ is very sparse (banded)
-
-- $\Rightarrow$ we can use e.g. 1M variants without too much difficulty
+- using Bayesian methods (LDpred2, PRS-CS, SBayesR, ...), which can infer model parameters and does not require any tuning set for hyper-parameters
 
 --
 
 <br>
 
-***
-
-### Other methods for polygenic prediction from summary statistics
-
-Many other methods have been developed, lots being Bayesian.
-
-They all use the same idea of approximating the linear regression model using GWAS summary statistics and an external reference for the correlation between variants.
-
-For example, we have developed LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)].
-
----
-
-### LDpred2
-
-LDpred2 [[bit.ly/ldpred2-paper](https://bit.ly/ldpred2-paper)] assumes the following model for effect sizes,
-
-<div class="math">
-\[
-\beta_j \sim \left\{
-\begin{array}{ll}
-\mathcal N\left(0, \dfrac{h^2}{M p}\right) & \mbox{with probability } p,\\
-0 & \mbox{otherwise,}\end{array}
-\right.
-\]
-</div>
-
-where $p$ is the proportion of causal variants, $M$ the number of variants and $h^2$ the (SNP) heritability.
-
---
-
-```{r, out.width="75%"}
-knitr::include_graphics("figures/ldpred2-comparison.jpeg")
-```
+$\Longrightarrow$ the more advanced methods often scale quadratically with the number of variants, and restrict to a predefined set of 1M genetic variants (called HapMap3)
 
 ---
 
@@ -306,7 +197,7 @@ class: center, middle, inverse
 
 <br>
 
-- Predictive power $r^2$ is bounded by the heritability $h^2$ captured by the set of variants used.
+- Predictive power $r^2$ is bounded by the (SNP) heritability $h^2$ captured by the set of variants used.
 
 - $r^2$ increases with sample size $N$ (of course)
 
@@ -334,17 +225,6 @@ class: center, middle, inverse
 
 ---
 
-
-### Portability across 245 phenotypes and 9 ancestry groups
-
-```{r, out.width="95%"}
-knitr::include_graphics("https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/lasso-ancestry-2.png?raw=true")
-```
-
-.footnote[Percentage in figure title = squared slope (in blue) -- Source: [[bit.ly/portability-paper](https://bit.ly/portability-paper)]]
-
----
-
 ### Predictive performance drops with genetic distance
 
 <br>
@@ -357,30 +237,13 @@ knitr::include_graphics("https://github.com/privefl/UKBB-PGS/blob/main/docs/figu
 
 ---
 
-### One possible explanation: different tagging
-
-<br>
-
-```{r, out.width="65%"}
-knitr::include_graphics("https://github.com/privefl/thesis/blob/master/figures/indirect-association.png?raw=true")
-```
-
-***
-
-Linkage disequilibrium = correlation between genetic variants    
-(can be different across populations)
-
-.footnote[Source: 10.1214/09-STS307]
-
----
-
 class: center, middle, inverse
 
 # Conclusion
 
 ---
 
-### Take-home messages
+## Take-home messages
 
 <br>
 
@@ -405,11 +268,15 @@ class: inverse, center, middle
 
 <br>
 
-Presentation available at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
+Presentation available at [bit.ly/ncrr-pgs](https://bit.ly/ncrr-pgs)
+
+<br>
+
+Extended version at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
 
 <br>
 
 `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
-.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).]
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
 
