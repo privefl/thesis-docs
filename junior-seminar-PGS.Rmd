@@ -70,7 +70,7 @@ Data I typically work with:
 
 <br>
 
-You can then **run any predictive model** that is scalable to the size of the data, e.g. in `r ICON_R_PROJECT` package {bigstatsr}, there is a very fast implementation of penalized regression with automatic choice of hyper-parameters [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+You can then **use any predictive model** that is scalable to the size of the data, e.g. in `r ICON_R_PROJECT` package {bigstatsr}, there is a very fast implementation of penalized regression with automatic choice of hyper-parameters [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
 
 ---
 
@@ -122,7 +122,7 @@ knitr::include_graphics("figures/fig-LD.png")
 
 ## Standard PRS - part 2: restricting predictors
 
-### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (C+T, or P+T)
+### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (C+T, or P+T) $\Longrightarrow$ heuristics
 
 <br>
 
@@ -164,15 +164,16 @@ knitr::include_graphics("figures/PRS-sumstats.png")
 
 <br>
 
-- using R package bigsnpr or software PRSice-2 to build C+T scores 
+- building C+T scores using R package bigsnpr or software PRSice-2
 
 --
 
-- approximating a penalized regression (lassosum, lassosum2): the coordinate descent algorithm can be approximated using summary statistics only 
+- approximating a penalized regression (lassosum, lassosum2) using summary statistics only, i.e.
 
-    - marginal GWAS summary statistics
-    - reference for correlation structure between variants
-
+    - marginal GWAS summary statistics $\hat{\beta}$
+    - reference for correlation structure between variants $R$    
+    $\Longrightarrow \hat{\beta} = R \beta$, we need to estimate $\beta$
+    
 --
 
 - using Bayesian methods (LDpred2, PRS-CS, SBayesR, ...), which can infer model parameters and does not require any tuning set for hyper-parameters
@@ -204,8 +205,6 @@ class: center, middle, inverse
 - $r^2$ decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate.    
 Let's denote $M_c$ the number of causal variants.
 
---
-
 ***
 
 <br>
@@ -225,7 +224,7 @@ class: center, middle, inverse
 
 ---
 
-### Predictive performance drops with genetic distance
+### Predictive performance drops with genetic distance to training
 
 <br>
 
@@ -269,8 +268,6 @@ class: inverse, center, middle
 <br>
 
 Presentation available at [bit.ly/ncrr-pgs](https://bit.ly/ncrr-pgs)
-
-<br>
 
 Extended version at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
 
