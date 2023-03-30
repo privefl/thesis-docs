@@ -189,7 +189,10 @@ multi_auto <- snp_ldpred2_auto(
 
 <br>
 
-This runs 50 chains with different starting values for $p$ in parallel (`ncores`).
+This runs 50 chains with different starting values for $p$ in parallel (`ncores`).    
+You get missing values for chains that diverge substantially.
+
+Then you should filter for chains that provide top $R \beta$ (`$corr_est`, imputed marginal effect sizes).
 
 ---
 
@@ -230,16 +233,46 @@ $\sigma_\beta^2$ and $\alpha$ are estimated using maximum likelihood estimation 
 
 ---
 
-### Take-home messages
+### Estimated parameters
 
 <br>
 
-- 
+Let us have a look at [the tutorial](https://privefl.github.io/bigsnpr/articles/LDpred2.html#inference-with-ldpred2-auto)
+
+<!-- --- -->
+
+<!-- ### Take-home messages -->
+
+<!-- <br> -->
+
+<!-- -  -->
 
 
 ---
 
 ### Future development
+
+<br>
+
+- Automatic choice of 
+
+    - `use_MLE`,
+    - `coef_shrink`,
+    - HapMap3 or HapMap3+
+    
+- Better filtering of chains to keep
+
+--
+
+- Extend LDpred2-auto for
+
+    - using more variants and learning from functional annotations
+    
+    - multi-ancestry prediction and inference 
+    
+    - GWAS summary statistics imputation
+
+    - genetic correlation estimation 
 
 ---
 
