@@ -122,6 +122,13 @@ class: center middle inverse
 
 # Inference with LDpred2's Gibbs sampler
 
+<br>
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ldpred2-citations.png")
+```
+
 ---
 
 ### Prior model
