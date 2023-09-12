@@ -1,0 +1,65 @@
+---
+title: "Open Science"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL <- icons::fontawesome$solid$`exclamation-triangle`
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Open Science and FAIR principles
+
+<br>
+
+## Junior Seminars at NCRR
+
+<br>
+
+## Florian Privé
+#### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+---
+
+## Open Science
+
+<br>
+
+> - Open science refers to the unhindered dissemination of results, methods and products from scientific research. 
+> - It draws on the opportunity provided by recent digital progress to develop open access to publications and – as much as possible – data, source code and research methods. 
+> - It is a means for publicly funded research projects to retain control over the results they produce. 
+> - It builds an ecosystem in which science becomes better substantiated and more transparent, reproducible, effective and cumulative. 
+> - It aims to democratize access to knowledge, which is useful for teaching and training, and for the economy, public policy, citizens and society as a whole. 
+> - Finally, it constitutes a lever for scientific integrity and builds citizen trust in science.
+>
+> – French Ministry of Higher Education, Research and Innovation
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+<br>
+
+Presentation available at<br>https://privefl.github.io/thesis-docs/open-science.html
+
+<br>
+
+`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
