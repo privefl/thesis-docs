@@ -21,7 +21,7 @@ class: title-slide center middle inverse
 
 &lt;br&gt;
 
-## Junior Seminars at NCRR
+## NCRR Junior Seminars
 
 &lt;br&gt;
 
@@ -45,13 +45,181 @@ class: title-slide center middle inverse
 
 ---
 
+### Research from public fundings has to be open-access
+
+&lt;br&gt;
+
+...usually within six months of publication
+
+&lt;br&gt;
+
+&lt;img src="figures/scholar-open.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### High costs of open-access publication
+
+&lt;img src="https://pbs.twimg.com/media/F5z3E3RXMAAlhpk?format=jpg&amp;name=small" width="55%" style="display: block; margin: auto;" /&gt;
+
+Nature: 9,750 EUR – Nature Neuroscience: 9,750 EUR – &lt;br&gt;Nature Communications: 5,190 EUR – Bioinformatics: 2,600 EUR – &lt;br&gt;AJHG: 4,600 EUR (but 0 if you are willing to wait for six months)
+
+---
+
+### New publishing solutions are arising
+
+&lt;br&gt;
+
+E.g. [COMPUTO](https://computo.sfds.asso.fr/), a journal of the French Statistical Society
+
+&lt;br&gt;
+
+**Computo is free for both readers and authors.**
+
+&lt;br&gt;
+
+Computo has been created in the context of a reproducibility crisis in science, which calls for higher standards in the publication of scientific results.    
+Computo aims at promoting computational/algorithmic contributions in statistics and machine learning that provide insight into which models or methods are the most appropriate to address a specific scientific question.
+
+---
+
+### Before publication: preprint
+
+&lt;br&gt;
+
+Put your preprints out there: bioRxiv, medRxiv, PsyArXiv
+
+--
+
+&lt;br&gt;
+
+An additional benefit:
+
+&gt; Releasing a preprint is associated with more attention and citations for the peer-reviewed article
+&gt;
+&gt; – https://elifesciences.org/articles/52646
+
+---
+
+### Sharing your analysis code
+
+Reproducibility is still a problem, and not much has changed.
+
+The Methods section is not enough for reproducing some analysis; an example:
+
+&lt;center&gt;
+&lt;iframe width="700" height="400" src="https://www.youtube.com/embed/Ct-lOOUqmyY?si=ApMwDlDLmtJ1RP_E&amp;amp;start=5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen data-external="1"&gt;&lt;/iframe&gt;
+&lt;/center&gt;
+
+---
+
+## FAIR principles for data
+
+[reused from [here](https://nbisweden.github.io/module-open-science-dm-practices/02-fair/index.html)]
+
+&lt;br&gt;
+
+To try to guide the scientific community on how to ensure that the research data is useful for others in the digital age, [the FAIR principles](https://doi.org/10.1038/sdata.2016.18) were published in 2016.
+
+"To be useful for others data should be FAIR - Findable, Accessible, Interoperable, and Reusable ... for both Machines and Humans"
+
+***
+
+So what does this mean? A brief condensed summary:
+
+--
+
+#### Findable
+
+- Data have a globally unique persistent identifier
+    - e.g. a DOI, database accession number, etc
+- Data are described by metadata
+    - Information that explains the data
+- Data and metadata are findable in a search resource
+    - There must be ways of searching for the data
+
+---
+
+#### Accessible
+
+- Data is retrievable through a standardised communication protocol (open, free, allowing authentication &amp; authorisation where necessary)
+    - e.g. http, sftp, etc
+- Metadata are accessible, even if data is no longer available
+    - Information about the data can be found even if data is no longer available
+
+--
+&lt;br&gt;
+
+#### Interoperable
+
+- Metadata use a formal, accessible, shared language for knowledge representation
+    - Metadata is available in a form that even a computer can make use of
+- Metadata use vocabularies that follow the FAIR principles
+    - Standardised ways of capturing information about the data, that in themselves is FAIR
+- Metadata include qualified references to other metadata
+    - If the data relies on other data, there must be links to those
+
+---
+
+#### Reusable
+
+- Data have a clear data usage license
+    - It is obvious under what conditions the data can be reused
+- Metadata are associated with detailed provenance
+    - The metadata is detailed enough to understand for what research questions it is relevant to reuse
+- Metadata meet domain-relevant community standards
+    - Metadata is described according to existing standards in the research field
+    
+--
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+A couple of things to note about FAIR:
+
+- Both humans and machines are intended users of data
+- The principles are not necessarily about open data
+    - "As open as possible, as closed as necessary"
+- FAIRness is not something absolute
+    - Different levels of FAIR maturity
+- FAIR does not force any particular technical standards
+
+---
+
+### "Data available on reasonable request"
+
+...only 7% of the time (cf. [this study](https://doi.org/10.1016/j.jclinepi.2022.05.019))
+
+&lt;img src="https://ars.els-cdn.com/content/image/1-s2.0-S089543562200141X-gr2_lrg.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### My current practices
+
+&lt;br&gt;
+
+- I mostly use the UK Biobank data, which is broadly used and available to any researcher that applies for it
+
+- All my statistical methods have their code open sourced on GitHub (usually as R packages)
+
+- I always share the analysis code of papers on GitHub
+    - when accessing data from the internet, I always try to have some code doing the download, rather than manually doing it, e.g. with `runonce::download_file()` in R
+    - use relative paths instead of absolute paths
+    - people should be able to see when you make some changes to your code (e.g. from the Git history)
+
+- Key results are shared via GitHub or FigShare
+
+- Specific results such as GWAS summary statistics and PGS effect sizes are shared through dedicated databases such as the GWAS and PGS Catalogs
+
+---
+
 class: inverse, center, middle
 
 # Thanks!
 
 &lt;br&gt;
 
-Presentation available at&lt;br&gt;https://privefl.github.io/thesis-docs/open-science.html
+Presentation available at [bit.ly/ncrr_open_science](https://bit.ly/ncrr_open_science)
 
 &lt;br&gt;
 
