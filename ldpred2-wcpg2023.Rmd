@@ -79,7 +79,7 @@ class: inverse, center, middle
 
 <br>
 
-Presentation available at [bit.ly/ncrr_open_science](https://bit.ly/ncrr_open_science)
+Presentation available at [bit.ly/ldpred2_wcpg2023](https://bit.ly/ldpred2_wcpg2023)
 
 <br>
 
