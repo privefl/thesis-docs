@@ -41,15 +41,177 @@ class: title-slide center middle inverse
 
 ---
 
+### Overview of what LDpred2-auto can now provide
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/overview-new-ldpred2.png")
+```
+
+.footnote[Soon to be published in AJHG.]
+
+---
+
+### Prior model: spike and slab
+
+<br>
+
+LDpred2 assumes the following model for effect sizes,
+
+<div class="math">
+\[
+\beta_j = S_j \gamma_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, \dfrac{h^2}{M p}\right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise,}\end{array}
+\right.
+\]
+</div>
+
+where 
+- $p$ is the proportion of causal variants (aka polygenicity), 
+- $M$ the number of variants, 
+- $h^2$ the (SNP) heritability, 
+- $\boldsymbol{\gamma}$ the effect sizes on the allele scale,
+- $\boldsymbol{S}$ the standard deviations of the genotypes,
+- $\boldsymbol{\beta}$ the effects of the scaled genotypes.
+
+<br>
+
+LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
+
+---
+
+### Two versions of LDpred2
+
+- *LDpred2-grid*, which **tests different values for hyper-parameters $h^2$ and $p$** and choose the best predictive model in some validation/tuning set.
+
+- *LDpred2-auto*, which **directly estimates $h^2$ and $p$** from the Gibbs sampler.
+
+--
+
+<br>
+
+#### Estimation of parameters in LDpred2-auto
+
+- $p \sim \text{Beta}(1 + M_c, 1 + M - M_c)$ where $M_c = \sum_j(\beta_j \neq 0)$.
+
+- $h^2 = \boldsymbol{\beta}^T \boldsymbol{R} \boldsymbol{\beta}$. We did not derive a Bayesian estimator of $h^2$; others have assumed a scaled inverse chi-square prior distribution.
+
+- We estimate these two parameters at each (outer) iteration of the Gibbs sampler.
+
+---
+---
+
+### New 3-parameter model
+
+<br>
+
+<div class="math">
+\[
+\beta_j \sim \left\{
+\begin{array}{ll}
+\mathcal N\left(0, ~\sigma_\beta^2 \cdot (S_j^2)^{(\alpha + 1)} \right) & \mbox{with probability } p,\\
+0 & \mbox{otherwise.}
+\end{array}
+\right.
+\]
+</div>
+
+<br>
+
+Therefore, it was earlier assumed that $\alpha = -1$ and $\sigma_\beta^2 = \frac{h^2}{M p}$.
+
+This is similar to the model assumed in SBayesS.
+
+$\sigma_\beta^2$ and $\alpha$ are estimated using maximum likelihood estimation (MLE), which can become unstable when power is low (or when the model is really off).
+
+`r ICON_TRI_EXCL` More flexibility is not always better. This new model can be disabled by setting `use_MLE = FALSE`.
+
+
+<!-- TODO: ADD SOMEWHERE ABOUT SUMSTATS QC -->
+
+<!-- TODO: ADD WHICH SET OF VARIANTS TO USE -->
+---
+
+### Which sets of variants to use?
+
+<br>
+
+`r ICON_TRI_EXCL` Using more variants does not mean that you will get e.g. better polygenic scores.
+
+<br>
+
+For now, we recommend to use
+
+- a set of 1,054,330 HapMap3 variants, because they provide a good coverage of the genome and are generally well imputed and available in most studies
+
+- if you have a good power, you can use an extended set with 37% more variants, which we called HapMap3+ (cf. [this preprint](https://doi.org/10.1101/2022.10.10.511629))
+
+- if you do not have imputed data, use your genotyped data to get enough variants
+
+---
+
 ```{r, out.width="70%", fig.align='center'}
 # knitr::include_graphics("https://flagicons.lipis.dev/flags/4x3/dk.svg")
 ```
 
 ---
 
-## Acknowledgments
+### Estimation of predictive performance
 
 <br>
+
+To infer the out-of-sample predictive performance $r^2$ (and CI) of the resulting PGS from LDpred2-auto, we use the distribution of $$\boldsymbol{\beta_1}^T \boldsymbol{R} \boldsymbol{\beta_2} ~,$$
+where $\boldsymbol{\beta_1}$ and $\boldsymbol{\beta_2}$ are two sampled vectors of causal effect sizes (after scaling) from two different chains of the Gibbs sampler.
+
+Intuitively, if prediction is perfect then $\boldsymbol{\beta_1}$ and $\boldsymbol{\beta_2}$ are the same and $r^2 = h^2$; when power is very low, these two are uncorrelated and $r^2 \approx 0$.
+
+---
+
+### Future development
+
+<br>
+
+- Automatic choice of 
+
+    - `use_MLE`,
+    - `coef_shrink`,
+    - HapMap3 or HapMap3+
+    
+- Better filtering of chains to keep
+
+--
+
+- Extend LDpred2-auto for
+
+    - using more variants and learning from functional annotations
+    
+    - multi-ancestry prediction and inference 
+    
+    - GWAS summary statistics imputation
+
+    - genetic correlation estimation 
+
+
+---
+
+### Take-home messages
+
+- Can do a lot: get polygenic scores and estimate $h^2$, $p$, $\alpha$, $r^2$.
+
+- Will become even better in the future
+
+- Always QC
+
+- more flexibility not always better
+
+- more variants not always better
+
+---
+
+### Acknowledgments
 
 Co-authors:
 
@@ -57,7 +219,7 @@ Co-authors:
 
 - Julyan Arbel (INRIA Grenoble, FR)
 
-- Hugues Aschard (Institut Pasteur, FR)
+- Hugues Aschard (Pasteur Institute, FR)
 
 - Bogdan Pasaniuc (UCLA, CA, USA)
 
@@ -67,9 +229,11 @@ Co-authors:
 
 Funding:
 
-- Danish National Research Foundation (Niels Bohr Professorship to Prof. John McGrath)
+- Danish National Research Foundation    
+(Niels Bohr Professorship to Prof. John McGrath)
 
-- Lundbeck Foundation (Fellowship to Prof. B.J. Vilhjálmsson)
+- Lundbeck Foundation    
+(Fellowship to Prof. B.J. Vilhjálmsson)
 
 ---
 
