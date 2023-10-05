@@ -40,9 +40,7 @@ class: title-slide center middle inverse
 
 &lt;br&gt;
 
-&lt;img src="figures/overview-new-ldpred2.png" width="95%" style="display: block; margin: auto;" /&gt;
-
-.footnote[Soon to be published in AJHG.]
+&lt;img src="figures/overview-new-ldpred2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -88,13 +86,12 @@ LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
 
 #### Estimation of parameters in LDpred2-auto
 
-- `\(p \sim \text{Beta}(1 + M_c, 1 + M - M_c)\)` where `\(M_c = \sum_j(\beta_j \neq 0)\)`.
+- `\(p \sim \text{Beta}(1 + M_c, 1 + M - M_c)\)`, where `\(M_c = \sum_j(\beta_j \neq 0)\)`.
 
 - `\(h^2 = \boldsymbol{\beta}^T \boldsymbol{R} \boldsymbol{\beta}\)`. We did not derive a Bayesian estimator of `\(h^2\)`; others have assumed a scaled inverse chi-square prior distribution.
 
 - We estimate these two parameters at each (outer) iteration of the Gibbs sampler.
 
----
 ---
 
 ### New 3-parameter model
@@ -103,7 +100,7 @@ LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
 
 &lt;div class="math"&gt;
 \[
-\beta_j \sim \left\{
+\beta_j = S_j \gamma_j \sim \left\{
 \begin{array}{ll}
 \mathcal N\left(0, ~\sigma_\beta^2 \cdot (S_j^2)^{(\alpha + 1)} \right) &amp; \mbox{with probability } p,\\
 0 &amp; \mbox{otherwise.}
@@ -120,44 +117,62 @@ This is similar to the model assumed in SBayesS.
 
 `\(\sigma_\beta^2\)` and `\(\alpha\)` are estimated using maximum likelihood estimation (MLE), which can become unstable when power is low (or when the model is really off).
 
+--
+
+&lt;br&gt;
+
 &lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt; More flexibility is not always better. This new model can be disabled by setting `use_MLE = FALSE`.
 
+---
+
+### Inference with LDpred2-auto
+
+&lt;br&gt;
+
+- We worked on properly validating the inference of `\(h^2\)`, `\(p\)`, and `\(\alpha\)` (and their CIs) using simulations.
+
+- We also showed that LDpred2-auto provide calibrated per-variant probabilities of being causal.
+
+- We derived a formula to infer the out-of-sample predictive performance `\(r^2\)` directly from the Gibbs sampler.
+
+--
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+Soon to be published in AJHG. Stay tuned &lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; @privefl.
 
 &lt;!-- TODO: ADD SOMEWHERE ABOUT SUMSTATS QC --&gt;
 
 &lt;!-- TODO: ADD WHICH SET OF VARIANTS TO USE --&gt;
 ---
 
-### Which sets of variants to use?
+### An extended set of variants for LDpred2
+
+&lt;br&gt;
+
+- For now, we have recommended to use a set of 1,054,330 HapMap3 variants, because they provide a good coverage of the genome and are generally well imputed and available in most studies
+
+- We now provide an extended set with 37% more variants, which we called HapMap3+, designed to maximize tagging of 11.5M common variants in diverse genetic ancestries.
+
+- Using this new set of variants, we capture 12% more heritability and obtain 6% more predictive performance, on average, in UK Biobank analyses.
+
+--
 
 &lt;br&gt;
 
 &lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt; Using more variants does not mean that you will get e.g. better polygenic scores.
 
-&lt;br&gt;
-
-For now, we recommend to use
-
-- a set of 1,054,330 HapMap3 variants, because they provide a good coverage of the genome and are generally well imputed and available in most studies
-
-- if you have a good power, you can use an extended set with 37% more variants, which we called HapMap3+ (cf. [this preprint](https://doi.org/10.1101/2022.10.10.511629))
-
-- if you do not have imputed data, use your genotyped data to get enough variants
-
 ---
 
+### Overview of what LDpred2-auto can now provide
 
-
----
-
-### Estimation of predictive performance
+#### again, in case you forgot already 😄
 
 &lt;br&gt;
 
-To infer the out-of-sample predictive performance `\(r^2\)` (and CI) of the resulting PGS from LDpred2-auto, we use the distribution of `$$\boldsymbol{\beta_1}^T \boldsymbol{R} \boldsymbol{\beta_2} ~,$$`
-where `\(\boldsymbol{\beta_1}\)` and `\(\boldsymbol{\beta_2}\)` are two sampled vectors of causal effect sizes (after scaling) from two different chains of the Gibbs sampler.
-
-Intuitively, if prediction is perfect then `\(\boldsymbol{\beta_1}\)` and `\(\boldsymbol{\beta_2}\)` are the same and `\(r^2 = h^2\)`; when power is very low, these two are uncorrelated and `\(r^2 \approx 0\)`.
+&lt;img src="figures/overview-new-ldpred2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -165,46 +180,27 @@ Intuitively, if prediction is perfect then `\(\boldsymbol{\beta_1}\)` and `\(\bo
 
 &lt;br&gt;
 
-- Automatic choice of 
-
-    - `use_MLE`,
-    - `coef_shrink`,
-    - HapMap3 or HapMap3+
+- Design automated decisions for choosing parameters such as `use_MLE`
     
-- Better filtering of chains to keep
-
---
+- Provide means for enhanced quality control of GWAS summary statistics
 
 - Extend LDpred2-auto for
 
-    - using more variants and learning from functional annotations
+    - using more variants 
+    
+    - incorporating functional annotations
     
     - multi-ancestry prediction and inference 
-    
-    - GWAS summary statistics imputation
 
     - genetic correlation estimation 
-
-
----
-
-### Take-home messages
-
-- Can do a lot: get polygenic scores and estimate `\(h^2\)`, `\(p\)`, `\(\alpha\)`, `\(r^2\)`.
-
-- Will become even better in the future
-
-- Always QC
-
-- more flexibility not always better
-
-- more variants not always better
+    
+    - GWAS summary statistics imputation
 
 ---
 
 ### Acknowledgments
 
-Co-authors:
+#### Co-authors:
 
 - Bjarni J. Vilhjálmsson (Aarhus Uni, DK)
 
@@ -214,11 +210,11 @@ Co-authors:
 
 - Bogdan Pasaniuc (UCLA, CA, USA)
 
-- Clara Albiñana (Aarhus Uni, DK)
+- Yi Ding (UCLA)
 
-&lt;br&gt;
+- Clara Albiñana (Aarhus Uni)
 
-Funding:
+#### Funding:
 
 - Danish National Research Foundation    
 (Niels Bohr Professorship to Prof. John McGrath)
