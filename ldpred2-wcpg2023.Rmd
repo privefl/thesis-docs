@@ -82,7 +82,7 @@ LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
 
 ---
 
-### Three versions of LDpred2
+### Three versions of LDpred2 (for prediction)
 
 <br>
 
@@ -106,7 +106,7 @@ LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
 
 ---
 
-### New 3-parameter model
+### Extended 3-parameter model (for LDpred2-auto)
 
 <br>
 
@@ -141,11 +141,11 @@ $\sigma_\beta^2$ and $\alpha$ are estimated using maximum likelihood estimation 
 
 <br>
 
-- We worked on properly validating the inference of $h^2$, $p$, and $\alpha$ (and their CIs) using simulations.
+- We worked on properly validating the inference of $h^2$, $p$, and $\alpha$ (and their CIs) using extensive simulations.
 
-- We also showed that LDpred2-auto provide calibrated per-variant probabilities of being causal.
+- We also showed that LDpred2-auto provides calibrated per-variant probabilities of being causal.
 
-- We derived a formula to infer the out-of-sample predictive performance $r^2$ directly from the Gibbs sampler.
+- We introduced a formula to infer the out-of-sample predictive performance $r^2$ directly from the Gibbs sampler.
 
 --
 
