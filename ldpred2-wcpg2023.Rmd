@@ -16,6 +16,7 @@ knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
                       echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
 ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
 ICON_TRI_EXCL <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO <- icons::fontawesome$solid$`info-circle`
 ```
 
 class: title-slide center middle inverse
@@ -81,23 +82,27 @@ LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
 
 ---
 
-### Two versions of LDpred2
+### Three versions of LDpred2
+
+<br>
+
+- *LDpred2-inf*, which we do not recommend to use.
 
 - *LDpred2-grid*, which **tests different values for hyper-parameters $h^2$ and $p$** and choose the best predictive model in some validation/tuning set.
 
 - *LDpred2-auto*, which **directly estimates $h^2$ and $p$** from the Gibbs sampler.
 
---
+<!-- -- -->
 
-<br>
+<!-- <br> -->
 
-#### Estimation of parameters in LDpred2-auto
+<!-- #### Estimation of parameters in LDpred2-auto -->
 
-- $p \sim \text{Beta}(1 + M_c, 1 + M - M_c)$, where $M_c = \sum_j(\beta_j \neq 0)$.
+<!-- - $p \sim \text{Beta}(1 + M_c, 1 + M - M_c)$, where $M_c = \sum_j(\beta_j \neq 0)$. -->
 
-- $h^2 = \boldsymbol{\beta}^T \boldsymbol{R} \boldsymbol{\beta}$. We did not derive a Bayesian estimator of $h^2$; others have assumed a scaled inverse chi-square prior distribution.
+<!-- - $h^2 = \boldsymbol{\beta}^T \boldsymbol{R} \boldsymbol{\beta}$. We did not derive a Bayesian estimator of $h^2$; others have assumed a scaled inverse chi-square prior distribution. -->
 
-- We estimate these two parameters at each (outer) iteration of the Gibbs sampler.
+<!-- - We estimate these two parameters at each (outer) iteration of the Gibbs sampler. -->
 
 ---
 
@@ -148,11 +153,8 @@ $\sigma_\beta^2$ and $\alpha$ are estimated using maximum likelihood estimation 
 
 <br>
 
-Soon to be published in AJHG. Stay tuned `r icons::fontawesome$brands$twitter` @privefl.
+`r ICON_INFO` Soon to be published in AJHG. Stay tuned `r icons::fontawesome$brands$twitter` @privefl.
 
-<!-- TODO: ADD SOMEWHERE ABOUT SUMSTATS QC -->
-
-<!-- TODO: ADD WHICH SET OF VARIANTS TO USE -->
 ---
 
 ### An extended set of variants for LDpred2
