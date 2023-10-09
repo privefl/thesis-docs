@@ -68,21 +68,24 @@ where
 - `\(\boldsymbol{S}\)` the standard deviations of the genotypes,
 - `\(\boldsymbol{\beta}\)` the effects of the scaled genotypes.
 
-&lt;br&gt;
-
-LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
-
----
-
-### Three versions of LDpred2 (for prediction)
+--
 
 &lt;br&gt;
 
-- *LDpred2-inf*, which we do not recommend to use.
+LDpred2 uses a Gibbs sampler to sample causal variants and their effects.    
+LDpred2-auto **directly estimates `\(h^2\)` and `\(p\)`** from the Gibbs sampler.
 
-- *LDpred2-grid*, which **tests different values for hyper-parameters `\(h^2\)` and `\(p\)`** and choose the best predictive model in some validation/tuning set.
+&lt;!-- --- --&gt;
 
-- *LDpred2-auto*, which **directly estimates `\(h^2\)` and `\(p\)`** from the Gibbs sampler.
+&lt;!-- ### Three versions of LDpred2 (for prediction) --&gt;
+
+&lt;!-- &lt;br&gt; --&gt;
+
+&lt;!-- - *LDpred2-inf*, which we do not recommend to use. --&gt;
+
+&lt;!-- - *LDpred2-grid*, which **tests different values for hyper-parameters `\(h^2\)` and `\(p\)`** and choose the best predictive model in some validation/tuning set. --&gt;
+
+&lt;!-- - *LDpred2-auto*, which **directly estimates `\(h^2\)` and `\(p\)`** from the Gibbs sampler. --&gt;
 
 &lt;!-- -- --&gt;
 
@@ -217,10 +220,12 @@ directly from the Gibbs sampler
     - incorporating functional annotations
     
     - multi-ancestry prediction and inference 
-
-    - genetic correlation estimation 
     
-    - GWAS summary statistics imputation
+- and for (smaller priority):
+
+    - using multiple phenotypes and estimating genetic correlation 
+    
+    - imputing GWAS summary statistics
 
 ---
 
