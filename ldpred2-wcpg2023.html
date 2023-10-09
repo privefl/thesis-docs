@@ -115,17 +115,19 @@ LDpred2 uses a Gibbs sampler to sample causal variants and their effects.
 
 &lt;br&gt;
 
-Therefore, it was earlier assumed that `\(\alpha = -1\)` and `\(\sigma_\beta^2 = \frac{h^2}{M p}\)`.
+- similar to the model assumed in SBayesS
 
-This is similar to the model assumed in SBayesS.
+- previous 2-parameter model assumes `\(\alpha = -1\)` and `\(\sigma_\beta^2 = \frac{h^2}{M p}\)`
 
-`\(\sigma_\beta^2\)` and `\(\alpha\)` are estimated using maximum likelihood estimation (MLE), which can become unstable when power is low (or when the model is really off).
+- `\(\sigma_\beta^2\)` and `\(\alpha\)` are estimated using maximum likelihood estimation (MLE)
 
 --
 
 &lt;br&gt;
 
-&lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt; More flexibility is not always better. This new model can be disabled by setting `use_MLE = FALSE`.
+&lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt; More flexibility is not always better.    
+Inference can become unstable when power is low.    
+The 2-parameter model can be used instead by setting `use_MLE = FALSE`.
 
 ---
 
@@ -133,11 +135,15 @@ This is similar to the model assumed in SBayesS.
 
 &lt;br&gt;
 
-- We worked on properly validating the inference of `\(h^2\)`, `\(p\)`, and `\(\alpha\)` (and their CIs) using extensive simulations.
+Recent work on:
 
-- We also showed that LDpred2-auto provides calibrated per-variant probabilities of being causal.
+- properly validating the inference of `\(h^2\)`, `\(p\)`, and `\(\alpha\)` (and their CIs)    
+using extensive simulations
 
-- We introduced a formula to infer the out-of-sample predictive performance `\(r^2\)` directly from the Gibbs sampler.
+- showing calibrated per-variant probabilities of being causal
+
+- inferring the out-of-sample predictive performance `\(r^2\)`    
+directly from the Gibbs sampler
 
 --
 
@@ -149,21 +155,40 @@ This is similar to the model assumed in SBayesS.
 
 ---
 
+### Inferred `\(r^2\)` estimates vs the ones from a test set
+
+&lt;img src="figures/ukbb_r2_MLE-1.png" width="78%" style="display: block; margin: auto;" /&gt;
+
+---
+
 ### An extended set of variants for LDpred2
 
 &lt;br&gt;
 
-- For now, we have recommended to use a set of 1,054,330 HapMap3 variants, because they provide a good coverage of the genome and are generally well imputed and available in most studies
+- We have recommended to use a set of 1,054,330 HapMap3 variants
+  - good coverage of the genome 
+  - generally well imputed and available in most studies
 
-- We now provide an extended set with 37% more variants, which we called HapMap3+, designed to maximize tagging of 11.5M common variants in diverse genetic ancestries.
+- We now provide an extended set with 37% more variants
+  - designed to maximize tagging of 11.5M common variants    
+  in diverse genetic ancestries
+  - called HapMap3+
 
-- Using this new set of variants, we capture 12% more heritability and obtain 6% more predictive performance, on average, in UK Biobank analyses.
+- Using this new set of variants, in UK Biobank analyses, *on average*,
+  - we capture 12% more SNP heritability `\(h^2\)`
+  - obtain 6% more predictive performance `\(r^2\)`
 
 --
 
 &lt;br&gt;
 
-&lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt; Using more variants does not mean that you will get e.g. better polygenic scores.
+&lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt; Using more variants won't necessarily give you better polygenic scores.
+
+---
+
+### UKBB results with HapMap3+ (1.4M) vs HapMap3 (1M)
+
+&lt;img src="figures/ukbb_compare_hm3_plus-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
