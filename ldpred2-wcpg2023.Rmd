@@ -82,7 +82,7 @@ where
 <br>
 
 LDpred2 uses a Gibbs sampler to sample causal variants and their effects.    
-LDpred2-auto **directly estimates $h^2$ and $p$** from the Gibbs sampler.
+LDpred2-auto directly estimates $h^2$ and $p$ from the Gibbs sampler.
 
 <!-- --- -->
 
@@ -209,8 +209,6 @@ knitr::include_graphics("figures/ukbb_compare_hm3_plus-1.png")
 ---
 
 ### Overview of what LDpred2-auto can now provide
-
-#### again, in case you forgot already `r emo::ji("smile")`
 
 <br>
 
