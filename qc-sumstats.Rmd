@@ -1,0 +1,112 @@
+---
+title: "QC GWAS sumstats"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL  <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO      <- icons::fontawesome$solid$`info-circle`
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Quality Control of GWAS Summary Statistics
+
+<br>
+
+<br>
+
+## Florian Privé (Aarhus Uni, DK)
+### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+---
+
+## Project
+
+<br>
+
+- An `r ICON_R_PROJECT` reimplementation of DENTIST, a GCTA method for the quality control of GWAS summary statistics
+
+- Ideally improving the methodology (more power and less false positive)
+
+--
+
+<br>
+
+Part of a larger project
+
+- TODO
+
+-
+
+---
+
+## DENTIST methodology
+
+<br>
+
+- X2 test statistic:
+    ```{r, out.width="90%"}
+    knitr::include_graphics("figures/eq-dentist.jpg")
+    ```
+    where $i$ is the variant of interest, and $t$ the variants used for imputing
+
+--
+
+- Invert $R_{tt}$ using 40% of eigenvectors
+
+- Use a sliding window approach to divide the variants into 2 Mb segments with a 500 kb overlap between two adjacent segments
+
+- Separate each window into two groups that are used to impute each other
+
+- Do not use variants $t$ with $R_{it}^2 > 0.95$ to improve computational stability (robustness)
+
+- Do multiple iterations to remove variants (max top 0.5% each iteration)
+
+---
+
+## Issues
+
+<br>
+
+- Loss of power by using only half of variants in each window
+
+- Loss of power by not using highly correlated variants
+
+- Imputation is not always very accurate (large numerator)
+
+- Denominator can be very small (or even negative)
+
+- Eigenvectors can capture components that are not very useful for imputation (e.g. LD blocks in weak LD with the variant we want to impute)
+
+---
+
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+<br>
+
+Presentation available at [bit.ly/ldpred2_wcpg2023](https://bit.ly/ldpred2_wcpg2023)
+
+<br>
+
+`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
