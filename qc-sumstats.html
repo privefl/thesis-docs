@@ -86,6 +86,28 @@ Part of a larger project
 
 ---
 
+## My approach
+
+&lt;br&gt;
+
+For a particular variant `\(i\)` I want to assess, 
+
+- consider variants `\(t\)` by decreasing order of `\(R_{it}^2\)`, up to `\(R_{it}^2 &gt; 0.2\)` 
+
+- pick them if their LD score with other variants already picked is lower than e.g. 30
+
+--
+
+&lt;br&gt;
+
+In this way, 
+
+- we can pre-compute some sparse matrix `\(R\)` that is not too large    
+(e.g. 700 MB for 145K variants of chr22)    
+(all `\(R_{jt}\)` such that `\(\exists i : R_{it}^2 &gt; 0.2 ~\&amp;~ R_{ij}^2 &gt; 0.2\)`) 
+
+- the set of variants `\(t\)` to impute has maximum power, without being too large nor too redundant
+
 ---
 
 class: inverse, center, middle
@@ -94,7 +116,7 @@ class: inverse, center, middle
 
 &lt;br&gt;
 
-Presentation available at [bit.ly/ldpred2_wcpg2023](https://bit.ly/ldpred2_wcpg2023)
+Presentation available at https://privefl.github.io/thesis-docs/qc-sumstats.html
 
 &lt;br&gt;
 
