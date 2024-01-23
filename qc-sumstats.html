@@ -28,7 +28,7 @@ class: title-slide center middle inverse
 
 ---
 
-## Project
+### Project
 
 &lt;br&gt;
 
@@ -48,7 +48,34 @@ Part of a larger project
 
 ---
 
-## DENTIST methodology
+### Some quality control I already recommend
+
+**Some quality control on summary statistics is highly recommended.**
+A refined QC is described in [this new paper](https://doi.org/10.1016/j.xhgg.2022.100136).
+See e.g. [the code](https://github.com/privefl/paper-misspec/tree/main/code) that was used to prepare the sumstats there.
+
+Most of the QC recommended for LDpred2 consists in computing 
+\begin{equation}
+\text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
+\end{equation}
+where `\(\hat{\gamma}_j\)` is the marginal GWAS effect size of variant `\(j\)`, `\(n_j\)` is the GWAS sample size associated with variant `\(j\)`, `\(y\)` is the vector of phenotypes and `\({G}_j\)` is the vector of genotypes for variant `\(j\)`.
+
+Note that, for a binary trait for which logistic regression is used, we have instead
+\begin{equation}\label{eq:approx-sd-log}
+\text{sd}(G_j) \approx \dfrac{2}{\sqrt{n_j^\text{eff} ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
+\end{equation}
+where `\(n_j^\text{eff} = \frac{4}{1 / n_j^\text{cases} + 1 / n_j^\text{controls}}\)`.
+
+Then, these standard deviations of genotypes inferred from GWAS summary statistics can be compared to `\(\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}\)`, where `\(f_j\)` is the allele frequency of variant `\(j\)` and `\(\text{INFO}_j\)` is used to correct for the reduced variance of imputed dosages.
+
+In the equation for continuous traits, we can estimate `\(\text{sd}(y)\)` by the first percentile of `\(\sqrt{0.5 \left(n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2\right)}\)`, where the first percentile approximates the minimum and is robust to outliers.
+In practice, a consistent deviation between these two estimates of standard deviations (from summary statistics and from allele frequencies) can also be explained by using wrong estimates for `\(n_j\)` or `\(n_j^\text{eff}\)`.
+
+
+
+---
+
+### DENTIST methodology
 
 &lt;br&gt;
 
@@ -70,7 +97,7 @@ Part of a larger project
 
 ---
 
-## Issues
+### Issues
 
 &lt;br&gt;
 
@@ -86,27 +113,93 @@ Part of a larger project
 
 ---
 
-## My approach
+### My first approach (1/2)
 
 &lt;br&gt;
 
-For a particular variant `\(i\)` I want to assess, 
+For a particular variant `\(i\)` to assess, 
 
-- consider variants `\(t\)` by decreasing order of `\(R_{it}^2\)`, up to `\(R_{it}^2 &gt; 0.2\)` 
+- consider variants `\(t\)` by decreasing order of `\(R_{it}^2\)`, up to `\(R_{it}^2 &gt; 0.2\)`    
+    `\(\Longrightarrow\)` we can pre-compute some sparse matrix `\(R\)` that is not too large    
+    (all `\(R_{jt}\)` such that `\(\exists i : R_{it}^2 &gt; 0.2 ~\&amp;~ R_{ij}^2 &gt; 0.2\)`)    
+    (e.g. 700 MB for 145K variants of chr22)    
 
-- pick them if their LD score with other variants already picked is lower than e.g. 30
+--
+
+- pick them if their LD score with the variants already picked is lower than e.g. 30    
+    `\(\Longrightarrow\)` the set of variants `\(t\)` to impute has maximum power, without being too large nor too redundant
+
+--
+
+- do not consider potential errors    
+    `\(\Longrightarrow\)` do not propagate errors and faster (less updates when removed)
+
+---
+
+### My first approach (2/2)
+
+&lt;br&gt;
+
+- Constrain the denominator to be at least 0.01
+
+- Compute the statistics for a range of eigenvectors kept (instead of only 40%)
+
+- Use the median (or lower quantile, to be a bit conservative)
 
 --
 
 &lt;br&gt;
 
-In this way, 
+For the iterations
 
-- we can pre-compute some sparse matrix `\(R\)` that is not too large    
-(e.g. 700 MB for 145K variants of chr22)    
-(all `\(R_{jt}\)` such that `\(\exists i : R_{it}^2 &gt; 0.2 ~\&amp;~ R_{ij}^2 &gt; 0.2\)`) 
+- Only remove one variant per iteration
 
-- the set of variants `\(t\)` to impute has maximum power, without being too large nor too redundant
+- Update the statistics for those that used this variant for imputation
+
+- Iterate until no significant variant
+
+---
+
+### Quick simulation results
+
+Design:
+
+- Use 145K variants on chromosome 22 with MAF &gt; 0.005 and INFO &gt; 0.8
+
+- Simulate some phenotype with heritability of 0.1 and polygenicity of 0.05
+
+- Compute the GWAS summary statistics using N=50K
+
+- For 5000 variants at random, assign them an opposite effect (allelic error)
+
+--
+
+&lt;br&gt;
+
+Results:
+
+- 3379 iterations in 32 min (with pre-computed `\(R\)`),    
+with 3349 true positives (TP, real errors) and 19 false positives (FP)    
+when using the median of statistics
+
+- 3254 TP and 9 FP with quantile at 25%
+
+- 3663 TP and 4651 FP in 24 min with DENTIST
+
+---
+
+### Real data analysis
+
+&lt;br&gt;
+
+Using type-1 diabetes (T1D) GWAS summary statistics from Neff=13.5K,   
+using 16K variants from a long-range LD region with very large effects
+
+--
+
+&lt;br&gt;
+
+-  4871 iter in 24 min `\(\longrightarrow\)` 4529 "errors" detected
 
 ---
 
