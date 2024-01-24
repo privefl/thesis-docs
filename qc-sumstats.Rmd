@@ -57,28 +57,47 @@ Part of a larger project
 
 ### Some quality control I already recommend
 
-**Some quality control on summary statistics is highly recommended.**
-A refined QC is described in [this new paper](https://doi.org/10.1016/j.xhgg.2022.100136).
-See e.g. [the code](https://github.com/privefl/paper-misspec/tree/main/code) that was used to prepare the sumstats there.
+.footnote[Check this paper: https://doi.org/10.1016/j.xhgg.2022.100136]
 
-Most of the QC recommended for LDpred2 consists in computing 
+**Comparing standard deviations** of genotypes estimated in 2 ways:
+ 
 \begin{equation}
 \text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
 \end{equation}
-where $\hat{\gamma}_j$ is the marginal GWAS effect size of variant $j$, $n_j$ is the GWAS sample size associated with variant $j$, $y$ is the vector of phenotypes and ${G}_j$ is the vector of genotypes for variant $j$.
+where $\hat{\gamma}_j$ is the marginal GWAS effect size of variant $j$, $n_j$ is the GWAS sample size associated with variant $j$, $y$ is the vector of phenotypes.
 
-Note that, for a binary trait for which logistic regression is used, we have instead
+For a binary trait for which logistic regression is used, we have instead
 \begin{equation}\label{eq:approx-sd-log}
-\text{sd}(G_j) \approx \dfrac{2}{\sqrt{n_j^\text{eff} ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
+\text{sd}(G_j) \approx \dfrac{2}{\sqrt{n_j^\text{eff} ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~.
 \end{equation}
-where $n_j^\text{eff} = \frac{4}{1 / n_j^\text{cases} + 1 / n_j^\text{controls}}$.
 
-Then, these standard deviations of genotypes inferred from GWAS summary statistics can be compared to $\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}$, where $f_j$ is the allele frequency of variant $j$ and $\text{INFO}_j$ is used to correct for the reduced variance of imputed dosages.
+Compared to $\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}$, where $f_j$ is the allele frequency of variant $j$ and $\text{INFO}_j$ is used to correct for the reduced variance of imputed dosages.
 
-In the equation for continuous traits, we can estimate $\text{sd}(y)$ by the first percentile of $\sqrt{0.5 \left(n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2\right)}$, where the first percentile approximates the minimum and is robust to outliers.
-In practice, a consistent deviation between these two estimates of standard deviations (from summary statistics and from allele frequencies) can also be explained by using wrong estimates for $n_j$ or $n_j^\text{eff}$.
+---
 
+### Detect smaller N / INFO
 
+```{r, out.width="72%"}
+knitr::include_graphics("figures/simu-qc-plot.jpg")
+```
+
+---
+
+### Detect smaller effective N from meta-analysis 
+
+```{r, out.width="85%"}
+knitr::include_graphics("figures/cad_quick_qc.png")
+```
+
+---
+
+### Detect other issues
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/brca_onco_qc.png")
+```
 
 ---
 
@@ -102,11 +121,11 @@ In practice, a consistent deviation between these two estimates of standard devi
 
 - Do not use variants $t$ with $R_{it}^2 > 0.95$ to improve computational stability (robustness)
 
-- Do multiple iterations to remove variants (max top 0.5% each iteration)
+- Do 10 iterations to remove variants (max top 0.5% for first 9 iter)
 
 ---
 
-### Issues
+### Possible issues
 
 <br>
 
@@ -210,7 +229,42 @@ using 16K variants from a long-range LD region with very large effects
 
 - 4529 "errors" detected with q25% (4871 iter in 24 min) 
 
-- 12,310 "errors" detected with DENTIST under 20 sec
+- 12,310 "errors" detected with DENTIST (under 20 sec)
+
+---
+
+### Impossible imputation
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/impossible-imputation4.jpg")
+```
+
+---
+
+### Difficult imputation
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/difficult-imputation2.jpg")
+```
+
+---
+
+### Alternative solvers and equations
+
+<br>
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/eq-dentist.jpg")
+```
+
+<br>
+
+Instead of doing an eigendecomposition of $R_{tt}$, we can
+
+- solve the linear system $R_{tt}^{-1} R_{ti}$ (with a bit of regularization)
+
+- or use $1 - R_{it} R_{tt}^{-1} R_{ti} = \bigl(R_{ss}^{-1}\bigr)_{1,1}$ and $R_{it} R_{tt}^{-1} = \bigl(R_{ss}^{-1}\bigr)_{1,\text{-}1}$    
+where $s = \{i, t\}$
 
 ---
 
