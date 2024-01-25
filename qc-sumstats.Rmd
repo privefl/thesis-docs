@@ -41,7 +41,9 @@ class: title-slide center middle inverse
 
 - An `r ICON_R_PROJECT` reimplementation of DENTIST, a GCTA method for the quality control of GWAS summary statistics
 
-- Ideally improving the methodology (more power and less false positive)
+- Verify that the methodology works properly
+
+- Ideally, improve the methodology (more power and less false positive)
 
 --
 
@@ -49,7 +51,7 @@ class: title-slide center middle inverse
 
 Part of a larger project
 
-- Providing some very well quality-controlled GWAS summary statistics
+- Provide some very well quality-controlled GWAS summary statistics
 
 - In a standardized format
 
@@ -61,7 +63,7 @@ Part of a larger project
 
 .footnote[Check this paper: https://doi.org/10.1016/j.xhgg.2022.100136]
 
-**Comparing standard deviations** of genotypes estimated in 2 ways:
+**Compare standard deviations** of genotypes estimated in 2 ways:
  
 \begin{equation}
 \text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
@@ -107,19 +109,21 @@ knitr::include_graphics("figures/brca_onco_qc.png")
 
 <br>
 
-- X2 test statistic:
-    ```{r, out.width="90%"}
-    knitr::include_graphics("figures/eq-dentist.jpg")
-    ```
-    where $i$ is the variant of interest, and $t$ the variants used for imputing
+$\chi^2$ test statistic:
+```{r, out.width="90%"}
+knitr::include_graphics("figures/eq-dentist.jpg")
+```
+where $i$ is the variant of interest, and $t$ the variants used for imputing
 
 --
 
-- Invert $R_{tt}$ using 40% of eigenvectors
+<br>
 
 - Use a sliding window approach to divide the variants into 2 Mb segments with a 500 kb overlap between two adjacent segments
 
 - Separate each window into two groups that are used to impute each other
+
+- Invert $R_{tt}$ using 40% of eigenvectors
 
 - Do not use variants $t$ with $R_{it}^2 > 0.95$ to improve computational stability (robustness)
 
@@ -304,13 +308,26 @@ knitr::include_graphics("figures/error-t1d-2.jpg")
 
 ---
 
+### TODO
+
+<br>
+
+- Continue improving the method
+
+- Handle different per-variant sample sizes
+
+--
+
+<br>
+<br>
+
 ### Any other idea?
 
 <br>
 
-- Test something else? E.g. comparing likelihoods of models with and without the variant?
+- Use LD friends + their LD friends?
 
-- For all other correlated variants?
+- Test something else? E.g. compare likelihoods of models with and without the variant? For all other correlated variants?
 
 ---
 
