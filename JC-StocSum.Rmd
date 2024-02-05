@@ -38,9 +38,9 @@ class: title-slide center middle inverse
 
 ### Their motivation
 
-- Scale many sumstats methods to using millions of variants (WGS)
+- Scale many sumstats methods to using millions of variants (WGS)    
 
-- (sumstats method: using GWAS summary statistics + some LD reference)
+    (sumstats method: using GWAS summary statistics + some LD reference)
 
 - Provide LD for admixed or underrepresented genetic ancestries
 
@@ -74,12 +74,13 @@ to get $R = (R_1 ... R_B)$, a $N \times B$ matrix
 
 --
 
-- Compute $U = R^T \widetilde{G}$, a $B \times M$ matrix    
-and its scaled version $U_2 = \widetilde{U} / \sqrt{B-1}$
+- Compute $U = R^T \widetilde{G}$, a $B \times M$ matrix
 
-- Then you can approximate the LD matrix by $U_2^T U_2$
+- Then $\text{cor}(U) \approx \text{cor}(G)$
 
 - This approximation is better with increasing $B$
+
+- You can simply store $U_2 = \widetilde{U} / \sqrt{B-1}$, and get $\text{cor}(U) = U_2^T U_2$
 
 - $U_2$ is not individual-level data so that it can easily be shared
 
@@ -123,7 +124,7 @@ $\Longrightarrow$ need some correction?
 - Then storing $U_2$ takes 149 GB
 
 - To get one column $j$ of the LD matrix (required in LDpred2),    
-we need to compute $U_2^T U_2^{(j)}$    
+we need to compute $U_2^T U_2^{(j)}$,    
 instead of simply accessing a few thousands non-zero values (block)
 
 ---
