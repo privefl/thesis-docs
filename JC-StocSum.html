@@ -44,9 +44,9 @@ class: title-slide center middle inverse
 
 ### My motivation
 
-- Scale LDpred2 to millions of variants
+- Scale LDpred2 to using millions of variants
 
-- The current main limitation is storing the LD matrix for that many variants
+- The current limitation is storing the LD matrix for that many variants
 
 - Even when using a block-diagonal matrix
 
@@ -61,7 +61,7 @@ class: title-slide center middle inverse
 - Generate `\(B\)` vectors `\(R_b \sim N(0, P)\)` of size `\(N\)`    
 to get `\(R = (R_1 ... R_B)\)`, a `\(N \times B\)` matrix 
 
-- `\(P\)` is a projection matrix accounting for structure in your data
+- `\(P\)` is a projection matrix accounting for structure in the data
 
 - Let us simply assume `\(P = I\)` here
 
@@ -75,7 +75,7 @@ to get `\(R = (R_1 ... R_B)\)`, a `\(N \times B\)` matrix
 
 - You can simply store `\(U_2 = \widetilde{U} / \sqrt{B-1}\)`, and get `\(\text{cor}(U) = U_2^T U_2\)`
 
-- `\(U_2\)` is not individual-level data so that it can easily be shared
+- `\(U_2\)` is not individual-level data, so it can be shared easily
 
 ---
 
