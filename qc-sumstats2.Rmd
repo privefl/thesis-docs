@@ -36,6 +36,26 @@ class: title-slide center middle inverse
 
 ---
 
+### Example of GWAS summary statistics
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/GWAS-sumstats.png")
+```
+
+--
+
+<br>
+
+Other information can be available:
+
+- (minor) allele frequencies
+
+- imputation INFO scores
+
+---
+
 ### Overview of possible misspecifications<br>when using GWAS summary statistics
 
 <br>
@@ -44,11 +64,11 @@ class: title-slide center middle inverse
 knitr::include_graphics("figures/overview-misspec.jpg")
 ```
 
+.footnote[More details in<br>Privé, F., et al. (2022) "[Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores.](https://doi.org/10.1016/j.xhgg.2022.100136)" *Human Genetics and Genomics Advances* 3.4.]
+
 ---
 
-### Some quality control I already recommend
-
-.footnote[Check this paper: https://doi.org/10.1016/j.xhgg.2022.100136]
+### Some quality control I recommend
 
 **Compare standard deviations** of genotypes estimated in 2 ways:
  
@@ -61,6 +81,8 @@ For a binary trait for which logistic regression is used, we have instead
 \begin{equation}\label{eq:approx-sd-log}
 \text{sd}(G_j) \approx \dfrac{2}{\sqrt{n_j^\text{eff} ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~.
 \end{equation}
+
+***
 
 Compared to $\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}$, where $f_j$ is the allele frequency of variant $j$ and $\text{INFO}_j$ is used to correct for the reduced variance of imputed dosages.
 
@@ -129,6 +151,7 @@ knitr::include_graphics("figures/overestim-info.png")
 knitr::include_graphics("figures/overview-misspec.jpg")
 ```
 
+.footnote[More details in<br>Privé, F., et al. (2022) "[Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores.](https://doi.org/10.1016/j.xhgg.2022.100136)" *Human Genetics and Genomics Advances* 3.4.]
 
 ---
 
