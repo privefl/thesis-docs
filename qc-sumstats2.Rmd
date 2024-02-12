@@ -32,7 +32,7 @@ class: title-slide center middle inverse
 
 ## Florian Privé 
 ### Aarhus Univ, Denmark
-### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+#### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
 
