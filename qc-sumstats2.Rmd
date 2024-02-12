@@ -157,7 +157,9 @@ knitr::include_graphics("figures/overview-misspec.jpg")
 
 ### Additional (complementary) QC &#8212; DENTIST methodology
 
-GCTA method for the quality control of GWAS summary statistics
+<br>
+
+GCTA method for the quality control of GWAS summary statistics, by comparing Z-scores with imputed Z-scores using nearby variants.
 
 <br>
 
@@ -167,82 +169,38 @@ knitr::include_graphics("figures/eq-dentist.jpg")
 ```
 where $i$ is the variant of interest, and $t$ the variants used for imputing
 
---
-
-<br>
-
-- Use a sliding window approach to divide the variants into 2 Mb segments with a 500 kb overlap between two adjacent segments
-
-- Separate each window into two groups that are used to impute each other
-
-- Invert $R_{tt}$ using 40% of eigenvectors
-
-- Do not use variants $t$ with $R_{it}^2 > 0.95$ to improve computational stability (robustness)
-
-- Do 10 iterations to remove variants (max top 0.5% for first 9 iter)
-
 ---
 
-### Possible issues
+### Current project
 
 <br>
 
-- Loss of power by using only half of variants in each window
+- An `r ICON_R_PROJECT` reimplementation of DENTIST
 
-- Loss of power by not using highly correlated variants
+- Improve the methodology,    
+to ideally get more power and less false positive
 
-- Eigenvectors can capture components that are not very useful for imputation (e.g. LD blocks in weak LD with the variant we want to impute)
-
----
-
-### My first approach (1/2)
-
-<br>
-
-For a particular variant $i$ to assess, 
-
-- consider variants $t$ by decreasing order of $R_{it}^2$, up to $R_{it}^2 > 0.2$    
-    $\Longrightarrow$ we can pre-compute some sparse matrix $R$ that is not too large    
-    (all $R_{jt}$ such that $\exists i : R_{it}^2 > 0.2 ~\&~ R_{ij}^2 > 0.2$)    
-    (e.g. 700 MB for 145K variants of chr22)    
-
---
-
-- pick them if their LD score with the variants already picked is lower than e.g. 30    
-    $\Longrightarrow$ the set of variants $t$ to impute has maximum power, without being too large nor too redundant
-
---
-
-- do not consider variants with a potential error    
-    $\Longrightarrow$ do not propagate errors and faster (less updates when removed)
-
----
-
-### My first approach (2/2)
-
-<br>
-
-- Constrain the denominator to be at least 0.01
-
-- Compute the statistics for a range of eigenvectors kept (instead of only 40%)
-
-- Use the median (or lower quantile, to be a bit conservative)
 
 --
 
 <br>
 
-For the iterations
+### Part of a larger project
 
-- Only remove one variant per iteration
+<br>
 
-- Update the statistics for those that used this variant for imputation
+- Provide some very well quality-controlled GWAS summary statistics
 
-- Iterate until no significant variant
+- In a standardized format
+
+- Probably as a GitHub repo of R scripts,    
+where each script processes a specific GWAS summary statistics file
 
 ---
 
 ### Quick simulation results
+
+<br>
 
 Design:
 
@@ -260,13 +218,11 @@ Design:
 
 Results:
 
-- 3379 iterations in 32 min (with pre-computed $R$),    
-with 3349 true positives (TP, real errors) and 19 false positives (FP)    
-when using the median of statistics
+- 3663 true positives (TP, real errors) and 4651 false positives (FP)    
+with DENTIST
 
-- 3254 TP and 9 FP with quantile at 25%
-
-- 3663 TP and 4651 FP in 24 min with DENTIST
+- 3349 TP and 19 FP    
+with my alternative reimplementation
 
 ---
 
@@ -274,16 +230,18 @@ when using the median of statistics
 
 <br>
 
-Using type-1 diabetes (T1D) GWAS summary statistics from Neff=13.5K,   
-using 16K variants from a long-range LD region with very large effects
+Using type-1 diabetes (T1D) GWAS summary statistics with
+- $N_\text{eff}$ = 13.5K,   
+- using 16K variants with very large effects
+- from a long-range LD region (HLA on chromosome 6)
 
 --
 
 <br>
 
-- 4529 "errors" detected with q25% (4871 iter in 24 min) 
+- 12,310 "errors" detected with DENTIST
 
-- 12,310 "errors" detected with DENTIST (under 20 sec)
+- 4529 "errors" detected with my current methodology
 
 ---
 
@@ -303,44 +261,9 @@ knitr::include_graphics("figures/difficult-imputation2.jpg")
 
 ---
 
-### Alternative solvers and equations
+### At least two issues with the imputation model
 
-<br>
 
-```{r, out.width="90%"}
-knitr::include_graphics("figures/eq-dentist.jpg")
-```
-
-<br>
-
-Instead of doing an eigendecomposition of $R_{tt}$, we can
-
-- solve the linear system $R_{tt}^{-1} R_{ti}$ (with a bit of regularization)
-
-- or use $1 - R_{it} R_{tt}^{-1} R_{ti} = \bigl(R_{ss}^{-1}\bigr)_{1,1}^{-1}$ and $R_{it} R_{tt}^{-1} = -\bigl(R_{ss}^{-1}\bigr)_{1,1}^{-1} \bigl(R_{ss}^{-1}\bigr)_{1,\text{-}1}$    
-where $s = \{i, t\}$
-
----
-
-### My second approach
-
-<br>
-
-- Use the previous last equation to impute all variants $s = \{i, t\}$ and find the regularization that minimizes $|z_t - \tilde{z}_t|$.
-
-- Use that regularization to impute all variants $s$
-
-- Scale the resulting $\chi_i^2$ using the expected median and the median of $\chi_s^2$ (from all variants $\{i, t\}$)
-
---
-
-<br>
-
-Results:
-
-- 217 "errors" detected
-
-- for the previous simulations, 2804 TP and 25 FP
 
 ---
 
@@ -353,31 +276,6 @@ Results:
 - This can affect results of sumstats-based methods tremendously
 
 - Quality control of sumstats can be tricky
-
----
-
-### Current project
-
-<br>
-
-- An `r ICON_R_PROJECT` reimplementation of DENTIST
-
-- Improve the methodology (more power and less false positive)
-
-
---
-
-<br>
-
-### What's next
-
-<br>
-
-- Provide some very well quality-controlled GWAS summary statistics
-
-- In a standardized format
-
-- Probably as a GitHub repo of R scripts that can each process a specific GWAS summary statistics file
 
 ---
 
