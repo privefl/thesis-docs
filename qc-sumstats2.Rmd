@@ -137,7 +137,9 @@ knitr::include_graphics("figures/brca_onco_qc.png")
 
 ### Multi-ancestry INFO scores are overestimated (e.g. in the UK Biobank)
 
-```{r, out.width="70%"}
+<br>
+
+```{r, out.width="65%"}
 knitr::include_graphics("figures/overestim-info.png")
 ```
 
@@ -173,8 +175,6 @@ where $i$ is the variant of interest, and $t$ the variants used for imputing
 
 ### Current project
 
-<br>
-
 - An `r ICON_R_PROJECT` reimplementation of DENTIST
 
 - Improve the methodology,    
@@ -186,8 +186,6 @@ to ideally get more power and less false positive
 <br>
 
 ### Part of a larger project
-
-<br>
 
 - Provide some very well quality-controlled GWAS summary statistics
 
@@ -239,6 +237,8 @@ Using type-1 diabetes (T1D) GWAS summary statistics with
 
 <br>
 
+Results:
+
 - 12,310 "errors" detected with DENTIST
 
 - 4529 "errors" detected with my current methodology
@@ -247,22 +247,40 @@ Using type-1 diabetes (T1D) GWAS summary statistics with
 
 ### Impossible imputation
 
-```{r, out.width="100%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/impossible-imputation4.jpg")
 ```
 
 ---
 
+### First issue: the assumption of the imputation model
+
+<br>
+
+- the model is assuming $Z \sim N(0, R)$, 
+
+- whereas it should be instead $Z \sim N(R \beta, R)$,    
+where $\beta$ are the (scaled) causal effects
+
+- but we do not know the causal effects, and they are assumed to be small
+
+---
+
 ### Difficult imputation
 
-```{r, out.width="100%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/difficult-imputation2.jpg")
 ```
 
 ---
 
-### At least two issues with the imputation model
+### Duplicates with different estimates
 
+<br>
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/example-dups.jpg")
+```
 
 
 ---
@@ -276,6 +294,8 @@ knitr::include_graphics("figures/difficult-imputation2.jpg")
 - This can affect results of sumstats-based methods tremendously
 
 - Quality control of sumstats can be tricky
+
+- And is therefore very difficult to automate
 
 ---
 
