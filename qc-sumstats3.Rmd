@@ -30,8 +30,8 @@ class: title-slide center middle inverse
 
 <br>
 
-## Florian Privé (Aarhus Uni, DK)
-### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+### Florian Privé
+#### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
 
@@ -81,7 +81,7 @@ Compared to $\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}$, where $f_j
 
 ### Additional (complementary) QC &#8212; DENTIST methodology
 
-<br>
+**Very powerful at detecting sign (allelic) errors**
 
 $\chi^2$ test statistic:
 ```{r, out.width="90%"}
@@ -102,6 +102,18 @@ where $i$ is the variant of interest, and $t$ the variants used for imputing
 - Do not use variants $t$ with $R_{it}^2 > 0.95$ to improve computational stability (robustness)
 
 - Do 10 iterations to remove variants (max top 0.5% for first 9 iter)
+
+---
+
+### Regularization of $R_{tt}$ to invert
+
+<br>
+
+- Keep a subset of eigenvectors (thresholding on eigenvalues)
+
+- Add a positive value to the diagonal (to the eigenvalues)
+
+- Both
 
 ---
 
@@ -196,12 +208,21 @@ when using the median of statistics
 
 <br>
 
-Using type-1 diabetes (T1D) GWAS summary statistics from Neff=13.5K,   
-using 16K variants from a long-range LD region with very large effects
+Using type-1 diabetes (T1D) GWAS summary statistics with
+
+- $N_\text{eff}$ = 13.5K
+
+- using 16K variants with very large effects
+
+- from a long-range LD region (HLA on chromosome 6)
+
+- genotypes imputed using the 1000G data (mediocre imputation)
 
 --
 
 <br>
+
+Results:
 
 - 4529 "errors" detected with q25% (4871 iter in 24 min) 
 
@@ -275,25 +296,8 @@ where $s = \{i, t\}$ and $P = R_{ss}^{-1}$
 
 <br>
 
-The last one is interesting to impute all variants in a block at once.
-
----
-
-### Regularization of $R_{tt}$
-
-<br>
-
-- Keep a subset of eigenvectors (thresholding on eigenvalues)
-
-- Add a positive value to the diagonal (to the eigenvalues)
-
-- Both
-
---
-
-<br>
-
-I can use the previous formula to find the regularization that minimizes $|z_t - \tilde{z}_t|$.
+The last one is interesting to impute all variants in a block at once.    
+I can use this e.g. to find the regularization that minimizes $|z_t - \tilde{z}_t|$.
 
 ---
 
@@ -319,7 +323,7 @@ Results:
 
 ---
 
-### First error detected
+### First "error" detected
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/error-t1d.jpg")
@@ -327,7 +331,7 @@ knitr::include_graphics("figures/error-t1d.jpg")
 
 ---
 
-### Second error detected
+### Second "error" detected
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/error-t1d-2.jpg")
@@ -350,12 +354,12 @@ knitr::include_graphics("figures/error-t1d-2.jpg")
 
 ### Any other idea?
 
-<br>
-
 - Use LD friends + their LD friends?
 
-- Test something else? 
+- Test something else?
+
     - E.g. compare likelihoods of models with and without the variant? For all other correlated variants?
+    
     - Maximize likelihood with L1-regularization on difference of Z-scores
 
 ---
@@ -366,7 +370,8 @@ class: inverse, center, middle
 
 <br>
 
-Presentation available at https://privefl.github.io/thesis-docs/qc-sumstats3.html
+Presentation available at    
+https://privefl.github.io/thesis-docs/qc-sumstats3.html
 
 <br>
 
