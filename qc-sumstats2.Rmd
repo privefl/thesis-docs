@@ -274,14 +274,13 @@ knitr::include_graphics("figures/difficult-imputation2.jpg")
 
 ---
 
-### Duplicates with different estimates
+### Second issue: duplicates with different estimates
 
 <br>
 
 ```{r, out.width="90%"}
 knitr::include_graphics("figures/example-dups.jpg")
 ```
-
 
 ---
 
