@@ -39,7 +39,7 @@ class: title-slide center middle inverse
 
 <br>
 
-- An `r ICON_R_PROJECT` reimplementation of DENTIST, a GCTA method for the quality control of GWAS summary statistics
+- An `r ICON_R_PROJECT` reimplementation of [DENTIST](https://doi.org/10.1038/s41467-021-27438-7), a GCTA method for the quality control of GWAS summary statistics
 
 - Verify that the methodology works properly
 
@@ -232,7 +232,7 @@ Results:
 
 ### Impossible imputation
 
-```{r, out.width="100%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/impossible-imputation4.jpg")
 ```
 
@@ -249,11 +249,17 @@ where $\beta$ are the (scaled) causal effects
 
 - but we do not know the causal effects, and they are assumed to be small
 
+--
+
+<br>
+
+I tried to estimate causal effects with both SuSiE and LDpred2-auto.
+
 ---
 
-### Difficult imputation
+### Another impossible imputation
 
-```{r, out.width="100%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/difficult-imputation2.jpg")
 ```
 
@@ -309,7 +315,7 @@ I can use this e.g. to find the regularization that minimizes $|z_t - \tilde{z}_
 
 - Use that regularization to impute all variants $s$
 
-- Scale the resulting $\chi_i^2$ using the expected median and the median of $\chi_s^2$ (from all variants $\{i, t\}$)
+- Scale the resulting $\chi_i^2$ using the expected median and the median of $\chi_s^2$ (from all variants $s=\{i, t\}$)
 
 --
 
@@ -325,7 +331,7 @@ Results:
 
 ### First "error" detected
 
-```{r, out.width="100%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/error-t1d.jpg")
 ```
 
@@ -333,7 +339,7 @@ knitr::include_graphics("figures/error-t1d.jpg")
 
 ### Second "error" detected
 
-```{r, out.width="100%"}
+```{r, out.width="95%"}
 knitr::include_graphics("figures/error-t1d-2.jpg")
 ```
 
@@ -354,13 +360,13 @@ knitr::include_graphics("figures/error-t1d-2.jpg")
 
 ### Any other idea?
 
-- Use LD friends + their LD friends?
-
 - Test something else?
 
-    - E.g. compare likelihoods of models with and without the variant? For all other correlated variants?
+    - E.g. compare likelihoods of models with and without the variant?
     
     - Maximize likelihood with L1-regularization on difference of Z-scores
+
+- Use LD friends + their LD friends?
 
 ---
 
