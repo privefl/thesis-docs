@@ -134,6 +134,22 @@ Compared to `\(\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}\)`, where 
 
 ---
 
+### References
+
+- Privé, F., et al. (2022) "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances* 3.4. 
+
+- Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
+
+- Grotzinger, A.D., et al. (2023) "Pervasive downward bias in estimates of liability-scale heritability in genome-wide association study meta-analysis: a simple solution." *Biological Psychiatry* 93.1.
+
+- Zou, Y., et al. (2022) "Fine-mapping from summary data with the “Sum of Single Effects” model." *PLoS Genetics* 18.7.
+
+- Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.
+
+- Privé, F. (2022) "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *Bioinformatics* 38.13.
+
+---
+
 ### Additional (complementary) QC &amp;#8212; DENTIST methodology
 
 &lt;br&gt;
@@ -202,7 +218,9 @@ Results:
 - 802 true positives (TP, real errors) and 3209 false positives (FP)    
 with DENTIST
 
-- 686 TP and 9 FP    
+--
+
+- vs 686 TP and 9 FP    
 with my alternative methodology
 
 ---
@@ -225,11 +243,27 @@ Using type-1 diabetes (T1D) GWAS summary statistics with
 
 Results:
 
-- 12,310 "errors" detected with DENTIST
+- 4610 variants QCed from comparing standard deviations.
 
-- 41 "errors" detected with my current methodology
+--
+
+- 7557 additional "errors" detected with DENTIST
+
+--
+
+- vs 41 additional "errors" detected with my current methodology
 
 ---
+
+### Benefits of QC 
+
+&lt;br&gt;
+
+**I NEED YOUR HELP**
+
+&lt;br&gt;
+
+I need to find some GWAS summary statistics where I can show this makes a real difference. 
 
 ---
 
@@ -244,22 +278,6 @@ Results:
 - Quality control of sumstats can be tricky
 
 - And is therefore very difficult to automate
-
----
-
-### References
-
-- Privé, F., et al. (2022) "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances* 3.4. 
-
-- Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
-
-- Grotzinger, A.D., et al. (2023) "Pervasive downward bias in estimates of liability-scale heritability in genome-wide association study meta-analysis: a simple solution." *Biological Psychiatry* 93.1.
-
-- Zou, Y., et al. (2022) "Fine-mapping from summary data with the “Sum of Single Effects” model." *PLoS Genetics* 18.7.
-
-- Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.
-
-- Privé, F. (2022) "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *Bioinformatics* 38.13.
 
 ---
 
