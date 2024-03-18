@@ -198,14 +198,15 @@ This method assumes $Z \sim N(0, R)$.
 
 ### Current project
 
-- An `r ICON_R_PROJECT` reimplementation of DENTIST
-
-- Check and improve the methodology,    
+- Check and improve the DENTIST methodology,    
 to ideally get more power and less false positive
+
+- As an `r ICON_R_PROJECT` implementation
 
 
 --
 
+<br>
 <br>
 
 ### Part of a larger project
