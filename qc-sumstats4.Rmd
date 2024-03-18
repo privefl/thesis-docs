@@ -31,7 +31,7 @@ class: title-slide center middle inverse
 <br>
 
 ## Florian Privé 
-### Aarhus Univ, Denmark
+### NCRR, Aarhus Univ
 #### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
@@ -64,7 +64,7 @@ Other information can be available:
 knitr::include_graphics("figures/overview-misspec.jpg")
 ```
 
-.footnote[More details in<br>Privé, F., et al. (2022) "[Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores.](https://doi.org/10.1016/j.xhgg.2022.100136)" *Human Genetics and Genomics Advances* 3.4.]
+.footnote[More details in<br>Privé, F., et al. (2022) ["Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores."](https://doi.org/10.1016/j.xhgg.2022.100136) *Human Genetics and Genomics Advances* 3.4.]
 
 ---
 
@@ -153,7 +153,7 @@ knitr::include_graphics("figures/overestim-info.png")
 knitr::include_graphics("figures/overview-misspec.jpg")
 ```
 
-.footnote[More details in<br>Privé, F., et al. (2022) "[Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores.](https://doi.org/10.1016/j.xhgg.2022.100136)" *Human Genetics and Genomics Advances* 3.4.]
+.footnote[More details in<br>Privé, F., et al. (2022) ["Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores."](https://doi.org/10.1016/j.xhgg.2022.100136) *Human Genetics and Genomics Advances* 3.4.]
 
 ---
 
@@ -161,7 +161,10 @@ knitr::include_graphics("figures/overview-misspec.jpg")
 
 <br>
 
-GCTA method for the quality control of GWAS summary statistics, by comparing Z-scores with imputed Z-scores using nearby variants.
+GCTA method for the quality control of GWAS summary statistics,    
+by comparing Z-scores with imputed Z-scores using nearby variants.
+
+--
 
 <br>
 
@@ -169,7 +172,11 @@ $\chi^2$ test statistic:
 ```{r, out.width="90%"}
 knitr::include_graphics("figures/eq-dentist.jpg")
 ```
-where $i$ is the variant of interest, and $t$ the variants used for imputing
+where $i$ is the variant of interest, and $t$ the variants used for imputing.
+
+<br>
+
+This method assumes $Z \sim N(0, R)$.
 
 ---
 
@@ -177,7 +184,7 @@ where $i$ is the variant of interest, and $t$ the variants used for imputing
 
 - An `r ICON_R_PROJECT` reimplementation of DENTIST
 
-- Improve the methodology,    
+- Check and improve the methodology,    
 to ideally get more power and less false positive
 
 
@@ -204,11 +211,12 @@ Design:
 
 - Use 145K variants on chromosome 22 with MAF > 0.005 and INFO > 0.8
 
-- Simulate some phenotype with heritability of 0.1 and polygenicity of 0.05
+- Simulate some phenotype with heritability of 0.1 and polygenicity of 0.01
 
-- Compute the GWAS summary statistics using N=50K
+- Compute the GWAS summary statistics using N=50K    
+(Z-scores in [-20; 20], mostly in [-10; 10])
 
-- For 5000 variants at random, assign them an opposite effect (allelic error)
+- For 1000 variants at random, assign them an opposite effect (allelic error)
 
 --
 
@@ -216,11 +224,11 @@ Design:
 
 Results:
 
-- 3663 true positives (TP, real errors) and 4651 false positives (FP)    
+- 802 true positives (TP, real errors) and 3209 false positives (FP)    
 with DENTIST
 
-- 3349 TP and 19 FP    
-with my alternative reimplementation
+- 686 TP and 9 FP    
+with my alternative methodology
 
 ---
 
@@ -229,8 +237,11 @@ with my alternative reimplementation
 <br>
 
 Using type-1 diabetes (T1D) GWAS summary statistics with
-- $N_\text{eff}$ = 13.5K,   
-- using 16K variants with very large effects
+
+- $N_\text{eff}$ = 13.5K,
+
+- using 16K variants with very large effects (Z-scores in [-40; 40]) 
+
 - from a long-range LD region (HLA on chromosome 6)
 
 --
@@ -241,46 +252,9 @@ Results:
 
 - 12,310 "errors" detected with DENTIST
 
-- 4529 "errors" detected with my current methodology
+- 41 "errors" detected with my current methodology
 
 ---
-
-### Impossible imputation
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/impossible-imputation4.jpg")
-```
-
----
-
-### First issue: the assumption of the imputation model
-
-<br>
-
-- the model is assuming $Z \sim N(0, R)$, 
-
-- whereas it should be instead $Z \sim N(R \beta, R)$,    
-where $\beta$ are the (scaled) causal effects
-
-- but we do not know the causal effects, and they are assumed to be small
-
----
-
-### Difficult imputation
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/difficult-imputation2.jpg")
-```
-
----
-
-### Second issue: duplicates with different estimates
-
-<br>
-
-```{r, out.width="90%"}
-knitr::include_graphics("figures/example-dups.jpg")
-```
 
 ---
 
