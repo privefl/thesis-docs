@@ -301,7 +301,7 @@ I need to find some GWAS summary statistics where I can show this makes a real d
 
 - This can affect results of sumstats-based methods tremendously
 
-- Quality control of sumstats can be tricky
+- But quality control of sumstats can be tricky
 
 - And is therefore very difficult to automate
 
@@ -309,7 +309,7 @@ I need to find some GWAS summary statistics where I can show this makes a real d
 
 class: inverse, center, middle
 
-# Thanks!
+## Thank you for your attention
 
 <br>
 
