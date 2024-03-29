@@ -31,46 +31,16 @@ class: title-slide center middle inverse
 <br>
 
 ## Florian Privé 
-### NCRR, Aarhus Univ
+### Aarhus Univ, Denmark
 #### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
 
-### Example of GWAS summary statistics
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/GWAS-sumstats.png")
-```
-
---
-
-<br>
-
-Other information can be available:
-
-- (minor) allele frequencies
-
-- imputation INFO scores
-
----
-
-### Overview of possible misspecifications<br>when using GWAS summary statistics
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/overview-misspec.jpg")
-```
-
-.footnote[More details in<br>Privé, F., et al. (2022) ["Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores."](https://doi.org/10.1016/j.xhgg.2022.100136) *Human Genetics and Genomics Advances* 3.4.]
-
----
-
-### Some quality control I recommend
+### The quality control I already recommend
 
 **Compare standard deviations** of genotypes estimated in 2 ways:
+
+***
  
 \begin{equation}
 \text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
@@ -88,7 +58,7 @@ Compared to $\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}$, where $f_j
 
 ---
 
-### Detect smaller N / INFO
+### Detect differences in per-variant N
 
 ```{r, out.width="72%"}
 knitr::include_graphics("figures/simu-qc-plot.jpg")
@@ -107,7 +77,7 @@ knitr::include_graphics("figures/simu-qc-plot.jpg")
 }
 ```
 
-### Detect smaller effective N from meta-analysis 
+### Detect overestimated effective N from meta-analysis of binary traits
 
 .pull_left[
 ```{r, out.width="100%"}
@@ -125,49 +95,31 @@ knitr::include_graphics("figures/cad_neff_perstudy.png")
 
 ---
 
-### Detect other issues
+### Detect lower imputation INFO scores
 
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/brca_onco_qc.png")
+```{r, out.width="72%"}
+knitr::include_graphics("figures/qc-info.png")
 ```
 
 ---
 
 ### Multi-ancestry INFO scores are overestimated (e.g. in the UK Biobank)
 
-<br>
-
-```{r, out.width="65%"}
+```{r, out.width="72%"}
 knitr::include_graphics("figures/overestim-info.png")
 ```
 
 ---
 
-### Overview of possible misspecifications<br>when using GWAS summary statistics
+### Read more about this
 
 <br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/overview-misspec.jpg")
-```
-
-.footnote[More details in<br>Privé, F., et al. (2022) ["Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores."](https://doi.org/10.1016/j.xhgg.2022.100136) *Human Genetics and Genomics Advances* 3.4.]
-
----
-
-### References
 
 - Privé, F., et al. (2022) "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances* 3.4. 
 
 - Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
 
 - Grotzinger, A.D., et al. (2023) "Pervasive downward bias in estimates of liability-scale heritability in genome-wide association study meta-analysis: a simple solution." *Biological Psychiatry* 93.1.
-
-- Zou, Y., et al. (2022) "Fine-mapping from summary data with the “Sum of Single Effects” model." *PLoS Genetics* 18.7.
-
-- Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.
 
 - Privé, F. (2022) "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *Bioinformatics* 38.13.
 
@@ -180,6 +132,10 @@ knitr::include_graphics("figures/overview-misspec.jpg")
 GCTA method for the quality control of GWAS summary statistics,    
 by comparing Z-scores with imputed Z-scores using nearby variants.
 
+It is particularly good at identifying allelic errors (opposite effect).
+
+.footnote[DENTIST citation: Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.]
+
 --
 
 <br>
@@ -189,34 +145,6 @@ $\chi^2$ test statistic:
 knitr::include_graphics("figures/eq-dentist.jpg")
 ```
 where $i$ is the variant of interest, and $t$ the variants used for imputing.
-
-<br>
-
-This method assumes $Z \sim N(0, R)$.
-
----
-
-### Current project
-
-- Check and improve the DENTIST methodology,    
-to ideally get more power and less false positive
-
-- As an `r ICON_R_PROJECT` implementation
-
-
---
-
-<br>
-<br>
-
-### Part of a larger project
-
-- Provide some very well quality-controlled GWAS summary statistics
-
-- In a standardized format
-
-- Probably as a GitHub repo of R scripts,    
-where each script processes a specific GWAS summary statistics file
 
 ---
 
@@ -251,36 +179,6 @@ with my alternative methodology
 
 ---
 
-### Real data analysis
-
-<br>
-
-Using type-1 diabetes (T1D) GWAS summary statistics with
-
-- $N_\text{eff}$ = 13.5K,
-
-- using 16K variants with very large effects (Z-scores in [-40; 40]) 
-
-- from a long-range LD region (HLA on chromosome 6)
-
---
-
-<br>
-
-Results:
-
-- 4610 variants QCed from comparing standard deviations.
-
---
-
-- 7557 additional "errors" detected with DENTIST
-
---
-
-- vs 41 additional "errors" detected with my current methodology
-
----
-
 ### Benefits of QC 
 
 <br>
@@ -290,6 +188,30 @@ Results:
 <br>
 
 I need to find some GWAS summary statistics where I can show this makes a real difference. 
+
+---
+
+### Current project
+
+- Check and improve the DENTIST methodology,    
+to ideally get more power and less false positive
+
+- As an `r ICON_R_PROJECT` implementation
+
+
+--
+
+<br>
+<br>
+
+### Part of a larger project
+
+- Provide some very well quality-controlled GWAS summary statistics
+
+- In a standardized format
+
+- Probably as a GitHub repo of R scripts,    
+where each script processes a specific GWAS summary statistics file
 
 ---
 
