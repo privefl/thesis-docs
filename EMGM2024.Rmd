@@ -179,7 +179,7 @@ with my alternative methodology
 
 ---
 
-### Benefits of QC 
+### Benefits of this QC 
 
 <br>
 
@@ -199,8 +199,6 @@ to ideally get more power and less false positive
 - As an `r ICON_R_PROJECT` implementation
 
 
---
-
 <br>
 <br>
 
@@ -215,17 +213,27 @@ where each script processes a specific GWAS summary statistics file
 
 ---
 
-### Discussion
+### Take-home messages
 
 <br>
 
-- GWAS summary statistics can be messy
+- There are issues in many GWAS summary statistics
 
-- This can affect results of sumstats-based methods tremendously
+--
 
-- But quality control of sumstats can be tricky
+- You can detect many of them by comparing SDs estimated in two ways
 
-- And is therefore very difficult to automate
+--
+
+- You can detect other issues (complementary) with DENTIST
+
+--
+
+- DENTIST is currently prone to false positives; it needs to be improved
+
+--
+
+- I hope to provide QCed GWAS summary statistics for all
 
 ---
 
