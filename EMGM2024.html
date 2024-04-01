@@ -29,25 +29,41 @@ class: title-slide center middle inverse
 
 ---
 
-### The quality control I already recommend
+### GWAS summary statistics
+
+&lt;br&gt;
+
+- `\(\hat{\gamma}_j\)` &amp;mdash; the GWAS effect size of variant `\(j\)` (marginal effect), 
+
+- `\(\text{se}(\hat{\gamma}_j)\)` &amp;mdash; its standard error,
+
+- `\(z_j = \frac{\hat{\gamma}_j}{\text{se}(\hat{\gamma}_j)}\)` &amp;mdash; the Z-score of variant `\(j\)`,
+
+- `\(n_j\)` &amp;mdash; the GWAS sample size associated with variant `\(j\)`, 
+
+- `\(f_j\)` &amp;mdash; the allele frequency of variant `\(j\)`,
+
+- `\(\text{INFO}_j\)` &amp;mdash; the imputation INFO score of variant `\(j\)`
+
+---
+
+### The first quality control I already recommend
 
 **Compare standard deviations** of genotypes estimated in 2 ways:
 
-***
- 
-\begin{equation}
-\text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~,
-\end{equation}
-where `\(\hat{\gamma}_j\)` is the marginal GWAS effect size of variant `\(j\)`, `\(n_j\)` is the GWAS sample size associated with variant `\(j\)`, `\(y\)` is the vector of phenotypes.
+&lt;br&gt;
 
-For a binary trait for which logistic regression is used, we have instead
-\begin{equation}\label{eq:approx-sd-log}
-\text{sd}(G_j) \approx \dfrac{2}{\sqrt{n_j^\text{eff} ~ \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}} ~.
-\end{equation}
+1.  - When linear regression was used 
+    \begin{equation}
+    \text{sd}(G_j) \approx \dfrac{\text{sd}(y)}{\sqrt{n_j \cdot \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}}
+    \end{equation}
 
-***
-
-Compared to `\(\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}\)`, where `\(f_j\)` is the allele frequency of variant `\(j\)` and `\(\text{INFO}_j\)` is used to correct for the reduced variance of imputed dosages.
+    - When logistic regression was used (case-control phenotype)
+    \begin{equation}\label{eq:approx-sd-log}
+    \text{sd}(G_j) \approx \dfrac{2}{\sqrt{n_j^\text{eff} \cdot \text{se}(\hat{\gamma}_j)^2 + \hat{\gamma}_j^2}}
+    \end{equation}
+&lt;br&gt;
+2. \begin{equation}\text{sd}(G_j) \approx \sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}\end{equation}
 
 ---
 
@@ -100,9 +116,9 @@ Compared to `\(\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}\)`, where 
 
 - Privé, F., et al. (2022) "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances* 3.4. 
 
-- Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
-
 - Grotzinger, A.D., et al. (2023) "Pervasive downward bias in estimates of liability-scale heritability in genome-wide association study meta-analysis: a simple solution." *Biological Psychiatry* 93.1.
+
+- Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
 
 - Privé, F. (2022) "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *Bioinformatics* 38.13.
 
@@ -112,10 +128,9 @@ Compared to `\(\sqrt{2 \cdot f_j \cdot (1 - f_j) \cdot \text{INFO}_j}\)`, where 
 
 &lt;br&gt;
 
-GCTA method for the quality control of GWAS summary statistics,    
-by comparing Z-scores with imputed Z-scores using nearby variants.
+GCTA method which compares reported Z-scores with imputed Z-scores.
 
-It is particularly good at identifying allelic errors (opposite effect).
+It is particularly good at detecting allelic errors (opposite effect).
 
 .footnote[DENTIST citation: Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.]
 
@@ -123,8 +138,9 @@ It is particularly good at identifying allelic errors (opposite effect).
 
 &lt;br&gt;
 
-`\(\chi^2\)` test statistic:
+`\(\chi^2(1)\)` test statistic:
 &lt;img src="figures/eq-dentist.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
 where `\(i\)` is the variant of interest, and `\(t\)` the variants used for imputing.
 
 ---
@@ -214,7 +230,7 @@ where each script processes a specific GWAS summary statistics file
 
 --
 
-- I hope to provide QCed GWAS summary statistics for all
+- I hope to provide QCed GWAS summary statistics for everyone to use
 
 ---
 
