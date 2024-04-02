@@ -74,7 +74,7 @@ class: title-slide center middle inverse
 
 ---
 
-### Detect differences in per-variant N
+### Detect differences in per-variant GWAS sample sizes
 
 ```{r, out.width="72%"}
 knitr::include_graphics("figures/simu-qc-plot.jpg")
@@ -93,7 +93,7 @@ knitr::include_graphics("figures/simu-qc-plot.jpg")
 }
 ```
 
-### Detect overestimated effective N from meta-analysis of binary traits
+### Detect bias in total effective GWAS sample size
 
 .pull_left[
 ```{r, out.width="100%"}
@@ -111,18 +111,10 @@ knitr::include_graphics("figures/cad_neff_perstudy.png")
 
 ---
 
-### Detect lower imputation INFO scores
+### Detect low imputation INFO scores
 
 ```{r, out.width="72%"}
 knitr::include_graphics("figures/qc-info.png")
-```
-
----
-
-### Multi-ancestry INFO scores are overestimated (e.g. in the UK Biobank)
-
-```{r, out.width="72%"}
-knitr::include_graphics("figures/overestim-info.png")
 ```
 
 ---
@@ -195,18 +187,6 @@ with my alternative methodology
 
 ---
 
-### Benefits of this QC 
-
-<br>
-
-**I NEED YOUR HELP**
-
-<br>
-
-I need to find some GWAS summary statistics where I can show this makes a real difference. 
-
----
-
 ### Current project
 
 - Check and improve the DENTIST methodology,    
@@ -214,8 +194,12 @@ to ideally get more power and less false positive
 
 - As an `r ICON_R_PROJECT` implementation
 
+- [I NEED YOUR HELP]    
+Do you have/know GWAS summary statistics with allelic errors?
 
-<br>
+
+--
+
 <br>
 
 ### Part of a larger project
@@ -233,7 +217,7 @@ where each script processes a specific GWAS summary statistics file
 
 <br>
 
-- There are issues in many GWAS summary statistics
+- There can be many issues in GWAS summary statistics
 
 --
 
@@ -241,7 +225,7 @@ where each script processes a specific GWAS summary statistics file
 
 --
 
-- You can detect other issues (complementary) with DENTIST
+- You can detect other (complementary) issues with DENTIST
 
 --
 
