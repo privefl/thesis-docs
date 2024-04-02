@@ -139,12 +139,6 @@ knitr::include_graphics("figures/qc-info.png")
 
 GCTA method which compares reported Z-scores with imputed Z-scores.
 
-It is particularly good at detecting allelic errors (opposite effect).
-
-.footnote[DENTIST citation: Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.]
-
---
-
 <br>
 
 $\chi^2(1)$ test statistic:
@@ -153,6 +147,16 @@ knitr::include_graphics("figures/eq-dentist.jpg")
 ```
 
 where $i$ is the variant of interest, and $t$ the variants used for imputing.
+
+<br>
+
+It is particularly good at detecting allelic errors (opposite effect).
+
+.footnote[DENTIST citation: Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.]
+
+--
+
+<br>
 
 ---
 
