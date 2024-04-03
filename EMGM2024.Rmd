@@ -119,6 +119,14 @@ knitr::include_graphics("figures/qc-info.png")
 
 ---
 
+### Uncover an issue after correcting for INFO
+
+```{r, out.width="72%"}
+knitr::include_graphics("figures/brca_onco_qc2.png")
+```
+
+---
+
 ### Read more about this
 
 <br>
@@ -154,13 +162,9 @@ It is particularly good at detecting allelic errors (opposite effect).
 
 .footnote[DENTIST citation: Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.]
 
---
-
-<br>
-
 ---
 
-### Quick simulation results
+### Quick simulation to check DENTIST
 
 <br>
 
