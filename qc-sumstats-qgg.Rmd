@@ -1,5 +1,5 @@
 ---
-title: "EMGM2024"
+title: "QGG_29_May_2024"
 output:
   xaringan::moon_reader:
     seal: false
