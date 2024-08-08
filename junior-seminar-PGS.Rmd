@@ -22,13 +22,35 @@ class: title-slide center middle inverse
 <br>
 
 # Lecture on Polygenic Scores 
+
+<br>
+
 ## NCRR Junior Seminars
 
 <br>
 
-### Florian Privé
+### Florian Privé 
+`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 <br>
+
+---
+
+class: center middle inverse
+
+# Introduction
+
+---
+
+### Disease architecture
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/disease-archi.png")
+```
+
+- many genetic variants contribute to the risk of getting a common disease
+- $\Longrightarrow$ build a predictive score that combines many genetic variants
+- $\rightarrow$ a polygenic (risk) score (PGS / PRS)
 
 ---
 
@@ -68,17 +90,23 @@ Data I typically work with:
 
 --
 
+***
+
 <br>
 
-You can then **use any predictive model** that is scalable to the size of the data, e.g. in `r ICON_R_PROJECT` package {bigstatsr}, there is a very fast implementation of penalized regression with automatic choice of hyper-parameters [[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)]
+- you can then **use any predictive model** (Machine Learning)
+
+- but it must be scalable to the size of the data
+
+- e.g. in `r ICON_R_PROJECT` package {bigstatsr}, there is a very efficient implementation    
+of penalized regression, with automatic choice of hyper-parameters    
+[bit.ly/plr-bigstatsr](https://bit.ly/plr-bigstatsr)
 
 ---
 
 ### Penalized regression for predicting height from genotypes
 
-<br>
-
-```{r, out.width="75%"}
+```{r, out.width="80%"}
 knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
 ```
 
@@ -96,15 +124,17 @@ class: center, middle, inverse
 
 ---
 
-## Standard PRS - part 1: estimating effects
+### Standard PRS - part 1: estimating effects
 
-### Genome-wide association studies (GWAS)
+#### Genome-wide association studies (GWAS)
 
 In a GWAS, each genetic variant is tested **independently**, resulting in one **effect size** $\hat\beta$ and one **p-value** $p$ for each variant. 
 
-```{r, out.width="95%"}
+```{r, out.width="100%"}
 knitr::include_graphics("figures/gwas-height-20K.png")
 ```
+
+<br>
 
 Easy combining: $PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}$
 
@@ -120,9 +150,9 @@ knitr::include_graphics("figures/fig-LD.png")
 
 ---
 
-## Standard PRS - part 2: restricting predictors
+### Standard PRS - part 2: restricting predictors
 
-### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (C+T, or P+T) $\Longrightarrow$ heuristics
+#### <span style="color:#38761D">Clumping</span> + <span style="color:#1515FF">Thresholding</span> (C+T, or P+T) $\Longrightarrow$ heuristics
 
 <br>
 
@@ -242,7 +272,7 @@ class: center, middle, inverse
 
 ---
 
-## Take-home messages
+### Take-home messages
 
 <br>
 
@@ -261,15 +291,9 @@ This could be achieved by recruiting more people from non-European ancestries, a
 
 class: inverse, center, middle
 
-# Thanks!
-
-<br>
-
 <br>
 
 Presentation available at [bit.ly/ncrr-pgs](https://bit.ly/ncrr-pgs)
-
-Extended version at [bit.ly/lecturePGS](https://bit.ly/lecturePGS)
 
 <br>
 

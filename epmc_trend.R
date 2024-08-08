@@ -3,7 +3,7 @@ library(cowplot)
 library(tidyverse)
 
 ot_trend <- europepmc::epmc_hits_trend(query = "polygenic scores", 
-                                       period = 2000:2022)
+                                       period = 2000:2023)
 # Standard plot
 
 ot_trend %>% 
