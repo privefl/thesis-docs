@@ -279,11 +279,19 @@ class: center, middle, inverse
 
 - We can predict traits and diseases from genetic data (up to the heritability)
 
+--
+
 - One can use supervised learning methods when individual-level data is available (but, beware scalability)
+
+--
 
 - Many methods using summary statistics only have been developed (because we can easily obtain larger sample sizes through meta-analysis)
 
+--
+
 - For some traits, we have large sample sizes (e.g. 5M for height), but we still need larger sample sizes for most complex traits and diseases
+
+--
 
 - We still need to address the concern of providing PGS that work well in ALL ancestries    
 This could be achieved by recruiting more people from non-European ancestries, and developing new methods for multi-ancestry training
