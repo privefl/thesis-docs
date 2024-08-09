@@ -174,21 +174,24 @@ Easy combining: `\(PRS_i = \sum_j \hat\beta_j \cdot G_{i,j}\)`
 
 --
 
-- approximating a penalized regression (lassosum, lassosum2) using summary statistics only, i.e.
+- to more optimally use summary statistics only, i.e.
 
-    - marginal GWAS summary statistics `\(\hat{\beta}\)`
-    - reference for correlation structure between variants `\(R\)`    
-    `\(\Longrightarrow \hat{\beta} = R \beta\)`, we need to estimate `\(\beta\)`
+    - marginal GWAS summary statistics `\(\hat{\beta}\)`,
     
---
+    - reference for correlation structure between variants `\(R\)`,    
+    
+    we can solve `\(\hat{\beta} = R \beta\)`, i.e. estimate causal effects `\(\beta\)` while
+    
+      - approximating a penalized regression (lassosum, lassosum2)
+        
+      - using Bayesian methods (LDpred2, PRS-CS, SBayesR, ...),    
+      which can infer model parameters `\(\Rightarrow\)` no tuning set required
 
-- using Bayesian methods (LDpred2, PRS-CS, SBayesR, ...), which can infer model parameters and does not require any tuning set for hyper-parameters
+&lt;!-- -- --&gt;
 
---
+&lt;!-- &lt;br&gt; --&gt;
 
-&lt;br&gt;
-
-`\(\Longrightarrow\)` the more advanced methods often scale quadratically with the number of variants, and restrict to a predefined set of 1M genetic variants (called HapMap3)
+&lt;!-- `\(\Longrightarrow\)` the more advanced methods often scale quadratically with the number of variants, and restrict to a predefined set of 1M genetic variants (called HapMap3) --&gt;
 
 ---
 
@@ -232,9 +235,7 @@ class: center, middle, inverse
 
 ### Predictive performance drops with genetic distance to training
 
-&lt;br&gt;
-
-&lt;img src="https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/ratio-dist-2.png?raw=true" width="82%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/ratio-dist-2.png" width="88%" style="display: block; margin: auto;" /&gt;
 
 &lt;!-- &lt;span class="footnote"&gt;Recall: `\(\text{dist}_{PC}^2 \propto F_{ST}\)`&lt;/span&gt; --&gt;
 

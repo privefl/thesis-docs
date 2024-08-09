@@ -198,21 +198,24 @@ knitr::include_graphics("figures/PRS-sumstats.png")
 
 --
 
-- approximating a penalized regression (lassosum, lassosum2) using summary statistics only, i.e.
+- to more optimally use summary statistics only, i.e.
 
-    - marginal GWAS summary statistics $\hat{\beta}$
-    - reference for correlation structure between variants $R$    
-    $\Longrightarrow \hat{\beta} = R \beta$, we need to estimate $\beta$
+    - marginal GWAS summary statistics $\hat{\beta}$,
     
---
+    - reference for correlation structure between variants $R$,    
+    
+    we can solve $\hat{\beta} = R \beta$, i.e. estimate causal effects $\beta$ while
+    
+      - approximating a penalized regression (lassosum, lassosum2)
+        
+      - using Bayesian methods (LDpred2, PRS-CS, SBayesR, ...),    
+      which can infer model parameters $\Rightarrow$ no tuning set required
 
-- using Bayesian methods (LDpred2, PRS-CS, SBayesR, ...), which can infer model parameters and does not require any tuning set for hyper-parameters
+<!-- -- -->
 
---
+<!-- <br> -->
 
-<br>
-
-$\Longrightarrow$ the more advanced methods often scale quadratically with the number of variants, and restrict to a predefined set of 1M genetic variants (called HapMap3)
+<!-- $\Longrightarrow$ the more advanced methods often scale quadratically with the number of variants, and restrict to a predefined set of 1M genetic variants (called HapMap3) -->
 
 ---
 
@@ -256,10 +259,8 @@ class: center, middle, inverse
 
 ### Predictive performance drops with genetic distance to training
 
-<br>
-
-```{r, out.width="82%"}
-knitr::include_graphics("https://github.com/privefl/UKBB-PGS/blob/main/docs/figures/ratio-dist-2.png?raw=true")
+```{r, out.width="88%"}
+knitr::include_graphics("figures/ratio-dist-2.png")
 ```
 
 <!-- <span class="footnote">Recall: $\text{dist}_{PC}^2 \propto F_{ST}$</span> -->
