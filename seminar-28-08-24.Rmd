@@ -1,0 +1,127 @@
+---
+title: "24_Aug_2024"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL  <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO      <- icons::fontawesome$solid$`info-circle`
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Genetic Ancestry Deconvolution
+
+<br>
+
+<br>
+
+## Florian Privé 
+### NCRR, Aarhus Univ.
+#### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+---
+
+class: inverse, center, middle
+
+# Principal Component Analysis
+
+---
+
+### Best practices for PCA of genetic data
+
+---
+
+class: inverse, center, middle
+
+# Genetic Ancestry Deconvolution
+
+## (with reference populations)
+
+---
+
+class: inverse, center, middle
+
+# Genetic Ancestry Deconvolution
+
+## (without reference populations)
+
+---
+
+### Study population: the Simons Genome Diversity Project
+
+345 individuals from 142 worldwide populations
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/sgdp_pca.png")
+```
+
+---
+
+### Fuzzy k-medoids clustering
+
+(Alternate estimation) membership degree: QP // medoids: weighted median
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_FKMmed.png")
+```
+
+---
+
+### My new prototype method
+
+Aim for corners instead of medoids
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo.png")
+```
+
+---
+
+### Corresponding ancestry coefficients
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/prop_myalgo.png")
+```
+
+---
+
+### Admixture-like from R package LEA
+
+(directly on genotype data, not PCs)
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_admixture.png")
+```
+
+---
+
+class: inverse, center, middle
+
+## Thank you for your attention
+
+<br>
+
+Presentation available at [bit.ly/qc_sumstats_qgg](https://bit.ly/qc_sumstats_qgg)
+
+<br>
+
+`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
