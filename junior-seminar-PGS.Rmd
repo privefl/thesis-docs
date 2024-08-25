@@ -65,6 +65,7 @@ knitr::include_graphics("figures/PRS-trend22.png")
 class: center, middle, inverse
 
 # How to predict from genetic data?
+# = How to train polygenic scores?
 
 <br>
 
@@ -117,6 +118,7 @@ Within both males and females, we achieve 65.5% of correlation between predicted
 class: center, middle, inverse
 
 # How to predict from genetic data?
+# = How to train polygenic scores?
 
 <br>
 
@@ -231,19 +233,18 @@ class: center, middle, inverse
 
 <br>
 
-- Predictive power $r^2$ is bounded by the (SNP) heritability $h^2$ captured by the set of variants used.
+- PGS predictive performance $r^2$ is bounded by the (SNP) heritability $h^2$ captured by the set of variants used (with [a few exceptions](https://doi.org/10.1016/j.ajhg.2023.06.006))
 
 - $r^2$ increases with sample size $N$ (of course)
 
-- $r^2$ decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate.    
-Let's denote $M_c$ the number of causal variants.
+- $r^2$ decreases with polygenicity (proportion of causal variants), because there are more small effects, harder to detect and estimate
 
 ***
 
 <br>
 
-$$r^2_\text{max} = \dfrac{h^2}{1 + (1 - r^2_\text{max}) \dfrac{M_c}{N h^2}}$$
-
+$$r^2_\text{max} = \dfrac{h^2}{1 + (1 - r^2_\text{max}) \dfrac{M_c}{N h^2}} ~,$$
+where $M_c$ is the number of causal variants.
 
 .footnote[Source: 10.1371/journal.pone.0003395]
 
@@ -277,7 +278,8 @@ class: center, middle, inverse
 
 <br>
 
-- We can predict traits and diseases from genetic data (up to the heritability)
+- We can predict traits and diseases from genetic data    
+(up to the heritability)
 
 --
 
@@ -300,9 +302,13 @@ This could be achieved by recruiting more people from non-European ancestries, a
 
 class: inverse, center, middle
 
+
+## Thank you for your attention
+
+<br>
 <br>
 
-Presentation available at [bit.ly/ncrr-pgs](https://bit.ly/ncrr-pgs)
+#### Presentation available at [bit.ly/ncrr-pgs](https://bit.ly/ncrr-pgs)
 
 <br>
 
