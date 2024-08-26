@@ -31,11 +31,47 @@ class: title-slide center middle inverse
 
 class: inverse, center, middle
 
-# Principal Component Analysis
+# Principal Component Analysis (PCA)
 
 ---
 
-### Best practices for PCA of genetic data
+### PCA of genetic data captures population structure
+
+&lt;br&gt;
+
+&lt;img src="figures/PCA-UKBB-Bycroft.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;br&gt;
+
+&lt;img src="figures/paper4-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+--
+
+- Outlier sample detection &amp; relatedness filtering
+
+- Imbalance from ancestry groups
+
+- Projection of individuals onto the PCA space
+
+- Automatic detection and removal of LD
+
+--
+
+&lt;br&gt;
+
+I provide fast &amp; efficient methods to solve all these problems,    
+especially `bigsnpr::bed_autoSVD()` &amp; `bigsnpr::snp_autoSVD()`
+
+
+---
+
+### PC19 to PC40 in UKBB only capture LD!
+
+&lt;img src="figures/loadings-ukbb.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -44,6 +80,79 @@ class: inverse, center, middle
 # Genetic Ancestry Deconvolution
 
 ## (with reference populations)
+
+---
+
+### Summix: ancestry estimation from GWAS allele frequencies (AF)
+
+Source: 10.1016/j.ajhg.2021.05.016
+
+&lt;br&gt;
+
+Estimate ancestry proportions `\(\alpha\)` such that
+
+&lt;style type="text/css"&gt;
+.small2 {
+  font-size: 17px;
+}
+&lt;/style&gt;
+
+&lt;span class="small2"&gt; `$$AF_\text{GWAS} = \alpha_\text{AFR} AF_\text{AFR} + \alpha_\text{EAS} AF_\text{EAS} + \alpha_\text{EUR} AF_\text{EUR} + \alpha_\text{SAS} AF_\text{SAS} + \alpha_\text{IAM} AF_\text{IAM} + \epsilon ~,$$` &lt;/span&gt;
+
+where all `\(\alpha\)` are positive and sum to 1.
+
+---
+
+&lt;img src="figures/paper9-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;br&gt;
+
+- Curate the UK Biobank to define 18 worldwide reference groups
+
+- Use PCA to maximize power to distinguish between these populations:
+
+    &lt;span class="small2"&gt; `$$\sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$` &lt;/span&gt;
+    
+    is replaced by
+    
+    &lt;span class="small2"&gt; `$$\sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$` &lt;/span&gt;
+    
+---
+
+&lt;img src="figures/ancestry-bigsnpr.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;br&gt;
+
+&lt;img src="figures/ancestry-summix.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Admixture coefficients for individual-level data
+
+&lt;br&gt;
+
+**My developed method also works for individual-level data!**
+
+This is similar to the projection analysis from ADMIXTURE,    
+but should have more power..
+
+--
+
+&lt;br&gt;
+
+Application to iPSYCH: can identify some non-European individuals:
+
+- Middle East! 2600
+- East Africa: 450
+- North Africa: 330
+- South Asia: 840
+- East Asia: 280
+
+
 
 ---
 
@@ -101,7 +210,7 @@ class: inverse, center, middle
 
 &lt;br&gt;
 
-Presentation available at [bit.ly/qc_sumstats_qgg](https://bit.ly/qc_sumstats_qgg)
+Presentation available at [bit.ly/privefl280824](https://bit.ly/privefl280824)
 
 &lt;br&gt;
 
