@@ -111,7 +111,7 @@ of penalized regression, with automatic choice of hyper-parameters
 knitr::include_graphics("https://privefl.github.io/blog/images/UKB-final-pred.png")
 ```
 
-Within both males and females, we achieve 65.5% of correlation between predicted and true height
+Within both males and females, we achieve $r^2 = 0.429$ between genetically predicted and true height (most individual predictions within 10 cm)
 
 ---
 
