@@ -237,10 +237,9 @@ class: inverse, center, middle
 
 <br>
 
-Presentation available at [bit.ly/privefl280824](https://bit.ly/privefl280824)
+#### Presentation available at [bit.ly/privefl280824](https://bit.ly/privefl280824)
 
+<br>
 <br>
 
 `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
-
-.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
