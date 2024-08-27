@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>24_Aug_2024</title>
+    <title>28_Aug_2024</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -113,11 +113,11 @@ where all `\(\alpha\)` are positive and sum to 1.
 
 - Use PCA to maximize power to distinguish between these populations:
 
-    &lt;span class="small2"&gt; `$$\sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$` &lt;/span&gt;
+    &lt;span class="small2"&gt; `$$\min_\alpha \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$` &lt;/span&gt;
     
     is replaced by
     
-    &lt;span class="small2"&gt; `$$\sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$` &lt;/span&gt;
+    &lt;span class="small2"&gt; `$$\min_\alpha \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$` &lt;/span&gt;
     
 ---
 
@@ -146,13 +146,11 @@ but should have more power..
 
 Application to iPSYCH: can identify some non-European individuals:
 
-- Middle East! 2600
+- Middle East: 2600
 - East Africa: 450
 - North Africa: 330
 - South Asia: 840
 - East Asia: 280
-
-
 
 ---
 
@@ -196,7 +194,7 @@ Aim for corners instead of medoids
 
 ---
 
-### Admixture-like from R package LEA
+### ADMIXTURE-like analysis from R package LEA
 
 (directly on genotype data, not PCs)
 

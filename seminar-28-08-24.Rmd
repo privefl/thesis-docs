@@ -1,5 +1,5 @@
 ---
-title: "24_Aug_2024"
+title: "28_Aug_2024"
 output:
   xaringan::moon_reader:
     seal: false
@@ -128,11 +128,11 @@ knitr::include_graphics("figures/paper9-2.png")
 
 - Use PCA to maximize power to distinguish between these populations:
 
-    <span class="small2"> $$\sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
+    <span class="small2"> $$\min_\alpha \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
     
     is replaced by
     
-    <span class="small2"> $$\sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$ </span>
+    <span class="small2"> $$\min_\alpha \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$ </span>
     
 ---
 
@@ -165,13 +165,11 @@ but should have more power..
 
 Application to iPSYCH: can identify some non-European individuals:
 
-- Middle East! 2600
+- Middle East: 2600
 - East Africa: 450
 - North Africa: 330
 - South Asia: 840
 - East Asia: 280
-
-
 
 ---
 
@@ -223,7 +221,7 @@ knitr::include_graphics("figures/prop_myalgo.png")
 
 ---
 
-### Admixture-like from R package LEA
+### ADMIXTURE-like analysis from R package LEA
 
 (directly on genotype data, not PCs)
 
