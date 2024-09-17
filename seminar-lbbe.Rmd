@@ -35,7 +35,7 @@ class: title-slide center middle inverse
 <br>
 
 ## Florian Privé 
-### Aarhus Univ. (DK)
+### Aarhus University (DK)
 #### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
@@ -158,8 +158,6 @@ class: inverse, center, middle
 
 ---
 
-<br>
-
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/paper4-2.png")
 ```
@@ -170,18 +168,18 @@ knitr::include_graphics("figures/paper4-2.png")
 
 - Outlier sample detection & relatedness filtering
 
-- Imbalance from ancestry groups
+- Imbalance of ancestry groups
 
 - Projection of individuals onto the PCA space
 
-- Automatic detection and removal of LD (variable correlation)
+- Automatic detection and removal of LD    
+(LD: Linkage Disequilibrium $\rightarrow$ correlation between genetic variants)
 
 --
 
 <br>
 
-I provide fast & efficient methods to solve all these problems,    
-especially `bigsnpr::bed_autoSVD()` & `bigsnpr::snp_autoSVD()`
+I provide fast & efficient methods to solve these problems.
 
 
 ---
@@ -203,10 +201,26 @@ knitr::include_graphics("figures/PCA-outliers.jpeg")
 
 ---
 
-### PC19 to PC40 in UKBB only capture LD!
+### PCA projection
+
+#### Beware of shrinkage when n < p
+
+$X = U \Delta V^T$ (PC scores: $U \Delta$; PC loadings: $V$; simple projection (red): $X_\text{new} V$)
+
+<br>
 
 ```{r, out.width="100%"}
-knitr::include_graphics("figures/loadings-ukbb.jpeg")
+knitr::include_graphics("figures/pca-proj.jpeg")
+```
+
+---
+
+### Check whether PCA captures LD (instead of population structure)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/loadings.png")
 ```
 
 ---
@@ -233,9 +247,17 @@ Estimate ancestry proportions $\alpha$ such that
 }
 ```
 
-<span class="small2"> $$AF_\text{GWAS} = \alpha_\text{AFR} AF_\text{AFR} + \alpha_\text{EAS} AF_\text{EAS} + \alpha_\text{EUR} AF_\text{EUR} + \alpha_\text{SAS} AF_\text{SAS} + \alpha_\text{IAM} AF_\text{IAM} + \epsilon ~,$$ </span>
+<span class="small2"> $$AF = \alpha_\text{AFR} AF_\text{AFR} + \alpha_\text{EAS} AF_\text{EAS} + \alpha_\text{EUR} AF_\text{EUR} + \alpha_\text{SAS} AF_\text{SAS} + \alpha_\text{IAM} AF_\text{IAM} + \epsilon ~,$$ </span>
 
 where all $\alpha$ are positive and sum to 1.
+
+--
+
+<br>
+
+More general formulation:
+
+<span class="small2"> $$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
 
 ---
 
@@ -251,11 +273,11 @@ knitr::include_graphics("figures/paper9-2.png")
 
 - Use PCA to maximize power to distinguish between these populations:
 
-    <span class="small2"> $$\min_\alpha \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
+    <span class="small2"> $$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
     
     is replaced by
     
-    <span class="small2"> $$\min_\alpha \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$ </span>
+    <span class="small2"> $$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$ </span>
     
 ---
 
@@ -286,7 +308,9 @@ but should have more power..
 
 <br>
 
-Application to iPSYCH: can identify some non-European individuals:
+Application to iPSYCH (genetic study in Denmark):
+
+Out of 134K individuals, can identify many non-European individuals:
 
 - Middle East: 2600
 - East Africa: 450
@@ -360,7 +384,7 @@ class: inverse, center, middle
 
 <br>
 
-#### Presentation available at [bit.ly/privefl280824](https://bit.ly/privefl280824)
+#### Presentation available at [bit.ly/privefl190924](https://bit.ly/privefl190924)
 
 <br>
 <br>
