@@ -1,0 +1,368 @@
+---
+title: "19_Sep_2024"
+output:
+  xaringan::moon_reader:
+    includes:
+      in_header: "no_favicon.html"
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL  <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO      <- icons::fontawesome$solid$`info-circle`
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Principal Component Analysis (PCA) and Genetic Ancestry Inference (GAI)
+
+<br>
+
+## LBBE Seminar (19/09/24)
+
+<br>
+
+## Florian Privé 
+### Aarhus Univ. (DK)
+#### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+---
+
+class: inverse, center, middle
+
+# Introduction
+
+---
+
+### About me
+
+<br>
+
+--
+
+- Engineer in Informatics and Applied Mathematics (ENSIMAG, 2013&#8211;2016)
+
+--
+
+- PhD (2016&#8211;2019) with Michael Blum (TIMC, Grenoble) and Hugues Aschard (Institut Pasteur) in computational biology (statistical genetics),    
+working mostly on polygenic scores and PCA 
+
+--
+
+- Founder and organizer of the R user group of Grenoble (2017&#8211;2019)
+
+--
+
+- Teaching an advanced R course since 2018
+
+--
+
+- Postdoc (2019&#8211;2022) and Senior Researcher (2022&#8211;) at Aarhus University (Denmark)
+
+--
+
+- Working remotely from France since December 2020    
+(not too far from here)
+
+---
+
+### The data I work with: very large genotype matrices
+
+<br>
+
+```{r, out.width="90%"}
+knitr::include_graphics("https://jmtomko.files.wordpress.com/2015/12/dna-double-helix.png")
+```
+
+<br>
+
+--
+
+- Each variable (column): number of mutations for **one position of the genome** (generally between 100,000 to several millions are available)    
+-> **ultra-high dimensional** data
+
+--
+
+- Each observation (row): one individual (generally between 1000 and 1M)
+
+.footnote[Example of a dataset I work with: 500K x 90M, the UK Biobank]
+
+---
+
+### Polygenic Risk Scores (PRS) for personalized medicine
+
+#### Application: to identify high risk individuals
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/PRS.png")
+```
+
+.footnote[My main focus: developing PRS methods.]
+
+---
+
+class: inverse, center, middle
+
+# Principal Component Analysis (PCA)
+# and Population Structure
+
+<br>
+
+#### (my side projects)
+
+---
+
+### PCA of genetic data captures continental population structure
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/PCA-UKBB-Bycroft.png")
+```
+
+---
+
+### PCA also captures sub-continental population structure
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/PCA-POPRES-EUR.png")
+```
+
+---
+
+### Distance in PCA measures genetic distance
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/compare-Euclidean-to-Fst.png")
+```
+
+---
+
+class: inverse, center, middle
+
+# PCA best practices and pitfalls
+
+---
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/paper4-2.png")
+```
+
+<br>
+
+--
+
+- Outlier sample detection & relatedness filtering
+
+- Imbalance from ancestry groups
+
+- Projection of individuals onto the PCA space
+
+- Automatic detection and removal of LD (variable correlation)
+
+--
+
+<br>
+
+I provide fast & efficient methods to solve all these problems,    
+especially `bigsnpr::bed_autoSVD()` & `bigsnpr::snp_autoSVD()`
+
+
+---
+
+### Individual outlier detection
+
+<br>
+
+```{r, echo=TRUE, eval=FALSE}
+prob <- bigutilsr::prob_dist(obj.svd$u, ncores = nb_cores())
+S <- prob$dist.self / sqrt(prob$dist.nn)
+```
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/PCA-outliers.jpeg")
+```
+
+---
+
+### PC19 to PC40 in UKBB only capture LD!
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/loadings-ukbb.jpeg")
+```
+
+---
+
+class: inverse, center, middle
+
+# Genetic Ancestry Deconvolution
+
+## (with reference populations)
+
+---
+
+### Summix: ancestry estimation from GWAS allele frequencies (AF)
+
+Source: 10.1016/j.ajhg.2021.05.016
+
+<br>
+
+Estimate ancestry proportions $\alpha$ such that
+
+```{css}
+.small2 {
+  font-size: 17px;
+}
+```
+
+<span class="small2"> $$AF_\text{GWAS} = \alpha_\text{AFR} AF_\text{AFR} + \alpha_\text{EAS} AF_\text{EAS} + \alpha_\text{EUR} AF_\text{EUR} + \alpha_\text{SAS} AF_\text{SAS} + \alpha_\text{IAM} AF_\text{IAM} + \epsilon ~,$$ </span>
+
+where all $\alpha$ are positive and sum to 1.
+
+---
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/paper9-2.png")
+```
+
+--
+
+<br>
+
+- Curate the UK Biobank to define 18 worldwide reference groups
+
+- Use PCA to maximize power to distinguish between these populations:
+
+    <span class="small2"> $$\min_\alpha \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
+    
+    is replaced by
+    
+    <span class="small2"> $$\min_\alpha \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$ </span>
+    
+---
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ancestry-bigsnpr.png")
+```
+
+--
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ancestry-summix.png")
+```
+
+---
+
+### Admixture coefficients for individual-level data
+
+<br>
+
+**My developed method also works for individual-level data!**
+
+This is similar to the projection analysis from ADMIXTURE,    
+but should have more power..
+
+--
+
+<br>
+
+Application to iPSYCH: can identify some non-European individuals:
+
+- Middle East: 2600
+- East Africa: 450
+- North Africa: 330
+- South Asia: 840
+- East Asia: 280
+
+---
+
+class: inverse, center, middle
+
+# Genetic Ancestry Deconvolution
+
+## (without reference populations)
+
+---
+
+### Study population: the Simons Genome Diversity Project
+
+345 individuals from 142 worldwide populations
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/sgdp_pca.png")
+```
+
+---
+
+### Fuzzy k-medoids clustering
+
+(Alternate estimation) membership degree: QP // medoids: weighted median
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_FKMmed.png")
+```
+
+---
+
+### My new prototype method
+
+Aim for corners instead of medoids
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo.png")
+```
+
+---
+
+### Corresponding ancestry coefficients
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/prop_myalgo.png")
+```
+
+---
+
+### ADMIXTURE-like analysis from R package LEA
+
+(directly on genotype data, not PCs)
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_admixture.png")
+```
+
+---
+
+class: inverse, center, middle
+
+## Thank you for your attention
+
+<br>
+
+#### Presentation available at [bit.ly/privefl280824](https://bit.ly/privefl280824)
+
+<br>
+<br>
+
+`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
