@@ -6,8 +6,6 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link href="libs/panelset/panelset.css" rel="stylesheet" />
-    <script src="libs/panelset/panelset.js"></script>
     <link rel="shortcut icon" href="#" />
   </head>
   <body>
@@ -337,24 +335,35 @@ class: inverse, center, middle
 
 ---
 
+### Fuzzy k-means clustering (reference-free) (m = 5)
 
+&lt;br&gt;
 
-### Fuzzy k-means clustering (reference-free)
+&lt;img src="figures/clust_FKM_5.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-.panelset[
-.panel[.panel-name[m = 5.0]
-&lt;img src="figures/clust_FKM_5.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[m = 2.0]
-&lt;img src="figures/clust_FKM_2.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[m = 1.5]
-&lt;img src="figures/clust_FKM_1.5.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[m = 1.1]
-&lt;img src="figures/clust_FKM_1.1.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-]
+---
+
+### Fuzzy k-means clustering (reference-free) (m = 2)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_FKM_2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Fuzzy k-means clustering (reference-free) (m = 1.5)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_FKM_1.5.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Fuzzy k-means clustering (reference-free) (m = 1.1)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_FKM_1.1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -366,18 +375,19 @@ class: inverse, center, middle
 
 ---
 
-### ADMIXTURE-like analysis from R package LEA
+### ADMIXTURE-like analysis from R package LEA (L = 11)
 
 (directly on genotype data, not PCs)
 
-.panelset[
-.panel[.panel-name[L = 11]
-&lt;img src="figures/clust_admixture_11.png" width="90%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[L = 12]
-&lt;img src="figures/clust_admixture_12.png" width="90%" style="display: block; margin: auto;" /&gt;
-]
-]
+&lt;img src="figures/clust_admixture_11.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### ADMIXTURE-like analysis from R package LEA (L = 12)
+
+(directly on genotype data, not PCs)
+
+&lt;img src="figures/clust_admixture_12.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -387,7 +397,7 @@ class: inverse, center, middle
 
 - Iterate between 
 
-    - estimating ancestry coefficients with
+    - estimating ancestry coefficients (for each indiv) with
     &lt;span class="small2"&gt; `$$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$` &lt;/span&gt;
     
     - estimating reference positions with
@@ -397,53 +407,96 @@ class: inverse, center, middle
 --
 
 - Instead of picking L initial `\(c_l\)` at random,    
-I sequentially add one more PC and one more reference    
+sequentially add one more PC and one more reference    
 (with good starting values)
 
 ---
 
-### One prototyped method (with added fuzziness = 1.2)
-
-.panelset[
-.panel[.panel-name[2]
-&lt;img src="figures/clust_myalgo_2.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[3]
-&lt;img src="figures/clust_myalgo_3.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[4]
-&lt;img src="figures/clust_myalgo_4.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[5]
-&lt;img src="figures/clust_myalgo_5.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[6]
-&lt;img src="figures/clust_myalgo_6.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[7]
-&lt;img src="figures/clust_myalgo_7.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[8]
-&lt;img src="figures/clust_myalgo_8.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[9]
-&lt;img src="figures/clust_myalgo_9.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[10]
-&lt;img src="figures/clust_myalgo_10.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-.panel[.panel-name[11]
-&lt;img src="figures/clust_myalgo_11.png" width="95%" style="display: block; margin: auto;" /&gt;
-]
-]
-
----
-
-One prototyped method (without any added fuzziness)
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
 
 &lt;br&gt;
 
-&lt;img src="figures/clust_myalgo_nofuzz.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/clust_myalgo_2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_4.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_5.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_6.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_7.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_8.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_9.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_10.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 1.5\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_11.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### One prototyped method (with added fuzziness `\(\gamma = 3\)`)
+
+&lt;br&gt;
+
+&lt;img src="figures/clust_myalgo_morefuzz.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 

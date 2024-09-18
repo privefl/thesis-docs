@@ -376,34 +376,43 @@ knitr::include_graphics("figures/sgdp_pca.png")
 
 ---
 
-```{r xaringan-panelset, echo=FALSE}
-xaringanExtra::use_panelset()
-```
+### Fuzzy k-means clustering (reference-free) (m = 5)
 
-### Fuzzy k-means clustering (reference-free)
+<br>
 
-.panelset[
-.panel[.panel-name[m = 5.0]
-```{r, out.width="95%"}
+```{r, out.width="100%"}
 knitr::include_graphics("figures/clust_FKM_5.png")
 ```
-]
-.panel[.panel-name[m = 2.0]
-```{r, out.width="95%"}
+
+---
+
+### Fuzzy k-means clustering (reference-free) (m = 2)
+
+<br>
+
+```{r, out.width="100%"}
 knitr::include_graphics("figures/clust_FKM_2.png")
 ```
-]
-.panel[.panel-name[m = 1.5]
-```{r, out.width="95%"}
+
+---
+
+### Fuzzy k-means clustering (reference-free) (m = 1.5)
+
+<br>
+
+```{r, out.width="100%"}
 knitr::include_graphics("figures/clust_FKM_1.5.png")
 ```
-]
-.panel[.panel-name[m = 1.1]
-```{r, out.width="95%"}
+
+---
+
+### Fuzzy k-means clustering (reference-free) (m = 1.1)
+
+<br>
+
+```{r, out.width="100%"}
 knitr::include_graphics("figures/clust_FKM_1.1.png")
 ```
-]
-]
 
 ---
 
@@ -417,22 +426,23 @@ knitr::include_graphics("figures/clust_hclust_11.png")
 
 ---
 
-### ADMIXTURE-like analysis from R package LEA
+### ADMIXTURE-like analysis from R package LEA (L = 11)
 
 (directly on genotype data, not PCs)
 
-.panelset[
-.panel[.panel-name[L = 11]
-```{r, out.width="90%"}
+```{r, out.width="100%"}
 knitr::include_graphics("figures/clust_admixture_11.png")
 ```
-]
-.panel[.panel-name[L = 12]
-```{r, out.width="90%"}
+
+---
+
+### ADMIXTURE-like analysis from R package LEA (L = 12)
+
+(directly on genotype data, not PCs)
+
+```{r, out.width="100%"}
 knitr::include_graphics("figures/clust_admixture_12.png")
 ```
-]
-]
 
 ---
 
@@ -442,7 +452,7 @@ knitr::include_graphics("figures/clust_admixture_12.png")
 
 - Iterate between 
 
-    - estimating ancestry coefficients with
+    - estimating ancestry coefficients (for each indiv) with
     <span class="small2"> $$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$ </span>
     
     - estimating reference positions with
@@ -452,74 +462,117 @@ knitr::include_graphics("figures/clust_admixture_12.png")
 --
 
 - Instead of picking L initial $c_l$ at random,    
-I sequentially add one more PC and one more reference    
+sequentially add one more PC and one more reference    
 (with good starting values)
 
 ---
 
-### One prototyped method (with added fuzziness = 1.2)
-
-.panelset[
-.panel[.panel-name[2]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_2.png")
-```
-]
-.panel[.panel-name[3]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_3.png")
-```
-]
-.panel[.panel-name[4]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_4.png")
-```
-]
-.panel[.panel-name[5]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_5.png")
-```
-]
-.panel[.panel-name[6]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_6.png")
-```
-]
-.panel[.panel-name[7]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_7.png")
-```
-]
-.panel[.panel-name[8]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_8.png")
-```
-]
-.panel[.panel-name[9]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_9.png")
-```
-]
-.panel[.panel-name[10]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_10.png")
-```
-]
-.panel[.panel-name[11]
-```{r, out.width="95%"}
-knitr::include_graphics("figures/clust_myalgo_11.png")
-```
-]
-]
-
----
-
-One prototyped method (without any added fuzziness)
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
 
 <br>
 
 ```{r, out.width="100%"}
-knitr::include_graphics("figures/clust_myalgo_nofuzz.png")
+knitr::include_graphics("figures/clust_myalgo_2.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_3.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_4.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_5.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_6.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_7.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_8.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_9.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_10.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 1.5$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_11.png")
+```
+
+---
+
+### One prototyped method (with added fuzziness $\gamma = 3$)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/clust_myalgo_morefuzz.png")
 ```
 
 ---
