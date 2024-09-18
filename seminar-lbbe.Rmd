@@ -271,6 +271,8 @@ knitr::include_graphics("figures/paper9-2.png")
 
 - Curate the UK Biobank to define 18 worldwide reference groups
 
+--
+
 - Use PCA to maximize power to distinguish between these populations:
 
     <span class="small2"> $$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
@@ -300,6 +302,8 @@ knitr::include_graphics("figures/ancestry-summix.png")
 <br>
 
 **My developed method also works for individual-level data!**
+
+(by simply using genotypes, divided by 2, in place of allele frequencies)
 
 This is similar to the projection analysis from ADMIXTURE,    
 but should have more power..
@@ -338,7 +342,31 @@ knitr::include_graphics("figures/sgdp_pca.png")
 
 ---
 
-### Fuzzy k-medoids clustering
+### Using previous reference populations and PCA projection
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/sgdp_proj.png")
+```
+
+---
+
+### Admixture coefficients (by country)
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/sgdp_anc1.png")
+```
+
+---
+
+### Admixture coefficients (by GPS coordinates)
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/sgdp_anc2.png")
+```
+
+---
+
+### Fuzzy k-medoids clustering (reference-free)
 
 (Alternate estimation) membership degree: QP // medoids: weighted median
 

@@ -244,6 +244,8 @@ More general formulation:
 
 - Curate the UK Biobank to define 18 worldwide reference groups
 
+--
+
 - Use PCA to maximize power to distinguish between these populations:
 
     &lt;span class="small2"&gt; `$$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$` &lt;/span&gt;
@@ -269,6 +271,8 @@ More general formulation:
 &lt;br&gt;
 
 **My developed method also works for individual-level data!**
+
+(by simply using genotypes, divided by 2, in place of allele frequencies)
 
 This is similar to the projection analysis from ADMIXTURE,    
 but should have more power..
@@ -305,7 +309,25 @@ class: inverse, center, middle
 
 ---
 
-### Fuzzy k-medoids clustering
+### Using previous reference populations and PCA projection
+
+&lt;img src="figures/sgdp_proj.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Admixture coefficients (by country)
+
+&lt;img src="figures/sgdp_anc1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Admixture coefficients (by GPS coordinates)
+
+&lt;img src="figures/sgdp_anc2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Fuzzy k-medoids clustering (reference-free)
 
 (Alternate estimation) membership degree: QP // medoids: weighted median
 
