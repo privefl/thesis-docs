@@ -32,8 +32,6 @@ class: title-slide center middle inverse
 
 ## LBBE Seminar (19/09/24)
 
-<br>
-
 ## Florian Privé 
 ### Aarhus University (DK)
 #### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
@@ -52,29 +50,30 @@ class: inverse, center, middle
 
 --
 
-- Engineer in Informatics and Applied Mathematics (ENSIMAG, 2013&#8211;2016)
+- [2013&#8211;2016] Engineer in Informatics and Applied Mathematics (ENSIMAG)
 
 --
 
-- PhD (2016&#8211;2019) with Michael Blum (TIMC, Grenoble) and Hugues Aschard (Institut Pasteur) in computational biology (statistical genetics),    
+- [2016&#8211;2019] PhD with Michael Blum (TIMC, Grenoble) and Hugues Aschard (Institut Pasteur) in computational biology (statistical genetics),    
 working mostly on polygenic scores and PCA 
 
 --
 
-- Founder and organizer of the R user group of Grenoble (2017&#8211;2019)
+- [2017&#8211;2019] Founder and organizer of the R user group of Grenoble
 
 --
 
-- Teaching an advanced R course since 2018
+- [2018&#8211;] Teaching an advanced R course for PhD students
 
 --
 
-- Postdoc (2019&#8211;2022) and Senior Researcher (2022&#8211;) at Aarhus University (Denmark)
+- [2019&#8211;2022] Postdoc at Aarhus University (Denmark)
+
+- [2022&#8211;] Senior Researcher (same place)
 
 --
 
-- Working remotely from France since December 2020    
-(not too far from here)
+- [2021&#8211;] Working remotely from France (close by)
 
 ---
 
@@ -258,6 +257,12 @@ where all $\alpha$ are positive and sum to 1.
 More general formulation:
 
 <span class="small2"> $$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$ </span>
+
+--
+
+<br>
+
+$\Rightarrow$ Quadratic programming with linear constraints
 
 ---
 
