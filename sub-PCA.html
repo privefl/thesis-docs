@@ -50,6 +50,8 @@ class: title-slide center middle inverse
 
 &lt;img src="figures/compare-Euclidean-to-Fst.png" width="100%" style="display: block; margin: auto;" /&gt;
 
+.footnote[Source: https://doi.org/10.1016/j.ajhg.2021.11.008]
+
 ---
 
 class: inverse, center, middle
@@ -97,11 +99,17 @@ In the UK Biobank,
 
 - PC 19--40 capture LD; do not use these!
 
-- can use 40 PCs when subsampling British and Irish individuals 
+--
+
+&lt;br&gt;
+
+When subsampling British and Irish individuals 
+
+- can obtain 40 PCs that capture some population structure
 
 ---
 
-### Subsampling in the UK Biobank
+### PCA after subsampling, in the UK Biobank
 
 - Subsampling 10,000 British individuals (2.3%) 
 - and 5000 Irish individuals (39,2%), 
@@ -145,7 +153,7 @@ Using 16 PCs in the UK Biobank,
 
 Using the previous algorithm (until all points are merged),
 
-1. For each point, store the size of the group it belongs to
+1. For each point &amp; iteration, store the size of the group it belongs to
 
 1. Average the sizes for all iterations, to get a density estimator
 
@@ -177,7 +185,37 @@ Using the previous algorithm (until all points are merged),
 
 ---
 
+### PCA after subsampling, in the UK Biobank (2.1)
+
+&lt;br&gt;
+
+&lt;img src="figures/PCA-restricted3-26.png" width="100%" style="display: block; margin: auto;" /&gt;
+
 ---
+
+### PCA after subsampling, in the UK Biobank (2.2)
+
+&lt;br&gt;
+
+&lt;img src="figures/PCA-restricted27-50.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### PCA after subsampling, in the UK Biobank (2.3)
+
+(varimax transformed)
+
+&lt;img src="figures/PCA-restricted27-50-varimax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Future work
+
+&lt;br&gt;
+
+- test other (simpler) densities
+
+- have some other criterion for assessing the "amount" of ancestry captured
 
 ---
 
@@ -187,8 +225,8 @@ class: inverse, center, middle
 
 &lt;br&gt;
 
-### Do you think it is interesting?
-### Do you think it is enough for a paper?
+### Is this interesting?
+### Is this enough for a paper?
 
 &lt;br&gt;
 &lt;br&gt;
