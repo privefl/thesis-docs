@@ -170,6 +170,16 @@ as the sum of inverse of squared Euclidean distances with all other points
 
 ---
 
+### Initial density in PCA
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/density-PCA.png")
+```
+
+---
+
 ### Ancestry composition of subsamples
 
 <br>
