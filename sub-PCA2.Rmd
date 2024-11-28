@@ -238,6 +238,12 @@ knitr::include_graphics("figures/PCA2-restricted27-50.png")
 
 - consider infinity distance and scaling
 
+--
+
+- use another solution for subsampling (adxmiture-like grouping)
+
+--
+
 - have some other criterion for assessing the "amount" of ancestry captured
 
 ---
