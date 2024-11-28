@@ -39,6 +39,15 @@ class: title-slide center middle inverse
 
 ---
 
+```{css}
+.footnote2 {
+  position: absolute;
+  bottom: 2em;
+  padding-right: 4em;
+  font-size: 16px;
+}
+```
+
 ### About me
 
 <br>
@@ -85,7 +94,7 @@ class: center middle inverse
 
 ### Personalized medicine: best predict disease risk 
 
-<br>
+#### A polygenic score is a new risk factor (a very interesting one!)
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/personalized-medicine.png")
@@ -93,14 +102,19 @@ knitr::include_graphics("figures/personalized-medicine.png")
 
 ---
 
-### Polygenic (Risk) Scores (PGS or PRS)
+### Disease genetic architecture
 
-An additive model: $y_i = \sum_j \beta_j x_{i,j} + \epsilon$    
-$y_i$: phenotypes &ndash; $x_{i,j}$: genotypes &ndash; $\beta_j$: PGS effect sizes &ndash; $\epsilon$: environmental effect
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/PRS.png")
+```{r, out.width="65%"}
+knitr::include_graphics("figures/disease-archi.png")
 ```
+
+- many common genetic variants contribute to the risk of common diseases
+
+- but, they usually have a very small effect on their own
+
+- however, a (weighted) sum of small effects can result in a very large effect
+
+- this is called a polygenic (risk) score (PGS or PRS)
 
 ---
 
@@ -124,6 +138,20 @@ knitr::include_graphics("figures/PRS-cancer-risk.png")
 
 ---
 
+### LDpred2-auto: a widely-used PGS (and inference) method
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/overview-ldpred2-auto.png")
+```
+
+.footnote2[
+**Privé, F.**, Arbel, J., & Vilhjálmsson, B.J. (2020). LDpred2: better, faster, stronger. *Bioinformatics*.
+
+**Privé, F.**, Albiñana, C., Arbel, J., Pasaniuc, B., & Vilhjálmsson, B.J. (2023). Inferring disease architecture and predictive ability with LDpred2-auto. *The American Journal of Human Genetics*.
+]
+
+---
+
 class: center, middle, inverse
 
 # A major limitation of polygenic scores:
@@ -134,60 +162,84 @@ class: center, middle, inverse
 
 ### Predictive performance drops with genetic distance to training
 
-```{r, out.width="88%"}
+```{r, out.width="78%"}
 knitr::include_graphics("figures/ratio-dist-2.png")
 ```
 
-<!-- <span class="footnote">Recall: $\text{dist}_{PC}^2 \propto F_{ST}$</span> -->
+.footnote2[**Privé, F.**, Aschard, H., Carmi, S., Folkersen, L., Hoggart, C., O'Reilly, P.F., & Vilhjálmsson, B.J. (2022). Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort. *The American Journal of Human Genetics*.]
 
 ---
 
-### One possible explanation: different tagging
+### Also at the individual level (instead of the group level)
 
-<br>
-
-```{r, out.width="75%"}
-knitr::include_graphics("figures/indirect-association.png")
+```{r, out.width="95%"}
+knitr::include_graphics("figures/ratio-dist-individual.PNG")
 ```
 
+.footnote2[Ding, Y., Hou, K., Xu, Z., Pimplaskar, A., Petter, E., Boulier, K., **Privé, F.**, Vilhjálmsson, B.J., Loohuis, L.O. and Pasaniuc, B. (2023). Polygenic scoring accuracy varies across the genetic ancestry continuum in all human populations. *Nature*.]
+
+---
+
+### How to explain this drop in performance?
+
 <br>
 
-***
+It has been recently shown that 
 
-Linkage disequilibrium = correlation between genetic variants    
-(can be much different across populations)
+- causal variants are mostly similar across many populations
+
+- their effect sizes are also very similar
+
+--
+
+<br>
+
+The issue: 
+
+- in practice, we don't use causal variants 
+
+- we use tagging variants, highly correlated with the causal variants    
+*in the training population*
+
+- but the correlation between tagging and causal variants is different (usually much lower) in other populations
 
 ---
 
 class: center, middle, inverse
 
-# Conclusion
+# The solution:
+
+# Precisely identifying causal variants
 
 ---
 
-### Take-home messages
+### Using millions of genetic variants
+
+
+---
+
+### Leveraging functional annotations
+
+
+
+---
+
+### Leveraging multi-ancestry data
+
+
+---
+
+### Ensuring the quality and coverage of the training data
+
+
+
+---
+
+### Why me?
 
 <br>
 
-- We can predict traits and diseases from genetic data    
-(up to the heritability)
 
---
-
-- One can use supervised learning methods when individual-level data is available (but, beware scalability)
-
---
-
-- Many methods using summary statistics only have been developed (because we can easily obtain larger sample sizes through meta-analysis)
-
---
-
-- For some traits, we have large sample sizes (e.g. 5M for height), but we still need larger sample sizes for most complex traits and diseases
-
---
-
-- We still need to address the concern of providing PGS that work well in ALL ancestries    
-This could be achieved by recruiting more people from non-European ancestries, and developing new methods for multi-ancestry training
 
 ---
 
