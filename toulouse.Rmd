@@ -108,6 +108,8 @@ knitr::include_graphics("figures/personalized-medicine.png")
 knitr::include_graphics("figures/disease-archi.png")
 ```
 
+--
+
 - many common genetic variants contribute to the risk of common diseases
 
 - but, they usually have a very small effect on their own
@@ -205,7 +207,7 @@ highly correlated with the causal variants **in the training population**
 
 - but correlations between tagging and causal variants **varies across populations**
   
-- which reduces the predictive power of tagging variants in **other populations**.
+- which reduces the predictive power of tagging variants **in other populations**.
 
 ---
 
@@ -306,13 +308,15 @@ Again, we need to make methods more scalable (WP1), to use multiple datasets her
 
 <br>
 
-```{r, out.width="95%"}
+```{r, out.width="85%"}
 knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 ```
 
 - I propose to implement a QC and imputation method (synergistic)
 
 - and to provide a set of highly refined GWAS summary statistics
+
+.footnote2[**Privé, F.**, Arbel, J., Aschard, H., & Vilhjálmsson, B. J. (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
 
 ---
 
@@ -322,14 +326,12 @@ knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 
 - Background in Mathematics, Statistics, and Computer Science 
 
-- Already developed many state-of-the-art methods    
+- Already developed many state-of-the-art methods in past 8.5 years    
 (recognized internationally)
 
-- I published 9 first-author, 2 sole-author and 4 co-senior-author papers
+- Published 9 first-author, 2 sole-author and 4 co-senior-author papers
 
-- I have co-supervised 4 PhD students (2 finished, 2 ongoing)
-
-- I already found many collaborators for these work packages
+- Already found many collaborators for these work packages
 
 ---
 
