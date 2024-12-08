@@ -320,9 +320,21 @@ knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 
 ---
 
-### Why me?
+### Outputs from this project
+
+- Better polygenic scores for all populations
+
+- Identification of causal variants to better understand disease etiology
+
+- More robust genetic findings thanks to better QC and imputation
 
 <br>
+
+--
+
+<br>
+
+### Why me?
 
 - Background in Mathematics, Statistics, and Computer Science 
 
