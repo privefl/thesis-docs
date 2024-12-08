@@ -196,12 +196,16 @@ It has been recently shown that
 
 The issue: 
 
-- in practice, we don't use causal variants 
+- in practice, we often don't use causal variants 
 
-- we use tagging variants, highly correlated with the causal variants    
-*in the training population*
+- instead, we use tagging variants,    
+highly correlated with the causal variants **in the training population**
 
-- but the correlation between tagging and causal variants is different (usually much lower) in other populations
+--
+
+- but correlations between tagging and causal variants **varies across populations**
+  
+- which reduces the predictive power of tagging variants in **other populations**.
 
 ---
 
@@ -215,7 +219,8 @@ class: center, middle, inverse
 
 ### WP1: Using millions of genetic variants (problem)
 
-- Causal variants need to be in the input data (around 10M common variants)
+- Causal variants need to be in the input data    
+(around 10M common variants)
 
 - The methods use the LD matrix (pairwise correlations between variants)
 
@@ -233,34 +238,44 @@ knitr::include_graphics("figures/illu-LD.png")
 
 <br>
 
-- compact sparse format (divide by 2)
+- compact sparse format (divide size by 2)
 
-- storing correlations with two bytes only (divide by 4)
+- storing correlations with two bytes only (divide size by 4)
 
 - matrix seriation $\longrightarrow$ reordering variants to make blocks smaller
 
 - eigendecomposition or compression of the matrix
 
-- adapt methods to use very sparse *inverse* correlation matrices 
+- adapt methods to use very sparse *inverse* covariance matrices 
 
 ---
 
 ### WP2: Leveraging functional annotations
 
-How can functional categories be useful?
+#### How can functional categories be useful?
 
-```{r, out.width="60%"}
+<br>
+
+```{r, out.width="78%"}
 knitr::include_graphics("figures/anno-enrich.png")
 ```
+
+<br>
+    
+Can be used to modify prior probabilities of being causal in LDpred2-auto. 
      
---
+---
 
-***
+### Functional annotations: the importance of using millions of variants
 
-But we need to use many variants (WP1) to keep annotations useful
+<br>
 
-```{r, out.width="70%"}
-knitr::include_graphics("figures/pb-anno.png")
+We must use many variants (WP1) to keep annotations useful
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/pb-anno2.png")
 ```
 
 ---
@@ -270,7 +285,7 @@ knitr::include_graphics("figures/pb-anno.png")
 <br>
 
 ```{r, out.width="100%"}
-knitr::include_graphics("figures/multiancestry-finemapping.jpg")
+knitr::include_graphics("figures/multiancestry-finemapping2.png")
 ```
 
 <br>
@@ -283,7 +298,7 @@ Again, we need to make methods more scalable (WP1), to use multiple datasets her
 
 <br>
 
-- there are lots of problems with GWAS summary statistics (input data)
+- there are lots of problems with the input data (GWAS summary statistics)
 
 - which can causes lots of misspecifications and biases in the methods
 
@@ -305,13 +320,16 @@ knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 
 <br>
 
-- Background in Statistics and Informatics 
+- Background in Mathematics, Statistics, and Computer Science 
 
-- Already developed many state-of-the-art methods (recognized internationally)
+- Already developed many state-of-the-art methods    
+(recognized internationally)
 
 - I published 9 first-author, 2 sole-author and 4 co-senior-author papers
 
-- I already found many collaborators for this projects
+- I have co-supervised 4 PhD students (2 finished, 2 ongoing)
+
+- I already found many collaborators for these work packages
 
 ---
 
