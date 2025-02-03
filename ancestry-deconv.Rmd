@@ -239,21 +239,49 @@ knitr::include_graphics("figures/PC_ukbb.png")
 $$PC \approx Q \cdot PC^\text{ref}$$
 --
 
-- Iterate between 
+<br>
 
-    - estimating ancestry coefficients $Q_{i,.}$ (for each individual $i$) with
+Iterate between 
+
+- estimating ancestry coefficients $Q_{i,.}$ (for each individual $i$) with
     <span class="small2"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
     
 --
 
-    - estimating reference positions (for each $l$) with
+<br>
+
+- estimating reference positions (for each $l$) with
     <span class="small2"> $$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$ </span>
   
+---
+
+### Iterative algorithm with warm starts
+
+<br>
+
+A naive approach would pick L initial $PC_{l,.}^{\text{ref}}$ at random.
+
 --
 
-- Instead of picking L initial $PC_{l,.}^{\text{ref}}$ at random,    
-I start with 2 reference populations using 1 PC,    
-and iteratively add one more reference (L+1) with each new PC (K+1)   (with good starting values, and 2 refs for 1 PC)
+<br>
+
+Instead,
+
+- I start with L=2 reference populations using K=1 PC,
+
+- and iteratively add one more reference (L+1) with each new PC (K+1)
+
+- with some well-chosen starting value for the new reference
+
+--
+
+<br>
+
+This makes the algorithm
+
+- deterministic and more stable
+
+- faster to converge
 
 ---
 
