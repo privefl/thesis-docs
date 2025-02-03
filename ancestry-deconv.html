@@ -113,7 +113,7 @@ Source: 10.1016/j.ajhg.2021.05.016
 
 &lt;br&gt;
 
-Estimate ancestry proportions `\(\alpha\)` such that
+Estimate ancestry proportions `\(q\)` such that
 
 &lt;style type="text/css"&gt;
 .small2 {
@@ -121,9 +121,9 @@ Estimate ancestry proportions `\(\alpha\)` such that
 }
 &lt;/style&gt;
 
-&lt;span class="small2"&gt; `$$AF = \alpha_\text{AFR} AF_\text{AFR} + \alpha_\text{EAS} AF_\text{EAS} + \alpha_\text{EUR} AF_\text{EUR} + \alpha_\text{SAS} AF_\text{SAS} + \alpha_\text{IAM} AF_\text{IAM} + \epsilon ~,$$` &lt;/span&gt;
+&lt;span class="small2"&gt; `$$AF = q_\text{AFR} AF_\text{AFR} + q_\text{EAS} AF_\text{EAS} + q_\text{EUR} AF_\text{EUR} + q_\text{SAS} AF_\text{SAS} + q_\text{IAM} AF_\text{IAM} + \epsilon ~,$$` &lt;/span&gt;
 
-where all `\(\alpha\)` are positive and sum to 1.
+where all `\(q\)` are positive and sum to 1.
 
 --
 
@@ -131,7 +131,9 @@ where all `\(\alpha\)` are positive and sum to 1.
 
 More general formulation:
 
-&lt;span class="small2"&gt; `$$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$` &lt;/span&gt;
+&lt;span class="small2"&gt; `$$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$` &lt;/span&gt;
+
+&lt;!-- = \min_{q \ge 0 \\ \mathbb{1}^Tq=1} ~~ ||AF - AF^{\text{ref}} \cdot q||_2^2 --&gt;
 
 --
 
@@ -153,11 +155,11 @@ More general formulation:
 
 - Use PCA to maximize power to distinguish between these populations:
 
-    &lt;span class="small2"&gt; `$$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{j=1}^M \left( AF_j^{(0)} - \sum_{l=1}^L \alpha_l AF_j^{(l)} \right)^2$$` &lt;/span&gt;
+    &lt;span class="small2"&gt; `$$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$` &lt;/span&gt;
     
     is replaced by
     
-    &lt;span class="small2"&gt; `$$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$` &lt;/span&gt;
+    &lt;span class="small2"&gt; `$$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{k=1}^K \left( PC_k - \sum_{l=1}^L q_l PC_k^{\text{ref}~(l)} \right)^2$$` &lt;/span&gt;
     
 ---
 
@@ -219,25 +221,26 @@ class: inverse, center, middle
 
 ### My proposed deconvolution method
 
-`$$PC = A \cdot PC_\text{ref}$$`
+&lt;br&gt;
+
+`$$PC \approx Q \cdot PC^\text{ref}$$`
 --
 
 - Iterate between 
 
-    - estimating ancestry coefficients (for each indiv) with
-    &lt;span class="small2"&gt; `$$\min_{\alpha_l \ge 0 \\ \sum_{\alpha_l}=1} ~~ \sum_{k=1}^K \left( PC_k^{(0)} - \sum_{l=1}^L \alpha_l PC_k^{(l)} \right)^2$$` &lt;/span&gt;
+    - estimating ancestry coefficients `\(Q_{i,.}\)` (for each individual `\(i\)`) with
+    &lt;span class="small2"&gt; `$$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$` &lt;/span&gt;
     
 --
 
-    - estimating reference positions with
-    &lt;span class="small2"&gt; `$$PC_\text{ref}^{(l)} = \dfrac{\sum_x {\alpha_l(x)}^m \cdot x}{\sum_x {\alpha_l(x)}^m} ~,$$` &lt;/span&gt;
-    where `\(x\)` are the PCs for one indiv, and `\(PC_\text{ref}^{(l)} = \left(PC_1^{(l)},~\dots,~PC_K^{(l)}\right)\)`
+    - estimating reference positions (for each `\(l\)`) with
+    &lt;span class="small2"&gt; `$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$` &lt;/span&gt;
   
 --
 
-- Instead of picking L initial `\(PC_\text{ref}^{(l)}\)` at random,    
-sequentially add one more PC and one more reference    
-(with good starting values)
+- Instead of picking L initial `\(PC_{l,.}^{\text{ref}}\)` at random,    
+I start with 2 reference populations using 1 PC,    
+and iteratively add one more reference (L+1) with each new PC (K+1)   (with good starting values, and 2 refs for 1 PC)
 
 ---
 
