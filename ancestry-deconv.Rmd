@@ -38,34 +38,41 @@ class: title-slide center middle inverse
 
 ### About me
 
-<br>
-
 --
 
-- [2013&#8211;2016] Engineer in Informatics and Applied Mathematics (ENSIMAG)
+***
 
---
+Grenoble:
 
-- [2016&#8211;2019] PhD with Michael Blum (TIMC, Grenoble) and Hugues Aschard (Institut Pasteur) in computational biology (statistical genetics),    
+- [2013&#8211;2016] Engineer in Informatics and Mathematics (**ENSIMAG**)
+
+- [2016&#8211;2019] **PhD** in **statistical human genetics**,    
+with Michael Blum (**TIMC**) and Hugues Aschard (Institut Pasteur),    
 working mostly on polygenic scores and population structure 
 
 --
 
-- [2017&#8211;2019] Founder and organizer of the R user group of Grenoble
+***
 
---
+Aarhus, Denmark:
 
-- [2019&#8211;2022] Postdoc at Aarhus University (Denmark)
+- [2019&#8211;2022] Postdoc
 
 - [2022&#8211;] Senior Researcher (same place)
 
 --
 
+***
+
+France:
+
 - [2021&#8211;] Working remotely from France
 
 --
 
-- [2025] Applied as CRCN at CNRS (CID 51) and INSERM
+- [2025] Applied as 'Chargé de Recherche' at CNRS (CID 51) and INSERM
+
+***
 
 ---
 
@@ -139,8 +146,6 @@ More general formulation:
 <span class="small2"> $$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$ </span>
 
 <!-- = \min_{q \ge 0 \\ \mathbb{1}^Tq=1} ~~ ||AF - AF^{\text{ref}} \cdot q||_2^2 -->
-
---
 
 <br>
 
@@ -221,20 +226,9 @@ class: inverse, center, middle
 
 ---
 
-### PCA of the UK Biobank
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/PC_ukbb.png")
-```
-
-
----
-
 ### My proposed deconvolution method
 
-<br>
+$$G \approx Q \cdot 2F$$
 
 $$PC \approx Q \cdot PC^\text{ref}$$
 --
@@ -282,6 +276,19 @@ This makes the algorithm
 - deterministic and more stable
 
 - faster to converge
+
+- easy to choose L based on K (L=K+1)
+
+---
+
+### PCA of the UK Biobank
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/PC_ukbb.png")
+```
+
 
 ---
 
