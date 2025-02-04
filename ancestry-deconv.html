@@ -126,6 +126,9 @@ Estimate ancestry proportions `\(q\)` such that
 .small2 {
   font-size: 17px;
 }
+.small3 {
+  font-size: 14px;
+}
 &lt;/style&gt;
 
 &lt;span class="small2"&gt; `$$AF = q_\text{AFR} AF_\text{AFR} + q_\text{EAS} AF_\text{EAS} + q_\text{EUR} AF_\text{EUR} + q_\text{SAS} AF_\text{SAS} + q_\text{IAM} AF_\text{IAM} + \epsilon ~,$$` &lt;/span&gt;
@@ -275,6 +278,68 @@ This makes the algorithm
 &lt;br&gt;
 
 &lt;img src="figures/PC_ukbb.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Add 3rd reference when considering 2 PCs
+
+&lt;img src="figures/PC_ukbb_add3.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### After convergence with 3 references and 2 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_with3.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Add 4th reference when considering 3 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_add4.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Add 5th reference when considering 4 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_add5.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### After convergence with 17 references and 16 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_with17.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Country counts with ancestry &gt; 0.6 for each reference
+
+&lt;span class="small3"&gt;
+- 8: United Kingdom: 126045 || NA: 1352 || Germany: 915 || South Africa: 477 || Netherlands: 443 || USA: 400 || France: 300 || Australia: 226 || Denmark 197 || Canada: 195 || India: 163 || Zimbabwe: 150 || New Zealand: 143 || Ireland: 131 || Belgium: 119 || Switzerland: 110 || Singapore: 100 || Kenya: 99 | Malta: 80 || Channel Islands: 74 || Sweden: 72 || Malaysia: 64 || Norway: 62 || Zambia: 53 || Cyprus: 49 || Caribbean: 48 || Nigeria: 41 || Austria: 40 || Tanzania: 39 || Hong Kong: 36 || Egypt: 30 || Uganda: 27 || Argentina: 23 || Pakistan: 22 || Italy: 20 || Ghana: 19 || Yemen: 17 || Gibraltar: 16 || Libya: 16 || Brazil: 15 || Malawi: 14 || Sri Lanka: 14 || China: 13 || Indonesia: 12 || Bermuda: 11 || Bahrain: 10 || Congo: 16
+- 11: United Kingdom: 22206 || NA: 86 || Germany: 16 || Ireland: 14
+- 14: United Kingdom: 32123 || Ireland: 289 || NA: 265 || New Zealand: 75 || Canada: 58 || India: 54 || Germany: 47 || South Africa: 43 || Australia: 40 kenya: 36 || Malaysia: 29 || Singapore: 26 || Zimbabwe: 21 || Hong Kong: 20 || Caribbean: 15 || Zambia: 14 || USA: 13 || Nigeria: 12 || Myanmar (Burma) || Sri Lanka: 11 || Uganda: 11 || Egypt: 10 || Pakistan: 10
+- 10: United Kingdom: 10647 || Ireland: 9360 || NA: 290 || USA: 47 || Australia: 43 || New Zealand: 30 || Germany: 21 || Canada: 15
+- 16: United Kingdom: 1347 || NA: 30
+- 6: United Kingdom: 4080 || NA: 77
+- 9: NA: 752 || Poland: 599 || United Kingdom: 415 || Russia: 131 || Finland: 105 || Germany: 87 || Lithuania: 71 || Ukraine: 55 || Czech Republic: 53 | Latvia: 52 || Slovakia: 28 || USA: 28 || Bosnia and Herzegovina: 16 || Estonia: 15 || Hungary: 15 || Croatia: 10
+- 4: India: 1852 || Kenya: 782 || Sri Lanka: 653 || NA: 547 || Pakistan: 410 || Mauritius: 273 || Bangladesh: 235 || Uganda: 231 || Tanzania: 175 || Caribbean: 114 || The Guianas: 83 || Malaysia: 73 || South Africa: 48 || Singapore: 36 || Malawi: 34 || Yemen: 21 || Zambia: 21 || Fiji: 20 || Nepal: 18 || Zimbabwe: 17 || Myanmar (Burma): 16 || Mozambique: 11
+- 1: Caribbean: 2110 || NA: 2100 || Nigeria: 1017 || Ghana: 866 || Barbados: 255 || Sierra Leone: 202 || The Guianas: 151 || Gambia: 39 || Ivory Coast: 32 || Antigua and Barbuda: 29 || Liberia: 16 || West Indies: 14 || United Kingdom: 13 || Aruba: 11 || Togo: 10
+- 17: Italy: 389 || NA: 353 || Cyprus: 170 || United Kingdom: 168 || Egypt: 147 || Malta: 116 || Greece: 99 || Algeria: 68 || Lebanon: 50 || Morocco: 46 | Libya: 40 || Palestine: 30 || Tunisia: 24 || Yemen: 21 || Syria: 20 || Israel: 17 || Iraq: 16 || Turkey: 14 || Australia: 13 || France: 13 || USA: 11 | Jordan: 10
+- 3: United Kingdom: 1844 || NA: 830 || USA: 169 || South Africa: 95 || Israel: 41 || Hungary: 19 || Canada: 18 || France: 13 || Czech Republic: 10 || Germany: 10 || Ireland: 10
+- 7: Iran: 476 || Iraq: 140 || NA: 59 || Turkey: 54 || India: 36 || Afghanistan: 13 || Pakistan: 10
+- 2: China: 287 || Japan: 241 || Malaysia: 185 || Hong Kong: 161 || Nepal: 123 || NA: 63 || Singapore: 56 || South Korea: 26 || Mauritius: 25 || Taiwan: 25 || Indonesia: 15 || Thailand: 15 || India: 10
+- 13: Philippines: 315 || Malaysia: 20 || NA: 17 || Indonesia: 15 || Thailand: 13
+- 6: Peru: 33 || Ecuador: 25 || Mexico: 20 || Colombia: 17 || Bolivia: 14 || Chile: 1
+- 12: Somalia: 81 || Ethiopia: 58 || Sudan: 51 || Eritrea: 45 || NA: 20
+&lt;/span&gt;
+
 
 
 ---
