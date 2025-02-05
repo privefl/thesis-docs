@@ -378,100 +378,92 @@ When subsampling British and Irish individuals
 
 ---
 
-### Can we do better than this?
+### Can we use Q to get something better? 
 
-&lt;br&gt;
-
-- the numbers kept are a bit arbitrary
-
-- what if the self-reported ancestry is missing or inaccurate?
-
-&lt;br&gt;
-
-`\(\Longrightarrow\)` design an algorithm that does not use this information
+&lt;img src="figures/PC_ukbb_new.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Idea: discard points/individuals in dense regions
+### Rerun the algorithm with new PCs (K=41)
 
-&lt;br&gt;
+&lt;style&gt;
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: auto;
+        font-size: 14px;
+    }
+&lt;/style&gt;
 
-Using 16 PCs in the UK Biobank,
+&lt;div class="grid-container"&gt;
+&lt;ul&gt;
+    &lt;li&gt;United Kingdom: 414629 &amp;#8211; Ireland: 12416 &amp;#8211; NA: 4731 &amp;#8211; Germany: 1498 &amp;#8211; South Africa: 970 &amp;#8211; USA: 956 &amp;#8211; Australia: 853 &amp;#8211; New Zealand: 656 &amp;#8211; Canada: 644 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;NA: 709 &amp;#8211; Poland: 592 &amp;#8211; United Kingdom: 389 &amp;#8211; Russia: 123 &amp;#8211; Germany: 71 &amp;#8211; Lithuania: 71 &amp;#8211; Ukraine: 53 &amp;#8211; Latvia: 52&amp;#8211; ..&lt;/li&gt;
+    &lt;li&gt;Italy: 34&lt;/li&gt;
+    &lt;li&gt;Spain: 30&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 1838 &amp;#8211; NA: 831 &amp;#8211; USA: 170 &amp;#8211; South Africa: 95 &amp;#8211; Israel: 40 &amp;#8211; Canada: 18 &amp;#8211; Hungary: 18 &amp;#8211; France: 12&lt;/li&gt;
+    &lt;li&gt;Finland: 125&lt;/li&gt;
+    &lt;li&gt;Nigeria: 975 &amp;#8211; NA: 292 &amp;#8211; Caribbean: 155 &amp;#8211; Sierra Leone: 42 &amp;#8211; Ghana: 13&lt;/li&gt;
+    &lt;li&gt;Sri Lanka: 635 &amp;#8211; India: 493 &amp;#8211; Mauritius: 190 &amp;#8211; NA: 156 &amp;#8211; Kenya: 90 &amp;#8211; Caribbean: 71 &amp;#8211; Malaysia: 67 &amp;#8211; The Guianas: 52 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Malta: 114 &amp;#8211; United Kingdom: 15 &amp;#8211; NA: 12 &amp;#8211; Egypt: 10&lt;/li&gt;
+    &lt;li&gt;Iran: 494 &amp;#8211; Iraq: 247 &amp;#8211; Turkey: 114 &amp;#8211; NA: 58 &amp;#8211; Syria: 11 &amp;#8211; United Kingdom: 10&lt;/li&gt;
+    &lt;li&gt;Ghana: 817 &amp;#8211; NA: 68 &amp;#8211; Ivory Coast: 27&lt;/li&gt;
+    &lt;li&gt;India: 571 &amp;#8211; NA: 207 &amp;#8211; Kenya: 40 &amp;#8211; Pakistan: 28 &amp;#8211; Malaysia: 23 &amp;#8211; Singapore: 13&lt;/li&gt;
+    &lt;li&gt;India: 28&lt;/li&gt;
+    &lt;li&gt;Yemen: 26 &amp;#8211; Egypt: 18 &amp;#8211; NA: 12&lt;/li&gt;
+    &lt;li&gt;Congo: 129 &amp;#8211; Angola: 30 &amp;#8211; Zambia: 30 &amp;#8211; NA: 25 &amp;#8211; Cameroon: 24&lt;/li&gt;
+    &lt;li&gt;India: 224 &amp;#8211; Kenya: 179 &amp;#8211; NA: 55 &amp;#8211; Uganda: 28 &amp;#8211; Pakistan: 21 &amp;#8211; Tanzania: 21&lt;/li&gt;
+&lt;/ul&gt;
 
-1. Compute densities of all points    
-as the sum of inverse of squared Euclidean distances with all other points
-
-2. Discard the point (individual) with the largest density
-
-3. Update the densities 
-
-4. Iterate 2. and 3. until N points are left
-
----
-
-### Initial density in PCA
-
-&lt;br&gt;
-
-&lt;img src="figures/density-PCA.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Ancestry composition of subsamples
-
-&lt;br&gt;
-
-&lt;img src="figures/subsample_ancestry_ukbb2.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Density and subsample of "Prefer not to answer" individuals 
-
-&lt;br&gt;
-
-&lt;img src="figures/subsample_NoAnswer_ukbb2.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Density and subsample of "White" individuals 
-
-&lt;br&gt;
-
-&lt;img src="figures/subsample_White_ukbb2.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### PCA after subsampling, in the UK Biobank (2.1)
-
-&lt;br&gt;
-
-&lt;img src="figures/PCA2-restricted3-26.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### PCA after subsampling, in the UK Biobank (2.2)
-
-&lt;br&gt;
-
-&lt;img src="figures/PCA2-restricted27-50.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;ul&gt;
+    &lt;li&gt;Japan: 241 &amp;#8211; South Korea: 26&lt;/li&gt;
+    &lt;li&gt;Thailand: 61 &amp;#8211; Vietnam: 40 &amp;#8211; Malaysia: 10&lt;/li&gt;
+    &lt;li&gt;Algeria: 69 &amp;#8211; Morocco: 66 &amp;#8211; Libya: 27 &amp;#8211; NA: 10&lt;/li&gt;
+    &lt;li&gt;Kenya: 18 &amp;#8211; India: 13&lt;/li&gt;
+    &lt;li&gt;Philippines: 310 &amp;#8211; NA: 16&lt;/li&gt;
+    &lt;li&gt;Pakistan: 76 &amp;#8211; NA: 20&lt;/li&gt;
+    &lt;li&gt;Kenya: 36 &amp;#8211; India: 25&lt;/li&gt;
+    &lt;li&gt;India: 70 &amp;#8211; Afghanistan: 25 &amp;#8211; NA: 19&lt;/li&gt;
+    &lt;li&gt;India: 17 &amp;#8211; NA: 11 &amp;#8211; Malawi: 10&lt;/li&gt;
+    &lt;li&gt;Colombia: 115&lt;/li&gt;
+    &lt;li&gt;Sierra Leone: 38 &amp;#8211; Gambia: 33&lt;/li&gt;
+    &lt;li&gt;India: 90 &amp;#8211; NA: 32&lt;/li&gt;
+    &lt;li&gt;Tanzania: 24&lt;/li&gt;
+    &lt;li&gt;Pakistan: 146 &amp;#8211; NA: 42 &amp;#8211; India: 22 &amp;#8211; Kenya: 18&lt;/li&gt;
+    &lt;li&gt;India: 135 &amp;#8211; Kenya: 120 &amp;#8211; Uganda: 80 &amp;#8211; NA: 37 &amp;#8211; Tanzania: 24&lt;/li&gt;
+    &lt;li&gt;Nepal: 125 &amp;#8211; NA: 14&lt;/li&gt;
+    &lt;li&gt;Peru: 31 &amp;#8211; Ecuador: 20 &amp;#8211; Bolivia: 14 &amp;#8211; Mexico: 13&lt;/li&gt;
+    &lt;li&gt;Uganda: 69 &amp;#8211; Tanzania: 43 &amp;#8211; Kenya: 40 &amp;#8211; India: 24&lt;/li&gt;
+    &lt;li&gt;Kenya: 42 &amp;#8211; India: 39 &amp;#8211; NA: 16 &amp;#8211; Tanzania: 14&lt;/li&gt;
+    &lt;li&gt;Uganda: 101 &amp;#8211; Kenya: 28 &amp;#8211; Tanzania: 11&lt;/li&gt;
+    &lt;li&gt;Kenya: 114&lt;/li&gt;
+    &lt;li&gt;India: 43 &amp;#8211; Kenya: 38 &amp;#8211; NA: 19&lt;/li&gt;
+    &lt;li&gt;South Africa: 48 &amp;#8211; Zimbabwe: 25&lt;/li&gt;
+    &lt;li&gt;Sudan: 17&lt;/li&gt;
+    &lt;li&gt;&lt;/li&gt;
+    &lt;li&gt;Somalia: 78&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 
 ---
 
-### Future work
+### Conclusion
 
 &lt;br&gt;
 
-- understand why I get less added population structure
+- I have developed a powerful ancestry deconvolution algorithm
 
-- consider infinity distance and scaling
+- It can identify many reference groups
 
 --
 
-- use another solution for subsampling (adxmiture-like grouping)
+- Subsampling before PCA is beneficial to capture even more
 
 --
 
-- have some other criterion for assessing the "amount" of ancestry captured
+- The algorithm is not specific to genetic data    
+(merely a deconvolution algorithm based on PCA)
+
 
 ---
 

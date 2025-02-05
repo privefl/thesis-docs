@@ -405,112 +405,94 @@ knitr::include_graphics("https://github.com/privefl/paper4-bedpca/blob/master/UK
 
 ---
 
-### Can we do better than this?
-
-<br>
-
-- the numbers kept are a bit arbitrary
-
-- what if the self-reported ancestry is missing or inaccurate?
-
-<br>
-
-$\Longrightarrow$ design an algorithm that does not use this information
-
----
-
-### Idea: discard points/individuals in dense regions
-
-<br>
-
-Using 16 PCs in the UK Biobank,
-
-1. Compute densities of all points    
-as the sum of inverse of squared Euclidean distances with all other points
-
-2. Discard the point (individual) with the largest density
-
-3. Update the densities 
-
-4. Iterate 2. and 3. until N points are left
-
----
-
-### Initial density in PCA
-
-<br>
+### Can we use Q to get something better? 
 
 ```{r, out.width="100%"}
-knitr::include_graphics("figures/density-PCA.png")
+knitr::include_graphics("figures/PC_ukbb_new.png")
 ```
 
 ---
 
-### Ancestry composition of subsamples
+### Rerun the algorithm with new PCs (K=41)
 
-<br>
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: auto;
+        font-size: 14px;
+    }
+</style>
 
-```{r, out.width="100%"}
-knitr::include_graphics("figures/subsample_ancestry_ukbb2.png")
-```
+<div class="grid-container">
+<ul>
+    <li>United Kingdom: 414629 &#8211; Ireland: 12416 &#8211; NA: 4731 &#8211; Germany: 1498 &#8211; South Africa: 970 &#8211; USA: 956 &#8211; Australia: 853 &#8211; New Zealand: 656 &#8211; Canada: 644 &#8211; ...</li>
+    <li>NA: 709 &#8211; Poland: 592 &#8211; United Kingdom: 389 &#8211; Russia: 123 &#8211; Germany: 71 &#8211; Lithuania: 71 &#8211; Ukraine: 53 &#8211; Latvia: 52&#8211; ..</li>
+    <li>Italy: 34</li>
+    <li>Spain: 30</li>
+    <li>United Kingdom: 1838 &#8211; NA: 831 &#8211; USA: 170 &#8211; South Africa: 95 &#8211; Israel: 40 &#8211; Canada: 18 &#8211; Hungary: 18 &#8211; France: 12</li>
+    <li>Finland: 125</li>
+    <li>Nigeria: 975 &#8211; NA: 292 &#8211; Caribbean: 155 &#8211; Sierra Leone: 42 &#8211; Ghana: 13</li>
+    <li>Sri Lanka: 635 &#8211; India: 493 &#8211; Mauritius: 190 &#8211; NA: 156 &#8211; Kenya: 90 &#8211; Caribbean: 71 &#8211; Malaysia: 67 &#8211; The Guianas: 52 &#8211; ...</li>
+    <li>Malta: 114 &#8211; United Kingdom: 15 &#8211; NA: 12 &#8211; Egypt: 10</li>
+    <li>Iran: 494 &#8211; Iraq: 247 &#8211; Turkey: 114 &#8211; NA: 58 &#8211; Syria: 11 &#8211; United Kingdom: 10</li>
+    <li>Ghana: 817 &#8211; NA: 68 &#8211; Ivory Coast: 27</li>
+    <li>India: 571 &#8211; NA: 207 &#8211; Kenya: 40 &#8211; Pakistan: 28 &#8211; Malaysia: 23 &#8211; Singapore: 13</li>
+    <li>India: 28</li>
+    <li>Yemen: 26 &#8211; Egypt: 18 &#8211; NA: 12</li>
+    <li>Congo: 129 &#8211; Angola: 30 &#8211; Zambia: 30 &#8211; NA: 25 &#8211; Cameroon: 24</li>
+    <li>India: 224 &#8211; Kenya: 179 &#8211; NA: 55 &#8211; Uganda: 28 &#8211; Pakistan: 21 &#8211; Tanzania: 21</li>
+</ul>
+
+<ul>
+    <li>Japan: 241 &#8211; South Korea: 26</li>
+    <li>Thailand: 61 &#8211; Vietnam: 40 &#8211; Malaysia: 10</li>
+    <li>Algeria: 69 &#8211; Morocco: 66 &#8211; Libya: 27 &#8211; NA: 10</li>
+    <li>Kenya: 18 &#8211; India: 13</li>
+    <li>Philippines: 310 &#8211; NA: 16</li>
+    <li>Pakistan: 76 &#8211; NA: 20</li>
+    <li>Kenya: 36 &#8211; India: 25</li>
+    <li>India: 70 &#8211; Afghanistan: 25 &#8211; NA: 19</li>
+    <li>India: 17 &#8211; NA: 11 &#8211; Malawi: 10</li>
+    <li>Colombia: 115</li>
+    <li>Sierra Leone: 38 &#8211; Gambia: 33</li>
+    <li>India: 90 &#8211; NA: 32</li>
+    <li>Tanzania: 24</li>
+    <li>Pakistan: 146 &#8211; NA: 42 &#8211; India: 22 &#8211; Kenya: 18</li>
+    <li>India: 135 &#8211; Kenya: 120 &#8211; Uganda: 80 &#8211; NA: 37 &#8211; Tanzania: 24</li>
+    <li>Nepal: 125 &#8211; NA: 14</li>
+    <li>Peru: 31 &#8211; Ecuador: 20 &#8211; Bolivia: 14 &#8211; Mexico: 13</li>
+    <li>Uganda: 69 &#8211; Tanzania: 43 &#8211; Kenya: 40 &#8211; India: 24</li>
+    <li>Kenya: 42 &#8211; India: 39 &#8211; NA: 16 &#8211; Tanzania: 14</li>
+    <li>Uganda: 101 &#8211; Kenya: 28 &#8211; Tanzania: 11</li>
+    <li>Kenya: 114</li>
+    <li>India: 43 &#8211; Kenya: 38 &#8211; NA: 19</li>
+    <li>South Africa: 48 &#8211; Zimbabwe: 25</li>
+    <li>Sudan: 17</li>
+    <li></li>
+    <li>Somalia: 78</li>
+</ul>
+</div>
 
 ---
 
-### Density and subsample of "Prefer not to answer" individuals 
+### Conclusion
 
 <br>
 
-```{r, out.width="100%"}
-knitr::include_graphics("figures/subsample_NoAnswer_ukbb2.png")
-```
+- I have developed a powerful ancestry deconvolution algorithm
 
----
-
-### Density and subsample of "White" individuals 
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/subsample_White_ukbb2.png")
-```
-
----
-
-### PCA after subsampling, in the UK Biobank (2.1)
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/PCA2-restricted3-26.png")
-```
-
----
-
-### PCA after subsampling, in the UK Biobank (2.2)
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/PCA2-restricted27-50.png")
-```
-
----
-
-### Future work
-
-<br>
-
-- understand why I get less added population structure
-
-- consider infinity distance and scaling
+- It can identify many reference groups
 
 --
 
-- use another solution for subsampling (adxmiture-like grouping)
+- Subsampling before PCA is beneficial to capture even more
 
 --
 
-- have some other criterion for assessing the "amount" of ancestry captured
+- The algorithm is not specific to genetic data    
+(merely a deconvolution algorithm based on PCA)
+
 
 ---
 
