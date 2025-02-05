@@ -342,22 +342,23 @@ knitr::include_graphics("figures/PC_ukbb_with17.png")
 ### Country counts with ancestry > 0.6 for each reference
 
 <ul class="small2">
-    <li>8: United Kingdom: 126045 &#8211; NA: 1352 &#8211; Germany: 915 &#8211; South Africa: 477 &#8211; Netherlands: 443 &#8211; USA: 400 &#8211; France: 300 &#8211; Australia: 226 &#8211; Denmark: 197 &#8211; Canada: 195 &#8211; India: 163 &#8211; Zimbabwe: 150 &#8211; New Zealand: 143 &#8211; Ireland: 131 &#8211; ...</li>
-    <li>11: United Kingdom: 22206 &#8211; NA: 86 &#8211; Germany: 16 &#8211; Ireland: 14</li>
-    <li>14: United Kingdom: 32123 &#8211; Ireland: 289 &#8211; NA: 265 &#8211; New Zealand: 75 &#8211; Canada: 58 &#8211; India: 54 &#8211; Germany: 47 &#8211; South Africa: 43 &#8211; Australia: 40 &#8211; Kenya: 36 &#8211; Malaysia: 29 &#8211; Singapore: 26 &#8211; Zimbabwe: 21 &#8211; Hong Kong: 20 &#8211; ...</li>
-    <li>10: United Kingdom: 10647 &#8211; Ireland: 9360 &#8211; NA: 290 &#8211; USA: 47 &#8211; Australia: 43 &#8211; New Zealand: 30 &#8211; Germany: 21 &#8211; Canada: 15</li>
-    <li>16: United Kingdom: 1347 &#8211; NA: 30</li>
-    <li>6: United Kingdom: 4080 &#8211; NA: 77</li>
-    <li>9: NA: 752 &#8211; Poland: 599 &#8211; United Kingdom: 415 &#8211; Russia: 131 &#8211; Finland: 105 &#8211; Germany: 87 &#8211; Lithuania: 71 &#8211; Ukraine: 55 &#8211; Czech Republic: 53 &#8211; Latvia: 52 &#8211; ...</li>
-    <li>4: India: 1852 &#8211; Kenya: 782 &#8211; Sri Lanka: 653 &#8211; NA: 547 &#8211; Pakistan: 410 &#8211; Mauritius: 273 &#8211; Bangladesh: 235 &#8211; Uganda: 231 &#8211; Tanzania: 175 &#8211; Caribbean: 114 &#8211; ...</li>
-    <li>1: Caribbean: 2110 &#8211; NA: 2100 &#8211; Nigeria: 1017 &#8211; Ghana: 866 &#8211; Barbados: 255 &#8211; Sierra Leone: 202 &#8211; The Guianas: 151 &#8211; Gambia: 39 &#8211; Ivory Coast: 32 &#8211; ...</li>
-    <li>17: Italy: 389 &#8211; NA: 353 &#8211; Cyprus: 170 &#8211; United Kingdom: 168 &#8211; Egypt: 147 &#8211; Malta: 116 &#8211; Greece: 99 &#8211; Algeria: 68 &#8211; Lebanon: 50 &#8211; Morocco: 46 &#8211; Libya: 40 &#8211; ...</li>
-    <li>3: United Kingdom: 1844 &#8211; NA: 830 &#8211; USA: 169 &#8211; South Africa: 95 &#8211; Israel: 41 &#8211; ...</li>
-    <li>7: Iran: 476 &#8211; Iraq: 140 &#8211; NA: 59 &#8211; Turkey: 54 &#8211; India: 36 &#8211; Afghanistan: 13 &#8211; ...</li>
-    <li>2: China: 287 &#8211; Japan: 241 &#8211; Malaysia: 185 &#8211; Hong Kong: 161 &#8211; Nepal: 123 &#8211; NA: 63 &#8211; Singapore: 56 &#8211; South Korea: 26 &#8211; Mauritius: 25 &#8211; Taiwan: 25 &#8211; ...</li>
-    <li>13: Philippines: 315 &#8211; Malaysia: 20 &#8211; NA: 17 &#8211; Indonesia: 15 &#8211; Thailand: 13</li>
-    <li>6: Peru: 33 &#8211; Ecuador: 25 &#8211; Mexico: 20 &#8211; Colombia: 17 &#8211; Bolivia: 14 &#8211; Chile: 11</li>
-    <li>12: Somalia: 81 &#8211; Ethiopia: 58 &#8211; Sudan: 51 &#8211; Eritrea: 45 &#8211; NA: 20</li>
+    <li>United Kingdom: 126045 &#8211; NA: 1352 &#8211; Germany: 915 &#8211; South Africa: 477 &#8211; Netherlands: 443 &#8211; USA: 400 &#8211; France: 300 &#8211; Australia: 226 &#8211; Denmark: 197 &#8211; Canada: 195 &#8211; ...</li>
+    <li>United Kingdom: 22206 &#8211; NA: 86 &#8211; Germany: 16 &#8211; Ireland: 14</li>
+    <li>United Kingdom: 32123 &#8211; Ireland: 289 &#8211; NA: 265 &#8211; New Zealand: 75 &#8211; Canada: 58 &#8211; India: 54 &#8211; Germany: 47 &#8211; South Africa: 43 &#8211; Australia: 40 &#8211; Kenya: 36 &#8211; Malaysia: 29 &#8211; ...</li>
+    <li>United Kingdom: 10647 &#8211; Ireland: 9360 &#8211; NA: 290 &#8211; USA: 47 &#8211; Australia: 43 &#8211; ...</li>
+    <li>United Kingdom: 1347 &#8211; NA: 30</li>
+    <li>United Kingdom: 4080 &#8211; NA: 77</li>
+    <li>NA: 752 &#8211; Poland: 599 &#8211; United Kingdom: 415 &#8211; Russia: 131 &#8211; Finland: 105 &#8211; Germany: 87 &#8211; Lithuania: 71 &#8211; Ukraine: 55 &#8211; Czech Republic: 53 &#8211; Latvia: 52 &#8211; Slovakia: 28 &#8211; ...</li>
+    <li>India: 1852 &#8211; Kenya: 782 &#8211; Sri Lanka: 653 &#8211; NA: 547 &#8211; Pakistan: 410 &#8211; Mauritius: 273 &#8211; Bangladesh: 235 &#8211; Uganda: 231 &#8211; Tanzania: 175 &#8211; Caribbean: 114 &#8211; The Guianas: 83 &#8211; ...</li>
+    <li>Caribbean: 2110 &#8211; NA: 2100 &#8211; Nigeria: 1017 &#8211; Ghana: 866 &#8211; Barbados: 255 &#8211; Sierra Leone: 202 &#8211; The Guianas: 151 &#8211; Gambia: 39 &#8211; Ivory Coast: 32 &#8211; ...</li>
+    <li>Italy: 389 &#8211; NA: 353 &#8211; Cyprus: 170 &#8211; United Kingdom: 168 &#8211; Egypt: 147 &#8211; Malta: 116 &#8211; Greece: 99 &#8211; Algeria: 68 &#8211; Lebanon: 50 &#8211; Morocco: 46 &#8211; Libya: 40 &#8211; Palestine: 30 &#8211; ...</li>
+    <li>United Kingdom: 1844 &#8211; NA: 830 &#8211; USA: 169 &#8211; South Africa: 95 &#8211; Israel: 41 &#8211; ...</li>
+    <li>Iran: 476 &#8211; Iraq: 140 &#8211; NA: 59 &#8211; Turkey: 54 &#8211; India: 36 &#8211; Afghanistan: 13 &#8211; Pakistan: 10</li>
+    <li>China: 287 &#8211; Japan: 241 &#8211; Malaysia: 185 &#8211; Hong Kong: 161 &#8211; Nepal: 123 &#8211; NA: 63 &#8211; Singapore: 56 &#8211; South Korea: 26 &#8211; Mauritius: 25 &#8211; Taiwan: 25 &#8211; Indonesia: 15 &#8211; ...</li>
+    <li>Zimbabwe: 268 &#8211; Congo: 133 &#8211; Uganda: 115 &#8211; Kenya: 73 &#8211; South Africa: 59 &#8211; Zambia: 56 &#8211; NA: 41 &#8211; Tanzania: 26 &#8211; Angola: 23 &#8211; Burundi: 17 &#8211; Rwanda: 16 &#8211; Seychelles: 14 &#8211; ...</li>
+    <li>Philippines: 315 &#8211; Malaysia: 20 &#8211; NA: 17 &#8211; Indonesia: 15 &#8211; Thailand: 13</li>
+    <li>Peru: 33 &#8211; Ecuador: 25 &#8211; Mexico: 20 &#8211; Colombia: 17 &#8211; Bolivia: 14 &#8211; Chile: 11</li>
+    <li>Somalia: 81 &#8211; Ethiopia: 58 &#8211; Sudan: 51 &#8211; Eritrea: 45 &#8211; NA: 20</li>
 </ul>
 
 
@@ -518,7 +519,9 @@ class: inverse, center, middle
 ## Thank you for your attention
 
 <br>
-<br>
+
+[bit.ly/privefl060225](https://bit.ly/privefl060225)
+
 <br>
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
