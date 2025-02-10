@@ -1,0 +1,106 @@
+---
+title: "JC_13_Feb_2025"
+output:
+  xaringan::moon_reader:
+    includes:
+      in_header: "no_favicon.html"
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL  <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO      <- icons::fontawesome$solid$`info-circle`
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# Journal Club 13/02/25
+
+## Towards whole-genome inference of polygenic scores<br>with fast and memory-efficient algorithms
+
+<br>
+
+## Florian Privé 
+### Aarhus University
+#### <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+---
+
+### Abstract
+
+<br>
+
+- developing PRS from millions of variants remain challenging
+
+- people have used either C+T or restricted to 1M HapMap3 variants
+
+- they present a set of algorithmic improvements and compact data structures that enable scaling PRS to use 18M variants
+
+- especially compression of LD matrices
+
+- incorporate these changes in their VIPRS method
+
+- faster, more memory-efficient, and also better prediction
+
+---
+
+### Introduction
+
+<br>
+
+- LD matrices are very large (e.g. 15 GB for 1M variants in LDpred2 with 3cM window; twice if not using the compact format)
+
+- running PGS methods can take up to a few hours for 1M variants
+
+- they propose to
+
+    - compress LD matrices (by 50 fold)
+    
+    - assess the condition of different LD matrices
+    
+    - optimize VIPRS to use the compressed LD matrices
+    
+    - use two layers of parallelism in VIPRS
+    
+---
+
+### Efficient LD matrices (methods)
+
+- two types: either banded (windowed) or block-diagonal (LD blocks)
+
+- can reduce size by
+
+    - storing the upper triangle only (/2)
+    
+    - storing correlations with less bytes    
+    ($r^\text{q} = round(r \cdot s)$ and $r^\text{dq} = r^\text{q} / s$ with $s = 127$ or $s = 32767$) 
+    
+    ```{r, out.width = "85%"}
+    knitr::include_graphics("figures/JC-VIPRS2-table1.png")
+    ```
+    
+    - storing in chunks (need to store index of first value only $\rightarrow$ /2)
+    
+    - compressing each chunk (*Zarr* format) 
+
+---
+
+### Efficient LD matrices (results)
+
+<br>
+
+```{r, out.width = "50%"}
+knitr::include_graphics("figures/JC-VIPRS2-fig2a.png")
+```
