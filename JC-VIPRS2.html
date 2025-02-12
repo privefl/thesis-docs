@@ -70,6 +70,8 @@ class: title-slide center middle inverse
 
 ### Efficient LD matrices (methods)
 
+&lt;br&gt;
+
 - two types: either banded (windowed) or block-diagonal (LD blocks)
 
 - can reduce size by
@@ -81,9 +83,7 @@ class: title-slide center middle inverse
     
     &lt;img src="figures/JC-VIPRS2-table1.png" width="85%" style="display: block; margin: auto;" /&gt;
     
-    - storing in chunks (need to store index of first value only `\(\rightarrow\)` /2)
-    
-    - compressing each chunk (*Zarr* format) 
+    - storing in compressed chunks (*Zarr* format, also cloud-native) 
 
 ---
 
@@ -92,6 +92,125 @@ class: title-slide center middle inverse
 &lt;br&gt;
 
 &lt;img src="figures/JC-VIPRS2-fig2a.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Optimizations in VIPRS
+
+&lt;br&gt;
+
+- now use C++ instead of Python (speed x10)
+
+- now use optimized matrix operations    
+(not sure exactly where, since they use coordinate ascent)
+
+- use floats instead of double for parameters (speed x2!?)
+
+- accommodate the new triangular format for LD (+ quantized versions)
+
+- parallelize over chromosomes (but more memory needed)
+
+- parallelize the coordinate ascent (difficult)
+
+- don't parallelize over LD blocks?    
+(want to also accommodate windowed LD)
+
+---
+
+### Investigating numerical instabilities
+
+&lt;br&gt;
+
+- LD is often not positive semi-definite (PSD), i.e. min(eigval) is negative
+
+- the larger are the negative eigenvalues, the more numerical instabilities there are
+
+- three main contributing factors that can impact the spectrum of estimated LD matrices: 
+
+    - sparsification pattern (e.g. windowed, but not LD blocks), 
+    
+    - pairwise correlation estimator in the presence of missing data    
+    (use mean imputation or imputed data instead),
+    
+    - approximation error (e.g. thresholding or quantization).
+
+--
+
+&lt;br&gt;
+
+- their solution: use `\(\tilde{R} - \min(0, \lambda_\text{min}) I\)` instead of `\(\tilde{R}\)`    
+(actually they test {0, 0.01, 0.1, 1, 2} * `\(\lambda_\text{min}\)`)
+    
+---
+
+### Minimum eigenvalues for block-diagonal LD
+
+&lt;br&gt;
+
+&lt;img src="figures/JC-VIPRS2-figS8b.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Minimum eigenvalues for windowed LD
+
+&lt;br&gt;
+
+&lt;img src="figures/JC-VIPRS2-figS7a.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Numbers of samples and variants
+
+&lt;br&gt;
+
+&lt;img src="figures/JC-VIPRS2-table2.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;br&gt;
+
+Sets of variants considered:
+
+- 18M variants with INFO &gt; 0.8 and MAC &gt; 20 (in the whole cohort &lt;svg viewBox="0 0 576 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"&gt;&lt;/path&gt;&lt;/svg&gt;)
+
+- 13M variants with additionally MAF &gt; 0.1%
+
+- HapMap3+ (1.4M)
+
+---
+
+### Predictive performance
+
+&lt;br&gt;
+
+&lt;img src="figures/JC-VIPRS2-fig4c.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### My thoughts on this paper
+
+What I liked:
+
+- They used many axes of optimization, for both speed and memory
+
+- They looked at different LD matrices and their spectral distribution
+
+--
+
+&lt;br&gt;
+
+What I didn't like or didn't understand:
+
+- Runtime results are too-good-to-be-true? e.g. it takes one minute to fit VIPRS on 1.1M variants (uncompressing should take more time)
+
+- I think int8-quantization is too much, but int16 takes 6x more space (because of less efficient compression I guess)
+
+- using more variants may not be beneficial    
+when cannot distinguish between correlated variants    
+(need e.g. functional annotations and multi-ancestry)
+
+- LD blocks are imperfect, especially for large set of variants
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

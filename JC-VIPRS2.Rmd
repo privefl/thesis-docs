@@ -78,6 +78,8 @@ class: title-slide center middle inverse
 
 ### Efficient LD matrices (methods)
 
+<br>
+
 - two types: either banded (windowed) or block-diagonal (LD blocks)
 
 - can reduce size by
@@ -91,9 +93,7 @@ class: title-slide center middle inverse
     knitr::include_graphics("figures/JC-VIPRS2-table1.png")
     ```
     
-    - storing in chunks (need to store index of first value only $\rightarrow$ /2)
-    
-    - compressing each chunk (*Zarr* format) 
+    - storing in compressed chunks (*Zarr* format, also cloud-native) 
 
 ---
 
@@ -104,3 +104,130 @@ class: title-slide center middle inverse
 ```{r, out.width = "50%"}
 knitr::include_graphics("figures/JC-VIPRS2-fig2a.png")
 ```
+
+---
+
+### Optimizations in VIPRS
+
+<br>
+
+- now use C++ instead of Python (speed x10)
+
+- now use optimized matrix operations    
+(not sure exactly where, since they use coordinate ascent)
+
+- use floats instead of double for parameters (speed x2!?)
+
+- accommodate the new triangular format for LD (+ quantized versions)
+
+- parallelize over chromosomes (but more memory needed)
+
+- parallelize the coordinate ascent (difficult)
+
+- don't parallelize over LD blocks?    
+(want to also accommodate windowed LD)
+
+---
+
+### Investigating numerical instabilities
+
+<br>
+
+- LD is often not positive semi-definite (PSD), i.e. min(eigval) is negative
+
+- the larger are the negative eigenvalues, the more numerical instabilities there are
+
+- three main contributing factors that can impact the spectrum of estimated LD matrices: 
+
+    - sparsification pattern (e.g. windowed, but not LD blocks), 
+    
+    - pairwise correlation estimator in the presence of missing data    
+    (use mean imputation or imputed data instead),
+    
+    - approximation error (e.g. thresholding or quantization).
+
+--
+
+<br>
+
+- their solution: use $\tilde{R} - \min(0, \lambda_\text{min}) I$ instead of $\tilde{R}$    
+(actually they test {0, 0.01, 0.1, 1, 2} * $\lambda_\text{min}$)
+    
+---
+
+### Minimum eigenvalues for block-diagonal LD
+
+<br>
+
+```{r, out.width = "90%"}
+knitr::include_graphics("figures/JC-VIPRS2-figS8b.png")
+```
+
+---
+
+### Minimum eigenvalues for windowed LD
+
+<br>
+
+```{r, out.width = "100%"}
+knitr::include_graphics("figures/JC-VIPRS2-figS7a.png")
+```
+
+---
+
+### Numbers of samples and variants
+
+<br>
+
+```{r, out.width = "95%"}
+knitr::include_graphics("figures/JC-VIPRS2-table2.png")
+```
+
+--
+
+<br>
+
+Sets of variants considered:
+
+- 18M variants with INFO > 0.8 and MAC > 20 (in the whole cohort `r ICON_TRI_EXCL`)
+
+- 13M variants with additionally MAF > 0.1%
+
+- HapMap3+ (1.4M)
+
+---
+
+### Predictive performance
+
+<br>
+
+```{r, out.width = "100%"}
+knitr::include_graphics("figures/JC-VIPRS2-fig4c.png")
+```
+
+---
+
+### My thoughts on this paper
+
+What I liked:
+
+- They used many axes of optimization, for both speed and memory
+
+- They looked at different LD matrices and their spectral distribution
+
+--
+
+<br>
+
+What I didn't like or didn't understand:
+
+- Runtime results are too-good-to-be-true? e.g. it takes one minute to fit VIPRS on 1.1M variants (uncompressing should take more time)
+
+- I think int8-quantization is too much, but int16 takes 6x more space (because of less efficient compression I guess)
+
+- using more variants may not be beneficial    
+when cannot distinguish between correlated variants    
+(need e.g. functional annotations and multi-ancestry)
+
+- LD blocks are imperfect, especially for large set of variants
+
