@@ -40,11 +40,13 @@ class: title-slide center middle inverse
 
 - they present a set of algorithmic improvements and compact data structures that enable scaling PRS to use 18M variants
 
-- especially compression of LD matrices
+- especially compression of LD matrices (also good for sharing)
 
 - incorporate these changes in their VIPRS method
 
-- faster, more memory-efficient, and also better prediction
+- now much faster and more memory-efficient
+
+- better prediction when using more variants?
 
 ---
 
@@ -58,9 +60,9 @@ class: title-slide center middle inverse
 
 - they propose to
 
-    - compress LD matrices (by 50 fold)
+    - quantize and compress LD matrices (size /50)
     
-    - assess the condition of different LD matrices
+    - assess the spectral properties of different LD matrices
     
     - optimize VIPRS to use the compressed LD matrices
     
@@ -104,9 +106,9 @@ class: title-slide center middle inverse
 - now use optimized matrix operations    
 (not sure exactly where, since they use coordinate ascent)
 
-- use floats instead of double for parameters (speed x2!?)
+- use 32-bit floats instead of 64-bit doubles for parameters (speed x2!?)
 
-- accommodate the new triangular format for LD (+ quantized versions)
+- accommodate the new triangular format for LD + quantized versions
 
 - parallelize over chromosomes (but more memory needed)
 
@@ -149,6 +151,9 @@ class: title-slide center middle inverse
 
 &lt;img src="figures/JC-VIPRS2-figS8b.png" width="90%" style="display: block; margin: auto;" /&gt;
 
+.footnote[MI: mean imputation before computing LD    
+(instead of using pairwise complete observations)]
+
 ---
 
 ### Minimum eigenvalues for windowed LD
@@ -156,6 +161,8 @@ class: title-slide center middle inverse
 &lt;br&gt;
 
 &lt;img src="figures/JC-VIPRS2-figS7a.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[LRLD: long-range LD regions (e.g. HLA)]
 
 ---
 
@@ -193,7 +200,7 @@ What I liked:
 
 - They used many axes of optimization, for both speed and memory
 
-- They looked at different LD matrices and their spectral distribution
+- They looked at different LD matrices and their spectral properties
 
 --
 
@@ -203,7 +210,7 @@ What I didn't like or didn't understand:
 
 - Runtime results are too-good-to-be-true? e.g. it takes one minute to fit VIPRS on 1.1M variants (uncompressing should take more time)
 
-- I think int8-quantization is too much, but int16 takes 6x more space (because of less efficient compression I guess)
+- I think int8-quantization is too much, but int16 takes 4x more space (because of less efficient compression I guess)
 
 - using more variants may not be beneficial    
 when cannot distinguish between correlated variants    
@@ -211,6 +218,13 @@ when cannot distinguish between correlated variants
 
 - LD blocks are imperfect, especially for large set of variants
 
+- using one triangle is more difficult for nothing? (compression)
+
+---
+
+class: title-slide center middle inverse
+
+# Any other questions or comments?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
