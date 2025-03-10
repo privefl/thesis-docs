@@ -13,7 +13,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+# chromote::local_chrome_version(binary = "chrome-headless-shell")
+# renderthis::to_pdf("", partial_slides = TRUE)
 options(htmltools.dir.version = FALSE, width = 70)
 knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
                       echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
