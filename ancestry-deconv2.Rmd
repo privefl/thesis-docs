@@ -299,7 +299,7 @@ knitr::include_graphics("figures/PC_ukbb_with17.png")
 
 ---
 
-### Country counts with ancestry > 0.6 for each reference
+### Country (of birth) counts with ancestry > 0.6 for each reference
 
 <ul class="small2">
     <li>United Kingdom: 126045 &#8211; NA: 1352 &#8211; Germany: 915 &#8211; South Africa: 477 &#8211; Netherlands: 443 &#8211; USA: 400 &#8211; France: 300 &#8211; Australia: 226 &#8211; Denmark: 197 &#8211; Canada: 195 &#8211; ...</li>
@@ -438,15 +438,15 @@ knitr::include_graphics("figures/PC_ukbb_new.png")
 
 ### Conclusion
 
-<br>
+- A very efficient ancestry deconvolution algorithm
 
-- I have developed a powerful ancestry deconvolution algorithm
+- Also very powerful; it can identify many reference groups
 
-- It can identify many reference groups
+- One can (should) check the results visually
 
 --
 
-- Subsampling before PCA is beneficial to capture even more
+- Subsampling before PCA is beneficial to capture even more structure
 
 --
 
@@ -460,19 +460,14 @@ knitr::include_graphics("figures/PC_ukbb_new.png")
 --
 
 - More than just an improved ADMIXTURE    
-**I need to motivate better the need for this new method**
+**How can I further motivate the need for this new method?**
 
-
----
-
-class: inverse, center, middle
-
-## Thank you for your attention
+--
 
 <br>
 
-[bit.ly/privefl060225](https://bit.ly/privefl060225)
+.center[
+### Thank you for your attention
 
-<br>
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+Presentation available at [bit.ly/privefl110325](https://bit.ly/privefl110325)
+]
