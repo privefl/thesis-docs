@@ -76,6 +76,14 @@ class: center middle inverse
 
 ---
 
+### Genetic variants and GWAS
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/Overview_SNP_GWAS.png")
+```
+
+---
+
 ### Disease genetic architecture and polygenic scores
 
 ```{r, out.width="65%"}
