@@ -106,9 +106,7 @@ knitr::include_graphics("figures/PRS-risk.PNG")
 
 ### Modification of Lifetime Breast Cancer Risk for Pathogenic Variant Carriers and Noncarriers by an 86–Single-Nucleotide Variant Score
 
-<br>
-
-```{r, out.width="85%"}
+```{r, out.width="92%"}
 knitr::include_graphics("figures/PRS-cancer-risk.png")
 ```
 
@@ -124,10 +122,8 @@ class: center, middle, inverse
 
 ### Predictive performance drops with genetic distance to training
 
-<br>
-
-```{r, out.width="85%"}
-knitr::include_graphics("figures/ratio-dist-2.png")
+```{r, out.width="92%"}
+knitr::include_graphics("figures/ratio-dist-3.png")
 ```
 
 ---
