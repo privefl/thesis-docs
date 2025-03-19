@@ -88,7 +88,7 @@ class: center middle inverse
 ### Genetic variants and GWAS
 
 ```{r, out.width="100%"}
-knitr::include_graphics("figures/Overview_SNP_GWAS.png")
+knitr::include_graphics("figures/Overview_geneticvariants_GWAS.png")
 ```
 
 ---
@@ -123,7 +123,7 @@ knitr::include_graphics("figures/PRS-risk.PNG")
 
 ---
 
-### Modification of breast cancer risk using a 86-SNP PRS
+### Modification of breast cancer risk using a PRS (of 86 variants)
 
 ```{r, out.width="80%"}
 knitr::include_graphics("figures/PRS-cancer-risk.png")
@@ -157,11 +157,9 @@ knitr::include_graphics("figures/ratio-dist-3.png")
 
 ### How to explain this drop in predictive performance?
 
-<br>
+Counter-intuitive, because it has been shown that 
 
-Counter-intuitive, because it has been shown recently that 
-
-- **causal variants are mostly similar** across many populations
+- **causal variants are mostly similar** across populations
 
 - **their effect sizes are also very similar**
 
@@ -169,18 +167,11 @@ Counter-intuitive, because it has been shown recently that
 
 <br>
 
-The issue: 
+The issue: we often don't use causal variants in practice 
 
-- in practice, we often don't use causal variants 
-
-- instead, we use tagging/proxy variants,    
-highly correlated with the causal variants **in the training population**
-
---
-
-- but correlations between tagging and causal variants **varies across populations**
-  
-- which reduces the predictive power of tagging variants **in other populations**
+```{r, out.width="78%"}
+knitr::include_graphics("figures/LD-multipop.png")
+```
 
 ---
 
@@ -193,6 +184,36 @@ class: center, middle, inverse
 ---
 
 ### An overview of my proposed project MAGNIFIC
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/Overview_MAGNIFIC.png")
+```
+
+---
+
+### Prioritizing causal variants thanks to functional annotations (WP2)
+
+<br>
+
+```{r, out.width="55%"}
+knitr::include_graphics("figures/anno-enrich2.png")
+```
+
+---
+
+### Prioritizing causal variants thanks to multi-ancestry data (WP3)
+
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/multiancestry-finemapping2.png")
+```
+
+---
+
+### WP1 and WP4 to ensure causal variants are in the input data
 
 <br>
 
@@ -243,9 +264,9 @@ knitr::include_graphics("figures/Overview_MAGNIFIC.png")
 
 - **Collaboration**:
 
-  - **Sarah Djebali (INSERM CR)**: Expert in functional genome annotation, supporting integration of annotations
+  - **Sarah Djebali (CR INSERM)**: Expert in functional genome annotation, supporting integration of annotations
   
-  - **Jean Monlong (INSERM CR)**: Specialist in pangenomes and structural variants, expanding from simply using single-nucleotide polymorphisms (SNPs)
+  - **Jean Monlong (CR INSERM)**: Specialist in pangenomes and structural variants, expanding from simply using single-nucleotide polymorphisms (SNPs)
   
   - **Other lab members**: validation of causal variants using experimental models (e.g., mice, organoids)
   
