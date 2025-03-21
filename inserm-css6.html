@@ -51,9 +51,10 @@ background-size: 25%
 
 #### Research Interests
 
-- Statistical human genetics, polygenic scores, ancestry inference
+- Statistical human genetics, especially polygenic risk scores (PRS)
 
-- Development of scalable statistical methods and open-source software for large-scale genetic data analyses
+- Development of statistical methods and R/C++ packages    
+for efficient and powerful analyses of large-scale genetic data 
 
 --
 
@@ -83,20 +84,34 @@ class: center middle inverse
 
 ---
 
-### Disease genetic architecture and polygenic scores
+### GWAS and polygenic risk scores (PRS)
 
-&lt;img src="figures/disease-archi.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt;
+
+Thanks to GWAS, we know that
+
+- many common genetic variants are causal/pathogenic
+
+- but, they usually have a small effect on their own (`\(\beta_j\)`)
+
+- `\(\Rightarrow\)` a single common variant *cannot* be used as a risk factor
 
 --
 
-- many common genetic variants are causal/pathogenic
-- but, they usually have a small effect on their own
-- however, aggregating many small effects can result in a large effect
-- this is called a polygenic (risk) score (PGS or PRS)
+&lt;br&gt;
+
+From GWAS data to polygenic risk scores (PRS):
+
+- instead of looking at each genetic variant independently in a GWAS
+
+- variants can be aggregated in a joint predictive model: `\(PRS = \sum_j \gamma_j G_j\)`
+
+- `\(\Rightarrow\)` the `\(PRS\)` has a much larger effect than each `\(G_j\)`    
+and *can* be used as a risk factor
 
 ---
 
-### &lt;u&gt;Public Health&lt;/u&gt;&lt;br&gt;Using PRS to modify risk assessment from traditional risk factors
+### &lt;u&gt;Public Health&lt;/u&gt;&lt;br&gt;Using PRS to refine risk assessment from traditional risk factors
 
 &lt;img src="figures/PRS-risk.PNG" width="85%" style="display: block; margin: auto;" /&gt;
 
@@ -109,7 +124,7 @@ class: center middle inverse
 
 ---
 
-### Modification of breast cancer risk using a PRS (of 86 variants)
+### Refining breast cancer risk using a PRS (of 86 variants)
 
 &lt;img src="figures/PRS-cancer-risk.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -125,9 +140,11 @@ Association and performance of polygenic risk scores for breast cancer among Fre
 
 class: center, middle, inverse
 
-# A major limitation of polygenic scores:
+# A major limitation of PRS:
 
-# their poor portability across ancestries
+## their poor portability across populations
+
+## risks exacerbating health disparities
 
 ---
 
@@ -149,7 +166,7 @@ Counter-intuitive, because it has been shown that
 
 &lt;br&gt;
 
-The issue: we often don't use causal variants in practice 
+&lt;u&gt;The issue&lt;/u&gt;: we often don't use causal variants in practice 
 
 &lt;img src="figures/LD-multipop.png" width="78%" style="display: block; margin: auto;" /&gt;
 
@@ -187,7 +204,7 @@ class: center, middle, inverse
 
 ---
 
-### WP1 and WP4 to ensure causal variants are in the input data
+### WP1 and WP4 to ensure causal variants are available
 
 &lt;br&gt;
 
@@ -203,7 +220,7 @@ class: center, middle, inverse
     - bigstatsr and bigsnpr, R packages for large-scale analyses
 
 - Published 28 papers, including **9 as first author and 2 as sole author**    
-(around 2750 citations in total, 2000 for my 11 first-author papers)
+(with 2700+ citations in total, 2000+ for my 11 first-author papers)
 
 --
 
