@@ -86,13 +86,15 @@ class: center middle inverse
 
 ### GWAS and polygenic risk scores (PRS)
 
+**Studying common diseases**, such as heart diseases, cancers, diabetes
+
 &lt;br&gt;
 
 Thanks to GWAS, we know that
 
 - many **common** genetic variants are causal/pathogenic
 
-- but, they usually have a **small effect** on their own (`\(\beta_j\)`)
+- but, they usually have a **small effect size** on their own (`\(\beta_j\)`)
 
 - `\(\Rightarrow\)` a single common variant *cannot* be used as a risk factor
 
@@ -104,7 +106,7 @@ From GWAS data to polygenic risk scores (PRS):
 
 - variants can be aggregated in a joint predictive model: `\(PRS = \sum_j \hat\gamma_j G_j\)`
 
-- `\(\Rightarrow\)` the `\(PRS\)` has a much larger effect than each `\(G_j\)`    
+- `\(\Rightarrow\)` the `\(PRS\)` has a much larger effect size than each `\(G_j\)`    
 and *can* be used as a risk factor
 
 ---
@@ -184,7 +186,7 @@ class: center, middle, inverse
 
 ### Prioritizing causal variants thanks to functional annotations (WP2)
 
-&lt;br&gt;
+For example, protein-coding variants, regulatory variants, conserved variants (in regions with little evolutionary change)
 
 &lt;img src="figures/anno-enrich2.png" width="55%" style="display: block; margin: auto;" /&gt;
 
