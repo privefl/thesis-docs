@@ -129,7 +129,7 @@ knitr::include_graphics("figures/PRS-risk2.png")
 
 .footnote2[
 ***
-PRS clinical acceptance & utility demonstrated in a **randomized clinical trial**:    
+PRS clinical acceptance & utility demonstrated in a **clinical trial**:    
 A. Fuat et al, European journal of preventive cardiology (2024)
 ]
 
