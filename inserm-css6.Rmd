@@ -112,7 +112,7 @@ Thanks to GWAS, we know that
 
 From GWAS data to polygenic risk scores (PRS):
 
-- variants can be aggregated in a joint predictive model: $PRS = \sum_j \gamma_j G_j$
+- variants can be aggregated in a joint predictive model: $PRS = \sum_j \hat\gamma_j G_j$
 
 - $\Rightarrow$ the $PRS$ has a much larger effect than each $G_j$    
 and *can* be used as a risk factor
@@ -122,26 +122,26 @@ and *can* be used as a risk factor
 ### <u>Public Health</u><br>Using PRS to refine risk assessment from traditional risk factors
 
 ```{r, out.width="85%"}
-knitr::include_graphics("figures/PRS-risk.PNG")
+knitr::include_graphics("figures/PRS-risk2.PNG")
 ```
 
 .footnote2[
 ***
-**In a randomized clinical trial** in the UK, a PRS added to a QRISK®2 cardiovascular disease risk calculator demonstrated robust clinical acceptance and clinical utility in the primary care setting.
+PRS clinical acceptance & utility demonstrated in a **randomized clinical trial**:    
+A. Fuat et al, European journal of preventive cardiology (2024)
 ]
 
 ---
 
 ### Refining breast cancer risk using a PRS (of 86 common variants)
 
-```{r, out.width="80%"}
-knitr::include_graphics("figures/PRS-cancer-risk.png")
+```{r, out.width="83%"}
+knitr::include_graphics("figures/PRS-cancer-risk2.png")
 ```
 
 .footnote2[
 ***
-Similar results from a study **in France**:    
-Association and performance of polygenic risk scores for breast cancer among French women presenting or not a familial predisposition to the disease. *European Journal of Cancer* (2023).
+Similar results from a study **in France**: Y. Jiao et al, European Journal of Cancer (2023)
 ]
 
 ---
@@ -156,10 +156,10 @@ class: center, middle, inverse
 
 ---
 
-### Predictive performance of PRS drops with genetic distance to training
+### PRS performance drops with distance to training
 
-```{r, out.width="92%"}
-knitr::include_graphics("figures/ratio-dist-3.png")
+```{r, out.width="100%"}
+knitr::include_graphics("figures/ratio-dist-4.png")
 ```
 
 ---
@@ -241,7 +241,7 @@ knitr::include_graphics("figures/Overview_MAGNIFIC.png")
     - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
 
 - Published 28 papers, including **9 as first author and 2 as sole author**    
-(with 2700+ citations in total, 2000+ for my 11 first-author papers)
+(with 2700+ citations in total, **2000+** for my 11 first-author papers)
 
 --
 
