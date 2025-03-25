@@ -238,12 +238,12 @@ knitr::include_graphics("figures/Overview_MAGNIFIC.png")
 
 - Already **developed many state-of-the-art methods** in past 9 years  
 
-    - LDpred2, widely used for constructing polygenic scores
+    - LDpred2, widely used for constructing PRS
     
     - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
 
-- Published 28 papers, including **9 as first author and 2 as sole author**    
-(with 2700+ citations in total, **2000+** for my 11 first-author papers)
+- Published 28 papers with 2800 citations in total,    
+including **2000 for my 11 first-author papers**
 
 --
 
@@ -294,19 +294,19 @@ knitr::include_graphics("figures/Overview_MAGNIFIC.png")
 
 ---
 
-### Relevance to INSERM's Mission
+### Relevance to INSERM's mission
 
 <br>
 
 My project aligns closely with INSERM's commitment to advancing public health through biomedical and bioinformatics innovation:
 
-- **Precision Medicine**: enabling earlier and more accurate disease risk assessment
+- **Precision medicine**: enabling earlier and more accurate disease risk assessment
 
-- **Reducing Health Disparities**: improving risk models for all worldwide populations
+- **Reducing health disparities**: improving risk models for all worldwide populations
 
-- **Bridging Research and Clinical Practice**: facilitating the integration of polygenic risk scores into clinical and public health strategies
+- **Bridging research and clinical practice**: facilitating the integration of PRS into clinical and public health strategies
 
-- **Enhancing Genetic Discoveries**: Improving the identification of causal variants to identify disease mechanisms and therapeutic targets
+- **Enhancing genetic discoveries**: Improving the identification of causal variants to identify disease mechanisms and therapeutic targets
 
 ---
 
