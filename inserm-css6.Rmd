@@ -306,7 +306,7 @@ My project aligns closely with INSERM's commitment to advancing public health th
 
 - **Bridging research and clinical practice**: facilitating the integration of PRS into clinical and public health strategies
 
-- **Enhancing genetic discoveries**: Improving the identification of causal variants to identify disease mechanisms and therapeutic targets
+- **Enhancing genetic discoveries**: improving the identification of causal variants to identify disease mechanisms and therapeutic targets
 
 ---
 
