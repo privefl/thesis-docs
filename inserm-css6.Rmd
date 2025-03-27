@@ -173,7 +173,9 @@ class: center, middle, inverse
 
 # The solution:
 
-# precisely identifying causal variants
+## identifying causal variants
+
+## and using them in PRS
 
 ---
 
@@ -259,7 +261,7 @@ including **2000 for my 11 first-author papers**
 
 --
 
-- My **funding strategy**:
+- My **funding strategy** for building a team:
 
   - ATIP-Avenir (applied)
   
