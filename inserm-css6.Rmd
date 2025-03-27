@@ -102,11 +102,11 @@ knitr::include_graphics("figures/Overview_geneticvariants_GWAS.png")
 
 Thanks to GWAS, we know that
 
-- many **common** genetic variants are causal/pathogenic
+- many **common** genetic variants are causal $\left(\beta_j \neq 0\right)$
 
-- but, they usually have a **small effect size** $\beta_j$ on their own
-
-- $\Rightarrow$ a single common variant *cannot* be used as a risk factor
+- but, they usually have a **small effect size** $\beta_j$ on their own   
+    
+    $\Rightarrow$ <u>a common causal variant is not useful as a risk factor</u>
 
 --
 
@@ -116,34 +116,27 @@ From GWAS data to polygenic risk scores (PRS):
 
 - variants can be aggregated in a joint predictive model: $PRS = \sum_j \hat\gamma_j~G_j$
 
-- $\Rightarrow$ the $PRS$ has a much larger effect size than each $G_j$    
-and *can* be used as a risk factor
+    $\Rightarrow$ the $PRS$ has a much larger effect size than any $G_j$  
+    
+    $\Rightarrow$ the $PRS$ can be useful as a risk factor
 
 ---
 
-### <u>Public Health</u><br>Using a PRS to refine risk assessment from traditional risk factors
+### <u>Public Health</u>: refining risk assessment from traditional risk factors
 
-```{r, out.width="85%"}
+<u>Traditional risk factors</u>: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency high-impact) genetic mutations, etc
+
+```{r, out.width="82%"}
 knitr::include_graphics("figures/PRS-risk2.png")
 ```
 
-.footnote2[
-***
-PRS clinical acceptance & utility demonstrated in a **clinical trial**:    
-A. Fuat et al, European journal of preventive cardiology (2024)
-]
-
----
-
-### Refining breast cancer risk using a PRS (of 86 common variants)
-
-```{r, out.width="83%"}
-knitr::include_graphics("figures/PRS-cancer-risk2.png")
-```
+--
 
 .footnote2[
 ***
-Similar results from a study **in France**: Y. Jiao et al, European Journal of Cancer (2023)
+PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventive Cardiology (2024)
+
+Refining breast cancer genetic risk using a PRS **in France**: Y. Jiao et al, Eur. J. of Cancer (2023)
 ]
 
 ---
@@ -160,28 +153,18 @@ class: center, middle, inverse
 
 ### PRS performance drops with distance from training population
 
-```{r, out.width="100%"}
+```{r, out.width="95%", fig.align='left'}
 knitr::include_graphics("figures/ratio-dist-4.png")
 ```
 
 ---
 
-### How to explain this drop in predictive performance of PRS?
-
-Counter-intuitive, because it has been shown that 
-
-- **causal variants are mostly similar** across populations
-
-- **their effect sizes are also very similar**
-
---
+### Explanation: we often don't use causal variants in practice 
 
 <br>
 
-<u>The issue</u>: we often don't use causal variants in practice 
-
-```{r, out.width="78%"}
-knitr::include_graphics("figures/LD-multipop.png")
+```{r, out.width="85%"}
+knitr::include_graphics("figures/LD-multipop2.png")
 ```
 
 ---
@@ -191,6 +174,67 @@ class: center, middle, inverse
 # The solution:
 
 # precisely identifying causal variants
+
+---
+
+### Scaling methods to using 10M genetic variants (WP1)
+
+<br>
+
+There are ~10M common variants.
+
+But, until recently, we did not have enough genetic diversity    
+to **distinguish causal variants between highly correlated genetic variants**
+
+- detailed biological information (functional annotations) $\rightarrow$ WP2
+
+- data from multiple populations $\rightarrow$ WP3
+
+$\Rightarrow$ Many analyses have been restricted to using ~1M variants
+
+--
+
+<br>
+
+But **methods and data structures scale quadratically with #variants**    
+(would need 100x runtime and memory to use 10M)
+
+<br>
+
+.center[`r icons::fontawesome("laptop")` I will optimize both (methods and data structures) `r icons::fontawesome("laptop")`]
+
+---
+
+### Prioritizing causal variants thanks to functional annotations (WP2)
+
+<u>Examples of functional annotations</u>: protein-coding variants, regulatory variants, conserved variants (in regions with little evolutionary change)
+
+**Variants in some functional categories are more likely to be causal**
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/LD-func-anno.png")
+```
+
+<br>
+
+.center[`r icons::fontawesome("laptop")` I will integrate this information into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+
+---
+
+### Prioritizing causal variants thanks to multi-ancestry data (WP3)
+
+<br>
+<br>
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/multiancestry-finemapping2.png")
+```
+
+<br>
+<br>
+
+.center[`r icons::fontawesome("laptop")` I will integrate multi-ancestry data into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+
 
 ---
 
@@ -204,50 +248,20 @@ knitr::include_graphics("figures/Overview_MAGNIFIC.png")
 
 ---
 
-### Prioritizing causal variants thanks to functional annotations (WP2)
-
-For example, protein-coding variants, regulatory variants, conserved variants (in regions with little evolutionary change)
-
-```{r, out.width="55%"}
-knitr::include_graphics("figures/anno-enrich2.png")
-```
-
----
-
-### Prioritizing causal variants thanks to multi-ancestry data (WP3)
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/multiancestry-finemapping2.png")
-```
-
----
-
-### WP1 and WP4 to ensure causal variants are available
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/Overview_MAGNIFIC.png")
-```
-
----
-
 ### Feasability
 
-- Already **developed many state-of-the-art methods** in past 9 years  
+- **I have developed many efficient & powerful methods** in past 9 years  
 
-    - LDpred2, widely used for constructing PRS
+    - LDpred2, widely used for constructing PRS + often ranked best
     
     - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
 
-- Published 28 papers with 2800 citations in total,    
+- I have published 28 papers with 2800 citations in total,    
 including **2000 for my 11 first-author papers**
 
 --
 
-- **Funding Strategy:**
+- My **funding strategy**:
 
   - ATIP-Avenir (applied)
   
@@ -255,7 +269,7 @@ including **2000 for my 11 first-author papers**
 
 --
 
-- Already have **experience supervising** 
+- I have **co-supervised several young researchers**
 
     - two PhD students who graduated, with **4 co-last-author papers**
     
@@ -263,7 +277,7 @@ including **2000 for my 11 first-author papers**
     
 --
 
-- Already found **several collaborators** for these work packages    
+- I have found **several collaborators** for these work packages    
 (Broad, UCLA, Helsinki, Pasteur, INRIA, etc)
     
 ---

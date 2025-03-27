@@ -92,11 +92,11 @@ class: center middle inverse
 
 Thanks to GWAS, we know that
 
-- many **common** genetic variants are causal/pathogenic
+- many **common** genetic variants are causal `\(\left(\beta_j \neq 0\right)\)`
 
-- but, they usually have a **small effect size** `\(\beta_j\)` on their own
-
-- `\(\Rightarrow\)` a single common variant *cannot* be used as a risk factor
+- but, they usually have a **small effect size** `\(\beta_j\)` on their own   
+    
+    `\(\Rightarrow\)` &lt;u&gt;a common causal variant is not useful as a risk factor&lt;/u&gt;
 
 --
 
@@ -106,30 +106,25 @@ From GWAS data to polygenic risk scores (PRS):
 
 - variants can be aggregated in a joint predictive model: `\(PRS = \sum_j \hat\gamma_j~G_j\)`
 
-- `\(\Rightarrow\)` the `\(PRS\)` has a much larger effect size than each `\(G_j\)`    
-and *can* be used as a risk factor
+    `\(\Rightarrow\)` the `\(PRS\)` has a much larger effect size than any `\(G_j\)`  
+    
+    `\(\Rightarrow\)` the `\(PRS\)` can be useful as a risk factor
 
 ---
 
-### &lt;u&gt;Public Health&lt;/u&gt;&lt;br&gt;Using a PRS to refine risk assessment from traditional risk factors
+### &lt;u&gt;Public Health&lt;/u&gt;: refining risk assessment from traditional risk factors
 
-&lt;img src="figures/PRS-risk2.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;u&gt;Traditional risk factors&lt;/u&gt;: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency high-impact) genetic mutations, etc
 
-.footnote2[
-***
-PRS clinical acceptance &amp; utility demonstrated in a **clinical trial**:    
-A. Fuat et al, European journal of preventive cardiology (2024)
-]
+&lt;img src="figures/PRS-risk2.png" width="82%" style="display: block; margin: auto;" /&gt;
 
----
-
-### Refining breast cancer risk using a PRS (of 86 common variants)
-
-&lt;img src="figures/PRS-cancer-risk2.png" width="83%" style="display: block; margin: auto;" /&gt;
+--
 
 .footnote2[
 ***
-Similar results from a study **in France**: Y. Jiao et al, European Journal of Cancer (2023)
+PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventive Cardiology (2024)
+
+Refining breast cancer genetic risk using a PRS **in France**: Y. Jiao et al, Eur. J. of Cancer (2023)
 ]
 
 ---
@@ -146,25 +141,15 @@ class: center, middle, inverse
 
 ### PRS performance drops with distance from training population
 
-&lt;img src="figures/ratio-dist-4.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/ratio-dist-4.png" width="95%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
 
-### How to explain this drop in predictive performance of PRS?
-
-Counter-intuitive, because it has been shown that 
-
-- **causal variants are mostly similar** across populations
-
-- **their effect sizes are also very similar**
-
---
+### Explanation: we often don't use causal variants in practice 
 
 &lt;br&gt;
 
-&lt;u&gt;The issue&lt;/u&gt;: we often don't use causal variants in practice 
-
-&lt;img src="figures/LD-multipop.png" width="78%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/LD-multipop2.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -176,31 +161,64 @@ class: center, middle, inverse
 
 ---
 
-### An overview of my proposed project MAGNIFIC
+### Scaling methods to using 10M genetic variants (WP1)
 
 &lt;br&gt;
 
-&lt;img src="figures/Overview_MAGNIFIC.png" width="100%" style="display: block; margin: auto;" /&gt;
+There are ~10M common variants.
+
+But, until recently, we did not have enough genetic diversity    
+to **distinguish causal variants between highly correlated genetic variants**
+
+- detailed biological information (functional annotations) `\(\rightarrow\)` WP2
+
+- data from multiple populations `\(\rightarrow\)` WP3
+
+`\(\Rightarrow\)` Many analyses have been restricted to using ~1M variants
+
+--
+
+&lt;br&gt;
+
+But **methods and data structures scale quadratically with #variants**    
+(would need 100x runtime and memory to use 10M)
+
+&lt;br&gt;
+
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will optimize both (methods and data structures) &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
 
 ---
 
 ### Prioritizing causal variants thanks to functional annotations (WP2)
 
-For example, protein-coding variants, regulatory variants, conserved variants (in regions with little evolutionary change)
+&lt;u&gt;Examples of functional annotations&lt;/u&gt;: protein-coding variants, regulatory variants, conserved variants (in regions with little evolutionary change)
 
-&lt;img src="figures/anno-enrich2.png" width="55%" style="display: block; margin: auto;" /&gt;
+**Variants in some functional categories are more likely to be causal**
+
+&lt;img src="figures/LD-func-anno.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will integrate this information into my Bayesian PRS methodology &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
 
 ---
 
 ### Prioritizing causal variants thanks to multi-ancestry data (WP3)
 
 &lt;br&gt;
+&lt;br&gt;
 
 &lt;img src="figures/multiancestry-finemapping2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
+&lt;br&gt;
+&lt;br&gt;
+
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will integrate multi-ancestry data into my Bayesian PRS methodology &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
+
+
 ---
 
-### WP1 and WP4 to ensure causal variants are available
+### An overview of my proposed project MAGNIFIC
 
 &lt;br&gt;
 
@@ -210,18 +228,18 @@ For example, protein-coding variants, regulatory variants, conserved variants (i
 
 ### Feasability
 
-- Already **developed many state-of-the-art methods** in past 9 years  
+- **I have developed many efficient &amp; powerful methods** in past 9 years  
 
-    - LDpred2, widely used for constructing PRS
+    - LDpred2, widely used for constructing PRS + often ranked best
     
     - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
 
-- Published 28 papers with 2800 citations in total,    
+- I have published 28 papers with 2800 citations in total,    
 including **2000 for my 11 first-author papers**
 
 --
 
-- **Funding Strategy:**
+- My **funding strategy**:
 
   - ATIP-Avenir (applied)
   
@@ -229,7 +247,7 @@ including **2000 for my 11 first-author papers**
 
 --
 
-- Already have **experience supervising** 
+- I have **co-supervised several young researchers**
 
     - two PhD students who graduated, with **4 co-last-author papers**
     
@@ -237,7 +255,7 @@ including **2000 for my 11 first-author papers**
     
 --
 
-- Already found **several collaborators** for these work packages    
+- I have found **several collaborators** for these work packages    
 (Broad, UCLA, Helsinki, Pasteur, INRIA, etc)
     
 ---
