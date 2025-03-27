@@ -224,13 +224,11 @@ knitr::include_graphics("figures/LD-func-anno.png")
 ### Prioritizing causal variants thanks to multi-ancestry data (WP3)
 
 <br>
-<br>
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/LD-multi-GWAS.png")
 ```
 
-<br>
 <br>
 
 .center[`r icons::fontawesome("laptop")` I will integrate multi-ancestry data into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
