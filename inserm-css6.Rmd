@@ -153,7 +153,7 @@ class: center, middle, inverse
 
 ### PRS performance drops with distance from training population
 
-```{r, out.width="95%", fig.align='left'}
+```{r, out.width="98%", fig.align='left'}
 knitr::include_graphics("figures/ratio-dist-4.png")
 ```
 
@@ -163,7 +163,7 @@ knitr::include_graphics("figures/ratio-dist-4.png")
 
 <br>
 
-```{r, out.width="85%"}
+```{r, out.width="88%"}
 knitr::include_graphics("figures/LD-multipop2.png")
 ```
 
@@ -227,7 +227,7 @@ knitr::include_graphics("figures/LD-func-anno.png")
 <br>
 
 ```{r, out.width="100%"}
-knitr::include_graphics("figures/multiancestry-finemapping2.png")
+knitr::include_graphics("figures/LD-multi-GWAS.png")
 ```
 
 <br>
@@ -238,7 +238,7 @@ knitr::include_graphics("figures/multiancestry-finemapping2.png")
 
 ---
 
-### An overview of my proposed project MAGNIFIC
+### Overview of my proposed project MAGNIFIC
 
 <br>
 
