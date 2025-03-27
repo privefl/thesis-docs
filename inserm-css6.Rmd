@@ -116,15 +116,15 @@ From GWAS data to polygenic risk scores (PRS):
 
 - variants can be aggregated in a joint predictive model: $PRS = \sum_j \hat\gamma_j~G_j$
 
-    $\Rightarrow$ the $PRS$ has a much larger effect size than any $G_j$  
-    
+- by aggregating many small effects, the PRS can have a large effect 
+
     $\Rightarrow$ the $PRS$ can be useful as a risk factor
 
 ---
 
 ### <u>Public Health</u>: refining risk assessment from traditional risk factors
 
-<u>Traditional risk factors</u>: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency high-impact) genetic mutations, etc
+<u>Traditional risk factors</u>: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency large-effect) genetic mutations, etc
 
 ```{r, out.width="82%"}
 knitr::include_graphics("figures/PRS-risk2.png")
