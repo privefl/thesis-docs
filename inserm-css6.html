@@ -293,6 +293,56 @@ class: inverse, center, middle
 
 ## Florian Privé 
 
+---
+
+count: false
+
+### Refining breast cancer genetic risk using a 86-variant PRS
+
+&lt;br&gt;
+
+&lt;img src="figures/PRS-cancer-risk2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+count: false
+
+### WP1: Using millions of genetic variants (possible solutions)
+
+&lt;br&gt;
+
+- compact sparse format (divide size by 2)
+
+- quantization: storing correlations with two bytes only (divide size by 4) 
+
+- compression on top of quantization
+
+- matrix seriation `\(\longrightarrow\)` reordering variants to make blocks smaller
+
+- eigendecomposition or compression of the matrix
+
+- adapt methods to use very sparse *inverse* covariance matrices 
+
+---
+
+count: false
+
+### WP4: Ensuring the quality and coverage of the training data
+
+&lt;br&gt;
+
+- there are lots of problems with the input data (GWAS summary statistics)
+
+- which can causes lots of misspecifications and biases in the methods
+
+.footnote2[F. Privé et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
+&lt;br&gt;
+
+&lt;img src="figures/Imputation-QC-method-v2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+- I propose to implement a QC and imputation method (synergistic)
+
+- and to provide a set of highly refined GWAS summary statistics
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
