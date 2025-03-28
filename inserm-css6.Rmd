@@ -238,12 +238,8 @@ knitr::include_graphics("figures/LD-multi-GWAS.png")
 
 ---
 
-### Overview of my proposed project MAGNIFIC
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/Overview_MAGNIFIC.png")
+```{r, out.width="95%"}
+knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
 ```
 
 ---
@@ -305,22 +301,6 @@ including **2000 for my 11 first-author papers**
 --
 
 - **Collaborative Environment**: Toulouse bioinformatics, biostatistics, mathematics and informatics network (INRAE, CNRS, INSERM, Uni)
-
----
-
-### Relevance to INSERM's mission
-
-<br>
-
-My project aligns closely with INSERM's commitment to advancing public health through biomedical and bioinformatics innovation:
-
-- **Precision medicine**: enabling earlier and more accurate disease risk assessment
-
-- **Reducing health disparities**: improving risk models for all worldwide populations
-
-- **Bridging research and clinical practice**: facilitating the integration of PRS into clinical and public health strategies
-
-- **Enhancing genetic discoveries**: improving the identification of causal variants to identify disease mechanisms and therapeutic targets
 
 ---
 
