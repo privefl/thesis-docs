@@ -1,6 +1,6 @@
 library(ggplot2)
 library(dplyr)
-res <- c("N.W. Europe" = 100, "S. Europe" = 86, "Middle East" = 72,
+res <- c("N.W. Europe\n(other individuals)" = 100, "S. Europe" = 86, "Middle East" = 72,
          "India" = 65, "E. Asia" = 49, "W. Africa" = 18) %>% 
   tibble::enframe() %>% 
   mutate(name = ordered(name, levels = name))
@@ -11,7 +11,8 @@ ggplot(res) +
   # geom_text(aes(x = 5, y = 0.95, label = "Source: F. Privé et al, AJHG (2022)")) +
   geom_hline(yintercept = 1, linetype = 3) +
   labs(x = "PRS testing population (Pop)", 
-       y = expression(frac(R[Pop]^2, R["NW Eur"]^2))) +
+       y = expression(frac(R[Pop]^2, R["NW Eur"]^2)),
+       subtitle = "PRS training population: N.W. Europe") +
   theme(axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(angle = 0, vjust = 0.5, margin = margin(r = 15)),
         panel.grid.major.x = element_blank()) +
