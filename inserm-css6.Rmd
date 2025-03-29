@@ -55,19 +55,6 @@ background-size: 25%
 
 ### About me
 
-<br>
-
-#### Research Interests
-
-- Statistical human genetics, especially polygenic risk scores (PRS)
-
-- Development of statistical methods and R/C++ packages    
-for efficient and powerful analyses of large-scale genetic data 
-
---
-
-<br>
-
 #### Professional background
 
 - 2013–2016: Engineer in Computer Science & Applied Mathematics
@@ -78,11 +65,24 @@ for efficient and powerful analyses of large-scale genetic data
 
 - 2022–2025: Senior Researcher (promotion at the same place)
 
+<br>
+
+#### Research focus
+
+- Statistical human genetics
+
+- Development of statistical methods and R/C++ packages    
+for efficient and powerful analyses of large-scale genetic data 
+
+- Particularly for deriving **polygenic risk scores (PRS)**
+
 ---
 
 class: center middle inverse
 
-# Introduction & Motivation
+# Genetic data
+# Genome-Wide Association Studies (GWAS)
+# Polygenic Risk Scores (PRS)
 
 ---
 
@@ -112,7 +112,7 @@ Thanks to GWAS, we know that
 
 <br>
 
-From GWAS data to polygenic risk scores (PRS):
+From GWAS data to **polygenic risk scores (PRS)**:
 
 - variants can be aggregated in a joint predictive model: $PRS = \sum_j \hat\gamma_j~G_j$
 
@@ -173,9 +173,9 @@ class: center, middle, inverse
 
 # The solution:
 
-## identifying causal variants
+## identifying causal variants and using them
 
-## and using them in PRS
+## in polygenic risk scores (PRS)
 
 ---
 
@@ -198,7 +198,7 @@ $\Rightarrow$ Many analyses have been restricted to using ~1M variants
 
 <br>
 
-But **methods and data structures scale quadratically with #variants**    
+Issue: **methods and data structures scale quadratically with #variants**    
 (would need 100x runtime and memory to use 10M)
 
 <br>
@@ -209,9 +209,7 @@ But **methods and data structures scale quadratically with #variants**
 
 ### Prioritizing causal variants thanks to functional annotations (WP2)
 
-<u>Examples of functional annotations</u>: protein-coding variants, regulatory variants, conserved variants (in regions with little evolutionary change)
-
-**Variants in some functional categories are more likely to be causal**
+<br>
 
 ```{r, out.width="95%"}
 knitr::include_graphics("figures/LD-func-anno.png")
@@ -219,7 +217,9 @@ knitr::include_graphics("figures/LD-func-anno.png")
 
 <br>
 
-.center[`r icons::fontawesome("laptop")` I will integrate this information into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+.center[**Variants in some functional categories are more likely to be causal**
+
+`r icons::fontawesome("laptop")` I will integrate this information into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
 
 ---
 
@@ -227,7 +227,7 @@ knitr::include_graphics("figures/LD-func-anno.png")
 
 <br>
 
-```{r, out.width="100%"}
+```{r, out.width="98%"}
 knitr::include_graphics("figures/LD-multi-GWAS.png")
 ```
 
@@ -257,11 +257,11 @@ including **2000 for my 11 first-author papers**
 
 --
 
-- My **funding strategy** for building a team:
+- My **funding strategy** for building a group:
 
-  - ATIP-Avenir (applied)
+  - ANR JCJC
   
-  - ANR JCJC (planned)
+  - ATIP-Avenir
 
 --
 
@@ -274,7 +274,7 @@ including **2000 for my 11 first-author papers**
 --
 
 - I have found **several collaborators** for these work packages    
-(Broad, UCLA, Helsinki, Pasteur, INRIA, etc)
+(Broad, UCLA, Oxford, Helsinki, Pasteur, INRIA, etc)
     
 ---
 
