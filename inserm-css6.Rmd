@@ -185,7 +185,10 @@ class: center, middle, inverse
 
 - there are ~10M common variants
 
-- but many PRS methods have been restricted to using ~1M variants
+- we need to use 10M to make sure most causal variants are present
+
+- but most PRS methods (including mine) use ~1M variants    
+(mostly for computational reasons and due to redundancy)
 
 <br>
 
