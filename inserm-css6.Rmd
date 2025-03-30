@@ -352,7 +352,7 @@ count: false
 .footnote2[F. Privé et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
 <br>
 
-```{r, out.width="85%"}
+```{r, out.width="92%"}
 knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 ```
 
