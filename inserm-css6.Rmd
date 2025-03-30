@@ -258,7 +258,7 @@ including **2000 for my 11 first-author papers**
     
 ---
 
-### Integration into INSERM Toulouse Laboratory
+### Integration into INSERM U1220 in Toulouse
 
 - **Host Team**: "GenoFun: <u>Fun</u>ctional impact of <u>Geno</u>mic variations on disease", a Bioinformatics team at IRSD, INSERM U1220
 
