@@ -181,18 +181,22 @@ class: center, middle, inverse
 
 ### Scaling methods to using 10M genetic variants (WP1)
 
-<br>
-
 - there are ~10M common variants
-
-- we need to use 10M to make sure most causal variants are present
 
 - but most PRS methods (including mine) use ~1M variants    
 (mostly for computational reasons and due to redundancy)
 
 <br>
 
-.center[`r icons::fontawesome("laptop")` I will optimize both methods and data structures to use 10M variants `r icons::fontawesome("laptop")`]
+```{r, out.width="88%"}
+knitr::include_graphics("figures/variants_in_set.png")
+```
+
+<br>
+
+.center[**We need to use 10M to make sure most causal variants are present**
+
+`r icons::fontawesome("laptop")` I will optimize both methods and data structures to use 10M variants `r icons::fontawesome("laptop")`]
 
 ---
 
