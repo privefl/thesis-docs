@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>EMGM 2025</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="#" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+&lt;br&gt;
+
+# Improved ancestry and admixture detection&lt;br&gt;using principal component analysis (PCA)&lt;br&gt;of genetic data
+
+&lt;br&gt;
+
+## Florian Privé 
+
+### Aarhus University (DK)
+
+#### &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"&gt;&lt;path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/&gt;&lt;/svg&gt; &lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; privefl
+
+---
+
+class: inverse, center, middle
+
+# Genetic Ancestry Deconvolution
+
+&lt;br&gt;
+
+## All individuals are genetically admixed&lt;br&gt;from `\(L\)` reference populations
+
+---
+
+### Admixture model and method
+
+`$$G \approx Q \cdot 2F$$`
+
+- `\(Q\)` are the ancestry proportions (for each indiv `\(i\)` and ref `\(l\)`)
+
+- `\(F\)` are the allele frequencies (for each each ref `\(l\)` and variant `\(j\)`)
+
+--
+
+***
+
+It uses Maximum Likelihood Estimation of
+
+`$$L(Q, F) = \sum_i \sum_j \left\{ G_{ij} \log\left[\sum_l Q_{il} F_{lj}\right] + (2 - G_{ij}) \log\left[\sum_l Q_{il} (1 - F_{lj})\right] \right\}$$`
+with constraints: `\(~0 \le F_{lj} \le 1~\)` and `\(~Q_{il} \ge 0~\)` and `\(~\sum_l Q_{il} = 1\)`
+
+--
+
+***
+
+For simplicity, ADMIXTURE iteratively estimates 
+
+- each `\(Q_{i,.}\)` independently, with `\(F\)` fixed
+
+- each `\(F_{.,j}\)` independently, with `\(Q\)` fixed
+
+
+---
+
+### My proposed deconvolution method
+
+`$$G \cdot V \approx Q \cdot 2F \cdot V$$`
+where `\(V\)` are the PC loadings of `\(G\)`
+
+`$$PC \approx Q \cdot PC^\text{ref}$$`
+
+[SHOULD PROBABLY SPLIT THIS IN THREE]
+
+--
+
+***
+
+Optimization method: iterate between 
+
+- estimating ancestry coefficients `\(Q_{i,.}\)` (for each individual `\(i\)`) with
+    &lt;span class="small2"&gt; `$$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$` &lt;/span&gt;
+    
+--
+
+&lt;br&gt;
+
+- estimating reference positions (for each `\(l\)`) with
+    &lt;span class="small2"&gt; `$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$` &lt;/span&gt;
+  
+---
+
+--
+
+&lt;br&gt;
+
+Iterate between 
+
+- estimating ancestry coefficients `\(Q_{i,.}\)` (for each individual `\(i\)`) with
+    &lt;span class="small2"&gt; `$$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$` &lt;/span&gt;
+    
+--
+
+&lt;br&gt;
+
+- estimating reference positions (for each `\(l\)`) with
+    &lt;span class="small2"&gt; `$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$` &lt;/span&gt;
+  
+---
+
+### Iterative algorithm with warm starts
+
+&lt;br&gt;
+
+A naive approach would pick L initial `\(PC_{l,.}^{\text{ref}}\)` at random.
+
+--
+
+&lt;br&gt;
+
+Instead,
+
+- I start with L=2 reference populations using K=1 PC,
+
+- and iteratively add one more reference (L+1) with each new PC (K+1)
+
+- with some well-chosen starting value for the new reference
+
+--
+
+&lt;br&gt;
+
+This makes the algorithm
+
+- deterministic and more stable
+
+- faster to converge
+
+- easy to choose L based on K (L=K+1)
+
+---
+
+### PCA of the UK Biobank
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Add 3rd reference when considering 2 PCs
+
+&lt;img src="figures/PC_ukbb_add3.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### After convergence with 3 references and 2 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_with3.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Add 4th reference when considering 3 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_add4.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Add 5th reference when considering 4 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_add5.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### After convergence with 17 references and 16 PCs
+
+&lt;br&gt;
+
+&lt;img src="figures/PC_ukbb_with17.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Country (of birth) counts with ancestry &gt; 0.6 for each reference
+
+&lt;ul class="small2"&gt;
+    &lt;li&gt;United Kingdom: 126045 &amp;#8211; NA: 1352 &amp;#8211; Germany: 915 &amp;#8211; South Africa: 477 &amp;#8211; Netherlands: 443 &amp;#8211; USA: 400 &amp;#8211; France: 300 &amp;#8211; Australia: 226 &amp;#8211; Denmark: 197 &amp;#8211; Canada: 195 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 22206 &amp;#8211; NA: 86 &amp;#8211; Germany: 16 &amp;#8211; Ireland: 14&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 32123 &amp;#8211; Ireland: 289 &amp;#8211; NA: 265 &amp;#8211; New Zealand: 75 &amp;#8211; Canada: 58 &amp;#8211; India: 54 &amp;#8211; Germany: 47 &amp;#8211; South Africa: 43 &amp;#8211; Australia: 40 &amp;#8211; Kenya: 36 &amp;#8211; Malaysia: 29 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 10647 &amp;#8211; Ireland: 9360 &amp;#8211; NA: 290 &amp;#8211; USA: 47 &amp;#8211; Australia: 43 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 1347 &amp;#8211; NA: 30&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 4080 &amp;#8211; NA: 77&lt;/li&gt;
+    &lt;li&gt;NA: 752 &amp;#8211; Poland: 599 &amp;#8211; United Kingdom: 415 &amp;#8211; Russia: 131 &amp;#8211; Finland: 105 &amp;#8211; Germany: 87 &amp;#8211; Lithuania: 71 &amp;#8211; Ukraine: 55 &amp;#8211; Czech Republic: 53 &amp;#8211; Latvia: 52 &amp;#8211; Slovakia: 28 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;India: 1852 &amp;#8211; Kenya: 782 &amp;#8211; Sri Lanka: 653 &amp;#8211; NA: 547 &amp;#8211; Pakistan: 410 &amp;#8211; Mauritius: 273 &amp;#8211; Bangladesh: 235 &amp;#8211; Uganda: 231 &amp;#8211; Tanzania: 175 &amp;#8211; Caribbean: 114 &amp;#8211; The Guianas: 83 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Caribbean: 2110 &amp;#8211; NA: 2100 &amp;#8211; Nigeria: 1017 &amp;#8211; Ghana: 866 &amp;#8211; Barbados: 255 &amp;#8211; Sierra Leone: 202 &amp;#8211; The Guianas: 151 &amp;#8211; Gambia: 39 &amp;#8211; Ivory Coast: 32 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Italy: 389 &amp;#8211; NA: 353 &amp;#8211; Cyprus: 170 &amp;#8211; United Kingdom: 168 &amp;#8211; Egypt: 147 &amp;#8211; Malta: 116 &amp;#8211; Greece: 99 &amp;#8211; Algeria: 68 &amp;#8211; Lebanon: 50 &amp;#8211; Morocco: 46 &amp;#8211; Libya: 40 &amp;#8211; Palestine: 30 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 1844 &amp;#8211; NA: 830 &amp;#8211; USA: 169 &amp;#8211; South Africa: 95 &amp;#8211; Israel: 41 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Iran: 476 &amp;#8211; Iraq: 140 &amp;#8211; NA: 59 &amp;#8211; Turkey: 54 &amp;#8211; India: 36 &amp;#8211; Afghanistan: 13 &amp;#8211; Pakistan: 10&lt;/li&gt;
+    &lt;li&gt;China: 287 &amp;#8211; Japan: 241 &amp;#8211; Malaysia: 185 &amp;#8211; Hong Kong: 161 &amp;#8211; Nepal: 123 &amp;#8211; NA: 63 &amp;#8211; Singapore: 56 &amp;#8211; South Korea: 26 &amp;#8211; Mauritius: 25 &amp;#8211; Taiwan: 25 &amp;#8211; Indonesia: 15 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Zimbabwe: 268 &amp;#8211; Congo: 133 &amp;#8211; Uganda: 115 &amp;#8211; Kenya: 73 &amp;#8211; South Africa: 59 &amp;#8211; Zambia: 56 &amp;#8211; NA: 41 &amp;#8211; Tanzania: 26 &amp;#8211; Angola: 23 &amp;#8211; Burundi: 17 &amp;#8211; Rwanda: 16 &amp;#8211; Seychelles: 14 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Philippines: 315 &amp;#8211; Malaysia: 20 &amp;#8211; NA: 17 &amp;#8211; Indonesia: 15 &amp;#8211; Thailand: 13&lt;/li&gt;
+    &lt;li&gt;Peru: 33 &amp;#8211; Ecuador: 25 &amp;#8211; Mexico: 20 &amp;#8211; Colombia: 17 &amp;#8211; Bolivia: 14 &amp;#8211; Chile: 11&lt;/li&gt;
+    &lt;li&gt;Somalia: 81 &amp;#8211; Ethiopia: 58 &amp;#8211; Sudan: 51 &amp;#8211; Eritrea: 45 &amp;#8211; NA: 20&lt;/li&gt;
+&lt;/ul&gt;
+
+
+---
+
+class: inverse, center, middle
+
+# Capturing more population structure
+# with less individuals
+
+---
+
+&lt;img src="figures/paper4-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;br&gt;
+
+In the UK Biobank data,
+
+- only the first 16 PCs actually capture population structure 
+
+--
+
+&lt;br&gt;
+
+When subsampling British and Irish individuals 
+
+- can obtain 40 PCs that capture some population structure
+
+---
+
+### PCA after subsampling, in the UK Biobank
+
+- Subsampling 10,000 British individuals (2.3%) 
+- and 5000 Irish individuals (39,2%), 
+- while keeping all indiv with other or unknown self-reported ancestry.
+
+&lt;img src="https://github.com/privefl/paper4-bedpca/blob/master/UKBB-scores-restricted.png?raw=true" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Can we use Q to get something better? 
+
+&lt;img src="figures/PC_ukbb_new.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Rerun the algorithm with new PCs (K=41)
+
+&lt;style&gt;
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: auto;
+        font-size: 14px;
+    }
+&lt;/style&gt;
+
+&lt;div class="grid-container"&gt;
+&lt;ul&gt;
+    &lt;li&gt;United Kingdom: 414629 &amp;#8211; Ireland: 12416 &amp;#8211; NA: 4731 &amp;#8211; Germany: 1498 &amp;#8211; South Africa: 970 &amp;#8211; USA: 956 &amp;#8211; Australia: 853 &amp;#8211; New Zealand: 656 &amp;#8211; Canada: 644 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;NA: 709 &amp;#8211; Poland: 592 &amp;#8211; United Kingdom: 389 &amp;#8211; Russia: 123 &amp;#8211; Germany: 71 &amp;#8211; Lithuania: 71 &amp;#8211; Ukraine: 53 &amp;#8211; Latvia: 52&amp;#8211; ..&lt;/li&gt;
+    &lt;li&gt;Italy: 34&lt;/li&gt;
+    &lt;li&gt;Spain: 30&lt;/li&gt;
+    &lt;li&gt;United Kingdom: 1838 &amp;#8211; NA: 831 &amp;#8211; USA: 170 &amp;#8211; South Africa: 95 &amp;#8211; Israel: 40 &amp;#8211; Canada: 18 &amp;#8211; Hungary: 18 &amp;#8211; France: 12&lt;/li&gt;
+    &lt;li&gt;Finland: 125&lt;/li&gt;
+    &lt;li&gt;Nigeria: 975 &amp;#8211; NA: 292 &amp;#8211; Caribbean: 155 &amp;#8211; Sierra Leone: 42 &amp;#8211; Ghana: 13&lt;/li&gt;
+    &lt;li&gt;Sri Lanka: 635 &amp;#8211; India: 493 &amp;#8211; Mauritius: 190 &amp;#8211; NA: 156 &amp;#8211; Kenya: 90 &amp;#8211; Caribbean: 71 &amp;#8211; Malaysia: 67 &amp;#8211; The Guianas: 52 &amp;#8211; ...&lt;/li&gt;
+    &lt;li&gt;Malta: 114 &amp;#8211; United Kingdom: 15 &amp;#8211; NA: 12 &amp;#8211; Egypt: 10&lt;/li&gt;
+    &lt;li&gt;Iran: 494 &amp;#8211; Iraq: 247 &amp;#8211; Turkey: 114 &amp;#8211; NA: 58 &amp;#8211; Syria: 11 &amp;#8211; United Kingdom: 10&lt;/li&gt;
+    &lt;li&gt;Ghana: 817 &amp;#8211; NA: 68 &amp;#8211; Ivory Coast: 27&lt;/li&gt;
+    &lt;li&gt;India: 571 &amp;#8211; NA: 207 &amp;#8211; Kenya: 40 &amp;#8211; Pakistan: 28 &amp;#8211; Malaysia: 23 &amp;#8211; Singapore: 13&lt;/li&gt;
+    &lt;li&gt;India: 28&lt;/li&gt;
+    &lt;li&gt;Yemen: 26 &amp;#8211; Egypt: 18 &amp;#8211; NA: 12&lt;/li&gt;
+    &lt;li&gt;Congo: 129 &amp;#8211; Angola: 30 &amp;#8211; Zambia: 30 &amp;#8211; NA: 25 &amp;#8211; Cameroon: 24&lt;/li&gt;
+    &lt;li&gt;India: 224 &amp;#8211; Kenya: 179 &amp;#8211; NA: 55 &amp;#8211; Uganda: 28 &amp;#8211; Pakistan: 21 &amp;#8211; Tanzania: 21&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;Japan: 241 &amp;#8211; South Korea: 26&lt;/li&gt;
+    &lt;li&gt;Thailand: 61 &amp;#8211; Vietnam: 40 &amp;#8211; Malaysia: 10&lt;/li&gt;
+    &lt;li&gt;Algeria: 69 &amp;#8211; Morocco: 66 &amp;#8211; Libya: 27 &amp;#8211; NA: 10&lt;/li&gt;
+    &lt;li&gt;Kenya: 18 &amp;#8211; India: 13&lt;/li&gt;
+    &lt;li&gt;Philippines: 310 &amp;#8211; NA: 16&lt;/li&gt;
+    &lt;li&gt;Pakistan: 76 &amp;#8211; NA: 20&lt;/li&gt;
+    &lt;li&gt;Kenya: 36 &amp;#8211; India: 25&lt;/li&gt;
+    &lt;li&gt;India: 70 &amp;#8211; Afghanistan: 25 &amp;#8211; NA: 19&lt;/li&gt;
+    &lt;li&gt;India: 17 &amp;#8211; NA: 11 &amp;#8211; Malawi: 10&lt;/li&gt;
+    &lt;li&gt;Colombia: 115&lt;/li&gt;
+    &lt;li&gt;Sierra Leone: 38 &amp;#8211; Gambia: 33&lt;/li&gt;
+    &lt;li&gt;India: 90 &amp;#8211; NA: 32&lt;/li&gt;
+    &lt;li&gt;Tanzania: 24&lt;/li&gt;
+    &lt;li&gt;Pakistan: 146 &amp;#8211; NA: 42 &amp;#8211; India: 22 &amp;#8211; Kenya: 18&lt;/li&gt;
+    &lt;li&gt;India: 135 &amp;#8211; Kenya: 120 &amp;#8211; Uganda: 80 &amp;#8211; NA: 37 &amp;#8211; Tanzania: 24&lt;/li&gt;
+    &lt;li&gt;Nepal: 125 &amp;#8211; NA: 14&lt;/li&gt;
+    &lt;li&gt;Peru: 31 &amp;#8211; Ecuador: 20 &amp;#8211; Bolivia: 14 &amp;#8211; Mexico: 13&lt;/li&gt;
+    &lt;li&gt;Uganda: 69 &amp;#8211; Tanzania: 43 &amp;#8211; Kenya: 40 &amp;#8211; India: 24&lt;/li&gt;
+    &lt;li&gt;Kenya: 42 &amp;#8211; India: 39 &amp;#8211; NA: 16 &amp;#8211; Tanzania: 14&lt;/li&gt;
+    &lt;li&gt;Uganda: 101 &amp;#8211; Kenya: 28 &amp;#8211; Tanzania: 11&lt;/li&gt;
+    &lt;li&gt;Kenya: 114&lt;/li&gt;
+    &lt;li&gt;India: 43 &amp;#8211; Kenya: 38 &amp;#8211; NA: 19&lt;/li&gt;
+    &lt;li&gt;South Africa: 48 &amp;#8211; Zimbabwe: 25&lt;/li&gt;
+    &lt;li&gt;Sudan: 17&lt;/li&gt;
+    &lt;li&gt;&lt;/li&gt;
+    &lt;li&gt;Somalia: 78&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+---
+
+### Conclusion
+
+- A very efficient ancestry deconvolution algorithm
+
+- Also very powerful; it can identify many reference groups
+
+- One can (should) check the results visually
+
+--
+
+- Subsampling before PCA is beneficial to capture even more structure
+
+--
+
+- The algorithm is not specific to genetic data    
+(merely a deconvolution algorithm based on PCA)
+
+--
+
+- I will provide a new set of reference populations for people to use directly
+
+--
+
+- More than just an improved ADMIXTURE    
+**How can I further motivate the need for this new method?**
+
+--
+
+&lt;br&gt;
+
+.center[
+### Thank you for your attention
+
+Presentation available at [bit.ly/privefl110325](https://bit.ly/privefl110325)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

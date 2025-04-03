@@ -1,5 +1,5 @@
 ---
-title: "11_March_2025"
+title: "EMGM 2025"
 output:
   xaringan::moon_reader:
     includes:
@@ -27,11 +27,13 @@ class: title-slide center middle inverse
 
 <br>
 
-# Improved ancestry and admixture detection<br>using principal component analysis<br>of genetic data
+# Improved ancestry and admixture detection<br>using principal component analysis (PCA)<br>of genetic data
 
 <br>
 
 ## Florian Privé 
+
+### Aarhus University (DK)
 
 #### <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
@@ -39,159 +41,71 @@ class: title-slide center middle inverse
 
 class: inverse, center, middle
 
-# Principal Component Analysis (PCA) of genetic data captures population structure
-
----
-
-### PCA of genetic data captures continental population structure
-
-<br>
-
-```{r, out.width="100%", fig.cap="in the UK Biobank data"}
-knitr::include_graphics("figures/PCA-UKBB-Bycroft.png")
-```
-
----
-
-### PCA also captures sub-continental population structure
-
-```{r, out.width="75%", fig.cap="in the POPRES data (European subset)"}
-knitr::include_graphics("figures/PCA-POPRES-EUR.png")
-```
-
----
-
-### Distance in PCA measures genetic distance
-
-```{r, out.width="100%", fig.cap="in the 1000 Genomes data"}
-knitr::include_graphics("figures/compare-Euclidean-to-Fst.png")
-```
-
-.footnote[Source: 10.1016/j.ajhg.2021.11.008]
-
-
----
-
-class: inverse, center, middle
-
 # Genetic Ancestry Deconvolution
 
-## (with reference populations)
+<br>
+
+## All individuals are genetically admixed<br>from $L$ reference populations
 
 ---
 
-### Summix: ancestry estimation from GWAS allele frequencies (AF)
+### Admixture model and method
 
-Source: 10.1016/j.ajhg.2021.05.016
+$$G \approx Q \cdot 2F$$
 
-<br>
+- $Q$ are the ancestry proportions (for each indiv $i$ and ref $l$)
 
-Estimate ancestry proportions $q$ such that
-
-```{css}
-.small2 {
-  font-size: 17px;
-}
-```
-
-<span class="small2"> $$AF = q_\text{AFR} AF_\text{AFR} + q_\text{EAS} AF_\text{EAS} + q_\text{EUR} AF_\text{EUR} + q_\text{SAS} AF_\text{SAS} + q_\text{IAM} AF_\text{IAM} + \epsilon ~,$$ </span>
-
-where all $q$ are positive and sum to 1.
+- $F$ are the allele frequencies (for each each ref $l$ and variant $j$)
 
 --
 
-<br>
+***
 
-More general formulation:
+It uses Maximum Likelihood Estimation of
 
-<span class="small2"> $$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$ </span>
-
-<!-- = \min_{q \ge 0 \\ \mathbb{1}^Tq=1} ~~ ||AF - AF^{\text{ref}} \cdot q||_2^2 -->
-
-<br>
-
-$\Rightarrow$ Quadratic programming with linear constraints
-
----
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/paper9-2.png")
-```
+$$L(Q, F) = \sum_i \sum_j \left\{ G_{ij} \log\left[\sum_l Q_{il} F_{lj}\right] + (2 - G_{ij}) \log\left[\sum_l Q_{il} (1 - F_{lj})\right] \right\}$$
+with constraints: $~0 \le F_{lj} \le 1~$ and $~Q_{il} \ge 0~$ and $~\sum_l Q_{il} = 1$
 
 --
 
-<br>
+***
 
-- Curate the UK Biobank to define 18 worldwide reference groups
+For simplicity, ADMIXTURE iteratively estimates 
 
---
+- each $Q_{i,.}$ independently, with $F$ fixed
 
-- Use PCA to maximize power to distinguish between these populations:
+- each $F_{.,j}$ independently, with $Q$ fixed
 
-    <span class="small2"> $$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$ </span>
-    
-    is replaced by
-    
-    <span class="small2"> $$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{k=1}^K \left( PC_k - \sum_{l=1}^L q_l PC_k^{\text{ref}~(l)} \right)^2$$ </span>
-    
----
-
-With my improved method:
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/ancestry-bigsnpr.png")
-```
-
---
-
-With Summix:
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/ancestry-summix.png")
-```
-
----
-
-### Admixture coefficients for individual-level data
-
-<br>
-
-**My developed method also works for individual-level data!**
-
-(by simply using genotypes, divided by 2, in place of allele frequencies)
-
-This is similar to the projection analysis from ADMIXTURE,    
-but should have more power..
-
---
-
-<br>
-
-Application to iPSYCH (genetic study in Denmark):
-
-Out of 134K individuals, can identify many non-European individuals:
-
-- Middle East: 2600
-- East Africa: 450
-- North Africa: 330
-- South Asia: 840
-- East Asia: 280
-
----
-
-class: inverse, center, middle
-
-# Genetic Ancestry Deconvolution
-
-## (without reference populations)
 
 ---
 
 ### My proposed deconvolution method
 
-$$G \approx Q \cdot 2F$$
+$$G \cdot V \approx Q \cdot 2F \cdot V$$
+where $V$ are the PC loadings of $G$
 
 $$PC \approx Q \cdot PC^\text{ref}$$
+
+[SHOULD PROBABLY SPLIT THIS IN THREE]
+
+--
+
+***
+
+Optimization method: iterate between 
+
+- estimating ancestry coefficients $Q_{i,.}$ (for each individual $i$) with
+    <span class="small2"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
+    
+--
+
+<br>
+
+- estimating reference positions (for each $l$) with
+    <span class="small2"> $$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$ </span>
+  
+---
+
 --
 
 <br>
