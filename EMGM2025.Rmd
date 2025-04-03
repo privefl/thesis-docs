@@ -49,6 +49,15 @@ class: inverse, center, middle
 
 ---
 
+```{css}
+.small2 {
+  font-size: 17px;
+}
+.small3 {
+  font-size: 18px;
+}
+```
+
 ### Admixture model and method
 
 $$G \approx Q \cdot 2F$$
@@ -63,8 +72,9 @@ $$G \approx Q \cdot 2F$$
 
 It uses Maximum Likelihood Estimation of
 
-$$L(Q, F) = \sum_i \sum_j \left\{ G_{ij} \log\left[\sum_l Q_{il} F_{lj}\right] + (2 - G_{ij}) \log\left[\sum_l Q_{il} (1 - F_{lj})\right] \right\}$$
-with constraints: $~0 \le F_{lj} \le 1~$ and $~Q_{il} \ge 0~$ and $~\sum_l Q_{il} = 1$
+<span class="small3"> $$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[\sum_l Q_{i,l} (1 - F_{l,j})\right] \right\}$$ </span>
+
+with constraints: $~0 \le F_{l,j} \le 1~$ and $~Q_{i,l} \ge 0~$ and $~\sum_l Q_{i,l} = 1$
 
 --
 
@@ -84,43 +94,69 @@ For simplicity, ADMIXTURE iteratively estimates
 $$G \cdot V \approx Q \cdot 2F \cdot V$$
 where $V$ are the PC loadings of $G$
 
-$$PC \approx Q \cdot PC^\text{ref}$$
+$$\Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
+--
 
-[SHOULD PROBABLY SPLIT THIS IN THREE]
+```{r, out.width="85%"}
+knitr::include_graphics("figures/PC_ukbb_with3.png")
+```
+
+---
+
+### Estimating admixture coefficients $Q_{i,.}$ with $PC^\text{ref}$ fixed
+
+<span class="small3"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
 
 --
 
 ***
 
-Optimization method: iterate between 
-
-- estimating ancestry coefficients $Q_{i,.}$ (for each individual $i$) with
-    <span class="small2"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
+I've already published this method here:
     
---
+```{r, out.width="100%"}
+knitr::include_graphics("figures/deconv-withref-paper.png")
+```
+
+- curated 18 reference groups within the UK Biobank
+
+- provide allele frequencies and PC loadings
+
+- work on individual-level data or GWAS allele frequencies only
+
+- more power to do the minimization in the PCA space
+
+---
+
+### Estimating admixture coefficients $PC_{l,.}^{\text{ref}}$ with $Q$ fixed
 
 <br>
 
-- estimating reference positions (for each $l$) with
-    <span class="small2"> $$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$ </span>
+$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
+
+<br>
+
+- this simple formula is used in e.g. fuzzy K-means
+
+- this is also related to archetypal analysis: $PC^{\text{ref}} = W^T \cdot PC$    
+(references are weighted combinations of existing individuals)
+
+    $\Rightarrow$ Reference allele frequencies: $2F = W^T \cdot G$
   
 ---
 
---
+### Complete deconvolution algorithm
 
 <br>
 
 Iterate between 
 
-- estimating ancestry coefficients $Q_{i,.}$ (for each individual $i$) with
-    <span class="small2"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
-    
---
+- estimating admixture coefficients $Q_{i,.}$ (for each individual $i$)
+
+- estimating reference positions $PC_{l,.}^{\text{ref}}$ (for each ref $l$) </span>
 
 <br>
 
-- estimating reference positions (for each $l$) with
-    <span class="small2"> $$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$ </span>
+But still missing a starting point..
   
 ---
 
@@ -157,6 +193,8 @@ This makes the algorithm
 ---
 
 ### PCA of the UK Biobank
+
+#### (with varimax rotation)
 
 <br>
 
@@ -214,6 +252,89 @@ knitr::include_graphics("figures/PC_ukbb_with17.png")
 
 ---
 
+class: inverse, center, middle
+
+# Comparing to ADMIXTURE in simulated data
+
+---
+
+### A complex admixture simulation
+
+TODO
+
+---
+
+class: inverse, center, middle
+
+# Capturing more population structure
+# (with less individuals)
+
+---
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/paper4-2.png")
+```
+
+--
+
+<br>
+
+In the UK Biobank data,
+
+- only the first 16 PCs actually capture population structure    
+(PC 19&#8211;40 capture LD only; never use them!)
+
+--
+
+When subsampling British and Irish individuals (self-reported ancestry)
+
+- can obtain 40 PCs that capture some population structure
+
+--
+
+<br>
+
+In my current work:
+
+- I've also looked at using $Q$ to do the subsampling
+
+- I've run my deconvolution algorithm on K=41 PCs to get L=42 references
+
+---
+
+### Conclusion
+
+- A very efficient admixture deconvolution algorithm
+
+- Also very powerful; it can identify many reference groups    
+(subsampling before PCA is beneficial to capture more structure)
+
+- One can (should) check the results visually
+
+--
+
+- The algorithm is not specific to genetic data    
+(merely a deconvolution algorithm based on PCA)    
+$\Rightarrow$ may be used for cell type deconvolution of methylation data?
+
+--
+
+- I will provide a new set of reference populations for people to use directly
+
+--
+
+<br>
+
+.center[
+### Thank you for your attention
+
+Presentation available at [bit.ly/privefl_EMGM2025](https://bit.ly/privefl_EMGM2025)
+]
+
+---
+
+count: false
+
 ### Country (of birth) counts with ancestry > 0.6 for each reference
 
 <ul class="small2">
@@ -236,57 +357,9 @@ knitr::include_graphics("figures/PC_ukbb_with17.png")
     <li>Somalia: 81 &#8211; Ethiopia: 58 &#8211; Sudan: 51 &#8211; Eritrea: 45 &#8211; NA: 20</li>
 </ul>
 
-
 ---
 
-class: inverse, center, middle
-
-# Capturing more population structure
-# with less individuals
-
----
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/paper4-2.png")
-```
-
---
-
-<br>
-
-In the UK Biobank data,
-
-- only the first 16 PCs actually capture population structure 
-
---
-
-<br>
-
-When subsampling British and Irish individuals 
-
-- can obtain 40 PCs that capture some population structure
-
----
-
-### PCA after subsampling, in the UK Biobank
-
-- Subsampling 10,000 British individuals (2.3%) 
-- and 5000 Irish individuals (39,2%), 
-- while keeping all indiv with other or unknown self-reported ancestry.
-
-```{r, out.width="100%"}
-knitr::include_graphics("https://github.com/privefl/paper4-bedpca/blob/master/UKBB-scores-restricted.png?raw=true")
-```
-
----
-
-### Can we use Q to get something better? 
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/PC_ukbb_new.png")
-```
-
----
+count: false
 
 ### Rerun the algorithm with new PCs (K=41)
 
@@ -348,41 +421,3 @@ knitr::include_graphics("figures/PC_ukbb_new.png")
     <li>Somalia: 78</li>
 </ul>
 </div>
-
----
-
-### Conclusion
-
-- A very efficient ancestry deconvolution algorithm
-
-- Also very powerful; it can identify many reference groups
-
-- One can (should) check the results visually
-
---
-
-- Subsampling before PCA is beneficial to capture even more structure
-
---
-
-- The algorithm is not specific to genetic data    
-(merely a deconvolution algorithm based on PCA)
-
---
-
-- I will provide a new set of reference populations for people to use directly
-
---
-
-- More than just an improved ADMIXTURE    
-**How can I further motivate the need for this new method?**
-
---
-
-<br>
-
-.center[
-### Thank you for your attention
-
-Presentation available at [bit.ly/privefl110325](https://bit.ly/privefl110325)
-]
