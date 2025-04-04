@@ -233,9 +233,39 @@ class: inverse, center, middle
 
 ---
 
-### A complex admixture simulation
+### A complex admixture simulation (using R pkgs {bnpsd} and {ape})
 
-TODO
+&lt;img src="figures/simu-admixture.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### PCA of the simulated genetic data (500 x 10,000)
+
+&lt;img src="figures/simu-admixture-PCA.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Reference PC positions are very similar
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/simu-admixture-ref.png" alt="A: with my method &amp;amp;#8212; B: ADMIXTURE's ref AFs projected" width="95%" /&gt;
+&lt;p class="caption"&gt;A: with my method &amp;#8212; B: ADMIXTURE's ref AFs projected&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+### Admixture coefficients are very similar
+
+&lt;img src="figures/simu-admixture-allres.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Reference allele frequencies are very similar
+
+&lt;br&gt;
+
+&lt;img src="figures/simu-admixture-AFref.png" width="100%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -279,8 +309,12 @@ In my current work:
 
 - A very efficient admixture deconvolution algorithm
 
+--
+
 - Also very powerful; it can identify many reference groups    
 (subsampling before PCA is beneficial to capture more structure)
+
+--
 
 - One can (should) check the results visually
 
@@ -303,6 +337,14 @@ In my current work:
 
 Presentation available at [bit.ly/privefl_EMGM2025](https://bit.ly/privefl_EMGM2025)
 ]
+
+---
+
+count: false
+
+### Admixture proportions using my method (for many L)
+
+&lt;img src="figures/simu-admixture-res1.png" width="98%" style="display: block; margin: auto;" /&gt;
 
 ---
 
