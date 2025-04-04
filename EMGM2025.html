@@ -49,19 +49,19 @@ class: inverse, center, middle
 }
 &lt;/style&gt;
 
-### Admixture model and method
+### Admixture model and ADMIXTURE method
 
 `$$G \approx Q \cdot 2F$$`
 
-- `\(Q\)` are the ancestry proportions (for each indiv `\(i\)` and ref `\(l\)`)
+- `\(Q\)` are the admixture proportions (for each sample `\(i\)` and reference `\(l\)`)
 
-- `\(F\)` are the allele frequencies (for each each ref `\(l\)` and variant `\(j\)`)
+- `\(F\)` are the allele frequencies (for each each reference `\(l\)` and variant `\(j\)`)
 
 --
 
 ***
 
-It uses Maximum Likelihood Estimation of
+ADMIXTURE uses Maximum Likelihood Estimation of
 
 &lt;span class="small3"&gt; `$$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[\sum_l Q_{i,l} (1 - F_{l,j})\right] \right\}$$` &lt;/span&gt;
 
@@ -125,7 +125,7 @@ I've already published this method here:
 - this simple formula is used in e.g. fuzzy K-means
 
 - this is also related to archetypal analysis: `\(PC^{\text{ref}} = W^T \cdot PC\)`    
-(references are weighted combinations of existing individuals)
+(references are weighted combinations of existing samples)
 
     `\(\Rightarrow\)` Reference allele frequencies: `\(2F = W^T \cdot G\)`
   
@@ -137,59 +137,21 @@ I've already published this method here:
 
 Iterate between 
 
-- estimating admixture coefficients `\(Q_{i,.}\)` (for each individual `\(i\)`)
+- estimating admixture coefficients `\(Q_{i,.}\)`, with `\(PC^{\text{ref}}\)` fixed
 
-- estimating reference positions `\(PC_{l,.}^{\text{ref}}\)` (for each ref `\(l\)`) &lt;/span&gt;
+- estimating reference positions `\(PC_{l,.}^{\text{ref}}\)`, with `\(Q\)` fixed
+
+--
 
 &lt;br&gt;
 
 But still missing a starting point..
-  
----
-
-### Iterative algorithm with warm starts
-
-&lt;br&gt;
 
 A naive approach would pick L initial `\(PC_{l,.}^{\text{ref}}\)` at random.
 
---
-
-&lt;br&gt;
-
-Instead,
-
-- I start with L=2 reference populations using K=1 PC,
-
-- and iteratively add one more reference (L+1) with each new PC (K+1)
-
-- with some well-chosen starting value for the new reference
-
---
-
-&lt;br&gt;
-
-This makes the algorithm
-
-- deterministic and more stable
-
-- faster to converge
-
-- easy to choose L based on K (L=K+1)
-
 ---
 
-### PCA of the UK Biobank
-
-#### (with varimax rotation)
-
-&lt;br&gt;
-
-&lt;img src="figures/PC_ukbb.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Add 3rd reference when considering 2 PCs
+### Start with PC1 and 2 refs, then add 3rd ref when considering 2 PCs
 
 &lt;img src="figures/PC_ukbb_add3.png" width="90%" style="display: block; margin: auto;" /&gt;
 
@@ -221,9 +183,49 @@ This makes the algorithm
 
 ### After convergence with 17 references and 16 PCs
 
+&lt;img src="figures/PC_ukbb_with17.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+***
+
+These iterative initializations (warm starts) make the algorithm deterministic and much faster to converge. Also, `\(L=K+1\)`.
+
+---
+
+class: inverse, center, middle
+
+# Capturing more population structure
+# (with less individuals)
+
+---
+
+&lt;img src="figures/paper4-2.png" width="95%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+--
+
+***
+
+In the UK Biobank data,
+
+- only the first 16 PCs actually capture population structure    
+(PC 19&amp;#8211;40 capture LD only; never use them!)
+
+--
+
+When subsampling British and Irish individuals (self-reported ancestry)
+
+- can obtain 40 PCs that capture some population structure
+
+- using the best practices for PCA of genetic data
+
+--
+
 &lt;br&gt;
 
-&lt;img src="figures/PC_ukbb_with17.png" width="100%" style="display: block; margin: auto;" /&gt;
+In my current work:
+
+- I've also looked at using `\(Q\)` to do the subsampling
+
+- I've run my deconvolution algorithm on K=41 PCs to get L=42 references
 
 ---
 
@@ -265,43 +267,6 @@ class: inverse, center, middle
 &lt;br&gt;
 
 &lt;img src="figures/simu-admixture-AFref.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-class: inverse, center, middle
-
-# Capturing more population structure
-# (with less individuals)
-
----
-
-&lt;img src="figures/paper4-2.png" width="100%" style="display: block; margin: auto;" /&gt;
-
---
-
-&lt;br&gt;
-
-In the UK Biobank data,
-
-- only the first 16 PCs actually capture population structure    
-(PC 19&amp;#8211;40 capture LD only; never use them!)
-
---
-
-When subsampling British and Irish individuals (self-reported ancestry)
-
-- can obtain 40 PCs that capture some population structure
-
---
-
-&lt;br&gt;
-
-In my current work:
-
-- I've also looked at using `\(Q\)` to do the subsampling
-
-- I've run my deconvolution algorithm on K=41 PCs to get L=42 references
 
 ---
 
