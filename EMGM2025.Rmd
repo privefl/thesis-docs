@@ -202,7 +202,7 @@ knitr::include_graphics("figures/PC_ukbb_add5.png")
 
 ---
 
-### After convergence with 17 references and 16 PCs
+### After convergence with 17 references and 16 PCs from the UK Biobank
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/PC_ukbb_with17.png")
