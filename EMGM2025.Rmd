@@ -72,7 +72,7 @@ $$G \approx Q \cdot 2F$$
 
 ADMIXTURE uses Maximum Likelihood Estimation of
 
-<span class="small3"> $$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[\sum_l Q_{i,l} (1 - F_{l,j})\right] \right\}$$ </span>
+<span class="small3"> $$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$ </span>
 
 with constraints: $~0 \le F_{l,j} \le 1~$ and $~Q_{i,l} \ge 0~$ and $~\sum_l Q_{i,l} = 1$
 
@@ -121,9 +121,9 @@ knitr::include_graphics("figures/deconv-withref-paper.png")
 
 - provide allele frequencies and PC loadings
 
-- work on individual-level data or GWAS allele frequencies only
+- work for both individual-level data or GWAS allele frequencies only
 
-- more power to do the minimization in the PCA space
+- more power when doing the minimization in the PCA space
 
 ---
 
@@ -210,7 +210,7 @@ knitr::include_graphics("figures/PC_ukbb_with17.png")
 
 ***
 
-These iterative initializations (warm starts) make the algorithm deterministic and much faster to converge. Also, $L=K+1$.
+These iterative initializations (warm starts) make the algorithm much faster to converge and completely deterministic. Also, $L=K+1$.
 
 ---
 
@@ -339,16 +339,6 @@ Presentation available at [bit.ly/privefl_EMGM2025](https://bit.ly/privefl_EMGM2
 
 count: false
 
-### Admixture proportions using my method (for many L)
-
-```{r, out.width="98%"}
-knitr::include_graphics("figures/simu-admixture-res1.png")
-```
-
----
-
-count: false
-
 ### Country (of birth) counts with ancestry > 0.6 for each reference
 
 <ul class="small2">
@@ -375,7 +365,7 @@ count: false
 
 count: false
 
-### Rerun the algorithm with new PCs (K=41)
+### Rerun the algorithm with new PCs (K=41, L=42)
 
 <style>
     .grid-container {
@@ -435,3 +425,13 @@ count: false
     <li>Somalia: 78</li>
 </ul>
 </div>
+
+---
+
+count: false
+
+### Admixture proportions using my method (for many L)
+
+```{r, out.width="98%"}
+knitr::include_graphics("figures/simu-admixture-res1.png")
+```
