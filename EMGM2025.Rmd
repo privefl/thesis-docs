@@ -45,7 +45,7 @@ class: inverse, center, middle
 
 <br>
 
-## All individuals are genetically admixed<br>from $L$ reference populations
+## All individuals are genetically admixed<br>from L reference populations
 
 ---
 
@@ -60,11 +60,11 @@ class: inverse, center, middle
 
 ### Admixture model and ADMIXTURE method
 
-$$G \approx Q \cdot 2F$$
+$$\large G \approx Q \cdot 2F$$
 
-- $Q$ are the admixture proportions (for each sample $i$ and reference $l$)
+- $\large Q$ are the admixture proportions (for each sample $\large i$ and reference $\large l$)
 
-- $F$ are the allele frequencies (for each each reference $l$ and variant $j$)
+- $\large F$ are the allele frequencies (for each each reference $\large l$ and variant $\large j$)
 
 --
 
@@ -72,9 +72,9 @@ $$G \approx Q \cdot 2F$$
 
 ADMIXTURE uses Maximum Likelihood Estimation of
 
-<span class="small3"> $$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$ </span>
+<span class="small3"> $$\large L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$ </span>
 
-with constraints: $~0 \le F_{l,j} \le 1~$ and $~Q_{i,l} \ge 0~$ and $~\sum_l Q_{i,l} = 1$
+with constraints: $\large ~0 \le F_{l,j} \le 1~$ and $\large ~Q_{i,l} \ge 0~$ and $\large ~\sum_l Q_{i,l} = 1$
 
 --
 
@@ -82,19 +82,19 @@ with constraints: $~0 \le F_{l,j} \le 1~$ and $~Q_{i,l} \ge 0~$ and $~\sum_l Q_{
 
 For simplicity, ADMIXTURE iteratively estimates 
 
-- each $Q_{i,.}$ independently, with $F$ fixed
+- each $\large Q_{i,.}$ independently, with $\large F$ fixed
 
-- each $F_{.,j}$ independently, with $Q$ fixed
+- each $\large F_{.,j}$ independently, with $\large Q$ fixed
 
 
 ---
 
 ### My proposed deconvolution method
 
-$$G \cdot V \approx Q \cdot 2F \cdot V$$
-where $V$ are the PC loadings of $G$
+$$\large G \cdot V \approx Q \cdot 2F \cdot V$$
+where $\large V$ are the PC loadings of $\large G$
 
-$$\Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
+$$\large \Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
 --
 
 ```{r, out.width="85%"}
@@ -103,9 +103,9 @@ knitr::include_graphics("figures/PC_ukbb_with3.png")
 
 ---
 
-### Estimating admixture coefficients $Q_{i,.}$ with $PC^\text{ref}$ fixed
+### Estimating admixture coefficients $\Large Q_{i,.}$ with $\Large PC^\text{ref}$ fixed
 
-<span class="small3"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
+<span class="small3"> $$\large \min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
 
 --
 
@@ -117,9 +117,9 @@ I've already published this method here:
 knitr::include_graphics("figures/deconv-withref-paper.png")
 ```
 
-- curated 18 reference groups within the UK Biobank
+- 18 reference groups curated from the UK Biobank
 
-- provide allele frequencies and PC loadings
+- provide reference allele frequencies and PC loadings
 
 - work for both individual-level data or GWAS allele frequencies only
 
@@ -127,20 +127,20 @@ knitr::include_graphics("figures/deconv-withref-paper.png")
 
 ---
 
-### Estimating admixture coefficients $PC_{l,.}^{\text{ref}}$ with $Q$ fixed
+### Estimating admixture coefficients $\Large PC_{l,.}^{\text{ref}}$ with $\Large Q$ fixed
 
 <br>
 
-$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
+$$\large PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
 
 <br>
 
 - this simple formula is used in e.g. fuzzy K-means
 
-- this is also related to archetypal analysis: $PC^{\text{ref}} = W^T \cdot PC$    
+- this is also related to archetypal analysis: $\large PC^{\text{ref}} = W^T \cdot PC$    
 (references are weighted combinations of existing samples)
 
-    $\Rightarrow$ Reference allele frequencies: $2F = W^T \cdot G$
+    $\Rightarrow$ Reference allele frequencies: $\large 2F = W^T \cdot G$
   
 ---
 
@@ -150,9 +150,9 @@ $$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i
 
 Iterate between 
 
-- estimating admixture coefficients $Q_{i,.}$, with $PC^{\text{ref}}$ fixed
+- estimating admixture coefficients $\large Q_{i,.}$, with $\large PC^{\text{ref}}$ fixed
 
-- estimating reference positions $PC_{l,.}^{\text{ref}}$, with $Q$ fixed
+- estimating reference positions $\large PC_{l,.}^{\text{ref}}$, with $\large Q$ fixed
 
 --
 
@@ -160,7 +160,7 @@ Iterate between
 
 But still missing a starting point..
 
-A naive approach would pick L initial $PC_{l,.}^{\text{ref}}$ at random.
+A naive approach would pick L initial $\large PC_{l,.}^{\text{ref}}$ at random.
 
 ---
 
@@ -248,7 +248,7 @@ When subsampling British and Irish individuals (self-reported ancestry)
 
 In my current work:
 
-- I've also looked at using $Q$ to do the subsampling
+- I've also looked at using $\large Q$ to do the subsampling
 
 - I've run my deconvolution algorithm on K=41 PCs to get L=42 references
 
