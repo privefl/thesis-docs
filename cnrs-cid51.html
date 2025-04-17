@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>CNRS CID51</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="#" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+background-image: url("figures/logo-cnrs.png")
+background-position: center 95%
+background-repeat: no-repeat
+background-size: 11%
+
+# &amp;mdash;**MAGNIFIC**&amp;mdash;
+# &lt;u&gt;Ma&lt;/u&gt;ximizing &lt;u&gt;G&lt;/u&gt;e&lt;u&gt;n&lt;/u&gt;et&lt;u&gt;i&lt;/u&gt;c &lt;u&gt;F&lt;/u&gt;indings and Pred&lt;u&gt;ic&lt;/u&gt;tion
+
+&lt;br&gt;
+
+## Florian Privé 
+
+&lt;br&gt;
+
+### CRCN CNRS&amp;ndash;CID51 application  
+
+&lt;br&gt;
+
+---
+
+&lt;style type="text/css"&gt;
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 16.3px;
+}
+.small2 {
+  font-size: 85%;
+}
+.small2 li {
+  margin-bottom: 7px;
+  line-height: 1.5;
+}
+&lt;/style&gt;
+
+### About me
+
+#### Professional background
+
+- 2010–2013: Preparatory school in Mathematics &amp; Physics
+
+- 2013–2016: Engineer in Computer Science &amp; Applied Mathematics
+
+- 2016–2019: PhD in Computational Biology (Grenoble)
+
+- 2019–2021: Postdoc at Aarhus University (Denmark)
+
+- 2022–2025: Senior Researcher (promotion at the same place)
+
+&lt;br&gt;
+
+#### Research focus
+
+- Statistical human genetics
+
+- Development of statistical methods and R/C++ packages    
+for efficient and powerful analyses of large-scale genetic data 
+
+- Particularly for deriving **polygenic risk scores (PRS)**
+
+---
+
+### My eleven first-author publications (cited 2000+)
+
+&lt;ol class="small2"&gt;
+  &lt;li&gt;&lt;em&gt;Bioinformatics&lt;/em&gt;, two R packages, bigstatsr and bigsnpr, for the efficient analysis of very large genetic/genomic data&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Genetics&lt;/em&gt;, a very efficient implementation of penalized regressions&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Am. J. of Human Genetics&lt;/em&gt;, efficient hyper-parameter tuning and stacking of a widely-used polygenic score method&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Molecular Biology and Evolution&lt;/em&gt;, improving data structure and PCA algorithm of R package pcadapt, for detecting local adaptation&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Bioinformatics&lt;/em&gt;, pitfalls and best practices in PCA, along with efficient implementations&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Bioinformatics&lt;/em&gt;, LDpred2, one of the most widely used polygenic score methods&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Am. J. of Human Genetics&lt;/em&gt;, investigating portability of polygenic scores across populations&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Bioinformatics&lt;/em&gt;, dynamic programming algorithm for detecting block-diagonal structure in matrices&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Bioinformatics&lt;/em&gt;, method and dataset for admixture and ancestry inference&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;HGG Advances&lt;/em&gt;, identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Am. J. of Human Genetics&lt;/em&gt;, validating LDpred2-auto for inferring genetic architecture&lt;/li&gt;
+&lt;/ul&gt;
+
+---
+
+
+### Scientific animation
+
+&lt;br&gt;
+
+- 12 oral presentations at international scientific conferences (1 invited)
+
+- invited to 16 seminar or lecture presentations
+
+- reviewed a total of 62 different manuscripts, for 31 different journals
+
+- external reviewer for Amsterdam UMC Fellowship 2022
+
+- member of the Scientific Committee of EMGM Brest 2025
+
+- reviewer for the Scientific Program Committee of ESHG 2025
+
+
+---
+
+class: center middle inverse
+
+# Genetic data
+# Genome-Wide Association Studies (GWAS)
+# Polygenic Risk Scores (PRS)
+
+---
+
+### Genetic variants and GWAS
+
+&lt;img src="figures/Overview_geneticvariants_GWAS.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### GWAS and polygenic risk scores (PRS)
+
+**Studying common diseases**, such as heart diseases, cancers, diabetes
+
+&lt;br&gt;
+
+Thanks to GWAS, we know that
+
+- many **common** genetic variants are causal `\(\left(\beta_j \neq 0\right)\)`
+
+- but, they usually have a **small effect size** `\(\beta_j\)` on their own   
+    
+    `\(\Rightarrow\)` &lt;u&gt;a common causal variant is not useful as a risk factor&lt;/u&gt;
+
+--
+
+&lt;br&gt;
+
+From GWAS data to **polygenic risk scores (PRS)**:
+
+- variants can be aggregated in a joint predictive model: `\(PRS = \sum_j \hat\gamma_j~G_j\)`
+
+- by aggregating many small effects, the PRS can have a large effect 
+
+    `\(\Rightarrow\)` the `\(PRS\)` can be useful as a risk factor
+
+---
+
+### Public Health: refining risk assessment from traditional risk factors
+
+&lt;u&gt;Traditional risk factors&lt;/u&gt;: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency large-effect) genetic mutations, etc
+
+&lt;img src="figures/PRS-risk2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+--
+
+.footnote2[
+***
+PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventive Cardiology (2024)
+]
+
+---
+
+class: center, middle, inverse
+
+# A major limitation of PRS:
+
+## their poor portability across populations
+
+## risks exacerbating health disparities
+
+---
+
+### PRS performance drops with distance from training population
+
+&lt;img src="figures/ratio-dist-4.png" width="98%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+### Explanation: we often don't use causal variants in practice 
+
+&lt;br&gt;
+
+&lt;img src="figures/LD-multipop2.png" width="88%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle, inverse
+
+# The solution `\(\Rightarrow\)` my proposed project:
+
+## identifying causal variants and using them
+
+## in polygenic risk scores (PRS)
+
+---
+
+### Scaling methods to using 10M genetic variants (WP1)
+
+- there are ~10M common variants
+
+- but most PRS methods (including mine) use ~1M variants    
+(mostly for computational reasons and due to redundancy)
+
+&lt;br&gt;
+
+&lt;img src="figures/variants_in_set.png" width="88%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.center[**We need to use 10M to make sure most causal variants are present**
+
+&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will optimize both methods and data structures to use 10M variants &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
+
+---
+
+### Prioritizing causal variants thanks to functional annotations (WP2)
+
+&lt;br&gt;
+
+&lt;img src="figures/LD-func-anno.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.center[**Variants in some functional categories are more likely to be causal**
+
+&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will integrate this information into my Bayesian PRS methodology &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
+
+---
+
+### Prioritizing causal variants thanks to multi-ancestry data (WP3)
+
+&lt;br&gt;
+
+&lt;img src="figures/LD-multi-GWAS.png" width="98%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will integrate multi-ancestry data into my Bayesian PRS methodology &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
+
+
+---
+
+&lt;img src="figures/Overview_MAGNIFIC_extended.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Feasability
+
+- **I have developed many efficient &amp; powerful methods** in past 9 years  
+
+    - LDpred2, widely used for constructing PRS + often ranked best
+    
+    - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
+
+- I have published 28 papers with 2850 citations in total,    
+including **2000 for my 11 first-author papers**
+
+- My **funding strategy** to recruit people:
+
+  - ANR JCJC
+  
+  - local fundings
+
+- I have **co-supervised several young researchers**
+
+    - two PhD students who graduated (**co-last author on 4 papers**)
+    
+    - ongoing: two PhD students, one research assistant, one postdoc
+
+- I have found **several collaborators** for these work packages    
+(Broad, UCLA, Oxford, Helsinki, Pasteur, INRIA, etc)
+    
+---
+
+### Integration in Grenoble
+
+&lt;br&gt;
+
+1. The TIMC laboratory (INS2I, UMR 5525)
+
+2. The Institute for Advanced Biosciences (IAB, INSB, UMR 5309)
+
+3. The Jean Kuntzmann Laboratory (LJK, INSMI, UMR 5224)
+
+&lt;br&gt;
+
+- The TIMC will offer an energetic bioinformatics environment, and collaborations to integrate other omic data to my Research
+
+- Julien Thévenon (IAB) will help implement my improved methodologies into clinical practices
+
+- Julyan Arbel (LJK) has already helped with his Bayesian expertise (LDpred2)
+
+&lt;br&gt;
+
+I plan to work with all of them in the future, wherever my appointment.
+
+---
+
+class: inverse, center, middle
+
+&lt;br&gt;
+
+# Thank you for your attention
+
+&lt;br&gt;
+&lt;br&gt;
+
+## Florian Privé 
+
+---
+
+count: false
+
+### WP1: Using millions of genetic variants (possible solutions)
+
+&lt;br&gt;
+
+**The main bottleneck is storing and using the matrix of correlations between variants.**
+
+&lt;br&gt;
+
+Possible solutions:
+
+- quantization: storing correlations with two bytes only (divide size by 4) 
+
+- compression on top of quantization
+
+- matrix seriation `\(\rightarrow\)` reordering variants to make blocks smaller
+
+- eigendecomposition
+
+- adapt methods to use very sparse *inverse* covariance matrices 
+
+---
+
+count: false
+
+### LDpred2 vs some state-of-the-art multi-ancestry PRS methods
+
+&lt;img src="figures/LDpred2-vs-SotA-multiancestry.jpg" width="62%" style="display: block; margin: auto;" /&gt;
+
+.footnote2[O. Pain (2025). Leveraging Global Genetics Resources to Enhance Polygenic Prediction Across Ancestrally Diverse Populations. *medRxiv*]
+
+---
+
+count: false
+
+### WP4: Ensuring the quality and coverage of the training data
+
+&lt;br&gt;
+
+- there are lots of problems with the input data (GWAS summary statistics)
+
+- which can causes lots of misspecifications and biases in the methods
+
+.footnote2[F. Privé et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
+&lt;br&gt;
+
+&lt;img src="figures/Imputation-QC-method-v2.png" width="92%" style="display: block; margin: auto;" /&gt;
+
+- I propose to implement a QC and imputation method (synergistic)
+
+- and to provide a set of highly refined GWAS summary statistics
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

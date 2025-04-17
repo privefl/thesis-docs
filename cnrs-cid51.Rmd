@@ -1,0 +1,406 @@
+---
+title: "CNRS CID51"
+output:
+  xaringan::moon_reader:
+    includes:
+      in_header: "no_favicon.html"
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# chromote::local_chrome_version(binary = "chrome-headless-shell")
+# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL  <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO      <- icons::fontawesome$solid$`info-circle`
+```
+
+class: title-slide center middle inverse
+
+background-image: url("figures/logo-cnrs.png")
+background-position: center 95%
+background-repeat: no-repeat
+background-size: 11%
+
+# &mdash;**MAGNIFIC**&mdash;
+# <u>Ma</u>ximizing <u>G</u>e<u>n</u>et<u>i</u>c <u>F</u>indings and Pred<u>ic</u>tion
+
+<br>
+
+## Florian Privé 
+
+<br>
+
+### CRCN CNRS&ndash;CID51 application  
+
+<br>
+
+---
+
+```{css}
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 16.3px;
+}
+.small2 {
+  font-size: 85%;
+}
+.small2 li {
+  margin-bottom: 7px;
+  line-height: 1.5;
+}
+```
+
+### About me
+
+#### Professional background
+
+- 2010–2013: Preparatory school in Mathematics & Physics
+
+- 2013–2016: Engineer in Computer Science & Applied Mathematics
+
+- 2016–2019: PhD in Computational Biology (Grenoble)
+
+- 2019–2021: Postdoc at Aarhus University (Denmark)
+
+- 2022–2025: Senior Researcher (promotion at the same place)
+
+<br>
+
+#### Research focus
+
+- Statistical human genetics
+
+- Development of statistical methods and R/C++ packages    
+for efficient and powerful analyses of large-scale genetic data 
+
+- Particularly for deriving **polygenic risk scores (PRS)**
+
+---
+
+### My eleven first-author publications (cited 2000+)
+
+<ol class="small2">
+  <li><em>Bioinformatics</em>, two R packages, bigstatsr and bigsnpr, for the efficient analysis of very large genetic/genomic data</li>
+  <li><em>Genetics</em>, a very efficient implementation of penalized regressions</li>
+  <li><em>Am. J. of Human Genetics</em>, efficient hyper-parameter tuning and stacking of a widely-used polygenic score method</li>
+  <li><em>Molecular Biology and Evolution</em>, improving data structure and PCA algorithm of R package pcadapt, for detecting local adaptation</li>
+  <li><em>Bioinformatics</em>, pitfalls and best practices in PCA, along with efficient implementations</li>
+  <li><em>Bioinformatics</em>, LDpred2, one of the most widely used polygenic score methods</li>
+  <li><em>Am. J. of Human Genetics</em>, investigating portability of polygenic scores across populations</li>
+  <li><em>Bioinformatics</em>, dynamic programming algorithm for detecting block-diagonal structure in matrices</li>
+  <li><em>Bioinformatics</em>, method and dataset for admixture and ancestry inference</li>
+  <li><em>HGG Advances</em>, identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores</li>
+  <li><em>Am. J. of Human Genetics</em>, validating LDpred2-auto for inferring genetic architecture</li>
+</ul>
+
+---
+
+
+### Scientific animation
+
+<br>
+
+- 12 oral presentations at international scientific conferences (1 invited)
+
+- invited to 16 seminar or lecture presentations
+
+- reviewed a total of 62 different manuscripts, for 31 different journals
+
+- external reviewer for Amsterdam UMC Fellowship 2022
+
+- member of the Scientific Committee of EMGM Brest 2025
+
+- reviewer for the Scientific Program Committee of ESHG 2025
+
+
+---
+
+class: center middle inverse
+
+# Genetic data
+# Genome-Wide Association Studies (GWAS)
+# Polygenic Risk Scores (PRS)
+
+---
+
+### Genetic variants and GWAS
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/Overview_geneticvariants_GWAS.png")
+```
+
+---
+
+### GWAS and polygenic risk scores (PRS)
+
+**Studying common diseases**, such as heart diseases, cancers, diabetes
+
+<br>
+
+Thanks to GWAS, we know that
+
+- many **common** genetic variants are causal $\left(\beta_j \neq 0\right)$
+
+- but, they usually have a **small effect size** $\beta_j$ on their own   
+    
+    $\Rightarrow$ <u>a common causal variant is not useful as a risk factor</u>
+
+--
+
+<br>
+
+From GWAS data to **polygenic risk scores (PRS)**:
+
+- variants can be aggregated in a joint predictive model: $PRS = \sum_j \hat\gamma_j~G_j$
+
+- by aggregating many small effects, the PRS can have a large effect 
+
+    $\Rightarrow$ the $PRS$ can be useful as a risk factor
+
+---
+
+### Public Health: refining risk assessment from traditional risk factors
+
+<u>Traditional risk factors</u>: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency large-effect) genetic mutations, etc
+
+```{r, out.width="85%"}
+knitr::include_graphics("figures/PRS-risk2.png")
+```
+
+--
+
+.footnote2[
+***
+PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventive Cardiology (2024)
+]
+
+---
+
+class: center, middle, inverse
+
+# A major limitation of PRS:
+
+## their poor portability across populations
+
+## risks exacerbating health disparities
+
+---
+
+### PRS performance drops with distance from training population
+
+```{r, out.width="98%", fig.align='left'}
+knitr::include_graphics("figures/ratio-dist-4.png")
+```
+
+---
+
+### Explanation: we often don't use causal variants in practice 
+
+<br>
+
+```{r, out.width="88%"}
+knitr::include_graphics("figures/LD-multipop2.png")
+```
+
+---
+
+class: center, middle, inverse
+
+# The solution $\Rightarrow$ my proposed project:
+
+## identifying causal variants and using them
+
+## in polygenic risk scores (PRS)
+
+---
+
+### Scaling methods to using 10M genetic variants (WP1)
+
+- there are ~10M common variants
+
+- but most PRS methods (including mine) use ~1M variants    
+(mostly for computational reasons and due to redundancy)
+
+<br>
+
+```{r, out.width="88%"}
+knitr::include_graphics("figures/variants_in_set.png")
+```
+
+<br>
+
+.center[**We need to use 10M to make sure most causal variants are present**
+
+`r icons::fontawesome("laptop")` I will optimize both methods and data structures to use 10M variants `r icons::fontawesome("laptop")`]
+
+---
+
+### Prioritizing causal variants thanks to functional annotations (WP2)
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/LD-func-anno.png")
+```
+
+<br>
+
+.center[**Variants in some functional categories are more likely to be causal**
+
+`r icons::fontawesome("laptop")` I will integrate this information into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+
+---
+
+### Prioritizing causal variants thanks to multi-ancestry data (WP3)
+
+<br>
+
+```{r, out.width="98%"}
+knitr::include_graphics("figures/LD-multi-GWAS.png")
+```
+
+<br>
+
+.center[`r icons::fontawesome("laptop")` I will integrate multi-ancestry data into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+
+
+---
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
+```
+
+---
+
+### Feasability
+
+- **I have developed many efficient & powerful methods** in past 9 years  
+
+    - LDpred2, widely used for constructing PRS + often ranked best
+    
+    - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
+
+- I have published 28 papers with 2850 citations in total,    
+including **2000 for my 11 first-author papers**
+
+- My **funding strategy** to recruit people:
+
+  - ANR JCJC
+  
+  - local fundings
+
+- I have **co-supervised several young researchers**
+
+    - two PhD students who graduated (**co-last author on 4 papers**)
+    
+    - ongoing: two PhD students, one research assistant, one postdoc
+
+- I have found **several collaborators** for these work packages    
+(Broad, UCLA, Oxford, Helsinki, Pasteur, INRIA, etc)
+    
+---
+
+### Integration in Grenoble
+
+<br>
+
+1. The TIMC laboratory (INS2I, UMR 5525)
+
+2. The Institute for Advanced Biosciences (IAB, INSB, UMR 5309)
+
+3. The Jean Kuntzmann Laboratory (LJK, INSMI, UMR 5224)
+
+<br>
+
+- The TIMC will offer an energetic bioinformatics environment, and collaborations to integrate other omic data to my Research
+
+- Julien Thévenon (IAB) will help implement my improved methodologies into clinical practices
+
+- Julyan Arbel (LJK) has already helped with his Bayesian expertise (LDpred2)
+
+<br>
+
+I plan to work with all of them in the future, wherever my appointment.
+
+---
+
+class: inverse, center, middle
+
+<br>
+
+# Thank you for your attention
+
+<br>
+<br>
+
+## Florian Privé 
+
+---
+
+count: false
+
+### WP1: Using millions of genetic variants (possible solutions)
+
+<br>
+
+**The main bottleneck is storing and using the matrix of correlations between variants.**
+
+<br>
+
+Possible solutions:
+
+- quantization: storing correlations with two bytes only (divide size by 4) 
+
+- compression on top of quantization
+
+- matrix seriation $\rightarrow$ reordering variants to make blocks smaller
+
+- eigendecomposition
+
+- adapt methods to use very sparse *inverse* covariance matrices 
+
+---
+
+count: false
+
+### LDpred2 vs some state-of-the-art multi-ancestry PRS methods
+
+```{r, out.width="62%"}
+knitr::include_graphics("figures/LDpred2-vs-SotA-multiancestry.jpg")
+```
+
+.footnote2[O. Pain (2025). Leveraging Global Genetics Resources to Enhance Polygenic Prediction Across Ancestrally Diverse Populations. *medRxiv*]
+
+---
+
+count: false
+
+### WP4: Ensuring the quality and coverage of the training data
+
+<br>
+
+- there are lots of problems with the input data (GWAS summary statistics)
+
+- which can causes lots of misspecifications and biases in the methods
+
+.footnote2[F. Privé et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
+<br>
+
+```{r, out.width="92%"}
+knitr::include_graphics("figures/Imputation-QC-method-v2.png")
+```
+
+- I propose to implement a QC and imputation method (synergistic)
+
+- and to provide a set of highly refined GWAS summary statistics
