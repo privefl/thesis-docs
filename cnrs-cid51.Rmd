@@ -102,33 +102,6 @@ for efficient and powerful analyses of large-scale genetic data
 
 ---
 
-### Scientific production, communication & animation
-
-- **11 first-author publications** (2000+ citations), mostly published in 
-    - *Bioinformatics* (x5)
-    - *American Journal of Human Genetics (AJHG)* (x3)
-
-- a total of 28 publications (2850+ citations)
-
-- Twitter (1000+ followers), BlueSky, scientific blog
-
-- 12 oral presentations at international scientific conferences (1 invited)
-
-- invited to 16 seminar or lecture presentations
-
-- contribution to *Le Monde* article on lack of genetic diversity in research
-
-- founder and organizer of the R User Group of Grenoble    
-(19 sessions in 2017&#8211;2019)
-
-- reviewer for    
-    - 62 manuscripts across 31 scientific journals
-    - Amsterdam UMC Fellowship 2022
-    - European Mathematical Genetics Meeting (EMGM) 2025
-    - European Human Genetics Conference (ESHG) 2025
-
----
-
 class: center middle inverse
 
 # Genetic data
@@ -185,6 +158,83 @@ knitr::include_graphics("figures/PRS-risk2.png")
 ***
 PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventive Cardiology (2024)
 ]
+
+---
+
+class: center, middle, inverse
+
+# Previous work
+
+---
+
+### Developing PRS methods (1/3)
+
+<br>
+
+**F. Privé**, H. Aschard, & M.G.B. Blum (2019). "Efficient implementation of penalized regression for genetic risk prediction." *Genetics*
+
+<br>
+
+- based on individual-level data (genotypes and phenotype)
+
+- faster and on-disk implementation of penalized regressions (> glmnet)
+
+- alternative to cross-validation to choose hyper-parameters
+
+---
+
+### Developing PRS methods (2/3)
+
+<br>
+
+**F. Privé**, B.J. Vilhjálmsson, H. Aschard, & M.G.B. Blum (2019). "Making the most of Clumping and Thresholding for polygenic scores." *The American Journal of Human Genetics*
+
+<br>
+
+- based on GWAS summary statistics (effect sizes and p-values)
+
+- reimplemented an existing widely-used PRS method 
+
+- efficiently investigated 5600 combinations of four hyper-parameters    
+(only one hyper-parameter was considered usually)
+
+- further improved predictive performance with stacking
+
+---
+
+### Developing PRS methods (3/3)
+
+<br>
+
+**F. Privé**, J. Arbel, & B.J. Vilhjálmsson (2020). "LDpred2: better, faster, stronger." *Bioinformatics*
+
+<br>
+
+- faster and more robust to numerical issues than LDpred
+
+- developed an on-disk sparse matrix format for more efficient parallelism
+
+- two new versions:
+
+    - a 'sparse' option, which truly fits some effects to zero
+    
+    - an 'auto' option, which can infer the two hyper-parameters of the Bayesian model: the polygenicity $p$ and the SNP-heritability $h^2$
+    
+- post-hoc quality control of Gibbs sampler chains
+
+---
+
+### GWAS summary statistics and robustness
+
+<br>
+
+**F. Privé** (2022). "Optimal linkage disequilibrium splitting." *Bioinformatics*
+
+**F. Privé**, J. Arbel, H. Aschard, &  B.J. Vilhjálmsson (2022). "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances*
+
+<br>
+
+- TOFINISH
 
 ---
 
@@ -273,7 +323,7 @@ knitr::include_graphics("figures/LD-multi-GWAS.png")
 
 <br>
 
-.center[`r icons::fontawesome("laptop")` I will integrate multi-ancestry data into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+.center[`r icons::fontawesome("laptop")` I will integrate multi-ancestry data into my PRS methodology `r icons::fontawesome("laptop")`]
 
 
 ---
@@ -317,9 +367,9 @@ knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
 
 1. The TIMC laboratory (INS2I, UMR 5525)
 
-2. The Institute for Advanced Biosciences (IAB, INSB, UMR 5309)
+2. The IAB, Institute for Advanced Biosciences (INSB, UMR 5309)
 
-3. The Jean Kuntzmann Laboratory (LJK, INSMI, UMR 5224)
+3. The LJK, Jean Kuntzmann Laboratory (INSMI, UMR 5224)
 
 <br>
 
@@ -331,16 +381,32 @@ knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
 
 ---
 
-class: inverse, center, middle
+class: inverse
+
+<center>
+<h1>Thank you for your attention</h1>
+
+<h3>Florian Privé</h3>
+</center>
 
 <br>
 
-# Thank you for your attention
+- a total of 28 publications (2850+ citations)
 
-<br>
-<br>
+- **11 first-author publications** (2000+ citations)
 
-## Florian Privé 
+- 12 oral presentations at international scientific conferences (1 invited)
+
+- invited to 16 seminar or lecture presentations
+
+- founder and organizer of the R User Group of Grenoble    
+(19 sessions in 2017&#8211;2019)
+
+- reviewer for    
+    - 63 manuscripts across 31 scientific journals
+    - Amsterdam UMC Fellowship 2022
+    - European Mathematical Genetics Meeting (EMGM) 2025
+    - European Human Genetics Conference (ESHG) 2025
 
 ---
 

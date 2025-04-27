@@ -8,9 +8,9 @@ ggplot(res) +
   geom_col(aes(name, value / 100), color = "black", fill = "chartreuse4", alpha = 0.3,
            width = 0.7) +
   theme_bw(18) +
-  # geom_text(aes(x = 5, y = 0.95, label = "Source: F. Privé et al, AJHG (2022)")) +
+  # geom_text(aes(x = 5, y = 0.95, label = "Source: F. Privé et al, Am. J. of Human Genetics (2022)")) +
   geom_hline(yintercept = 1, linetype = 3) +
-  labs(x = "PRS testing population (Pop)", 
+  labs(x = "PRS testing population (Pop)",
        y = expression(frac(R[Pop]^2, R["NW Eur"]^2)),
        subtitle = "PRS training population: N.W. Europe") +
   theme(axis.title.x = element_text(margin = margin(t = 10)),
