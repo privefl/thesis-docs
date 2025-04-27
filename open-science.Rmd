@@ -31,28 +31,31 @@ class: title-slide center middle inverse
 <br>
 
 ## Florian Privé
-#### `r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+
+#### <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
 
-## Open Science
+### Open Science definition
+#### by the French Ministry of Higher Education, Research and Innovation
 
 <br>
 
-> - Open science refers to the unhindered dissemination of results, methods and products from scientific research. 
-> - It draws on the opportunity provided by recent digital progress to develop open access to publications and – as much as possible – data, source code and research methods. 
-> - It is a means for publicly funded research projects to retain control over the results they produce. 
-> - It builds an ecosystem in which science becomes better substantiated and more transparent, reproducible, effective and cumulative. 
-> - It aims to democratize access to knowledge, which is useful for teaching and training, and for the economy, public policy, citizens and society as a whole. 
-> - Finally, it constitutes a lever for scientific integrity and builds citizen trust in science.
->
-> – French Ministry of Higher Education, Research and Innovation
+- Open science refers to the unhindered dissemination of results, methods and products from scientific research. 
+
+- It draws on the opportunity provided by recent digital progress to develop open access to publications and – as much as possible – data, source code and research methods. 
+
+- It is a means for publicly funded research projects to retain control over the results they produce. 
+
+- It builds an ecosystem in which science becomes better substantiated and more transparent, reproducible, effective and cumulative. 
+
+- It aims to democratize access to knowledge, which is useful for teaching and training, and for the economy, public policy, citizens and society as a whole. 
+
+- It is a lever for scientific integrity and builds citizen trust in science.
 
 ---
 
 ### Research from public fundings has to be open-access
-
-<br>
 
 ...usually within six months of publication
 
@@ -70,7 +73,7 @@ knitr::include_graphics("figures/scholar-open.jpg")
 knitr::include_graphics("https://pbs.twimg.com/media/F5z3E3RXMAAlhpk?format=jpg&name=small")
 ```
 
-Nature: 9,750 EUR – Nature Neuroscience: 9,750 EUR – <br>Nature Communications: 5,190 EUR – Bioinformatics: 2,600 EUR – <br>AJHG: 4,600 EUR (but 0 if you are willing to wait for six months)
+Nature: 10,690 EUR – Nature Neuroscience: 10,690 EUR – <br>Nature Communications: 5,890 EUR – Bioinformatics: 4,200 EUR – <br>AJHG: 5,150 USD (but 0 if you are willing to wait for six months)
 
 ---
 
@@ -80,14 +83,15 @@ Nature: 9,750 EUR – Nature Neuroscience: 9,750 EUR – <br>Nature Communicatio
 
 E.g. [COMPUTO](https://computo.sfds.asso.fr/), a journal of the French Statistical Society
 
-<br>
-
-**Computo is free for both readers and authors.**
+**Computo is free for both readers and authors**
 
 <br>
 
-Computo has been created in the context of a reproducibility crisis in science, which calls for higher standards in the publication of scientific results.    
+Computo has been created in the context of a **reproducibility crisis in science**, which calls for higher standards in the publication of scientific results.
+
 Computo aims at promoting computational/algorithmic contributions in statistics and machine learning that provide insight into which models or methods are the most appropriate to address a specific scientific question.
+
+Code must be provided and is checked thoroughly during the review process.
 
 ---
 
@@ -95,13 +99,15 @@ Computo aims at promoting computational/algorithmic contributions in statistics 
 
 <br>
 
-Put your preprints out there: bioRxiv, medRxiv, PsyArXiv
+- Put your preprints out there: bioRxiv, medRxiv, PsyArXiv
 
---
+- Share the main results in a thread on social media
+
+- I usually wait two weeks before submitting, to leave the opportunity for feedback before submission
 
 <br>
 
-An additional benefit:
+- An additional benefit:
 
 > Releasing a preprint is associated with more attention and citations for the peer-reviewed article
 >
@@ -117,7 +123,7 @@ Code is the ONLY way to reproduce an analysis. The Methods section cannot ensure
 An example:
 
 <center>
-<iframe width="650" height="370" src="https://www.youtube.com/embed/Ct-lOOUqmyY?si=ApMwDlDLmtJ1RP_E&amp;start=5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen data-external="1"></iframe>
+<iframe width="650" height="370" src="https://www.youtube.com/embed/FN2RM-CHkuI?si=xNRzc2Q069_6IVj2&amp;start=12&amp;end=264" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
 
 ---
@@ -125,8 +131,6 @@ An example:
 ## FAIR principles for data
 
 [reused from [here](https://nbisweden.github.io/module-open-science-dm-practices/02-fair/index.html)]
-
-<br>
 
 To try to guide the scientific community on how to ensure that the research data is useful for others in the digital age, [the FAIR principles](https://doi.org/10.1038/sdata.2016.18) were published in 2016.
 
@@ -185,7 +189,7 @@ So what does this mean? A brief condensed summary:
 
 <br>
 
-A couple of things to note about FAIR:
+A few things to note about FAIR:
 
 - Both humans and machines are intended users of data
 - The principles are not necessarily about open data
@@ -208,26 +212,29 @@ knitr::include_graphics("https://ars.els-cdn.com/content/image/1-s2.0-S089543562
 
 ### My current practices
 
-<br>
-
 - I mostly use the UK Biobank data, which is broadly used and available to any researcher that applies for it
 
 - All my statistical methods have their code open sourced on GitHub (usually as R packages)
 
 - I always share the analysis code of papers on GitHub
+
     - when accessing data from the internet, I always try to have some code doing the download, rather than manually doing it, e.g. with `runonce::download_file()` in R
+    
     - use relative paths instead of absolute paths
+    
     - people should be able to see when you make some changes to your code (e.g. from the Git history) $\longrightarrow$ more transparency = more trust
 
 - Key results are shared via GitHub or FigShare
 
 - Specific results such as GWAS summary statistics and PGS effect sizes are shared through dedicated databases such as the GWAS and PGS Catalogs
 
+- As a reviewer, I always ask for the analysis code
+
 ---
 
 class: inverse, center, middle
 
-# Thanks!
+## Thank you for your attention
 
 <br>
 
@@ -235,6 +242,9 @@ Presentation available at [bit.ly/ncrr_open_science](https://bit.ly/ncrr_open_sc
 
 <br>
 
-`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+#### <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
-.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
+<br>
+<br>
+
+## What do you do for Open Science?
