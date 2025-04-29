@@ -163,7 +163,7 @@ PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventi
 
 class: center, middle, inverse
 
-# Previous work
+# Some of my previous work
 
 ---
 
@@ -171,15 +171,16 @@ class: center, middle, inverse
 
 <br>
 
-**F. Privé**, H. Aschard, & M.G.B. Blum (2019). "Efficient implementation of penalized regression for genetic risk prediction." *Genetics*
+**F. Privé**, H. Aschard, & M.G.B. Blum (2019). "Efficient implementation of penalized regression for genetic risk prediction." *Genetics*.
 
 <br>
 
-- based on individual-level data (genotypes and phenotype)
+- **based on individual-level data** (genotypes and phenotype)
 
-- faster and on-disk implementation of penalized regressions (> glmnet)
+- **faster and on-disk** implementation of penalized regressions (> glmnet)
 
-- alternative to cross-validation to choose hyper-parameters
+- **alternative to cross-validation** to choose hyper-parameters    
+    $\rightarrow$ avoids refitting and allows for early-stopping criterion
 
 ---
 
@@ -187,18 +188,18 @@ class: center, middle, inverse
 
 <br>
 
-**F. Privé**, B.J. Vilhjálmsson, H. Aschard, & M.G.B. Blum (2019). "Making the most of Clumping and Thresholding for polygenic scores." *The American Journal of Human Genetics*
+**F. Privé**, B.J. Vilhjálmsson, H. Aschard, & M.G.B. Blum (2019). "Making the most of Clumping and Thresholding for polygenic scores." *The American Journal of Human Genetics*.
 
 <br>
 
-- based on GWAS summary statistics (effect sizes and p-values)
+- **based on GWAS summary statistics** (effect sizes and p-values)
 
 - reimplemented an existing widely-used PRS method 
 
-- efficiently investigated 5600 combinations of four hyper-parameters    
+- efficiently investigated **5600 combinations of four hyper-parameters**    
 (only one hyper-parameter was considered usually)
 
-- further improved predictive performance with stacking
+- further improved predictive performance with **stacking**
 
 ---
 
@@ -206,35 +207,45 @@ class: center, middle, inverse
 
 <br>
 
-**F. Privé**, J. Arbel, & B.J. Vilhjálmsson (2020). "LDpred2: better, faster, stronger." *Bioinformatics*
+**F. Privé**, J. Arbel, & B.J. Vilhjálmsson (2020). "LDpred2: better, faster, stronger." *Bioinformatics*.
 
 <br>
 
-- faster and more robust to numerical issues than LDpred
+- Bayesian PRS model, based on GWAS summary statistics
+
+- **faster and more robust** to numerical issues than LDpred
 
 - developed an on-disk sparse matrix format for more efficient parallelism
 
 - two new versions:
 
-    - a 'sparse' option, which truly fits some effects to zero
+    - **a 'sparse' option**, which truly fits some effects to zero
     
-    - an 'auto' option, which can infer the two hyper-parameters of the Bayesian model: the polygenicity $p$ and the SNP-heritability $h^2$
+    - **an 'auto' option**, which can infer the two hyper-parameters
     
-- post-hoc quality control of Gibbs sampler chains
+- **post-hoc quality control** of Gibbs sampler chains
 
 ---
 
-### GWAS summary statistics and robustness
+### Robustness of PRS models using GWAS summary statistics
+
+A joint model from summary statistics: $$\hat\beta = (\underbrace{X^T X}_\text{covariance})^{-1} \underbrace{X^T y}_\text{GWAS effect sizes}$$
+
+- In practice, we use $(G_2^T G_2)^{-1} G_1^T y_1$ (misspecification: $G_2 \neq G_1$)
+
+- Another issue comes from using GWAS meta-analyses (errors, $\neq$ N's)
 
 <br>
 
-**F. Privé** (2022). "Optimal linkage disequilibrium splitting." *Bioinformatics*
+--
 
-**F. Privé**, J. Arbel, H. Aschard, &  B.J. Vilhjálmsson (2022). "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances*
+- **F. Privé** (2022). "Optimal linkage disequilibrium splitting." *Bioinformatics*.
 
-<br>
+    $\rightarrow$ using **dynamic programming to identify a block-diagonal structure** in the covariance/correlation matrix  
+    $\rightarrow$ to **improve the robustness and speed** of PRS methods like LDpred2
 
-- TOFINISH
+
+- **F. Privé**, J. Arbel, H. Aschard, &  B.J. Vilhjálmsson (2022). "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances*.
 
 ---
 
@@ -283,17 +294,19 @@ class: center, middle, inverse
 - but most PRS methods (including mine) use ~1M variants    
 (mostly for computational reasons and due to redundancy)
 
-<br>
+.small2[<br>]
 
-```{r, out.width="88%"}
+```{r, out.width="85%"}
 knitr::include_graphics("figures/variants_in_set.png")
 ```
 
-<br>
-
 .center[**We need to use 10M to make sure most causal variants are present**
 
-`r icons::fontawesome("laptop")` I will optimize both methods and data structures to use 10M variants `r icons::fontawesome("laptop")`]
+<br>
+
+`r icons::fontawesome("laptop")` I will optimize both methods and data structures to use 10M variants `r icons::fontawesome("laptop")`
+
+(using quantization + compression, or sparse inverse covariance matrices)]
 
 ---
 
@@ -305,11 +318,13 @@ knitr::include_graphics("figures/variants_in_set.png")
 knitr::include_graphics("figures/LD-func-anno.png")
 ```
 
-<br>
-
 .center[**Variants in some functional categories are more likely to be causal**
 
-`r icons::fontawesome("laptop")` I will integrate this information into my Bayesian PRS methodology `r icons::fontawesome("laptop")`]
+<br>
+
+`r icons::fontawesome("laptop")` I will integrate this information into my Bayesian PRS methodology `r icons::fontawesome("laptop")`
+
+(to update non-informative prior probabilities of being causal)]
 
 ---
 
@@ -336,7 +351,7 @@ knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
 
 ### Feasability
 
-- **I have developed many efficient & powerful methods** 
+- **I have developed many efficient & competitive methods** 
 
     - LDpred2, widely used for constructing PRS + often ranked best
     
@@ -348,7 +363,7 @@ knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
 
   - ANR JCJC
   
-  - local fundings
+  - local fundings (MIAI, university, region)
 
 - I have **co-supervised several young researchers**
 
@@ -365,19 +380,23 @@ knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
 
 <br>
 
-1. The TIMC laboratory (INS2I, UMR 5525)
+- The TIMC laboratory (INS2I, UMR 5525)
 
-2. The IAB, Institute for Advanced Biosciences (INSB, UMR 5309)
+- The LJK, Jean Kuntzmann Laboratory (INSMI, UMR 5224)
 
-3. The LJK, Jean Kuntzmann Laboratory (INSMI, UMR 5224)
+- The IAB, Institute for Advanced Biosciences (INSB, UMR 5309)
+
 
 <br>
 
-- The TIMC will offer an energetic bioinformatics environment, and collaborations to integrate other omic data to my Research
+- The TIMC offers an energetic bioinformatics environment, and collaborations to integrate other omic data to my Research
+
+- Julyan Arbel (LJK) has already helped with his Bayesian expertise  
+    \+ the SVH team (Statistique pour les sciences du Vivant et de l'Homme)
 
 - Julien Thévenon (IAB) will help implement my improved methodologies into clinical practices
 
-- Julyan Arbel (LJK) has already helped with his Bayesian expertise (LDpred2)
+- I will join the Bioinformatics collaborative network of Grenoble (BiGre)
 
 ---
 
@@ -389,11 +408,11 @@ class: inverse
 <h3>Florian Privé</h3>
 </center>
 
-<br>
+- large international impact
 
-- a total of 28 publications (2850+ citations)
+- a total of 28 publications (2900+ citations)
 
-- **11 first-author publications** (2000+ citations)
+- 11 first-author publications (2000+ citations)
 
 - 12 oral presentations at international scientific conferences (1 invited)
 
@@ -416,7 +435,7 @@ count: false
 
 <br>
 
-**The main bottleneck is storing and using the matrix of correlations between variants.**
+**The main bottleneck is storing and using the matrix of covariances/correlations between variants.**
 
 <br>
 
@@ -456,13 +475,25 @@ count: false
 
 - which can causes lots of misspecifications and biases in the methods
 
-.footnote2[F. Privé et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
+.footnote2[**F. Privé** et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
 <br>
 
 ```{r, out.width="92%"}
 knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 ```
 
-- I propose to implement a QC and imputation method (synergistic)
+- I propose to implement a quality control and imputation method (synergistic)
 
 - and to provide a set of highly refined GWAS summary statistics
+
+---
+
+count: false
+
+### Cross-Model Selection and Averaging (CMSA)
+
+#### A faster alternative to cross-validation
+
+```{r, out.width="72%"}
+knitr::include_graphics("https://raw.githubusercontent.com/privefl/paper2-PRS/master/figures/simple-CMSA.png")
+```
