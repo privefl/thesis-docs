@@ -269,10 +269,8 @@ knitr::include_graphics("figures/ratio-dist-4.png")
 
 ### Explanation: we often don't use causal variants in practice 
 
-<br>
-
 ```{r, out.width="88%"}
-knitr::include_graphics("figures/LD-multipop2.png")
+knitr::include_graphics("figures/LD-multipop3.png")
 ```
 
 ---
