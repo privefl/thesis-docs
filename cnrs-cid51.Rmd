@@ -192,7 +192,7 @@ class: center, middle, inverse
 
 <br>
 
-- **based on GWAS summary statistics** (effect sizes and p-values)
+- **based on GWAS summary statistics** (GWAS effect sizes and p-values)
 
 - reimplemented an existing widely-used PRS method 
 
@@ -342,7 +342,23 @@ knitr::include_graphics("figures/LD-multi-GWAS.png")
 ---
 
 ```{r, out.width="95%"}
-knitr::include_graphics("figures/Overview_MAGNIFIC_extended.png")
+knitr::include_graphics("figures/Overview_MAGNIFIC_extended-2.png")
+```
+
+---
+
+count: false
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/Overview_MAGNIFIC_extended-3.png")
+```
+
+---
+
+count: false
+
+```{r, out.width="95%"}
+knitr::include_graphics("figures/Overview_MAGNIFIC_extended-4.png")
 ```
 
 ---
