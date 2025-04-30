@@ -14,7 +14,7 @@ output:
 
 ```{r setup, include=FALSE}
 # chromote::local_chrome_version(binary = "chrome-headless-shell")
-# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+# renderthis::to_pdf("cnrs-cid51.Rmd", partial_slides = TRUE, complex_slides = TRUE, delay = 2)
 options(htmltools.dir.version = FALSE, width = 70)
 knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
                       echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
@@ -233,7 +233,7 @@ A joint model from summary statistics: $$\hat\beta = (\underbrace{X^T X}_\text{c
 
 - In practice, we use $(G_2^T G_2)^{-1} G_1^T y_1$ (misspecification: $G_2 \neq G_1$)
 
-- Another issue comes from using GWAS meta-analyses (errors, $\neq$ N's)
+- Another issue comes from using GWAS meta-analyses ($\neq$ N's, errors)
 
 <br>
 
