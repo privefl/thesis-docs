@@ -70,7 +70,8 @@ background-size: 11%
 
 ### Research focus
 
-&lt;br&gt;
+**I try to predict our risk of disease    
+using millions of genetic variants across our genome**
 
 - Statistical human genetics
 
@@ -83,13 +84,13 @@ for efficient and powerful analyses of large-scale genetic data
 
 **Interdisciplinary** work:
 
-- **Mathematics/Statistics**: statistical models and numerical methods
+- **Mathematics/Statistics**: statistical models
 
-- **Computer Science**: efficient code, algorithms and data structures
+- **Computer Science**: highly optimized and reliable software
 
-- **Machine Learning**: predictive models, hyper-parameter tuning, stacking
+- **Machine Learning**: predictive models
 
-- **Biology/Health**: genetic associations, predictions and inferences
+- **Biology/Health** applications
 
 ---
 
@@ -158,7 +159,7 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-**F. Privé**, H. Aschard, &amp; M.G.B. Blum (2019). "Efficient implementation of penalized regression for genetic risk prediction." *Genetics*.
+**F. Privé** et al (2019). *Genetics*
 
 &lt;br&gt;
 
@@ -175,7 +176,7 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-**F. Privé**, B.J. Vilhjálmsson, H. Aschard, &amp; M.G.B. Blum (2019). "Making the most of Clumping and Thresholding for polygenic scores." *The American Journal of Human Genetics*.
+**F. Privé** et al (2019). *The American Journal of Human Genetics*
 
 &lt;br&gt;
 
@@ -186,7 +187,7 @@ class: center, middle, inverse
 - efficiently investigated **5600 combinations of four hyper-parameters**    
 (only one hyper-parameter was considered usually)
 
-- further improved predictive performance with **stacking**
+- further improved predictive performance with **stacking** (combining multiple models)
 
 ---
 
@@ -194,7 +195,7 @@ class: center, middle, inverse
 
 &lt;br&gt;
 
-**F. Privé**, J. Arbel, &amp; B.J. Vilhjálmsson (2020). "LDpred2: better, faster, stronger." *Bioinformatics*.
+**F. Privé** et al (2020). *Bioinformatics*
 
 &lt;br&gt;
 
@@ -216,9 +217,12 @@ class: center, middle, inverse
 
 ### Robustness of PRS models using GWAS summary statistics
 
-A joint model from summary statistics: `$$\hat\beta = (\underbrace{X^T X}_\text{covariance})^{-1} \underbrace{X^T y}_\text{GWAS effect sizes}$$`
+&lt;br&gt;
 
-- In practice, we use `\((G_2^T G_2)^{-1} G_1^T y_1\)` (misspecification: `\(G_2 \neq G_1\)`)
+- Most PRS models use the covariance matrix    
+to transform marginal GWAS effects to joint effects
+
+- In practice, the covariance is estimated in another dataset
 
 - Another issue comes from using GWAS meta-analyses (`\(\neq\)` N's, errors)
 
@@ -226,13 +230,13 @@ A joint model from summary statistics: `$$\hat\beta = (\underbrace{X^T X}_\text{
 
 --
 
-- **F. Privé** (2022). "Optimal linkage disequilibrium splitting." *Bioinformatics*.
+I worked on solutions for these issues:
 
-    `\(\rightarrow\)` using **dynamic programming to identify a block-diagonal structure** in the covariance/correlation matrix  
-    `\(\rightarrow\)` to **improve the robustness and speed** of PRS methods like LDpred2
+- **F. Privé** (2022). *Bioinformatics*
 
+- **F. Privé** (2022). *Bioinformatics*
 
-- **F. Privé**, J. Arbel, H. Aschard, &amp;  B.J. Vilhjálmsson (2022). "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances*.
+- **F. Privé** et al (2022). *Human Genetics and Genomics Advances*
 
 ---
 
@@ -252,9 +256,19 @@ class: center, middle, inverse
 
 ---
 
-### Explanation: we often don't use causal variants in practice 
+### Explanation: tagging variants don't retain causal effects
 
-&lt;img src="figures/LD-multipop3.png" width="88%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt;
+
+&lt;img src="figures/LD-multipop3.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+- effect of a causal variant is similar for all populations
+
+- all 3 variants have same effect in N.W. Europeans (perfect correlation)
+
+- in E. Asians, variant 1 retains only 60% of the causal effect
 
 ---
 
@@ -270,14 +284,11 @@ class: center, middle, inverse
 
 ### Scaling methods to using 10M genetic variants (WP1)
 
-- there are ~10M common variants
+There are ~10M common variants, but most PRS methods use ~1M
 
-- but most PRS methods (including mine) use ~1M variants    
-(mostly for computational reasons and due to redundancy)
+&lt;br&gt;
 
-.small2[&lt;br&gt;]
-
-&lt;img src="figures/variants_in_set.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/variants_in_set.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 .center[**We need to use 10M to make sure most causal variants are present**
 
