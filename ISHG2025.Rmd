@@ -14,7 +14,7 @@ output:
 
 ```{r setup, include=FALSE}
 # chromote::local_chrome_version(binary = "chrome-headless-shell")
-# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+# renderthis::to_pdf("ISHG2025.Rmd", partial_slides = TRUE, complex_slides = TRUE, delay = 2)
 options(htmltools.dir.version = FALSE, width = 70)
 knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
                       echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
@@ -55,6 +55,12 @@ class: inverse, center, middle
 }
 .small3 {
   font-size: 18px;
+}
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 60%;
 }
 ```
 
@@ -158,9 +164,12 @@ Iterate between
 
 <br>
 
-But still missing a starting point..
+But a starting point is needed..
 
 A naive approach would pick L initial $PC_{l,.}^{\text{ref}}$ at random.
+
+Instead, I use an **iterative procedure with warm starts**    
+to make the algorithm **deterministic** and much **faster to converge**.
 
 ---
 
@@ -168,16 +177,6 @@ A naive approach would pick L initial $PC_{l,.}^{\text{ref}}$ at random.
 
 ```{r, out.width="90%"}
 knitr::include_graphics("figures/PC_ukbb_add3.png")
-```
-
----
-
-### After convergence with 3 references and 2 PCs
-
-<br>
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/PC_ukbb_with3.png")
 ```
 
 ---
@@ -202,15 +201,115 @@ knitr::include_graphics("figures/PC_ukbb_add5.png")
 
 ---
 
+
+class: inverse, center, middle
+
+# Comparing to ADMIXTURE
+# in the 1000 Genomes data
+
+---
+
+### Admixture coefficients $Q$ using L=5 reference populations
+
+```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
+knitr::include_graphics("figures/1000G-Q-Q2-5.png")
+```
+
+.footnote2[**ACB**: African Caribbean in Barbados; **ASW**: African Ancestry in Southwest US; **ESN**: Esan in Nigeria; **GWD**: Gambian in Western Division, The Gambia; **LWK**: Luhya in Webuye, Kenya; **MSL**: Mende in Sierra Leone; **YRI**: Yoruba in Ibadan, Nigeria; **CLM**: Colombian in Medellin, Colombia; **MXL**: Mexican Ancestry in Los Angeles, California; **PEL**: Peruvian in Lima, Peru; **PUR**: Puerto Rican in Puerto Rico; **CDX**: Chinese Dai in Xishuangbanna, China; **CHB**: Han Chinese in Bejing, China; **CHS**: Southern Han Chinese, China; **JPT**: Japanese in Tokyo, Japan; **KHV**: Kinh in Ho Chi Minh City, Vietnam; **CEU**: Utah residents with Northern and Western European ancestry; **FIN**: Finnish in Finland; **GBR**: British in England and Scotland; **IBS**: Iberian populations in Spain; **TSI**: Toscani in Italy; **BEB**: Bengali in Bangladesh; **GIH**: Gujarati Indian in Houston,TX; **ITU**: Indian Telugu in the UK; **PJL**: Punjabi in Lahore,Pakistan; **STU**: Sri Lankan Tamil in the UK]
+
+---
+
+### Projected reference allele frequencies ($2F \cdot V$) from ADMIXTURE
+
+```{r, out.width="80%"}
+knitr::include_graphics("figures/1000G-admixture-5refs.png")
+```
+
+#### $\Rightarrow$ highly similar to what I get with my method
+
+#### $\Rightarrow$ supports using $K$ PCs only for $L=K+1$ reference populations
+
+---
+
+### Admixture coefficients $Q$ using L=9 reference populations
+
+```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
+knitr::include_graphics("figures/1000G-Q-Q2-9.png")
+```
+
+.footnote2[**ACB**: African Caribbean in Barbados; **ASW**: African Ancestry in Southwest US; **ESN**: Esan in Nigeria; **GWD**: Gambian in Western Division, The Gambia; **LWK**: Luhya in Webuye, Kenya; **MSL**: Mende in Sierra Leone; **YRI**: Yoruba in Ibadan, Nigeria; **CLM**: Colombian in Medellin, Colombia; **MXL**: Mexican Ancestry in Los Angeles, California; **PEL**: Peruvian in Lima, Peru; **PUR**: Puerto Rican in Puerto Rico; **CDX**: Chinese Dai in Xishuangbanna, China; **CHB**: Han Chinese in Bejing, China; **CHS**: Southern Han Chinese, China; **JPT**: Japanese in Tokyo, Japan; **KHV**: Kinh in Ho Chi Minh City, Vietnam; **CEU**: Utah residents with Northern and Western European ancestry; **FIN**: Finnish in Finland; **GBR**: British in England and Scotland; **IBS**: Iberian populations in Spain; **TSI**: Toscani in Italy; **BEB**: Bengali in Bangladesh; **GIH**: Gujarati Indian in Houston,TX; **ITU**: Indian Telugu in the UK; **PJL**: Punjabi in Lahore,Pakistan; **STU**: Sri Lankan Tamil in the UK]
+
+---
+
+### Projected reference allele frequencies ($2F \cdot V$) from ADMIXTURE
+
+```{r, out.width="96%"}
+knitr::include_graphics("figures/1000G-admixture-9refs.png")
+```
+
+---
+
+### TODO: ADD L=18
+
+---
+
+### Runtimes
+
+<br>
+
+- for ADMIXTURE (with 15 cores), it takes
+
+    - 1 hour for L=5
+    
+    - 4 hours for L=9
+    
+    - 13 hours for L=18
+
+<br>
+
+- for my method (with 1 core), it takes 
+
+    - 2 minutes to get all solutions for L=3 to L=18 
+
+---
+
+class: inverse, center, middle
+
+# In the UK Biobank data
+
+---
+
 ### After convergence with 17 references and 16 PCs from the UK Biobank
+
+<br>
 
 ```{r, out.width="100%"}
 knitr::include_graphics("figures/PC_ukbb_with17.png")
 ```
 
-***
+---
 
-These iterative initializations (warm starts) make the algorithm much faster to converge and completely deterministic. Also, $L=K+1$.
+### Country (of birth) counts with ancestry > 0.6 for each reference
+
+<ul class="small2">
+    <li>United Kingdom: 126045 &#8211; NA: 1352 &#8211; Germany: 915 &#8211; South Africa: 477 &#8211; Netherlands: 443 &#8211; USA: 400 &#8211; France: 300 &#8211; Australia: 226 &#8211; Denmark: 197 &#8211; Canada: 195 &#8211; ...</li>
+    <li>United Kingdom: 22206 &#8211; NA: 86 &#8211; Germany: 16 &#8211; Ireland: 14</li>
+    <li>United Kingdom: 32123 &#8211; Ireland: 289 &#8211; NA: 265 &#8211; New Zealand: 75 &#8211; Canada: 58 &#8211; India: 54 &#8211; Germany: 47 &#8211; South Africa: 43 &#8211; Australia: 40 &#8211; Kenya: 36 &#8211; Malaysia: 29 &#8211; ...</li>
+    <li>United Kingdom: 10647 &#8211; Ireland: 9360 &#8211; NA: 290 &#8211; USA: 47 &#8211; Australia: 43 &#8211; ...</li>
+    <li>United Kingdom: 1347 &#8211; NA: 30</li>
+    <li>United Kingdom: 4080 &#8211; NA: 77</li>
+    <li>NA: 752 &#8211; Poland: 599 &#8211; United Kingdom: 415 &#8211; Russia: 131 &#8211; Finland: 105 &#8211; Germany: 87 &#8211; Lithuania: 71 &#8211; Ukraine: 55 &#8211; Czech Republic: 53 &#8211; Latvia: 52 &#8211; Slovakia: 28 &#8211; ...</li>
+    <li>India: 1852 &#8211; Kenya: 782 &#8211; Sri Lanka: 653 &#8211; NA: 547 &#8211; Pakistan: 410 &#8211; Mauritius: 273 &#8211; Bangladesh: 235 &#8211; Uganda: 231 &#8211; Tanzania: 175 &#8211; Caribbean: 114 &#8211; The Guianas: 83 &#8211; ...</li>
+    <li>Caribbean: 2110 &#8211; NA: 2100 &#8211; Nigeria: 1017 &#8211; Ghana: 866 &#8211; Barbados: 255 &#8211; Sierra Leone: 202 &#8211; The Guianas: 151 &#8211; Gambia: 39 &#8211; Ivory Coast: 32 &#8211; ...</li>
+    <li>Italy: 389 &#8211; NA: 353 &#8211; Cyprus: 170 &#8211; United Kingdom: 168 &#8211; Egypt: 147 &#8211; Malta: 116 &#8211; Greece: 99 &#8211; Algeria: 68 &#8211; Lebanon: 50 &#8211; Morocco: 46 &#8211; Libya: 40 &#8211; Palestine: 30 &#8211; ...</li>
+    <li>United Kingdom: 1844 &#8211; NA: 830 &#8211; USA: 169 &#8211; South Africa: 95 &#8211; Israel: 41 &#8211; ...</li>
+    <li>Iran: 476 &#8211; Iraq: 140 &#8211; NA: 59 &#8211; Turkey: 54 &#8211; India: 36 &#8211; Afghanistan: 13 &#8211; Pakistan: 10</li>
+    <li>China: 287 &#8211; Japan: 241 &#8211; Malaysia: 185 &#8211; Hong Kong: 161 &#8211; Nepal: 123 &#8211; NA: 63 &#8211; Singapore: 56 &#8211; South Korea: 26 &#8211; Mauritius: 25 &#8211; Taiwan: 25 &#8211; Indonesia: 15 &#8211; ...</li>
+    <li>Zimbabwe: 268 &#8211; Congo: 133 &#8211; Uganda: 115 &#8211; Kenya: 73 &#8211; South Africa: 59 &#8211; Zambia: 56 &#8211; NA: 41 &#8211; Tanzania: 26 &#8211; Angola: 23 &#8211; Burundi: 17 &#8211; Rwanda: 16 &#8211; Seychelles: 14 &#8211; ...</li>
+    <li>Philippines: 315 &#8211; Malaysia: 20 &#8211; NA: 17 &#8211; Indonesia: 15 &#8211; Thailand: 13</li>
+    <li>Peru: 33 &#8211; Ecuador: 25 &#8211; Mexico: 20 &#8211; Colombia: 17 &#8211; Bolivia: 14 &#8211; Chile: 11</li>
+    <li>Somalia: 81 &#8211; Ethiopia: 58 &#8211; Sudan: 51 &#8211; Eritrea: 45 &#8211; NA: 20</li>
+</ul>
 
 ---
 
@@ -253,117 +352,6 @@ In my current work:
 - I've run my deconvolution algorithm on K=41 PCs to get L=42 references
 
 ---
-
-class: inverse, center, middle
-
-# Comparing to ADMIXTURE in simulated data
-
----
-
-### A complex admixture simulation (using R pkgs {bnpsd} and {ape})
-
-```{r, out.width="90%"}
-knitr::include_graphics("figures/simu-admixture.png")
-```
-
----
-
-### PCA of the simulated genetic data (500 x 10,000)
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/simu-admixture-PCA.png")
-```
-
----
-
-### Reference PC positions are very similar
-
-```{r, out.width="95%", fig.cap="A: with my method &#8212; B: ADMIXTURE's ref AFs projected"}
-knitr::include_graphics("figures/simu-admixture-ref.png")
-```
-
----
-
-### Admixture coefficients are very similar
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/simu-admixture-allres.png")
-```
-
----
-
-### Reference allele frequencies are very similar
-
-<br>
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/simu-admixture-AFref.png")
-```
-
----
-
-### Conclusion
-
-- A very efficient admixture deconvolution algorithm
-
---
-
-- Also very powerful; it can identify many reference groups    
-(subsampling before PCA is beneficial to capture more structure)
-
---
-
-- One can (should) check the results visually
-
---
-
-- The algorithm is not specific to genetic data    
-(merely a deconvolution algorithm based on PCA)    
-$\Rightarrow$ may be used for cell type deconvolution of methylation data?
-
---
-
-- I will provide a new set of reference populations for people to use directly
-
---
-
-<br>
-
-.center[
-### Thank you for your attention
-
-Presentation available at [bit.ly/privefl_ISHG2025](https://bit.ly/privefl_ISHG2025)
-]
-
----
-
-count: false
-
-### Country (of birth) counts with ancestry > 0.6 for each reference
-
-<ul class="small2">
-    <li>United Kingdom: 126045 &#8211; NA: 1352 &#8211; Germany: 915 &#8211; South Africa: 477 &#8211; Netherlands: 443 &#8211; USA: 400 &#8211; France: 300 &#8211; Australia: 226 &#8211; Denmark: 197 &#8211; Canada: 195 &#8211; ...</li>
-    <li>United Kingdom: 22206 &#8211; NA: 86 &#8211; Germany: 16 &#8211; Ireland: 14</li>
-    <li>United Kingdom: 32123 &#8211; Ireland: 289 &#8211; NA: 265 &#8211; New Zealand: 75 &#8211; Canada: 58 &#8211; India: 54 &#8211; Germany: 47 &#8211; South Africa: 43 &#8211; Australia: 40 &#8211; Kenya: 36 &#8211; Malaysia: 29 &#8211; ...</li>
-    <li>United Kingdom: 10647 &#8211; Ireland: 9360 &#8211; NA: 290 &#8211; USA: 47 &#8211; Australia: 43 &#8211; ...</li>
-    <li>United Kingdom: 1347 &#8211; NA: 30</li>
-    <li>United Kingdom: 4080 &#8211; NA: 77</li>
-    <li>NA: 752 &#8211; Poland: 599 &#8211; United Kingdom: 415 &#8211; Russia: 131 &#8211; Finland: 105 &#8211; Germany: 87 &#8211; Lithuania: 71 &#8211; Ukraine: 55 &#8211; Czech Republic: 53 &#8211; Latvia: 52 &#8211; Slovakia: 28 &#8211; ...</li>
-    <li>India: 1852 &#8211; Kenya: 782 &#8211; Sri Lanka: 653 &#8211; NA: 547 &#8211; Pakistan: 410 &#8211; Mauritius: 273 &#8211; Bangladesh: 235 &#8211; Uganda: 231 &#8211; Tanzania: 175 &#8211; Caribbean: 114 &#8211; The Guianas: 83 &#8211; ...</li>
-    <li>Caribbean: 2110 &#8211; NA: 2100 &#8211; Nigeria: 1017 &#8211; Ghana: 866 &#8211; Barbados: 255 &#8211; Sierra Leone: 202 &#8211; The Guianas: 151 &#8211; Gambia: 39 &#8211; Ivory Coast: 32 &#8211; ...</li>
-    <li>Italy: 389 &#8211; NA: 353 &#8211; Cyprus: 170 &#8211; United Kingdom: 168 &#8211; Egypt: 147 &#8211; Malta: 116 &#8211; Greece: 99 &#8211; Algeria: 68 &#8211; Lebanon: 50 &#8211; Morocco: 46 &#8211; Libya: 40 &#8211; Palestine: 30 &#8211; ...</li>
-    <li>United Kingdom: 1844 &#8211; NA: 830 &#8211; USA: 169 &#8211; South Africa: 95 &#8211; Israel: 41 &#8211; ...</li>
-    <li>Iran: 476 &#8211; Iraq: 140 &#8211; NA: 59 &#8211; Turkey: 54 &#8211; India: 36 &#8211; Afghanistan: 13 &#8211; Pakistan: 10</li>
-    <li>China: 287 &#8211; Japan: 241 &#8211; Malaysia: 185 &#8211; Hong Kong: 161 &#8211; Nepal: 123 &#8211; NA: 63 &#8211; Singapore: 56 &#8211; South Korea: 26 &#8211; Mauritius: 25 &#8211; Taiwan: 25 &#8211; Indonesia: 15 &#8211; ...</li>
-    <li>Zimbabwe: 268 &#8211; Congo: 133 &#8211; Uganda: 115 &#8211; Kenya: 73 &#8211; South Africa: 59 &#8211; Zambia: 56 &#8211; NA: 41 &#8211; Tanzania: 26 &#8211; Angola: 23 &#8211; Burundi: 17 &#8211; Rwanda: 16 &#8211; Seychelles: 14 &#8211; ...</li>
-    <li>Philippines: 315 &#8211; Malaysia: 20 &#8211; NA: 17 &#8211; Indonesia: 15 &#8211; Thailand: 13</li>
-    <li>Peru: 33 &#8211; Ecuador: 25 &#8211; Mexico: 20 &#8211; Colombia: 17 &#8211; Bolivia: 14 &#8211; Chile: 11</li>
-    <li>Somalia: 81 &#8211; Ethiopia: 58 &#8211; Sudan: 51 &#8211; Eritrea: 45 &#8211; NA: 20</li>
-</ul>
-
----
-
-count: false
 
 ### Rerun the algorithm with new PCs (K=41, L=42)
 
@@ -428,10 +416,35 @@ count: false
 
 ---
 
-count: false
+### Conclusion
 
-### Admixture proportions using my method (for many L)
+- A very efficient admixture deconvolution algorithm
 
-```{r, out.width="98%"}
-knitr::include_graphics("figures/simu-admixture-res1.png")
-```
+--
+
+- Also very powerful; it can identify many reference groups    
+(subsampling before PCA is beneficial to capture more structure)
+
+--
+
+- One can (should) check the results visually (also, L=K+1)
+
+--
+
+- The algorithm is not specific to genetic data    
+(merely a deconvolution algorithm based on PCA)    
+$\Rightarrow$ may be used for cell type deconvolution of methylation data
+
+--
+
+- I will provide a new set of reference populations for people to use directly
+
+--
+
+<br>
+
+.center[
+### Thank you for your attention
+
+Presentation available at [bit.ly/privefl_ISHG2025](https://bit.ly/privefl_ISHG2025)
+]
