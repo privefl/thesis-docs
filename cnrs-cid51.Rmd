@@ -241,8 +241,6 @@ to transform marginal GWAS effects to joint effects
 
 <br>
 
---
-
 I worked on solutions for these issues:
 
 - **F. Privé** (2022). *Bioinformatics*
