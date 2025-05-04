@@ -120,11 +120,11 @@ I've already published this method here:
 
 ---
 
-### Estimating admixture coefficients `\(\Large PC_{l,.}^{\text{ref}}\)` with `\(\Large Q\)` fixed
+### Estimating admixture coefficients `\(PC_{l,.}^{\text{ref}}\)` with `\(Q\)` fixed
 
 &lt;br&gt;
 
-`$$\large PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$`
+`$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$`
 
 &lt;br&gt;
 
@@ -190,7 +190,7 @@ class: inverse, center, middle
 
 ---
 
-### Admixture coefficients `\(\Large Q\)` using L=5 reference populations
+### Admixture coefficients `\(Q\)` using L=5 reference populations
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="figures/1000G-Q-Q2-5.png" alt="A: with my method; B: with ADMIXTURE" width="100%" /&gt;
@@ -201,17 +201,17 @@ class: inverse, center, middle
 
 ---
 
-### Projected reference allele frequencies (`\(\Large 2F \cdot V\)`) from ADMIXTURE
+### Projected reference allele frequencies (`\(2F \cdot V\)`) from ADMIXTURE
 
 &lt;img src="figures/1000G-admixture-5refs.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-#### `\(\large \Rightarrow\)` highly similar to what I get with my method
+#### `\(\Rightarrow\)` highly similar to what I get with my method
 
-#### `\(\large \Rightarrow\)` supports using `\(K\)` PCs only for `\(L=K+1\)` reference populations
+#### `\(\Rightarrow\)` supports using `\(K\)` PCs only for `\(L=K+1\)` reference populations
 
 ---
 
-### Admixture coefficients `\(\Large Q\)` using L=9 reference populations
+### Admixture coefficients `\(Q\)` using L=9 reference populations
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="figures/1000G-Q-Q2-9.png" alt="A: with my method; B: with ADMIXTURE" width="100%" /&gt;
@@ -222,7 +222,7 @@ class: inverse, center, middle
 
 ---
 
-### Projected reference allele frequencies (`\(\Large 2F \cdot V\)`) from ADMIXTURE
+### Projected reference allele frequencies (`\(2F \cdot V\)`) from ADMIXTURE
 
 &lt;img src="figures/1000G-admixture-9refs.png" width="96%" style="display: block; margin: auto;" /&gt;
 
@@ -415,7 +415,7 @@ In my current work:
 
 - The algorithm is not specific to genetic data    
 (merely a deconvolution algorithm based on PCA)    
-`\(\large \Rightarrow\)` may be used for cell type deconvolution of methylation data
+`\(\Rightarrow\)` may be used for cell type deconvolution of methylation data
 
 --
 

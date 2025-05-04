@@ -133,11 +133,11 @@ knitr::include_graphics("figures/deconv-withref-paper.png")
 
 ---
 
-### Estimating admixture coefficients $\Large PC_{l,.}^{\text{ref}}$ with $\Large Q$ fixed
+### Estimating admixture coefficients $PC_{l,.}^{\text{ref}}$ with $Q$ fixed
 
 <br>
 
-$$\large PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
+$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
 
 <br>
 
@@ -209,7 +209,7 @@ class: inverse, center, middle
 
 ---
 
-### Admixture coefficients $\Large Q$ using L=5 reference populations
+### Admixture coefficients $Q$ using L=5 reference populations
 
 ```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
 knitr::include_graphics("figures/1000G-Q-Q2-5.png")
@@ -219,19 +219,19 @@ knitr::include_graphics("figures/1000G-Q-Q2-5.png")
 
 ---
 
-### Projected reference allele frequencies ($\Large 2F \cdot V$) from ADMIXTURE
+### Projected reference allele frequencies ($2F \cdot V$) from ADMIXTURE
 
 ```{r, out.width="80%"}
 knitr::include_graphics("figures/1000G-admixture-5refs.png")
 ```
 
-#### $\large \Rightarrow$ highly similar to what I get with my method
+#### $\Rightarrow$ highly similar to what I get with my method
 
-#### $\large \Rightarrow$ supports using $K$ PCs only for $L=K+1$ reference populations
+#### $\Rightarrow$ supports using $K$ PCs only for $L=K+1$ reference populations
 
 ---
 
-### Admixture coefficients $\Large Q$ using L=9 reference populations
+### Admixture coefficients $Q$ using L=9 reference populations
 
 ```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
 knitr::include_graphics("figures/1000G-Q-Q2-9.png")
@@ -241,7 +241,7 @@ knitr::include_graphics("figures/1000G-Q-Q2-9.png")
 
 ---
 
-### Projected reference allele frequencies ($\Large 2F \cdot V$) from ADMIXTURE
+### Projected reference allele frequencies ($2F \cdot V$) from ADMIXTURE
 
 ```{r, out.width="96%"}
 knitr::include_graphics("figures/1000G-admixture-9refs.png")
@@ -439,7 +439,7 @@ In my current work:
 
 - The algorithm is not specific to genetic data    
 (merely a deconvolution algorithm based on PCA)    
-$\large \Rightarrow$ may be used for cell type deconvolution of methylation data
+$\Rightarrow$ may be used for cell type deconvolution of methylation data
 
 --
 
