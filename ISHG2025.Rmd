@@ -66,7 +66,7 @@ class: inverse, center, middle
 
 ### Admixture model and ADMIXTURE method
 
-$$\large G \approx Q \cdot 2F$$
+$$G \approx Q \cdot 2F$$
 
 - $Q$ are the admixture proportions (for each sample $i$ and reference $l$)
 
@@ -78,7 +78,7 @@ $$\large G \approx Q \cdot 2F$$
 
 ADMIXTURE uses Maximum Likelihood Estimation of
 
-$$\large L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$
+<span class="small3"> $$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$ </span>
 
 with constraints: $~0 \le F_{l,j} \le 1~$ and $~Q_{i,l} \ge 0~$ and $~\sum_l Q_{i,l} = 1$
 
@@ -97,10 +97,10 @@ For simplicity, ADMIXTURE iteratively estimates
 
 ### My proposed deconvolution method
 
-$$\large G \cdot V \approx Q \cdot 2F \cdot V$$
+$$G \cdot V \approx Q \cdot 2F \cdot V$$
 where $V$ are the PC loadings of $G$
 
-$$\large \Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
+$$\Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
 --
 
 ```{r, out.width="85%"}
@@ -109,9 +109,9 @@ knitr::include_graphics("figures/PC_ukbb_with3.png")
 
 ---
 
-### Estimating admixture coefficients $\Large Q_{i,.}$ with $\Large PC^\text{ref}$ fixed
+### Estimating admixture coefficients $Q_{i,.}$ with $PC^\text{ref}$ fixed
 
-$$\large \min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$
+<span class="small3"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
 
 --
 
@@ -249,7 +249,7 @@ knitr::include_graphics("figures/1000G-admixture-9refs.png")
 
 ---
 
-### Admixture coefficients $\Large Q$ using L=18 reference populations
+### Admixture coefficients $Q$ using L=18 reference populations
 
 ```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
 knitr::include_graphics("figures/1000G-Q-Q2-18.png")
