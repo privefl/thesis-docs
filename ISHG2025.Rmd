@@ -66,7 +66,7 @@ class: inverse, center, middle
 
 ### Admixture model and ADMIXTURE method
 
-$$G \approx Q \cdot 2F$$
+$$\large G \approx Q \cdot 2F$$
 
 - $Q$ are the admixture proportions (for each sample $i$ and reference $l$)
 
@@ -78,7 +78,7 @@ $$G \approx Q \cdot 2F$$
 
 ADMIXTURE uses Maximum Likelihood Estimation of
 
-<span class="small3"> $$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$ </span>
+$$\large L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$
 
 with constraints: $~0 \le F_{l,j} \le 1~$ and $~Q_{i,l} \ge 0~$ and $~\sum_l Q_{i,l} = 1$
 
@@ -97,10 +97,10 @@ For simplicity, ADMIXTURE iteratively estimates
 
 ### My proposed deconvolution method
 
-$$G \cdot V \approx Q \cdot 2F \cdot V$$
+$$\large G \cdot V \approx Q \cdot 2F \cdot V$$
 where $V$ are the PC loadings of $G$
 
-$$\Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
+$$\large \Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$
 --
 
 ```{r, out.width="85%"}
@@ -109,9 +109,9 @@ knitr::include_graphics("figures/PC_ukbb_with3.png")
 
 ---
 
-### Estimating admixture coefficients $Q_{i,.}$ with $PC^\text{ref}$ fixed
+### Estimating admixture coefficients $\Large Q_{i,.}$ with $\Large PC^\text{ref}$ fixed
 
-<span class="small3"> $$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$ </span>
+$$\large \min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$
 
 --
 
@@ -133,11 +133,11 @@ knitr::include_graphics("figures/deconv-withref-paper.png")
 
 ---
 
-### Estimating admixture coefficients $PC_{l,.}^{\text{ref}}$ with $Q$ fixed
+### Estimating admixture coefficients $\Large PC_{l,.}^{\text{ref}}$ with $\Large Q$ fixed
 
 <br>
 
-$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
+$$\large PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$
 
 <br>
 
@@ -209,7 +209,7 @@ class: inverse, center, middle
 
 ---
 
-### Admixture coefficients $Q$ using L=5 reference populations
+### Admixture coefficients $\Large Q$ using L=5 reference populations
 
 ```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
 knitr::include_graphics("figures/1000G-Q-Q2-5.png")
@@ -219,19 +219,19 @@ knitr::include_graphics("figures/1000G-Q-Q2-5.png")
 
 ---
 
-### Projected reference allele frequencies ($2F \cdot V$) from ADMIXTURE
+### Projected reference allele frequencies ($\Large 2F \cdot V$) from ADMIXTURE
 
 ```{r, out.width="80%"}
 knitr::include_graphics("figures/1000G-admixture-5refs.png")
 ```
 
-#### $\Rightarrow$ highly similar to what I get with my method
+#### $\large \Rightarrow$ highly similar to what I get with my method
 
-#### $\Rightarrow$ supports using $K$ PCs only for $L=K+1$ reference populations
+#### $\large \Rightarrow$ supports using $K$ PCs only for $L=K+1$ reference populations
 
 ---
 
-### Admixture coefficients $Q$ using L=9 reference populations
+### Admixture coefficients $\Large Q$ using L=9 reference populations
 
 ```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
 knitr::include_graphics("figures/1000G-Q-Q2-9.png")
@@ -241,7 +241,7 @@ knitr::include_graphics("figures/1000G-Q-Q2-9.png")
 
 ---
 
-### Projected reference allele frequencies ($2F \cdot V$) from ADMIXTURE
+### Projected reference allele frequencies ($\Large 2F \cdot V$) from ADMIXTURE
 
 ```{r, out.width="96%"}
 knitr::include_graphics("figures/1000G-admixture-9refs.png")
@@ -249,7 +249,13 @@ knitr::include_graphics("figures/1000G-admixture-9refs.png")
 
 ---
 
-### TODO: ADD L=18
+### Admixture coefficients $\Large Q$ using L=18 reference populations
+
+```{r, out.width="100%", fig.cap="A: with my method; B: with ADMIXTURE"}
+knitr::include_graphics("figures/1000G-Q-Q2-18.png")
+```
+
+.footnote2[**ACB**: African Caribbean in Barbados; **ASW**: African Ancestry in Southwest US; **ESN**: Esan in Nigeria; **GWD**: Gambian in Western Division, The Gambia; **LWK**: Luhya in Webuye, Kenya; **MSL**: Mende in Sierra Leone; **YRI**: Yoruba in Ibadan, Nigeria; **CLM**: Colombian in Medellin, Colombia; **MXL**: Mexican Ancestry in Los Angeles, California; **PEL**: Peruvian in Lima, Peru; **PUR**: Puerto Rican in Puerto Rico; **CDX**: Chinese Dai in Xishuangbanna, China; **CHB**: Han Chinese in Bejing, China; **CHS**: Southern Han Chinese, China; **JPT**: Japanese in Tokyo, Japan; **KHV**: Kinh in Ho Chi Minh City, Vietnam; **CEU**: Utah residents with Northern and Western European ancestry; **FIN**: Finnish in Finland; **GBR**: British in England and Scotland; **IBS**: Iberian populations in Spain; **TSI**: Toscani in Italy; **BEB**: Bengali in Bangladesh; **GIH**: Gujarati Indian in Houston,TX; **ITU**: Indian Telugu in the UK; **PJL**: Punjabi in Lahore,Pakistan; **STU**: Sri Lankan Tamil in the UK]
 
 ---
 
@@ -433,7 +439,7 @@ In my current work:
 
 - The algorithm is not specific to genetic data    
 (merely a deconvolution algorithm based on PCA)    
-$\Rightarrow$ may be used for cell type deconvolution of methylation data
+$\large \Rightarrow$ may be used for cell type deconvolution of methylation data
 
 --
 
