@@ -77,37 +77,12 @@ background-size: 11%
 
 ---
 
-### Research focus
-
-**I aim at predicting our risk of disease    
-using millions of genetic variants across our genome**
-
-- Statistical human genetics
-
-- Development of statistical methods and R/C++ packages    
-for efficient and powerful analyses of large-scale genetic data 
-
-- Particularly for deriving **polygenic risk scores (PRS)**
-
-<br>
-
-**Interdisciplinary** work:
-
-- **Mathematics/Statistics**: statistical models
-
-- **Computer Science**: highly optimized and reliable software
-
-- **Machine Learning**: predictive models
-
-- **Biology/Health** applications
-
----
-
 class: center middle inverse
 
-# Genetic data
-# Genome-Wide Association Studies (GWAS)
-# Polygenic Risk Scores (PRS)
+# &mdash;Introduction&mdash;
+## Genetic data
+## Genome-Wide Association Studies (GWAS)
+## Polygenic Risk Scores (PRS)
 
 ---
 
@@ -159,6 +134,24 @@ knitr::include_graphics("figures/PRS-risk2.png")
 ***
 PRS clinical utility in a **clinical trial**: A. Fuat et al, Eur. J. of Preventive Cardiology (2024)
 ]
+
+---
+
+### My main research focus
+
+<center><h3>Improving PRS methods</h3></center>
+
+<br>
+
+**Interdisciplinary** research focused on **method development**:
+
+- **Mathematics/Statistics**: statistical models
+
+- **Computer Science**: highly optimized and reliable software
+
+- **Machine Learning**: predictive models
+
+- **Biology/Health** applications
 
 ---
 
