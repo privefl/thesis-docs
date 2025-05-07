@@ -70,7 +70,7 @@ background-size: 11%
 
 ### Research focus
 
-**I try to predict our risk of disease    
+**I aim at predicting our risk of disease    
 using millions of genetic variants across our genome**
 
 - Statistical human genetics
@@ -165,10 +165,9 @@ class: center, middle, inverse
 
 - **based on individual-level data** (genotypes and phenotype)
 
-- **faster and on-disk** implementation of penalized regressions (&gt; glmnet)
+- **faster and on-disk** implementation of penalized regressions (&gt;&gt; glmnet)
 
-- **alternative to cross-validation** to choose hyper-parameters    
-    `\(\rightarrow\)` avoids refitting and allows for early-stopping criterion
+- **alternative to cross-validation** to efficiently choose hyper-parameters    
 
 ---
 
@@ -201,7 +200,7 @@ class: center, middle, inverse
 
 - Bayesian PRS model, based on GWAS summary statistics
 
-- **faster and more robust** to numerical issues than LDpred
+- **LDpred2, faster and more robust** than LDpred
 
 - developed an on-disk sparse matrix format for more efficient parallelism
 
@@ -211,7 +210,7 @@ class: center, middle, inverse
     
     - **an 'auto' option**, which can infer the two hyper-parameters
     
-- **post-hoc quality control** of Gibbs sampler chains
+- post-hoc quality control of Gibbs sampler chains
 
 ---
 
@@ -228,7 +227,7 @@ to transform marginal GWAS effects to joint effects
 
 &lt;br&gt;
 
-I worked on solutions for these issues:
+I worked on solutions for these misspecification issues:
 
 - **F. Privé** (2022). *Bioinformatics*
 
