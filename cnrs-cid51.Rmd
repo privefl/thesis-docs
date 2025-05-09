@@ -430,7 +430,7 @@ class: inverse
 <h3>Florian Privé</h3>
 </center>
 
-- large international impact
+- **large international impact**
 
 - a total of 28 publications (2900+ citations)
 
