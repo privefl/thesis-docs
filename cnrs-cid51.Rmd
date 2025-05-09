@@ -25,23 +25,20 @@ ICON_INFO      <- icons::fontawesome$solid$`info-circle`
 
 class: title-slide center middle inverse
 
-background-image: url("figures/logo-cnrs.png")
-background-position: center 95%
-background-repeat: no-repeat
-background-size: 11%
-
 # &mdash;**MAGNIFIC**&mdash;
 # <u>Ma</u>ximizing <u>G</u>e<u>n</u>et<u>i</u>c <u>F</u>indings and Pred<u>ic</u>tion
 
 <br>
 
+.left[
+### $\Rightarrow$ improving the genetic prediction of common diseases
+
+### $\Rightarrow$ identifying the genetic variants contributing to disease risk
+]
+
+<br>
+
 ## Florian Privé 
-
-<br>
-
-### CRCN CNRS&ndash;CID51 application  
-
-<br>
 
 ---
 
@@ -61,11 +58,9 @@ background-size: 11%
 }
 ```
 
-### Professional background
+### Education and professional background
 
 <br>
-
-- 2010–2013: Preparatory school in Mathematics & Physics
 
 - 2013–2016: Engineer in Computer Science & Applied Mathematics
 
@@ -104,9 +99,11 @@ Thanks to GWAS, we know that
 
 - many **common** genetic variants are causal $\left(\beta_j \neq 0\right)$
 
-- but, they usually have a **small effect size** $\beta_j$ on their own   
+- but, they usually have a **small effect size** $\beta_j$ on their own
+
+- in contrast to rare mutations causing rare monogenic diseases
     
-    $\Rightarrow$ <u>a common causal variant is not useful as a risk factor</u>
+    $\Rightarrow$ a common causal variant is not useful as a standalone risk factor
 
 --
 
@@ -118,7 +115,7 @@ From GWAS data to **polygenic risk scores (PRS)**:
 
 - by aggregating many small effects, the PRS can have a large effect 
 
-    $\Rightarrow$ the $PRS$ can be useful as a risk factor
+    $\Rightarrow$ the $PRS$ is useful as a risk factor
 
 ---
 
@@ -232,6 +229,8 @@ to transform marginal GWAS effects to joint effects
 - Another issue comes from using GWAS meta-analyses ($\neq$ N's, errors)
 
 <br>
+
+--
 
 I worked on solutions for these misspecification issues:
 
@@ -393,7 +392,7 @@ knitr::include_graphics("figures/Overview_MAGNIFIC_extended-4.png")
     
     - ongoing: two PhD students, one research assistant, one postdoc
 
-- I have found **several collaborators** for these work packages    
+- I have identified **several collaborators** interested in my project    
 (Broad, UCLA, Oxford, Helsinki, Pasteur, INRIA, etc)
     
 ---
@@ -489,7 +488,7 @@ knitr::include_graphics("figures/LDpred2-vs-SotA-multiancestry.jpg")
 
 count: false
 
-### WP4: Ensuring the quality and coverage of the training data
+### WP4: Ensuring the quality and coverage of GWAS summary statistics
 
 <br>
 
