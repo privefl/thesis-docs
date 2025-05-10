@@ -239,7 +239,7 @@ class: center, middle, inverse
 
 ## risks exacerbating health disparities
 
-.footnote2[6:20]
+.footnote2[6]
 
 ---
 
@@ -425,30 +425,6 @@ class: inverse
 
 count: false
 
-### WP1: Using millions of genetic variants (possible solutions)
-
-&lt;br&gt;
-
-**The main bottleneck is storing and using the matrix of covariances/correlations between variants.**
-
-&lt;br&gt;
-
-Possible solutions:
-
-- quantization: storing correlations with two bytes only (divide size by 4) 
-
-- compression on top of quantization
-
-- matrix seriation `\(\rightarrow\)` reordering variants to make blocks smaller
-
-- eigendecomposition
-
-- adapt methods to use very sparse *inverse* covariance matrices 
-
----
-
-count: false
-
 ### LDpred2 vs some state-of-the-art multi-ancestry PRS methods
 
 &lt;img src="figures/LDpred2-vs-SotA-multiancestry.jpg" width="62%" style="display: block; margin: auto;" /&gt;
@@ -463,18 +439,19 @@ count: false
 
 &lt;br&gt;
 
-- there are lots of problems with the input data (GWAS summary statistics)
+Synergy between quality control (QC) and imputation:
 
-- which can causes lots of misspecifications and biases in the methods
+- imputation can recover QCed variants
+    
+- QC is needed before imputation so that errors don't propagate
 
-.footnote2[**F. Privé** et al (2022). Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores. *Human Genetics and Genomics Advances*.]
 &lt;br&gt;
 
-&lt;img src="figures/Imputation-QC-method-v2.png" width="92%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Imputation-QC-method-v2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-- I propose to implement a quality control and imputation method (synergistic)
+&lt;br&gt;
 
-- and to provide a set of highly refined GWAS summary statistics
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will develop a new method for both QC and imputation &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
 
 ---
 
