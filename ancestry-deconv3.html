@@ -24,13 +24,15 @@ class: title-slide center middle inverse
 
 ## Florian Privé 
 
+### Aarhus University, Denmark
+
 #### &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"&gt;&lt;path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/&gt;&lt;/svg&gt; &lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; privefl
 
 ---
 
 class: inverse, center, middle
 
-# Principal Component Analysis (PCA) of genetic data captures population structure
+# Principal Component Analysis (PCA)&lt;br&gt;of genetic data&lt;br&gt;captures population structure
 
 ---
 
@@ -72,6 +74,21 @@ class: inverse, center, middle
 
 ## (with reference populations)
 
+&lt;br&gt;
+
+## All individuals are genetically admixed&lt;br&gt;from L reference populations (known)
+
+---
+
+### My motivation
+
+&lt;br&gt;
+
+- Get a sense of the **ancestry composition of a GWAS dataset**    
+(including when only GWAS summary statistics are available to me)
+
+- Use this information to e.g. design an LD reference for follow-up analyses (polygenic scores, fine-mapping, etc)
+
 ---
 
 ### Summix: ancestry estimation from GWAS allele frequencies (AF)
@@ -85,6 +102,15 @@ Estimate ancestry proportions `\(q\)` such that
 &lt;style type="text/css"&gt;
 .small2 {
   font-size: 17px;
+}
+.small3 {
+  font-size: 18px;
+}
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 60%;
 }
 &lt;/style&gt;
 
@@ -173,82 +199,104 @@ class: inverse, center, middle
 
 ## (without reference populations)
 
+&lt;br&gt;
+
+## All individuals are genetically admixed&lt;br&gt;from L reference populations (unknown)
+
+---
+
+### Admixture model and ADMIXTURE method
+
+`$$G \approx Q \cdot 2F$$`
+
+- `\(Q\)` are the admixture proportions (for each sample `\(i\)` and reference `\(l\)`)
+
+- `\(F\)` are the allele frequencies (for each each reference `\(l\)` and variant `\(j\)`)
+
+--
+
+***
+
+ADMIXTURE uses Maximum Likelihood Estimation of
+
+&lt;span class="small3"&gt; `$$L(Q, F) = \sum_i \sum_j \left\{ G_{i,j} \log\left[\sum_l Q_{i,l} F_{l,j}\right] + (2 - G_{i,j}) \log\left[1 - \sum_l Q_{i,l} F_{l,j}\right] \right\}$$` &lt;/span&gt;
+
+with constraints: `\(~0 \le F_{l,j} \le 1~\)` and `\(~Q_{i,l} \ge 0~\)` and `\(~\sum_l Q_{i,l} = 1\)`
+
+--
+
+***
+
+For simplicity, ADMIXTURE iteratively estimates 
+
+- each `\(Q_{i,.}\)` independently, with `\(F\)` fixed
+
+- each `\(F_{.,j}\)` independently, with `\(Q\)` fixed
+
+
 ---
 
 ### My proposed deconvolution method
 
-`$$G \approx Q \cdot 2F$$`
+`$$G \cdot V \approx Q \cdot 2F \cdot V$$`
+where `\(V\)` are the PC loadings of `\(G\)`
 
-`$$PC \approx Q \cdot PC^\text{ref}$$`
+`$$\Rightarrow~ PC \approx Q \cdot PC^\text{ref}$$`
 --
+
+&lt;img src="figures/PC_ukbb_with3.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+
+#### Estimating admixture coefficients `\(Q_{i,.}\)` with `\(PC^\text{ref}\)` fixed
+
+&lt;span class="small3"&gt; `$$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$` &lt;/span&gt;
+
+--
+
+&lt;br&gt;
+
+#### Estimating admixture coefficients `\(PC_{l,.}^{\text{ref}}\)` with `\(Q\)` fixed
+
+&lt;span class="small3"&gt; `$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m}$$` &lt;/span&gt;
+
+&lt;br&gt;
+
+- this simple formula is used in e.g. fuzzy K-means
+
+- this is also related to archetypal analysis: `\(PC^{\text{ref}} = W^T \cdot PC\)`    
+(references are weighted combinations of existing samples)
+
+    `\(\Rightarrow\)` Reference allele frequencies: `\(2F = W^T \cdot G\)`
+  
+---
+
+### Complete deconvolution algorithm
 
 &lt;br&gt;
 
 Iterate between 
 
-- estimating ancestry coefficients `\(Q_{i,.}\)` (for each individual `\(i\)`) with
-    &lt;span class="small2"&gt; `$$\min_{\forall l,~Q_{i,l} \ge 0 \\ \sum_l Q_{i,l}=1} ~~ \sum_{k=1}^K \left( PC_{i,k} - \sum_{l=1}^L Q_{i,l} PC_{l,k}^{\text{ref}} \right)^2$$` &lt;/span&gt;
-    
+- estimating admixture coefficients `\(Q_{i,.}\)`, with `\(PC^{\text{ref}}\)` fixed
+
+- estimating reference positions `\(PC_{l,.}^{\text{ref}}\)`, with `\(Q\)` fixed
+
 --
 
 &lt;br&gt;
 
-- estimating reference positions (for each `\(l\)`) with
-    &lt;span class="small2"&gt; `$$PC_{l,.}^{\text{ref}} = \dfrac{\sum_i {Q_{i,l}}^m \cdot PC_{i,.}}{\sum_i {Q_{i,l}}^m} ~,$$` &lt;/span&gt;
-  
----
-
-### Iterative algorithm with warm starts
-
-&lt;br&gt;
+But a starting point is needed..
 
 A naive approach would pick L initial `\(PC_{l,.}^{\text{ref}}\)` at random.
 
---
-
-&lt;br&gt;
-
-Instead,
-
-- I start with L=2 reference populations using K=1 PC,
-
-- and iteratively add one more reference (L+1) with each new PC (K+1)
-
-- with some well-chosen starting value for the new reference
-
---
-
-&lt;br&gt;
-
-This makes the algorithm
-
-- deterministic and more stable
-
-- faster to converge
-
-- easy to choose L based on K (L=K+1)
+Instead, I use an **iterative procedure with warm starts**    
+to make the algorithm **deterministic** and much **faster to converge**.
 
 ---
 
-### PCA of the UK Biobank
-
-&lt;br&gt;
-
-&lt;img src="figures/PC_ukbb.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-### Add 3rd reference when considering 2 PCs
+### Start with PC1 and 2 refs, then add 3rd ref when considering 2 PCs
 
 &lt;img src="figures/PC_ukbb_add3.png" width="90%" style="display: block; margin: auto;" /&gt;
-
----
-
-### After convergence with 3 references and 2 PCs
-
-&lt;br&gt;
-
-&lt;img src="figures/PC_ukbb_with3.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -268,7 +316,131 @@ This makes the algorithm
 
 ---
 
-### After convergence with 17 references and 16 PCs
+class: inverse, center, middle
+
+# Comparing to ADMIXTURE
+# in simulated data
+
+---
+
+### A complex admixture simulation (using R pkgs {bnpsd} and {ape})
+
+&lt;img src="figures/simu-admixture.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### PCA of the simulated genetic data (500 x 10,000)
+
+&lt;img src="figures/simu-admixture-PCA.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Reference PC positions (`\(PC^{\text{ref}}\)` vs `\(2F \cdot V\)`) are very similar
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/simu-admixture-ref.png" alt="A: with my method &amp;amp;#8212; B: ADMIXTURE's ref AFs projected" width="95%" /&gt;
+&lt;p class="caption"&gt;A: with my method &amp;#8212; B: ADMIXTURE's ref AFs projected&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+### Admixture coefficients `\(Q\)` are very similar
+
+&lt;img src="figures/simu-admixture-allres.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Reference allele frequencies `\(F\)` are very similar
+
+&lt;br&gt;
+
+&lt;img src="figures/simu-admixture-AFref.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Comparing to ADMIXTURE
+# in the 1000 Genomes data
+
+---
+
+### Admixture coefficients `\(Q\)` using L=5 reference populations
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/1000G-Q-Q2-5.png" alt="A: with my method; B: with ADMIXTURE" width="100%" /&gt;
+&lt;p class="caption"&gt;A: with my method; B: with ADMIXTURE&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote2[**ACB**: African Caribbean in Barbados; **ASW**: African Ancestry in Southwest US; **ESN**: Esan in Nigeria; **GWD**: Gambian in Western Division, The Gambia; **LWK**: Luhya in Webuye, Kenya; **MSL**: Mende in Sierra Leone; **YRI**: Yoruba in Ibadan, Nigeria; **CLM**: Colombian in Medellin, Colombia; **MXL**: Mexican Ancestry in Los Angeles, California; **PEL**: Peruvian in Lima, Peru; **PUR**: Puerto Rican in Puerto Rico; **CDX**: Chinese Dai in Xishuangbanna, China; **CHB**: Han Chinese in Bejing, China; **CHS**: Southern Han Chinese, China; **JPT**: Japanese in Tokyo, Japan; **KHV**: Kinh in Ho Chi Minh City, Vietnam; **CEU**: Utah residents with Northern and Western European ancestry; **FIN**: Finnish in Finland; **GBR**: British in England and Scotland; **IBS**: Iberian populations in Spain; **TSI**: Toscani in Italy; **BEB**: Bengali in Bangladesh; **GIH**: Gujarati Indian in Houston,TX; **ITU**: Indian Telugu in the UK; **PJL**: Punjabi in Lahore,Pakistan; **STU**: Sri Lankan Tamil in the UK]
+
+---
+
+### Projected reference allele frequencies (`\(2F \cdot V\)`) from ADMIXTURE
+
+&lt;img src="figures/1000G-admixture-5refs.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+#### `\(\Rightarrow\)` highly similar to what I get with my method
+
+#### `\(\Rightarrow\)` supports using `\(K\)` PCs only for `\(L=K+1\)` reference populations
+
+---
+
+### Admixture coefficients `\(Q\)` using L=9 reference populations
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/1000G-Q-Q2-9.png" alt="A: with my method; B: with ADMIXTURE" width="100%" /&gt;
+&lt;p class="caption"&gt;A: with my method; B: with ADMIXTURE&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote2[**ACB**: African Caribbean in Barbados; **ASW**: African Ancestry in Southwest US; **ESN**: Esan in Nigeria; **GWD**: Gambian in Western Division, The Gambia; **LWK**: Luhya in Webuye, Kenya; **MSL**: Mende in Sierra Leone; **YRI**: Yoruba in Ibadan, Nigeria; **CLM**: Colombian in Medellin, Colombia; **MXL**: Mexican Ancestry in Los Angeles, California; **PEL**: Peruvian in Lima, Peru; **PUR**: Puerto Rican in Puerto Rico; **CDX**: Chinese Dai in Xishuangbanna, China; **CHB**: Han Chinese in Bejing, China; **CHS**: Southern Han Chinese, China; **JPT**: Japanese in Tokyo, Japan; **KHV**: Kinh in Ho Chi Minh City, Vietnam; **CEU**: Utah residents with Northern and Western European ancestry; **FIN**: Finnish in Finland; **GBR**: British in England and Scotland; **IBS**: Iberian populations in Spain; **TSI**: Toscani in Italy; **BEB**: Bengali in Bangladesh; **GIH**: Gujarati Indian in Houston,TX; **ITU**: Indian Telugu in the UK; **PJL**: Punjabi in Lahore,Pakistan; **STU**: Sri Lankan Tamil in the UK]
+
+---
+
+### Projected reference allele frequencies (`\(2F \cdot V\)`) from ADMIXTURE
+
+&lt;img src="figures/1000G-admixture-9refs.png" width="96%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Admixture coefficients `\(Q\)` using L=18 reference populations
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/1000G-Q-Q2-18.png" alt="A: with my method; B: with ADMIXTURE" width="100%" /&gt;
+&lt;p class="caption"&gt;A: with my method; B: with ADMIXTURE&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote2[**ACB**: African Caribbean in Barbados; **ASW**: African Ancestry in Southwest US; **ESN**: Esan in Nigeria; **GWD**: Gambian in Western Division, The Gambia; **LWK**: Luhya in Webuye, Kenya; **MSL**: Mende in Sierra Leone; **YRI**: Yoruba in Ibadan, Nigeria; **CLM**: Colombian in Medellin, Colombia; **MXL**: Mexican Ancestry in Los Angeles, California; **PEL**: Peruvian in Lima, Peru; **PUR**: Puerto Rican in Puerto Rico; **CDX**: Chinese Dai in Xishuangbanna, China; **CHB**: Han Chinese in Bejing, China; **CHS**: Southern Han Chinese, China; **JPT**: Japanese in Tokyo, Japan; **KHV**: Kinh in Ho Chi Minh City, Vietnam; **CEU**: Utah residents with Northern and Western European ancestry; **FIN**: Finnish in Finland; **GBR**: British in England and Scotland; **IBS**: Iberian populations in Spain; **TSI**: Toscani in Italy; **BEB**: Bengali in Bangladesh; **GIH**: Gujarati Indian in Houston,TX; **ITU**: Indian Telugu in the UK; **PJL**: Punjabi in Lahore,Pakistan; **STU**: Sri Lankan Tamil in the UK]
+
+---
+
+### Runtimes
+
+&lt;br&gt;
+
+- for ADMIXTURE (with 15 cores), it takes
+
+    - 1 hour for L=5
+    
+    - 4 hours for L=9
+    
+    - 13 hours for L=18
+
+&lt;br&gt;
+
+- for my method (with 1 core), it takes 
+
+    - 2 minutes to get all solutions for L=3 to L=18 
+
+---
+
+class: inverse, center, middle
+
+# In the UK Biobank data
+
+---
+
+### After convergence with 17 references and 16 PCs from the UK Biobank
 
 &lt;br&gt;
 
@@ -298,53 +470,53 @@ This makes the algorithm
     &lt;li&gt;Somalia: 81 &amp;#8211; Ethiopia: 58 &amp;#8211; Sudan: 51 &amp;#8211; Eritrea: 45 &amp;#8211; NA: 20&lt;/li&gt;
 &lt;/ul&gt;
 
-
 ---
 
 class: inverse, center, middle
 
 # Capturing more population structure
-# with less individuals
+# (with less individuals)
 
 ---
 
-&lt;img src="figures/paper4-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/paper4-2.png" width="95%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 --
 
-&lt;br&gt;
+***
 
 In the UK Biobank data,
 
-- only the first 16 PCs actually capture population structure 
+- only the first 16 PCs actually capture population structure    
+(PC 19&amp;#8211;40 capture LD only; never use them!)
+
+--
+
+When subsampling British and Irish individuals (self-reported ancestry)
+
+- can obtain 40 PCs that capture some population structure
+
+- using the best practices for PCA of genetic data
 
 --
 
 &lt;br&gt;
 
-When subsampling British and Irish individuals 
+In my current work:
 
-- can obtain 40 PCs that capture some population structure
+- I've also looked at using `\(Q\)` to do the subsampling
 
----
-
-### PCA after subsampling, in the UK Biobank
-
-- Subsampling 10,000 British individuals (2.3%) 
-- and 5000 Irish individuals (39,2%), 
-- while keeping all indiv with other or unknown self-reported ancestry.
-
-&lt;img src="https://github.com/privefl/paper4-bedpca/blob/master/UKBB-scores-restricted.png?raw=true" width="100%" style="display: block; margin: auto;" /&gt;
+- I've run my deconvolution algorithm on K=41 PCs to get L=42 references
 
 ---
 
-### Can we use Q to get something better? 
+### More PCs capturing population structure when subsampling
 
 &lt;img src="figures/PC_ukbb_new.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Rerun the algorithm with new PCs (K=41)
+### Rerun the algorithm with new PCs (K=41, L=42)
 
 &lt;style&gt;
     .grid-container {
@@ -409,29 +581,28 @@ When subsampling British and Irish individuals
 
 ### Conclusion
 
-- A very efficient ancestry deconvolution algorithm
-
-- Also very powerful; it can identify many reference groups
-
-- One can (should) check the results visually
+- A very efficient admixture deconvolution algorithm
 
 --
 
-- Subsampling before PCA is beneficial to capture even more structure
+- Also very powerful; it can identify many reference groups    
+(subsampling before PCA is beneficial to capture more structure)
+
+- I expected more power than ADMIXTURE for e.g. 1000 Genomes data
+
+--
+
+- One can (should) check the results visually (also, L=K+1)
 
 --
 
 - The algorithm is not specific to genetic data    
-(merely a deconvolution algorithm based on PCA)
+(merely a deconvolution algorithm based on PCA)    
+`\(\Rightarrow\)` may be used for cell type deconvolution of methylation data
 
 --
 
 - I will provide a new set of reference populations for people to use directly
-
---
-
-- More than just an improved ADMIXTURE    
-**How can I further motivate the need for this new method?**
 
 --
 
