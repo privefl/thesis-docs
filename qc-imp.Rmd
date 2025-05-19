@@ -32,7 +32,7 @@ class: title-slide center middle inverse
 
 ### Aarhus University, Denmark
 
-#### <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="white"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
+#### <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="#0886FE"/></svg> `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
 
 ---
 
@@ -111,18 +111,12 @@ knitr::include_graphics("figures/cad_neff_perstudy.png")
 
 ---
 
-### Detect low imputation INFO scores
+### Detect low imputation INFO scores & other issues
 
-```{r, out.width="72%"}
-knitr::include_graphics("figures/qc-info.png")
-```
+<br>
 
----
-
-### Uncover an issue after correcting for INFO
-
-```{r, out.width="72%"}
-knitr::include_graphics("figures/brca_onco_qc2.png")
+```{r, out.width="100%"}
+knitr::include_graphics("figures/brca_onco_qc.png")
 ```
 
 ---
@@ -151,13 +145,15 @@ knitr::include_graphics("figures/overview-misspec.jpg")
 
 ### Read more about this
 
-<br>
-
 - Privé, F., et al. (2022) "Identifying and correcting for misspecifications in GWAS summary statistics and polygenic scores." *Human Genetics and Genomics Advances* 3.4. 
+
+- Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
 
 - Grotzinger, A.D., et al. (2023) "Pervasive downward bias in estimates of liability-scale heritability in genome-wide association study meta-analysis: a simple solution." *Biological Psychiatry* 93.1.
 
-- Gazal, S., et al. (2018) "Functional architecture of low-frequency variants highlights strength of negative selection across coding and non-coding annotations." *Nature Genetics* 50.11.
+- Zou, Y., et al. (2022) "Fine-mapping from summary data with the “Sum of Single Effects” model." *PLoS Genetics* 18.7.
+
+- Chen, W., et al. (2021) "Improved analyses of GWAS summary statistics by reducing data heterogeneity and errors." *Nature Communications* 12.1.
 
 - Privé, F. (2022) "Using the UK Biobank as a global reference of worldwide populations: application to measuring ancestry diversity from GWAS summary statistics." *Bioinformatics* 38.13.
 
@@ -173,7 +169,7 @@ class: center middle inverse
 
 ## Disclaimer:
 
-### Started 1.5y ago, but stopped working on it for a while
+### Started 1.5y ago, but paused for a while
 
 ### Will resume after the ancestry deconvolution is submitted
 
@@ -224,13 +220,10 @@ Design:
 
 Results:
 
-- 802 true positives (TP, real errors) and 3209 false positives (FP)    
-with DENTIST
+- 802 true positives (>80% power), but 3209 false positives
 
---
-
-- vs 686 TP and 9 FP    
-with my alternative methodology
+    $\Rightarrow$ improve the DENTIST methodology,    
+to get less false positives (and ideally more power) 
 
 ---
 
@@ -300,18 +293,14 @@ knitr::include_graphics("figures/Imputation-QC-method-v2.png")
 
 - I hope to provide QCed GWAS summary statistics for everyone to use
 
----
-
-class: inverse, center, middle
-
-## Thank you for your attention
+--
 
 <br>
 
-Presentation available at [bit.ly/qc_sumstats_EMGM](https://bit.ly/qc_sumstats_EMGM)
+.center[
+### Thank you for your attention
 
-<br>
+Presentation available at [bit.ly/privefl230525](https://bit.ly/privefl230525)
 
-`r icons::icon_style(fill = "white", icons::fontawesome$brands$twitter)` `r icons::icon_style(fill = "white", icons::fontawesome$brands$github)` privefl
-
-.footnote[Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan)]
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="1em" height="1em"><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z" fill="#0886FE"/></svg> `r icons::icon_style(fill = "black", icons::fontawesome$brands$github)` privefl
+]
