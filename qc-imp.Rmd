@@ -173,6 +173,25 @@ class: center middle inverse
 
 ### Will resume after the ancestry deconvolution is submitted
 
+---
+
+### Synergy between quality control (QC) and imputation
+
+<br>
+
+- imputation is used for QC
+    
+- QC is needed before imputation so that errors don't propagate
+
+- imputation can recover QCed variants
+
+<br>
+
+#### What I propose to do
+
+```{r, out.width="100%"}
+knitr::include_graphics("figures/Imputation-QC-method-v2.png")
+```
 
 ---
 
@@ -258,78 +277,72 @@ so that errors don't propagate
 
 ---
 
-### My first approach (1/2)
+### My proposed approach (1/2)
 
 <br>
 
-For a particular variant $i$ to assess, 
+For a particular variant $i$ to test, 
 
-- consider variants $t$ by decreasing order of $R_{it}^2$, up to $R_{it}^2 > 0.2$    
-    $\Longrightarrow$ we can pre-compute some sparse matrix $R$ that is not too large    
-    (all $R_{jt}$ such that $\exists i : R_{it}^2 > 0.2 ~\&~ R_{ij}^2 > 0.2$)    
-    (e.g. 700 MB for 145K variants of chr22)    
+- consider variants $t$ by decreasing order of $R_{it}^2$, up to $R_{it}^2 > 0.2$
+
+    $\Rightarrow$ we need all $R_{jt}$ such that $R_{it}^2 > 0.2$ and $R_{ij}^2 > 0.2$    
+    (not too large: 700 MB for 145K variants of chr22)
+    
+--
+
+- pick them if their LD score with the variants already picked is <30
+
+    $\Rightarrow$ the set of variants $t$ to impute has maximum power,    
+    without being too large nor too redundant
 
 --
 
-- pick them if their LD score with the variants already picked is lower than e.g. 30    
-    $\Longrightarrow$ the set of variants $t$ to impute has maximum power, without being too large nor too redundant
+- do not consider variants with a potential error
 
---
-
-- do not consider variants with a potential error    
-    $\Longrightarrow$ do not propagate errors and faster (less updates when removed)
+    $\Rightarrow$ do not propagate errors, and faster (less updates when removed)
 
 ---
 
-### My first approach (2/2)
+### My proposed approach (2/2)
 
-<br>
-
-- Constrain the denominator to be at least 0.01
-
-- Compute the statistics for a range of eigenvectors kept (instead of only 40%)
-
-- Use the median (or lower quantile, to be a bit conservative)
-
---
-
-<br>
-
-For the iterations
+For the iterations,
 
 - Only remove one variant per iteration
 
 - Update the statistics for those that used this variant for imputation
 
-- Iterate until no significant variant
-
----
-
-### Quick simulation results
-
-Design:
-
-- Use 145K variants on chromosome 22 with MAF > 0.005 and INFO > 0.8
-
-- Simulate some phenotype with heritability of 0.1 and polygenicity of 0.05
-
-- Compute the GWAS summary statistics using N=50K
-
-- For 5000 variants at random, assign them an opposite effect (allelic error)
+- Iterate until no variant is significant anymore
 
 --
 
 <br>
 
-Results:
+Other details:
 
-- 3379 iterations in 32 min (with pre-computed $R$),    
-with 3349 true positives (TP, real errors) and 19 false positives (FP)    
-when using the median of statistics
+- Constrain the denominator to be at least 0.01
 
-- 3254 TP and 9 FP with quantile at 25%
+- Solve the linear system $R_{tt}^{-1} R_{ti}$ (with a bit of regularization)
 
-- 3663 TP and 4651 FP in 24 min with DENTIST
+- Scale the Z-statistic by the maximum Z-score divided by 4
+
+- Compute $n_j^\text{imp} = N \cdot r^2_j$
+
+- Compute $\text{se}(\hat{\gamma}_j)^\text{imp}$ from $\text{sd}(G_j)$, $n_j^\text{imp}$ and $\gamma_j^\text{imp}$
+
+---
+
+### More simulation results
+
+- Use 145K variants on chromosome 22 with MAF > 0.005 and INFO > 0.8
+- Simulate some phenotype with h2=0.01 or 0.1 and polygenicity of 0.01
+- Compute the GWAS summary statistics using 356K or 200K individuals
+- For 500 variants at random, assign them an opposite effect (allelic error)
+
+--
+
+```{r, out.width="92%"}
+knitr::include_graphics("figures/simus-qc.png")
+```
 
 ---
 
@@ -347,15 +360,9 @@ Using type-1 diabetes (T1D) GWAS summary statistics with
 
 - genotypes imputed using the 1000G data (mediocre imputation)
 
---
-
 <br>
 
-Results:
-
-- 4529 "errors" detected with q25% (4871 iter in 24 min) 
-
-- 12,310 "errors" detected with DENTIST (under 20 sec)
+$\Rightarrow$ 12,310 "errors" detected with DENTIST
 
 ---
 
@@ -377,8 +384,6 @@ knitr::include_graphics("figures/impossible-imputation4.jpg")
 where $\beta$ are the (scaled) causal effects
 
 - but we do not know the causal effects, and they are assumed to be small
-
---
 
 <br>
 
@@ -402,93 +407,9 @@ knitr::include_graphics("figures/difficult-imputation2.jpg")
 knitr::include_graphics("figures/example-dups.jpg")
 ```
 
---
-
 <br>
 
 Idea: could somehow try to pick the best?
-
----
-
-### Alternative solvers and equations
-
-<br>
-
-```{r, out.width="90%"}
-knitr::include_graphics("figures/eq-dentist.jpg")
-```
-
-<br>
-
-Instead of doing an eigendecomposition of $R_{tt}$, we can
-
-- solve the linear system $R_{tt}^{-1} R_{ti}$ (with a bit of regularization)
-
-- or use $1 - R_{it} R_{tt}^{-1} R_{ti} = 1 / P_{1,1}$ and $R_{it} R_{tt}^{-1} = -P_{1,\text{-}1} / P_{1,1}$    
-where $s = \{i, t\}$ and $P = R_{ss}^{-1}$
-
---
-
-<br>
-
-The last one is interesting to impute all variants in a block at once.    
-I can use this e.g. to find the regularization that minimizes $|z_t - \tilde{z}_t|$.
-
----
-
-### My second approach
-
-<br>
-
-- Use the previous last equation to impute all variants $s = \{i, t\}$ and find the regularization that minimizes $|z_t - \tilde{z}_t|$.
-
-- Use that regularization to impute all variants $s$
-
-- Scale the resulting $\chi_i^2$ using the expected median and the median of $\chi_s^2$ (from all variants $s=\{i, t\}$)
-
---
-
-<br>
-
-Results:
-
-- 217 "errors" detected
-
-- for the previous simulations, 2804 TP and 25 FP
-
----
-
-### First "error" detected
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/error-t1d.jpg")
-```
-
----
-
-### Second "error" detected
-
-```{r, out.width="95%"}
-knitr::include_graphics("figures/error-t1d-2.jpg")
-```
-
----
-
-### Synergy between QC and imputation
-
-<br>
-
-- imputation can recover QCed variants
-    
-- QC is needed before imputation so that errors don't propagate
-
-<br>
-
-#### What I propose to do
-
-```{r, out.width="100%"}
-knitr::include_graphics("figures/Imputation-QC-method-v2.png")
-```
 
 ---
 
