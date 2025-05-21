@@ -70,6 +70,8 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
+# &amp;mdash;Previous work&amp;mdash;
+
 # Genetic Ancestry Deconvolution
 
 ## (with reference populations)
@@ -93,7 +95,7 @@ class: inverse, center, middle
 
 ### Summix: ancestry estimation from GWAS allele frequencies (AF)
 
-Source: 10.1016/j.ajhg.2021.05.016
+Source: 10.1016/j.ajhg.2021.05.016 (not by me)
 
 &lt;br&gt;
 
@@ -148,19 +150,19 @@ More general formulation:
 
     &lt;span class="small2"&gt; `$$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$` &lt;/span&gt;
     
-    is replaced by
+    is replaced by (AFs are projected to the PC space using PC loadings)
     
     &lt;span class="small2"&gt; `$$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{k=1}^K \left( PC_k - \sum_{l=1}^L q_l PC_k^{\text{ref}~(l)} \right)^2$$` &lt;/span&gt;
     
 ---
 
-With my improved method:
+With my method (using the PC loadings and reference AFs I provide):
 
 &lt;img src="figures/ancestry-bigsnpr.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 --
 
-With Summix:
+With Summix (using the reference AFs I provide):
 
 &lt;img src="figures/ancestry-summix.png" width="95%" style="display: block; margin: auto;" /&gt;
 
@@ -194,6 +196,8 @@ Out of 134K individuals, can identify many non-European individuals:
 ---
 
 class: inverse, center, middle
+
+# &amp;mdash;Current work&amp;mdash;
 
 # Genetic Ancestry Deconvolution
 

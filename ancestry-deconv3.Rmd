@@ -76,6 +76,8 @@ knitr::include_graphics("figures/compare-Euclidean-to-Fst.png")
 
 class: inverse, center, middle
 
+# &mdash;Previous work&mdash;
+
 # Genetic Ancestry Deconvolution
 
 ## (with reference populations)
@@ -99,7 +101,7 @@ class: inverse, center, middle
 
 ### Summix: ancestry estimation from GWAS allele frequencies (AF)
 
-Source: 10.1016/j.ajhg.2021.05.016
+Source: 10.1016/j.ajhg.2021.05.016 (not by me)
 
 <br>
 
@@ -156,13 +158,13 @@ knitr::include_graphics("figures/paper9-2.png")
 
     <span class="small2"> $$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{j=1}^M \left( AF_j - \sum_{l=1}^L q_l AF_j^{\text{ref}~(l)} \right)^2$$ </span>
     
-    is replaced by
+    is replaced by (AFs are projected to the PC space using PC loadings)
     
     <span class="small2"> $$\min_{\forall l,~q_l \ge 0 \\ \sum_l {q_l}=1} ~~ \sum_{k=1}^K \left( PC_k - \sum_{l=1}^L q_l PC_k^{\text{ref}~(l)} \right)^2$$ </span>
     
 ---
 
-With my improved method:
+With my method (using the PC loadings and reference AFs I provide):
 
 ```{r, out.width="95%"}
 knitr::include_graphics("figures/ancestry-bigsnpr.png")
@@ -170,7 +172,7 @@ knitr::include_graphics("figures/ancestry-bigsnpr.png")
 
 --
 
-With Summix:
+With Summix (using the reference AFs I provide):
 
 ```{r, out.width="95%"}
 knitr::include_graphics("figures/ancestry-summix.png")
@@ -206,6 +208,8 @@ Out of 134K individuals, can identify many non-European individuals:
 ---
 
 class: inverse, center, middle
+
+# &mdash;Current work&mdash;
 
 # Genetic Ancestry Deconvolution
 
