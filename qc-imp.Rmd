@@ -335,10 +335,12 @@ Other details:
 
 - Use 145K variants on chromosome 22 with MAF > 0.005 and INFO > 0.8
 - Simulate some phenotype with h2=0.01 or 0.1 and polygenicity of 0.01
-- Compute the GWAS summary statistics using 356K or 200K individuals
+- Compute the GWAS summary statistics using 356K individuals
 - For 500 variants at random, assign them an opposite effect (allelic error)
 
 --
+
+<br>
 
 ```{r, out.width="92%"}
 knitr::include_graphics("figures/simus-qc.png")
