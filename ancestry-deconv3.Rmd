@@ -384,7 +384,7 @@ knitr::include_graphics("figures/simu-admixture-allres.png")
 
 ---
 
-### Reference allele frequencies $F$ are very similar
+### Reference allele frequencies $F$ are close to the simulated ones
 
 <br>
 
