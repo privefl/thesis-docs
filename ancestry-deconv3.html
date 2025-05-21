@@ -291,10 +291,15 @@ Iterate between
 
 But a starting point is needed..
 
-A naive approach would pick L initial `\(PC_{l,.}^{\text{ref}}\)` at random.
+A naive approach would pick L initial `\(PC_{l,.}^{\text{ref}}\)` at random
+- non-deterministic
+
+- starting point far from the optimal solution (slow convergence)
+
+- easy to get trapped in a local optimum
 
 Instead, I use an **iterative procedure with warm starts**    
-to make the algorithm **deterministic** and much **faster to converge**.
+to make the algorithm **deterministic** and much **faster to converge**
 
 ---
 
