@@ -168,7 +168,7 @@ knitr::include_graphics("figures/my_PRS_methods.png")
 
 <br>
 
-### Improving robustness of PRS methods
+### Improving robustness of PRS methods to data misspecifications
 
 - **F. Privé** (2022). *Bioinformatics*
 
