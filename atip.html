@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>ATIP-Avenir</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="#" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+# &amp;mdash;**MAGNIFIC**&amp;mdash;
+# &lt;u&gt;Ma&lt;/u&gt;ximizing &lt;u&gt;G&lt;/u&gt;e&lt;u&gt;n&lt;/u&gt;et&lt;u&gt;i&lt;/u&gt;c &lt;u&gt;F&lt;/u&gt;indings and Pred&lt;u&gt;ic&lt;/u&gt;tion
+
+&lt;br&gt;
+
+.left[
+### `\(\Rightarrow\)` improving the genetic prediction of common diseases
+
+### `\(\Rightarrow\)` identifying the genetic variants contributing to disease risk
+]
+
+&lt;br&gt;
+
+## Florian Privé 
+
+---
+
+&lt;style type="text/css"&gt;
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 16.3px;
+}
+.small2 {
+  font-size: 85%;
+}
+.small2 li {
+  margin-bottom: 7px;
+  line-height: 1.5;
+}
+&lt;/style&gt;
+
+### Education and professional background
+
+&lt;br&gt;
+
+- 2013–2016: Engineer in Computer Science &amp; Applied Mathematics
+
+- 2016–2019: PhD in Computational Biology (Grenoble)
+
+- 2019–2021: Postdoc at Aarhus University (Denmark)
+
+- 2022–2028: Senior Researcher (promotion at the same place)
+
+---
+
+class: center middle inverse
+
+# &amp;mdash;Introduction&amp;mdash;
+## Genetic data
+## Genome-Wide Association Studies (GWAS)
+## Polygenic Risk Scores (PRS)
+
+---
+
+### Genetic variants and GWAS
+
+&lt;img src="figures/Overview_geneticvariants_GWAS.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### GWAS and polygenic risk scores (PRS)
+
+**Studying common diseases**, such as heart diseases, cancers, diabetes
+
+&lt;br&gt;
+
+Thanks to GWAS, we know that
+
+- many **common** genetic variants are causal `\(\left(\beta_j \neq 0\right)\)`
+
+- but, they usually have a **small effect size** `\(\beta_j\)` on their own
+    
+    `\(\Rightarrow\)` a common causal variant is not useful as a standalone risk factor
+
+- in contrast to rare mutations causing rare monogenic diseases
+
+--
+
+&lt;br&gt;
+
+From GWAS data to **polygenic risk scores (PRS)**:
+
+- variants can be aggregated in a joint predictive model: `\(PRS = \sum_j \hat\gamma_j~G_j\)`
+
+- by aggregating many small effects, the PRS can have a large effect 
+
+    `\(\Rightarrow\)` the `\(PRS\)` is useful as a risk factor
+
+---
+
+### Public Health: refining risk assessment from traditional risk factors
+
+&lt;u&gt;Traditional risk factors&lt;/u&gt;: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency large-effect) genetic mutations, etc
+
+&lt;img src="figures/PRS-risk2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.footnote2[
+***
+PRS clinical utility in a **clinical trial**: A. Fuat et al (2024). *Eur. J. of Preventive Cardiology*
+]
+
+---
+
+### My main research focus
+
+&lt;center&gt;&lt;h3&gt;Improving PRS methods&lt;/h3&gt;&lt;/center&gt;
+
+&lt;br&gt;
+
+**Interdisciplinary** research focused on **method development**:
+
+- **Mathematics/Statistics**: statistical models
+
+- **Computer Science**: highly optimized and reliable software
+
+- **Machine Learning**: predictive models
+
+- **Biology/Health** applications
+
+---
+
+class: center, middle, inverse
+
+# Some of my previous work
+
+---
+
+### Developing PRS methods
+
+&lt;img src="figures/my_PRS_methods.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;br&gt;
+
+### Improving robustness of PRS methods
+
+- **F. Privé** (2022). *Bioinformatics*
+
+- **F. Privé** (2022). *Bioinformatics*
+
+- **F. Privé** et al (2022). *Human Genetics and Genomics Advances*
+
+(two sole-author publications to show my independence in grant applications)
+
+---
+
+class: center, middle, inverse
+
+# A major limitation of PRS:
+
+## their poor portability across populations
+
+## risks exacerbating health disparities
+
+.footnote2[6]
+
+---
+
+### PRS performance drops with distance from training population
+
+&lt;img src="figures/ratio-dist-4.png" width="88%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+.footnote2[
+***
+Follow-up analysis with collaborators from UCLA: Y. Ding et al (2023). *Nature*
+]
+
+---
+
+### Explanation: tagging variants don't retain causal effects
+
+&lt;br&gt;
+
+&lt;img src="figures/LD-multipop3.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+- effect of a causal variant is similar for all populations
+
+- all 3 variants have same effect in N.W. Europeans (perfect correlation)
+
+- in E. Asians, variant 1 retains only 60% of the causal effect
+
+---
+
+class: center, middle, inverse
+
+# The solution `\(\Rightarrow\)` my proposed project:
+
+## identifying causal variants and using them
+
+## in polygenic risk scores (PRS)
+
+---
+
+### Scaling methods to using 10M genetic variants (WP1)
+
+There are ~10M common variants, but most PRS methods use ~1M
+
+&lt;br&gt;
+
+&lt;img src="figures/variants_in_set.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+.center[**We need to use 10M to make sure most causal variants are present**
+
+&lt;br&gt;
+
+&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will optimize both methods and data structures to use 10M variants &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;
+
+(using quantization + compression, or sparse inverse covariance matrices)]
+
+---
+
+### Prioritizing causal variants thanks to functional annotations (WP2)
+
+&lt;br&gt;
+
+&lt;img src="figures/LD-func-anno.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+.center[**Variants in some functional categories are more likely to be causal**
+
+&lt;br&gt;
+
+&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will integrate this information into my Bayesian PRS methodology &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;
+
+(to update non-informative prior probabilities of being causal)]
+
+---
+
+### Prioritizing causal variants thanks to multi-ancestry data (WP3)
+
+&lt;br&gt;
+
+&lt;img src="figures/LD-multi-GWAS.png" width="98%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will integrate multi-ancestry data into my PRS methodology &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
+
+
+---
+
+&lt;img src="figures/Overview_MAGNIFIC_extended-2.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+count: false
+
+&lt;img src="figures/Overview_MAGNIFIC_extended-3.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+count: false
+
+&lt;img src="figures/Overview_MAGNIFIC_extended-4.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Feasability
+
+&lt;br&gt;
+
+- I have developed **many efficient &amp; competitive methods** 
+
+    - LDpred2, widely used for constructing PRS + often ranked best
+    
+    - bigstatsr and bigsnpr, R(cpp) packages for large-scale analyses
+
+- My methods are **used and cited a lot (2000+)**
+
+- I have **co-supervised several young researchers**
+
+    - two PhD students who graduated (**co-last author on 4 papers**)
+    
+    - ongoing: two PhD students, one research assistant, one postdoc
+
+- I have identified **several collaborators** interested in my project    
+(Broad, UCLA, Oxford, Helsinki, Pasteur, INRIA, etc)
+    
+---
+
+class: inverse
+
+&lt;center&gt;
+&lt;h1&gt;Thank you for your attention&lt;/h1&gt;
+
+&lt;br&gt;
+
+&lt;h3&gt;Florian Privé&lt;/h3&gt;
+&lt;/center&gt;
+
+- **large international impact**
+
+- a total of 29 publications (2900+ citations)
+
+- 11 first-author publications (2000+ citations)
+
+- 12 oral presentations at international scientific conferences (1 invited)
+
+- invited to 16 seminar or lecture presentations
+
+- reviewer for    
+    - 64 manuscripts across 31 scientific journals
+    - Amsterdam UMC Fellowship 2022
+    - European Mathematical Genetics Meeting (EMGM) 2025
+    - European Human Genetics Conference (ESHG) 2025
+
+---
+
+count: false
+
+### Integration into INSERM U1220 in Toulouse
+
+&lt;br&gt;
+
+- **Collaboration**:
+
+  - **Sarah Djebali (CR INSERM)**: Expert in functional genome annotation, supporting integration of annotations
+  
+  - **Jean Monlong (CR INSERM)**: Specialist in pangenomes and structural variants, expanding from simply using single-nucleotide polymorphisms (SNPs)
+  
+  - **Other lab members**: validation of causal variants using experimental models (e.g., mice, organoids)
+  
+- Technical support and computational resources via **Genotoul compute cluster** (5000 cores, 83 TB RAM, 7.5 PB storage)
+
+- **Collaborative Environment**: Toulouse bioinformatics, biostatistics, mathematics and informatics network (INRAE, CNRS, INSERM, Uni)
+
+---
+
+count: false
+
+### LDpred2 vs some state-of-the-art multi-ancestry PRS methods
+
+&lt;img src="figures/LDpred2-vs-SotA-multiancestry.jpg" width="62%" style="display: block; margin: auto;" /&gt;
+
+.footnote2[O. Pain (2025). Leveraging Global Genetics Resources to Enhance Polygenic Prediction Across Ancestrally Diverse Populations. *medRxiv*]
+
+---
+
+count: false
+
+### WP4: Ensuring the quality and coverage of GWAS summary statistics
+
+Synergy between quality control (QC) and imputation:
+
+- imputation is used in QC
+    
+- QC is needed before imputation so that errors don't propagate
+
+- imputation can recover QCed variants
+
+&lt;br&gt;
+
+&lt;img src="figures/Imputation-QC-method-v2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.center[&lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt; I will develop a new method for both QC and imputation &lt;svg viewBox="0 0 640 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"&gt;&lt;/path&gt;&lt;/svg&gt;]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
