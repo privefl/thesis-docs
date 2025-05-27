@@ -205,7 +205,7 @@ Follow-up analysis with collaborators from UCLA: Y. Ding et al (2023). *Nature*
 
 ---
 
-### Explanation: tagging variants don't retain causal effects
+### Explanation: tagging/proxy variants don't retain causal effects
 
 <br>
 
