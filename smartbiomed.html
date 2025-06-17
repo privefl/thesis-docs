@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>20_June_2025</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: title-slide center middle inverse
+
+&lt;br&gt;
+
+# SMARTbiomed
+
+&lt;br&gt;
+
+## Florian Privé 
+
+### National Centre for Register-based Research (NCRR),&lt;br&gt;Public Health, Aarhus University
+
+---
+
+&lt;style type="text/css"&gt;
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 16.5px;
+}
+&lt;/style&gt;
+
+### History
+
+&lt;br&gt;
+
+- Background in **Computer Science, Mathematics, and Statistics**
+
+- PhD defended in September 2019 (Grenoble, France)
+
+- At **NCRR, Aarhus University** since May 2019,    
+part of **Prof. Bjarni Vilhjálmsson's group**:
+  
+    - as a visiting PhD student for 3 months
+    
+    - started as a postdoc in October 2019
+    
+    - promoted to senior researcher in January 2022
+    
+    - help Bjarni co-supervise some people from the group    
+    with my expertise in data analysis and method/software development
+    
+    - hired by SMARTbiomed starting in August
+
+---
+
+### Polygenic Risk Scores (PRS)
+
+&lt;br&gt;
+
+For **common complex diseases** such as heart diseases, cancers, diabetes,
+
+- many **common genetic variants** are causal, but with a small effect    
+(they have some small impact on the disease probability)
+    
+    `\(\Rightarrow\)` a common causal variant is not useful as a standalone risk factor
+
+--
+
+&lt;br&gt;
+
+In contrast to rare mutations causing rare monogenic diseases
+
+--
+
+&lt;br&gt;
+
+With **polygenic risk scores (PRS)**,
+
+- many genetic variants are aggregated in a joint predictive model
+
+- by aggregating many small effects, the PRS can have a large effect 
+
+    `\(\Rightarrow\)` the PRS is useful as a risk factor
+
+---
+
+### Public Health: refining risk assessment from traditional risk factors
+
+&lt;u&gt;Traditional risk factors&lt;/u&gt;: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency large-effect) genetic mutations, etc
+
+&lt;img src="figures/PRS-risk2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.footnote2[
+***
+PRS clinical utility in a **clinical trial**: A. Fuat et al (2024). *Eur. J. of Preventive Cardiology*
+]
+
+---
+
+### My main research focus
+
+&lt;center&gt;&lt;h3&gt;Improving PRS methods&lt;/h3&gt;&lt;/center&gt;
+
+&lt;br&gt;
+
+**Interdisciplinary** research focused on **method development**:
+
+- **Mathematics/Statistics**: statistical models
+
+- **Computer Science**: highly optimized and reliable software
+
+- **Machine Learning**: predictive models
+
+- **Biology/Health** applications
+
+---
+
+### My contributions
+
+My scientific publications:
+
+- 11 first-author papers, mainly on methods and their implementation
+
+    `\(\Rightarrow\)` very efficient &amp; competitive methods, widely used and cited (2000+)
+
+- 4 co-senior-author papers on methods    
+(from two PhD students co-supervised with Bjarni)
+
+--
+
+Most known for
+
+- LDpred2, a polygenic score method that is widely used and competitive
+
+- bigstastr and bigsnpr, R/C++ packages for analyzing very large genetics/omic datasets
+
+--
+
+Also teaching the next generation of scientists:
+
+- an advanced R course for PhD students (8 years in a row)
+
+- the Statistical Genetics SMARTbiomed Summer school next week
+
+---
+
+### My role in SMARTbiomed
+
+&lt;br&gt;
+
+- bring some expertise in data analysis and method/software development
+
+- train the next generation of scientists    
+in Statistical Genetics, data analysis, and software development (R/C++)
+
+- co-supervisor/mentor for Ole, Lianyun, and others
+
+- continue providing useful tools for the Statistical Genetics community
+
+---
+
+### What I am working on (currently or planned)
+
+&lt;br&gt;
+
+- ancestry deconvolution method
+
+    - to better estimate the ancestry composition of genetic data
+
+--
+
+- quality control and imputation of GWAS summary statistics
+
+    - to avoid biased results and false positives, and increase data coverage
+
+--
+
+- reduce the size of currently used data structures
+
+    - to facilitate use and sharing of the data
+
+--
+
+- integrate functional annotations and multi-ancestry data to LDpred2
+
+    - to identify causal genetic variants    
+    (to understand disease mechanisms and identify therapeutic targets)
+    
+    - to improve polygenic scores for all ancestries
+    (to improve disease risk stratification in clinical settings)
+
+---
+
+class: inverse, center, middle
+
+# Thank your for your attention
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

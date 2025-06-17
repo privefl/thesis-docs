@@ -1,0 +1,212 @@
+---
+title: "20_June_2025"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# renderthis::to_pdf("ldpred2-wcpg2023.Rmd", partial_slides = TRUE)
+options(htmltools.dir.version = FALSE, width = 70)
+knitr::opts_chunk$set(fig.align = 'center', dev = "svg", out.width = "70%",
+                      echo = FALSE, comment = "", fig.width = 5, global.par = TRUE)
+ICON_R_PROJECT <- icons::fontawesome$brands$`r-project`
+ICON_TRI_EXCL  <- icons::fontawesome$solid$`exclamation-triangle`
+ICON_INFO      <- icons::fontawesome$solid$`info-circle`
+```
+
+class: title-slide center middle inverse
+
+<br>
+
+# SMARTbiomed
+
+<br>
+
+## Florian Privé 
+
+### National Centre for Register-based Research (NCRR),<br>Public Health, Aarhus University
+
+---
+
+```{css}
+.footnote2 {
+  position: absolute;
+  bottom: 1.6em;
+  padding-right: 4em;
+  font-size: 16.5px;
+}
+```
+
+### History
+
+<br>
+
+- Background in **Computer Science, Mathematics, and Statistics**
+
+- PhD defended in September 2019 (Grenoble, France)
+
+- At **NCRR, Aarhus University** since May 2019,    
+part of **Prof. Bjarni Vilhjálmsson's group**:
+  
+    - as a visiting PhD student for 3 months
+    
+    - started as a postdoc in October 2019
+    
+    - promoted to senior researcher in January 2022
+    
+    - help Bjarni co-supervise some people from the group    
+    with my expertise in data analysis and method/software development
+    
+    - hired by SMARTbiomed starting in August
+
+---
+
+### Polygenic Risk Scores (PRS)
+
+<br>
+
+For **common complex diseases** such as heart diseases, cancers, diabetes,
+
+- many **common genetic variants** are causal, but with a small effect    
+(they have some small impact on the disease probability)
+    
+    $\Rightarrow$ a common causal variant is not useful as a standalone risk factor
+
+--
+
+<br>
+
+In contrast to rare mutations causing rare monogenic diseases
+
+--
+
+<br>
+
+With **polygenic risk scores (PRS)**,
+
+- many genetic variants are aggregated in a joint predictive model
+
+- by aggregating many small effects, the PRS can have a large effect 
+
+    $\Rightarrow$ the PRS is useful as a risk factor
+
+---
+
+### Public Health: refining risk assessment from traditional risk factors
+
+<u>Traditional risk factors</u>: age, smoking, pollution, low SES, diet, physical inactivity, family history, (low-frequency large-effect) genetic mutations, etc
+
+```{r, out.width="85%"}
+knitr::include_graphics("figures/PRS-risk2.png")
+```
+
+.footnote2[
+***
+PRS clinical utility in a **clinical trial**: A. Fuat et al (2024). *Eur. J. of Preventive Cardiology*
+]
+
+---
+
+### My main research focus
+
+<center><h3>Improving PRS methods</h3></center>
+
+<br>
+
+**Interdisciplinary** research focused on **method development**:
+
+- **Mathematics/Statistics**: statistical models
+
+- **Computer Science**: highly optimized and reliable software
+
+- **Machine Learning**: predictive models
+
+- **Biology/Health** applications
+
+---
+
+### My contributions
+
+My scientific publications:
+
+- 11 first-author papers, mainly on methods and their implementation
+
+    $\Rightarrow$ very efficient & competitive methods, widely used and cited (2000+)
+
+- 4 co-senior-author papers on methods    
+(from two PhD students co-supervised with Bjarni)
+
+--
+
+Most known for
+
+- LDpred2, a polygenic score method that is widely used and competitive
+
+- bigstastr and bigsnpr, R/C++ packages for analyzing very large genetics/omic datasets
+
+--
+
+Also teaching the next generation of scientists:
+
+- an advanced R course for PhD students (8 years in a row)
+
+- the Statistical Genetics SMARTbiomed Summer school next week
+
+---
+
+### My role in SMARTbiomed
+
+<br>
+
+- bring some expertise in data analysis and method/software development
+
+- train the next generation of scientists    
+in Statistical Genetics, data analysis, and software development (R/C++)
+
+- co-supervisor/mentor for Ole, Lianyun, and others
+
+- continue providing useful tools for the Statistical Genetics community
+
+---
+
+### What I am working on (currently or planned)
+
+<br>
+
+- ancestry deconvolution method
+
+    - to better estimate the ancestry composition of genetic data
+
+--
+
+- quality control and imputation of GWAS summary statistics
+
+    - to avoid biased results and false positives, and increase data coverage
+
+--
+
+- reduce the size of currently used data structures
+
+    - to facilitate use and sharing of the data
+
+--
+
+- integrate functional annotations and multi-ancestry data to LDpred2
+
+    - to identify causal genetic variants    
+    (to understand disease mechanisms and identify therapeutic targets)
+    
+    - to improve polygenic scores for all ancestries
+    (to improve disease risk stratification in clinical settings)
+
+---
+
+class: inverse, center, middle
+
+# Thank your for your attention
